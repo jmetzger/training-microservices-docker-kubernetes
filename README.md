@@ -2,8 +2,53 @@
 
 ## Agenda 
 
+```
+Einführung
+Über Microservices
+Praxisbeispiele
+Abgrenzung
+Grundwissen Microservices
+Architektur und Schichten
+Teamentwicklung
+DevOps
+REST Api
+Messaging
+Datenbank
+Tests
+Skalierbarkeit
+Performance Monitoring
+Demos
+Integrationsstrategien
+Docker
+Einsatz und Abgrenzung
+Docker im Microservice Context
+DockerHub
+build
+tag
+Sicherheitsaspekte
+CI / CD
+Kubernetes
+Orchestierung mit K8s
+Architektur und Komponenten
+Master, Woker
+Kubectl
+Pods
+Deployment
+Replicas
+Bestandteile
+kube-apiserver
+etcd
+kube-scheduler
+kube-controller-manager
+cloud-controller-manager
+Labels und Selektoren
+Scaling
+Kubernetes Cloud Provider
+Ausblick
 
 
+
+```
 
 
 
@@ -12,6 +57,9 @@
 
   1. Grundlagen microservices 
      * [Monolithische Architektur vs. Microservices Architektur](/microservices/monolithic-vs-microservices.md)
+
+  1. Kubernetes GUI
+     * [OpenLens](/kubernetes/gui/openlens.md) 
 
   1. Docker-Grundlagen 
      * [Übersicht Architektur](architektur.md)
