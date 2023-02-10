@@ -3,7 +3,7 @@
 ## Agenda 
 
   1. Grundlagen microservices 
-     * [Monolithische Architektur vs. Microservices Architektur] (/microservices/monolithic-vs-microservices.md)
+     * [Monolithische Architektur vs. Microservices Architektur](/microservices/monolithic-vs-microservices.md)
 
   1. Docker-Grundlagen 
      * [Übersicht Architektur](architektur.md)
