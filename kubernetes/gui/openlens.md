@@ -22,3 +22,7 @@ winget install openlens
 ```
 After that it will be available from Windows (not cmd.exe)
 ```
+
+## References 
+
+  * https://github.com/MuhammedKalkan/OpenLens
