@@ -57,6 +57,7 @@ Ausblick
 
   1. Grundlagen microservices 
      * [Monolithische Architektur vs. Microservices Architektur](/microservices/monolithic-vs-microservices.md)
+     * [EventBus Implementierungen/Überblick](/microservices/eventbus/overview.md)
 
   1. Kubernetes GUI
      * [OpenLens](/kubernetes/gui/openlens.md) 
