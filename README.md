@@ -2,56 +2,52 @@
 
 ## Agenda 
 
-```
-Einführung
-Über Microservices
-Praxisbeispiele
-Abgrenzung
-Grundwissen Microservices
-Architektur und Schichten
-Teamentwicklung
-DevOps
-REST Api
-Messaging
-Datenbank
-Tests
-Skalierbarkeit
-Performance Monitoring
-Demos
-Integrationsstrategien
-Docker
-Einsatz und Abgrenzung
-Docker im Microservice Context
-DockerHub
-build
-tag
-Sicherheitsaspekte
-CI / CD
-Kubernetes
-Orchestierung mit K8s
-Architektur und Komponenten
-Master, Woker
-Kubectl
-Pods
-Deployment
-Replicas
-Bestandteile
-kube-apiserver
-etcd
-kube-scheduler
-kube-controller-manager
-cloud-controller-manager
-Labels und Selektoren
-Scaling
-Kubernetes Cloud Provider
-Ausblick
+ 1. Einführung 
+    * Über Microservces 
+    * Praxisbeispiele 
+    * Abgrenzung 
+ 
+ 1. Grundwissen Microservices (Teil 1)
+    * Architektur und Schichten
+    * Teamentwicklung 
+    * Devops
+    * REST Api 
+    * Messaging
 
+ 1. Grundwissen Microservices (Teil 2)
+    * Datenbank
+    * Tests
+    * Skalierbarkeit 
+    * Performance Monitoring 
+    * Demos 
+    * Intergrationsstrategie      
 
+ 1. Docker
+    * Einsatz und Abgrenzung
+    * Docker im Microservice Context
+    * DockerHub
+    * build
+    * tag
+    * Sicherheitsaspekte
+    * CI / CD
 
-```
+ 1. Kubernetes (Teil 1) 
+    * Orchestierung mit K8s
+    * Architektur und Komponenten
+    * Master, Worker
+    * kubectl
 
+ 1. Kubernetes Resourcen / Objekte 
+    * Pods
+    * Deployment
+    * Replicas
+    * Labels und Selektoren
+    * Scaling
+    
+ 1. Kubernetes (Teil 2) 
+    * Kubernetes Cloud Provider
 
-
+ 1. Ausblick
 
 ## Backlog  
 
