@@ -14,4 +14,5 @@
     * Es ist nicht festgelegt, wie eine Event aussehen soll, es kann
       * Rohe Datenbytes
       * JSON
-      * u.a. ... sein 
+      * ein String
+      * u.a. ... sein (was immer du verwenden willst)
