@@ -1,8 +1,17 @@
-# Eventbus Overview 
+# Event Bus Übersicht 
 
-## Different implementations you can use
+## Fertige Software, die einen Event Bus bereitsstellt
 
   * Kafka 
   * RabbitMQ
   * NATS 
 
+## Was ist Ihre Aufgabe ? 
+
+  * Events empfangen 
+  * Events veröffentlichen (publish) für die Zuhörer (listener)
+  * Mit Events meinen wir Informations-Snippets 
+    * Es ist nicht festgelegt, wie eine Event aussehen soll, es kann
+      * Rohe Datenbytes
+      * JSON
+      * u.a. ... sein 
