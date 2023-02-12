@@ -22,6 +22,7 @@ ip -br a
 ```
 # Step 1: Send a post 
 
+- Url: POST http://<ip-of-server>/posts 
 - Set: Header -> Content-Type -> to  application/json  # this is need otherwice json is not detected from server 
 - Body: set a title 
 - Body: set dropdown (at the outer right to -> JSON) 
@@ -37,6 +38,7 @@ You should get a response with an id and a title
 
 ```
 # Step 2: Get all posts 
+- Url: GET http://<ip-of-server>/posts 
 - Change http-request to send 
 - Set: Header -> Content-Type -> to  application/json  # this is need otherwice json is not detected from server 
 ```
