@@ -1,0 +1,15 @@
+# Step 1: Setup node 
+
+## Prerequisites
+
+```
+# We have set an ubuntu 22.04 LTS server with a user 11trainingdo 
+# on digitalocean 
+# When you set up a server you can use a script under advanced options 
+```
+
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+
+
+```
