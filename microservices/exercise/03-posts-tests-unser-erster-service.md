@@ -22,8 +22,9 @@ ip -br a
 ```
 # Step 1: Send a post 
 
-- Set: Header -> Content-Type -> to  application/json 
+- Set: Header -> Content-Type -> to  application/json  # this is need otherwice json is not detected from server 
 - Body: set a title 
+- Body: set dropdown (at the outer right to -> JSON) 
 {
    "title": "my title is great"
 }
@@ -34,8 +35,9 @@ You should get a response with an id and a title
 
 ```
 
-
-
-
-
 ```
+# Step 2: Get all posts 
+- Change http-request to send 
+- Set: Header -> Content-Type -> to  application/json  # this is need otherwice json is not detected from server 
+```
+
