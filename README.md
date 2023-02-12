@@ -3,7 +3,7 @@
 ## Agenda 
 
  1. Einführung 
-    * Über Microservces 
+    * Über Microservices
     * Praxisbeispiele 
     * Abgrenzung 
  
