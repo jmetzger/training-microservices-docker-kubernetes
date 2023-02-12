@@ -7,6 +7,10 @@
     * [Praxisbeispiele](/microservices/praxisbeispiele.md) 
     * Abgrenzung 
  
+ 1. Praxis Microservices ohne Docker und Kubernetes 
+    * [Schritt 1: Nodejs aufsetzen](microservices/exercise/01-node.md)
+ 
+ 
  1. Grundwissen Microservices (Teil 1)
     * Architektur und Schichten
     * Teamentwicklung 
