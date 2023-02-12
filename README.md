@@ -4,7 +4,7 @@
 
  1. Einführung 
     * Über Microservices
-    * Praxisbeispiele 
+    * [Praxisbeispiele](/microservices/praxisbeispiele.md) 
     * Abgrenzung 
  
  1. Grundwissen Microservices (Teil 1)
