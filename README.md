@@ -9,6 +9,7 @@
  
  1. Praxis Microservices ohne Docker und Kubernetes 
     * [Schritt 1: Nodejs aufsetzen](microservices/exercise/01-node.md)
+    * [Schritt 2: Codebasis bereitsstellen](microservices/exercise/02-retrieve-code.md)
  
  
  1. Grundwissen Microservices (Teil 1)
