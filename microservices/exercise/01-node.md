@@ -6,6 +6,9 @@
 # We have set an ubuntu 22.04 LTS server with a user 11trainingdo 
 # on digitalocean 
 # When you set up a server you can use a script under advanced options 
+
+# or: we have another server at hand 
+
 ```
 
 ```
