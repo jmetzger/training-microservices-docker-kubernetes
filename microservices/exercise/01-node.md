@@ -16,10 +16,14 @@ cd
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 source ~/.bashrc 
 # Install latest stable version 
-npm install lts/hydrogen 
+nvm install lts/hydrogen 
 
 # test if it is installed
-npm list 
+nvm list 
+```
+
+
+```
 
 # test node 
 node 
