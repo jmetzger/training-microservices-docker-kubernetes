@@ -12,14 +12,52 @@
     * [Schritt 2: Codebasis bereitsstellen](microservices/exercise/02-retrieve-code.md)
     * [Schritt 3: Posts - Service testen](microservices/exercise/03-posts-test-unser-erster-service.md)
  
- 
  1. Grundwissen Microservices (Teil 1)
     * Architektur und Schichten
     * Teamentwicklung 
     * Devops
     * REST Api 
     * Messaging
-
+    
+  1. Docker-Grundlagen 
+     * [Übersicht Architektur](architektur.md)
+     * [Was ist ein Container ?](container.md)
+     * [Was sind container images](container-images.md) 
+     * [Container vs. Virtuelle Maschine](container-vs-vm.md)
+     * [Was ist ein Dockerfile](dockerfile.md) 
+  
+  1. Docker-Installation
+     * [BEST for Ubuntu : Install Docker from Docker Repo](install-docker-ubuntu-apt.md) 
+  
+  1. Docker-Befehle 
+     * [Die wichtigsten Befehle](docker-befehle.md)
+     * [Logs anschauen - docker logs - mit Beispiel nginx](docker-logs-nginx.md)
+     * [docker run](docker-run.md)
+     * [Docker container/image stoppen/löschen](container-image-delete.md)
+     * [Docker containerliste anzeigen](container-liste.md)
+     * [Docker nicht verwendete Images/Container löschen](delete-everything.md)
+     * [Docker container analysieren](docker-inspect.md)
+     * [Docker container in den Vordergrund bringen - attach](/docker/docker-attach.md) 
+     * [Aufräumen - container und images löschen](prune-container-images.md)
+     * [Nginx mit portfreigabe laufen lassen](docker-example-nginx.md)    
+  
+ 1. Dockerfile - Examples 
+    * [Ubuntu mit hello world](ubuntu-hello-world.md)
+    * [Ubuntu mit ping](ubuntu-ping.md) 
+    * [Nginx mit content aus html-ordner](nginx-html-content.md)
+  
+ 1. Docker-Netzwerk 
+    * [Netzwerk](network.md)
+  
+ 1. Docker-Container Examples 
+    * [2 Container mit Netzwerk anpingen](2-containers-with-network-ping.md)
+    * [Container mit eigenem privatem Netz erstellen](container-with-own-bridge.md)  
+  
+ 1. Docker-Daten persistent machen / Shared Volumes 
+    * [Überblick](storage-overview.md) 
+    * [Volumes](storage-volumes.md) 
+    * [bind-mounts](docker-bind-mount.md)
+     
  1. Grundwissen Microservices (Teil 2)
     * Datenbank
     * Tests
