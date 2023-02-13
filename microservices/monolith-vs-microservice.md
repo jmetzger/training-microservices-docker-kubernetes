@@ -80,7 +80,8 @@ Quelle: AWS Amazon
   * Aufwand Wartung und Monitoring (Kubernetes) 
   * Erhöhte Knowledge bzgl. Debugging. 
   * Fallback-Aufwand (wenn ein Service nicht funktioniert, muss die Anwendung weiter arbeiten können, ohne das andere Service nicht funktionieren)
-  * Erhöhte Anfoderung an Konzeption (bzgl. Performance und Stabilität) 
+  * Erhöhte Anforderung an Konzeption (bzgl. Performance und Stabilität) 
+  * Wichtiges Augenmerk (Netzwerk-Performance) 
 
 ## Nachteile: Microservices in Kubernetes 
 
