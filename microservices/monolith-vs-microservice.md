@@ -74,4 +74,14 @@ Quelle: AWS Amazon
 
 ## Nachteile: Microservices 
 
+  * Höhere Komplexität 
+  * Bei schlechter / nicht automatischer dokumentation kann man bei einer größeren Anzahl von Miroservices den Überblick der Zusammenarbeit verlieren
+  * Aufwand: Architektur von Monolithisch nach Microservices IST Aufwand ! 
+  * Aufwand Wartung und Monitoring (Kubernetes) 
+  * Erhöhte Knowledge bzgl. Debugging. 
+  * Fallback-Aufwand (wenn ein Service nicht funktioniert, muss die Anwendung weiter arbeiten können, ohne das andere Service nicht funktionieren)
+  * Erhöhte Anfoderung an Konzeption (bzgl. Performance und Stabilität) 
 
+## Nachteile: Microservices in Kubernetes 
+
+  * andere Anforderungen an Backups und Monitoring 
