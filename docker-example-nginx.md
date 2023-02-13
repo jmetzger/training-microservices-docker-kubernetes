@@ -2,7 +2,9 @@
 
 ```
 docker run --name test-nginx -d -p 8080:80 nginx
+```
 
+```
 docker container ls
 lsof -i
 cat /etc/services | grep 8080
