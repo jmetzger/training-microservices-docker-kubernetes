@@ -20,6 +20,11 @@ docker container ls -a
 # z.b hilfe für docker run 
 docker help run 
 
+# Informationen zu Docker
+# z.B. Was liegt wo ? 
+docker info 
+
+
  
 
 
