@@ -20,6 +20,11 @@ ip -br a
 ## Open postmon web interface or donwload it.
 
 ```
+# get it from here or use web there 
+https://www.postman.com/
+```
+
+```
 # Step 1: Send a post 
 
 - Url: POST http://<ip-of-server>/posts 
