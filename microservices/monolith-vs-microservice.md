@@ -27,4 +27,51 @@ Quelle: AWS Amazon
    * Guter Ausgangspunkt für ein kleineres Projet 
    * Mit einer MicroService - Architektur zu starten, kann hinderlich sein.
 
+## Microservices 
+
+  * Jede Anwendung wird in Form von eigenständigen Komponentenerstellt. 
+  * Jeder Anwendungsprozess wird als Service ausgeführt
+  * Services kommunizieren über schlanke API's miteinander 
+  * Entwicklung in Hinblick auf Unternehmensfunktionen
+  * Jeder Service erfüllt eine bestimmte Funktion.
+  * Sie werden unabhängig voneinander ausgeführt, daher kann:
+    * Jeder Service aktualisiert
+    * bereitgestellt
+    * skaliert werden   
+ 
+## Eigenschaften von microservices 
+
+  * Eigenständigkeit
+  * Spezialisierung 
+
+## Vorteil: Microservices 
+
+  * Agilität
+    * kleines Team sind jeweils für einen Service verantwortlich
+    * können schnell und eigenverantwortlich arbeiten
+    * Entwicklungszyklus wird verkürzt. 
+
+  * Flexible Skalierung
+    * Jeder Service kann unanhängig skaliert werden. 
+
+  * Einfache Bereitstellung
+    * kontinuierliche Integration und Bereitstellung
+    * einfach:
+      * neue Konzepte auszuprobieren und zurückzunehmen, wenn etwas nicht funktioniert. 
+      
+  * Technologische Flexibilität
+    * Die Teams haben die Freiheit, das beste Tool zur Lösung ihrer spezifischen Probleme auszuwählen.
+    * Infolgedessen können Teams, die Microservices entwickeln, das beste Tool für die jeweilige Aufgabe wählen.
+
+  * Wiederverwendbarer Code
+    * Die Aufteilung der Software in kleine, klar definierte Module ermöglicht es Teams, Funktionen für verschiedene Zwecke zu nutzen. 
+    * Ein Service/Funktion als Baustein
+    
+  * Resilienz
+    * Gut geplant/designed -> erhöht die Ausfallsicherheit 
+    * Monolithisch: Eine Komponentent fällt aus, kann zum Ausfall der gesamten Anwendung führen.
+    * Microservice: kompletter Ausfall wird vermieden, nur einzelnen Funktionalitäten sind betroffen
+
+## Nachteile: Microservices 
+
 
