@@ -29,7 +29,7 @@ Quelle: AWS Amazon
 
 ## Microservices 
 
-  * Jede Anwendung wird in Form von eigenständigen Komponentenerstellt. 
+  * Jede Anwendung wird in Form von eigenständigen Komponenten erstellt. 
   * Jeder Anwendungsprozess wird als Service ausgeführt
   * Services kommunizieren über schlanke API's miteinander 
   * Entwicklung in Hinblick auf Unternehmensfunktionen
