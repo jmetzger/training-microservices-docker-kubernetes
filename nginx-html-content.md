@@ -10,7 +10,7 @@ mkdir nginx-test
 cd nginx-test
 mkdir html
 cd html/
-vi index.html
+nano index.html
 
 ```
 
