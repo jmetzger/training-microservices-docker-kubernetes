@@ -24,7 +24,7 @@ Quelle: AWS Amazon
    * Gut geeignet für kleinere Konzepte und Teams 
    * Gut geeignet, wenn Projekt nicht stark wächst.
    * Gut geeignet wenn Projekt durch ein kleines Team entwickelt wird.
-   * Guter Ausgangspunkt für ein kleineres Projet 
+   * Guter Ausgangspunkt für ein kleineres Projekt 
    * Mit einer MicroService - Architektur zu starten, kann hinderlich sein.
 
 ## Microservices 
@@ -69,7 +69,7 @@ Quelle: AWS Amazon
     
   * Resilienz
     * Gut geplant/designed -> erhöht die Ausfallsicherheit 
-    * Monolithisch: Eine Komponentent fällt aus, kann zum Ausfall der gesamten Anwendung führen.
+    * Monolithisch: Eine Komponente fällt aus, kann zum Ausfall der gesamten Anwendung führen.
     * Microservice: kompletter Ausfall wird vermieden, nur einzelnen Funktionalitäten sind betroffen
 
 ## Nachteile: Microservices 
