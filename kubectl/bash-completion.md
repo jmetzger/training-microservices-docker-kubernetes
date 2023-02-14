@@ -11,6 +11,7 @@ type _init_completion
 ```
 
 ```
+# als root 
 # activate for all users 
 kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null
 
@@ -21,6 +22,23 @@ su -
 kubectl g<TAB> 
 kubectl get 
 ```
+
+```
+# alternativ z.B. als Benutzer kurs 
+# activate for all users 
+sudo -i 
+kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null
+exit
+
+# verifizieren - neue login shell
+su - kurs
+
+# zum Testen
+kubectl g<TAB> 
+kubectl get 
+
+```
+
 ## Alternative für k als alias für kubectl 
 
 ```
