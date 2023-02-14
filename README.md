@@ -85,7 +85,10 @@
     * [ConfigMap Example](/kubectl-examples/06-configmap.md)
     * [Configmap MariaDB - Example](kubectl-examples/06a-configmap-mariadb.md)
     * [Configmap MariaDB my.cnf](kubectl-examples/06b-mariadb-configmap-configfile.md)
-  
+ 
+ 1. Kubernetes (Debugging)
+     * [Netzwerkverbindung zu pod testen](/tipps-tricks/verbindung-zu-pod-testen.md)
+ 
  1. Grundwissen Microservices (Teil 2)
     * Datenbank
     * Tests
@@ -187,43 +190,10 @@
      * [Vulnerability Scanner with docker](https://docs.docker.com/engine/scan/#prerequisites)
      * [Vulnerability Scanner mit snyk](https://snyk.io/plans/)
      * [Parent/Base - Image bauen für Docker](https://docs.docker.com/develop/develop-images/baseimages/)
-    
-  1. Kubernetes - Überblick
-     * [Warum Kubernetes, was macht Kubernetes](warum-kubernetes.md) 
-     * [Aufbau Allgemein](/kubernetes/architecture.md)
-     * [Aufbau mit helm,OpenShift,Rancher(RKE),microk8s](/kubernetes/aufbau-helm-microk8s-kubernetes.md)
-     * [Welches System ? (minikube, micro8ks etc.)](welches-system.md)
 
   1. Kubernetes - microk8s (Installation und Management) 
      * [Ingress controller in microk8s aktivieren](microk8s/ingress.md) 
-
-  1. Kubernetes Praxis API-Objekte 
-     * [Das Tool kubectl (Devs/Ops) - Spickzettel](/kubectl/spickzettel.md)
-     * [kubectl example with run](/kubectl/run-with-example.md)
-     * [Bauen einer Applikation mit Resource Objekten](bauen-einer-webanwendung.md)
-     * [kubectl/manifest/pod](/kubectl-examples/01-pod-nginx.md)
-     * ReplicaSets (Theorie) - (Devs/Ops)
-     * [kubectl/manifest/replicaset](/kubectl-examples/01a-replicaset-nginx.md)
-     * Deployments (Devs/Ops)
-     * [kubectl/manifest/deployments](/kubectl-examples/03-nginx-deployment.md)
-     * [Services - Aufbau](/kubernetes/services-aufbau.md)
-     * [kubectl/manifest/service](/kubectl-examples/03b-service.md)
-     * DaemonSets (Devs/Ops)
-     * [Hintergrund Ingress](/kubernetes/ingress.md) 
-     * [Ingress Controller auf Digitalocean (doks) mit helm installieren](/digitalocean/ingress-auf-digitalocean-mit-helm.md)
-     * [Documentation for default ingress nginx](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/)
-     * [Beispiel Ingress](/kubectl-examples/04-ingress-nginx.md)
-     * [Install Ingress On Digitalocean DOKS](/digitalocean/install-ingress-helm.md)
-     * [Beispiel mit Hostnamen](/kubectl-examples/04-ingress-nginx-with-hostnames.md)
-     * [Achtung: Ingress mit Helm - annotations](/ingress-mit-helm-class-achtung.md)
-     * [Permanente Weiterleitung mit Ingress](/kubectl-examples/05-ingress-permanent-redirect.md)
-     * [ConfigMap Example](/kubectl-examples/06-configmap.md)
-     * [Configmap MariaDB - Example](kubectl-examples/06a-configmap-mariadb.md)
-     * [Configmap MariaDB my.cnf](kubectl-examples/06b-mariadb-configmap-configfile.md)
-     
-  1. Kubernetes (Debugging)
-     * [Netzwerkverbindung zu pod testen](/tipps-tricks/verbindung-zu-pod-testen.md)
-     
+         
   1. Helm (Kubernetes Paketmanager) 
      * [Helm Grundlagen](/helm/grundlagen.md)
      * [Helm Warum ?](/helm/warum.md)
