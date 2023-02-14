@@ -54,7 +54,11 @@
     * [Aufbau Allgemein](/kubernetes/architecture.md)
     * [Aufbau mit helm,OpenShift,Rancher(RKE),microk8s](/kubernetes/aufbau-helm-microk8s-kubernetes.md)
     * [Welches System ? (minikube, micro8ks etc.)](welches-system.md)
-    
+  
+ 1. Kubernetes mit microk8s (Installation und Management)
+    * [Installation Ubuntu - snap](microk8s/installation-ubuntu-snap.md)
+    * [Create a cluster with microk8s](microk8s/cluster.md)
+  
  1. Grundwissen Microservices (Teil 2)
     * Datenbank
     * Tests
