@@ -245,6 +245,10 @@
   1. Kubernetes Interna / Misc.
      * [OCI,Container,Images Standards](docker-alternatives-kubernetes.md)
      * [Geolocation Kubernetes Cluster](https://learnk8s.io/bite-sized/connecting-multiple-kubernetes-clusters)
+     
+  1. Documentation 
+     * [Good Doku with Tasks](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+
   
 ## Backlog
 
