@@ -32,3 +32,9 @@ nano .dockerignore
 ```
 package-lock.json 
 ```
+
+```
+docker build -t dockertrainereu/<namenskuerzel>-posts:0.0.1 .
+docker run -d --name posts dockertrainereu/<namenkuerzel>-post:0.0.1 
+docker logs posts 
+```
