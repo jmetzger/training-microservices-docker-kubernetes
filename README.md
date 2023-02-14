@@ -58,6 +58,9 @@
  1. Kubernetes mit microk8s (Installation und Management)
     * [Installation Ubuntu - snap](microk8s/installation-ubuntu-snap.md)
     * [Create a cluster with microk8s](microk8s/cluster.md)
+    * [Remote-Verbindung zu Kubernetes (microk8s) einrichten](microk8s/connect-from-remote.md)
+    * [Bash completion installieren](kubectl/bash-completion.md)
+    * [vim support for yaml](vim/vim-yaml.md)
   
  1. Grundwissen Microservices (Teil 2)
     * Datenbank
