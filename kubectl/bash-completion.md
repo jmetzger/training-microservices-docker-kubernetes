@@ -11,7 +11,7 @@ type _init_completion
 ```
 
 ```
-# als root 
+# als root
 # activate for all users 
 kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null
 
