@@ -46,18 +46,9 @@
     * [Ubuntu mit ping](ubuntu-ping.md) 
     * [Nginx mit content aus html-ordner](nginx-html-content.md)
   
- 1. Docker-Netzwerk 
-    * [Netzwerk](network.md)
+ 1. Docker - Projekt blog
+    * [posts in blog dockerisieren](microservices/exercise/dockerize-posts.md)
   
- 1. Docker-Container Examples 
-    * [2 Container mit Netzwerk anpingen](2-containers-with-network-ping.md)
-    * [Container mit eigenem privatem Netz erstellen](container-with-own-bridge.md)  
-  
- 1. Docker-Daten persistent machen / Shared Volumes 
-    * [Überblick](storage-overview.md) 
-    * [Volumes](storage-volumes.md) 
-    * [bind-mounts](docker-bind-mount.md)
-     
  1. Grundwissen Microservices (Teil 2)
     * Datenbank
     * Tests
