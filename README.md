@@ -221,6 +221,9 @@
      * [Configmap MariaDB - Example](kubectl-examples/06a-configmap-mariadb.md)
      * [Configmap MariaDB my.cnf](kubectl-examples/06b-mariadb-configmap-configfile.md)
      
+  1. Kubernetes (Debugging)
+     * [Netzwerkverbindung zu pod testen](/tipps-tricks/verbindung-zu-pod-testen.md)
+     
   1. Helm (Kubernetes Paketmanager) 
      * [Helm Grundlagen](/helm/grundlagen.md)
      * [Helm Warum ?](/helm/warum.md)
@@ -250,7 +253,6 @@
   1. Kubernetes - Wartung / Debugging 
      * [kubectl drain/uncordon](/kubectl/uncordon-drain.md)
      * [Alte manifeste konvertieren mit convert plugin](/kubectl/convert-plugin.md)
-     * [Netzwerkverbindung zu pod testen](/tipps-tricks/verbindung-zu-pod-testen.md)
      * [Curl from pod api-server](/kubernetes-advanced/curl-api-server.md)
 
   1. Kubernetes - Tipps & Tricks 
