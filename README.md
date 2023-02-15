@@ -95,7 +95,8 @@
     * Skalierbarkeit 
     * Performance Monitoring 
     * Demos 
-    * Intergrationsstrategie      
+    * Intergrationsstrategie  
+    * [Monolith schneiden microservices](microservices/monolith-schneiden.md)
 
  1. Docker
     * Einsatz und Abgrenzung
