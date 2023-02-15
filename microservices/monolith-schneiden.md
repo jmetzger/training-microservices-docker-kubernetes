@@ -60,45 +60,76 @@ zu klein: zu viele Abfragen anderer Service ....
 Jeder Service muss eigenständig sein und seine eigene Datenbank haben.
 ```
 
+## Datenbanken 
 
+### Herangehensweise
 
-z.B.
-
+```
 heisst auch: 
 o Kein großes allmächtiges Datenmodel, sondern viele kleine 
 (nicht alles in jedem kleinen Datenmodel, sondern nur, was im jeweiligen
 Bounded Context benötigt wird)
+```
 
-Der Bounded Context definiert den Einsatzbereich eines Domänenmodells. 
-Es umfasst die Geschäftslogik für eine bestimmte Fachlichkeit. Als Beispiel beschreibt ein Domänenmodell 
-die Buchung von S-Bahn-Fahrkarten 
-und ein weiteres die Suche nach S-Bahn-Verbindungen. 
-Da die beiden Fachlichkeiten wenig miteinander zu tun haben, 
-sind es zwei getrennte Modelle. Für die Fahrkarten sind die Tarife relevant und für die Verbindung die Zeit, das Fahrziel und der Startpunkt der Reise.
-
-oder z.B. die Domäne: Bibliothek 
-Bibliothek 
-  Leihe (bounded context 1)
-  Suche (bounded context 2)
+### Eine Datenbank pro Service (eigenständig / abgespeckt) 
 
 
-3.4. Axiom: Eine eigenständige Datenbank pro Service. Warum ? 
+#### Warum ?
+
+```
+Axiom: Eine eigenständige Datenbank pro Service. Warum ? 
 (Service will NEVER reach into another services database)
+```
 
-3.4.1. We want earch service to run independently of other services 
+#### Punkt 1 : Jeder Service soll unabhängig laufen können 
+
+```
+We want earch service to run independently of other services 
 
 o no DB for everything (If DB goes down our service goes down)
-o it easier to scale (if one service needs more capacity.
+o it easier to scale (if one service needs more capacity)
 o more resilient. If one service goes down, our service will still work.
+```
 
-3.4.2 Database schemas might change unexpectly.
+### DPunkt 2: Datenbank schemata könnten sich unerwartet ändern 
 
+```
 o We (Service A) use data from Service B, directly retrieving it from the db.
 o We (Service) want property name: Lisa
 o Team of Service B changes this property to: firstName 
   AND do not inform us.
   (This breaks our service !!) . OUR SERV
+```
 
+
+```
 3.4.3 Some services might funtion more efficiently with different types
 of DB's (sql vs. nosql)
 ```
+
+
+## Beispiel - Bounded 
+
+```
+Der Bounded Context definiert den Einsatzbereich eines Domänenmodells. 
+```
+
+```
+Es umfasst die Geschäftslogik für eine bestimmte Fachlichkeit. Als Beispiel beschreibt ein Domänenmodell 
+die Buchung von S-Bahn-Fahrkarten 
+und ein weiteres die Suche nach S-Bahn-Verbindungen. 
+```
+
+```
+Da die beiden Fachlichkeiten wenig miteinander zu tun haben, 
+sind es zwei getrennte Modelle. Für die Fahrkarten sind die Tarife relevant und für die Verbindung die Zeit, das Fahrziel und der Startpunkt der Reise.
+```
+
+```
+oder z.B. die Domäne: Bibliothek 
+Bibliothek 
+  Leihe (bounded context 1)
+  Suche (bounded context 2)
+```
+
+
