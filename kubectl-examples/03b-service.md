@@ -45,7 +45,7 @@ kubectl apply -f .
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-nginx
+  name: svc-my-nginx
   labels:
     svc: nginx
 spec:
