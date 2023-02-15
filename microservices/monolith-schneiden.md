@@ -17,7 +17,7 @@
 
 ## Bounded Context 
 
-![https://martinfowler.com/bliki/images/boundedContext/sketch.png](Bounded Context)
+![Bounded Context](https://martinfowler.com/bliki/images/boundedContext/sketch.png)
 
 ## Zwei Merkmale mit den wir arbeiten
 
@@ -63,8 +63,6 @@ Jeder Service muss eigenständig sein und seine eigene Datenbank haben.
 
 
 z.B.
-https://martinfowler.com/bliki/images/boundedContext/sketch.png
-DDD deals with large models by dividing them into different Bounded Contexts and being explicit about their interrelationships.
 
 heisst auch: 
 o Kein großes allmächtiges Datenmodel, sondern viele kleine 
