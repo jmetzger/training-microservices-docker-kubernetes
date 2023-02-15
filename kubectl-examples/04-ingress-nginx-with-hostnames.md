@@ -1,13 +1,8 @@
 # Ingress Nginx 
 
-## Prerequisits
+## Prequisites 
 
-```
-# Ingress Controller muss aktiviert sein 
-## Nur der Fall wenn man microk8s zum Einrichten verwendet 
-## Ubuntu 
-microk8s enable ingress
-```
+  * An IngressController is running in your cluster. Ask the trainer if you are unsure.
 
 ## Walkthrough 
 
