@@ -91,7 +91,7 @@ o it easier to scale (if one service needs more capacity)
 o more resilient. If one service goes down, our service will still work.
 ```
 
-### DPunkt 2: Datenbank schemata könnten sich unerwartet ändern 
+### Punkt 2: Datenbank schemata könnten sich unerwartet ändern 
 
 ```
 o We (Service A) use data from Service B, directly retrieving it from the db.
@@ -101,6 +101,7 @@ o Team of Service B changes this property to: firstName
   (This breaks our service !!) . OUR SERV
 ```
 
+### Punkt 3: Freiheit der Datenbankwahl 
 
 ```
 3.4.3 Some services might funtion more efficiently with different types
