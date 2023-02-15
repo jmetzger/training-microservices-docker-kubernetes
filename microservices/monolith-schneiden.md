@@ -9,11 +9,15 @@
 
 ## Wie kann ich schneiden (GUT) ? 
 
-  * DDD (Domain Driven Design) 
+  * DDD (Domain Driven Design) - Welche Aufgaben gibt es innerhalb des sogenannten Bounded Context in meiner Domäne 
   * Domäne: Bibliothek 
   * In der Bibliothek 
     * Leihe 
     * Suche 
+
+## Bounded Context 
+
+![https://martinfowler.com/bliki/images/boundedContext/sketch.png](Bounded Context)
 
 ## Zwei Merkmale mit den wir arbeiten
 
@@ -56,16 +60,7 @@ zu klein: zu viele Abfragen anderer Service ....
 Jeder Service muss eigenständig sein und seine eigene Datenbank haben.
 ```
 
-3.3. Wie können wir schneiden ? 
 
-a) code-größe
-b) teamgröße. Amazon: 2 Pizzas sollten das Team ernähren können. Wieviele Mitglieder ?
-Der Service darf dann auch durch soviele Mitglieder handelbar sein.
-
-c) DDD - nach Domäne 
-Welche Aufgaben gibt es innerhalb des sogenannten Bounded Context
-
-Domäne -> wird in Bounded Contexts aufgeteilt. 
 
 z.B.
 https://martinfowler.com/bliki/images/boundedContext/sketch.png
