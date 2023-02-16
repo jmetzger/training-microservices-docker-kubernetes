@@ -90,6 +90,7 @@
      * [Netzwerkverbindung zu pod testen](/tipps-tricks/verbindung-zu-pod-testen.md)
  
  1. Grundwissen Microservices (Teil 2)
+    * [Brainstorming Domäne](microservices/brainstorming-domaene.md)
     * Datenbank
     * Tests
     * Skalierbarkeit 
