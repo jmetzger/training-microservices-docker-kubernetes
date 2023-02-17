@@ -94,6 +94,7 @@
     * Datenbank
     * Tests
     * Skalierbarkeit 
+    * Log Aggregation 
     * Performance Monitoring 
     * Demos 
     * Intergrationsstrategie  
