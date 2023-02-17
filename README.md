@@ -127,7 +127,8 @@
  1. Kubernetes (Teil 2) 
     * Kubernetes Cloud Provider
 
- 1. Ausblick
+ 1. Literatur / Documentation 
+    *[O'Reilly Sam Newman - Vom Monolithen zu Microservices](https://www.amazon.de/Vom-Monolithen-Microservices-bestehende-umzugestalten/dp/3960091400/)
 
 ## Backlog  
 
