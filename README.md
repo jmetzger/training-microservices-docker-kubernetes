@@ -125,6 +125,10 @@
     
  1. Kubernetes (Teil 2) 
     * Kubernetes Cloud Provider
+    
+ 1. Kubernetes Netzwerk 
+     * [Mesh / istio](sammlung-istio.md)  
+     * [pubsub+ for graph kafka](https://solace.com/blog/how-a-financial-services-giant-cleaned-up-their-kafka-with-pubsub-event-portal/)
 
  1. Literatur / Documentation 
     * [O'Reilly Sam Newman - Vom Monolithen zu Microservices](https://www.amazon.de/Vom-Monolithen-Microservices-bestehende-umzugestalten/dp/3960091400/)
@@ -212,7 +216,6 @@
      * [Übersicht Netzwerke](/kubernetes-networks/overview.md) 
      * [Calico - nginx example NetworkPolicy](/kubernetes-network/callico/00-simple-example.md)
      * [Beispiele Ingress Egress NetworkPolicy](kubernetes-networks/examples-ingress-egress.md)
-     * [Mesh / istio](sammlung-istio.md)  
      * [Kubernetes Ports/Protokolle](https://kubernetes.io/docs/reference/networking/ports-and-protocols/)
      * [IPV4/IPV6 Dualstack](https://kubernetes.io/docs/concepts/services-networking/dual-stack/)
    
