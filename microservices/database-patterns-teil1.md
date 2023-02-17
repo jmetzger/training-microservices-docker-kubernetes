@@ -50,6 +50,11 @@
    * Damit kann man auch sicherstellen, dass sich die Datenbank nicht verändert.
    * Zugriffe müssen jetzt aber geändert werden, von direkt auf die service api
 
+### Wann ? 
+
+   * API davor setzen, um Veränderung der Datenbank zu hindern. 
+   * Einschränken, was man machen darf. 
+
 ## Pattern: Aggregate Exposing Monolith 
 
   * Daten werden über einen Serviceendpunkt vom Monolithen selbst bereitgestellt
@@ -78,8 +83,6 @@
 ### Schritt 4: Alte Schema entfernen
 
   * Altes Schema kann jetzt gefahrlos entfernt werden
-
-
 
 
 ## Pattern Tracer Write 
