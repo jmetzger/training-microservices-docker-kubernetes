@@ -83,6 +83,7 @@ Tabellen die über Service - Grenzen hinweg existieren aufteilen
 ### Pattern: Static Reference Data Service 
 
   * z.B. dedizierter Service für Ländercodes 
+  * REST-API
 
 #### Aufbau 
 
