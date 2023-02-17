@@ -1,12 +1,46 @@
 # Database patterns 
 
+## Was sollte ich zuerst aufteilen: Code oder Datenbank, oder gleichzeitig.
+
+ * Datenbank nur zuerst, wenn ich sorge wg. der Performance habe.
+ * Code in der Regeln zuerst (Machen die meisten Teams so) 
+   * Vorteil: Ich weiss dann welche Daten der Service braucht 
+
+ * Gleichzeitig auf keinen Fall 
+
+## Anwendungsfall 1: Zuerst die Daten aufteilen 
 
 
+### Pattern: Repository per Bounded Context
+
+  * Im Code habe ich pro Bounded Context ein Repository - Layer, der
+    auf die Datenbank zugreift 
+
+### Pattern: Database per Bounded Context 
+
+  * Vorsichtsmaßnahme, falls ich später ein Service draus machen will
+
+## Anwendungsfall 2: Zuerst den Code aufteilen 
+
+### Pattern: Monolith as Data Access Layer 
 
 
-## Gemeinsame genutzte statische Daten
+### Pattern: Multischema Storage 
 
+  * Service speichert Teile der Daten selbst 
+    * und Teile der Daten kommen aus dem Monolithen 
 
+### Pattern: Split Table 
+
+#### Grund
+
+```
+Tabellen die über Service - Grenzen hinweg existieren aufteilen
+```
+
+### Pattern: Move Foreign Key Relationship To Code 
+
+## Anwendungsfall 3: Gemeinsame genutzte statische Daten
 
 ### Pattern: Duplicate Static Reference Data 
 
