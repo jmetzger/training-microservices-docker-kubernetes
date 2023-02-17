@@ -9,7 +9,7 @@
   * http proxy 
   * oder s.u. branch by extraction
   * An- und Abschalten mit Feature Toggle 
-  * Über message boker 
+  * Über message broker 
 
 ### http - proxy - Schritte 
 
