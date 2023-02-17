@@ -128,7 +128,7 @@
     * Kubernetes Cloud Provider
 
  1. Literatur / Documentation 
-    *[O'Reilly Sam Newman - Vom Monolithen zu Microservices](https://www.amazon.de/Vom-Monolithen-Microservices-bestehende-umzugestalten/dp/3960091400/)
+    * [O'Reilly Sam Newman - Vom Monolithen zu Microservices](https://www.amazon.de/Vom-Monolithen-Microservices-bestehende-umzugestalten/dp/3960091400/)
 
 ## Backlog  
 
