@@ -65,7 +65,7 @@ Tabellen die über Service - Grenzen hinweg existieren aufteilen
 
   * Dediziertes Schema für Ländercodes in eigener Datenbank 
   * Alle Services greifen auf diese Datenbank direkt zu 
-  * Es gibt dort einen Vertrag (Änderungen sind kritisch) 
+  * Es gibt dort einen Vertrag (Änderungen an der Struktur sind kritisch) 
 
 ### Pattern: Static Reference Data Library 
 
