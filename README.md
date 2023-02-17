@@ -91,7 +91,9 @@
  
  1. Grundwissen Microservices (Teil 2)
     * [Brainstorming Domäne](microservices/brainstorming-domaene.md)
-    * Datenbank
+    * [Datenbank - Patterns - Teil 1](microservices/database-patterns-teil1.md)
+    * [Datenbank - Patterns - Teil 2](microservices/database-patterns-teil2.md)
+    * [Strategische Patterns](microservices/strategic-patterns.md)
     * Tests
     * Skalierbarkeit 
     * Log Aggregation 
