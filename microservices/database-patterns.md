@@ -24,7 +24,8 @@
 
 ### Pattern: Monolith as Data Access Layer 
 
-https://photos.google.com/share/AF1QipM_QszMMudnD6M5VwBO4N08xXX4lDK8xLR9Hne2OMT8-uAwPb4K37ZgNg7_sysW6A/photo/AF1QipO4WzBD9DiWl3fsMEZ-mGTpDSxDgnUmhT2B0vLH?key=ZVAzSU1xTUUyY3VnMGUxOXF3aTRzSXFWTnpMWWxR
+  * [Monolith Data Access Layer - Schritt 1](https://photos.app.goo.gl/XhBKuGRAFaubN99CA)
+  * [Monolith Data Access Layer - Schritt 2](https://photos.app.goo.gl/k3vg1BsoRonHi7pe9)
 
 ### Pattern: Multischema Storage 
 
@@ -35,9 +36,9 @@ https://photos.google.com/share/AF1QipM_QszMMudnD6M5VwBO4N08xXX4lDK8xLR9Hne2OMT8
 
 ### Pattern: Split Table 
 
-[Split Table - Teil 1](https://photos.app.goo.gl/DJ9oXXWwJg62qb199)
-[Split Table - Teil 2](https://photos.app.goo.gl/T3yDBMCh5xr9NMKB8)
-[Split Table - Teil 3](https://photos.app.goo.gl/ynrXyq4gD18HHAg66)
+  * [Split Table - Teil 1](https://photos.app.goo.gl/DJ9oXXWwJg62qb199)
+  * [Split Table - Teil 2](https://photos.app.goo.gl/T3yDBMCh5xr9NMKB8)
+  * [Split Table - Teil 3](https://photos.app.goo.gl/ynrXyq4gD18HHAg66)
 
 #### Grund
 
