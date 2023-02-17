@@ -48,8 +48,8 @@ Tabellen die über Service - Grenzen hinweg existieren aufteilen
 
 ### Pattern: Move Foreign Key Relationship To Code 
 
-[Schritt 1](https://photos.app.goo.gl/zgSYAeg6Qq5vWnYx7)
-[Schritt 2](https://photos.app.goo.gl/cciUQwy71HZXdHB67)
+  * [Schritt 1](https://photos.app.goo.gl/zgSYAeg6Qq5vWnYx7)
+  * [Schritt 2](https://photos.app.goo.gl/cciUQwy71HZXdHB67)
 
 
 ## Anwendungsfall 3: Gemeinsame genutzte statische Daten
