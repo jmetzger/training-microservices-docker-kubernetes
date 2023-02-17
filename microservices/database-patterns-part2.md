@@ -67,6 +67,10 @@ Tabellen die über Service - Grenzen hinweg existieren aufteilen
   * Alle Services greifen auf diese Datenbank direkt zu 
   * Es gibt dort einen Vertrag (Änderungen an der Struktur sind kritisch) 
 
+#### Nachteil 
+
+  * Probleme beim Ändern des Encodings in der Datenbank (Migration von alter auf neue Datenbank) 
+
 ### Pattern: Static Reference Data Library 
 
   * z.B. Ländercodes wandern von der Datenbank in eine Bibliothek 
