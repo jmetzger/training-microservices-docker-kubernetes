@@ -27,6 +27,7 @@
 ## Pattern: Parallel Run 
 
   * Service und teil im Monolith wird parallel ausgeführt
+  * Und es wird überprüft, ob das Ergebnis in beiden Systemn das gleiche ist (z.B. per batch job)
 
 ## Pattern: Decorating Collaborator
 
