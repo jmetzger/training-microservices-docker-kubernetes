@@ -1,4 +1,4 @@
-# Database patterns 
+# Database patterns (Teil 2) 
 
 ## Was sollte ich zuerst aufteilen: Code oder Datenbank, oder gleichzeitig.
 
