@@ -19,7 +19,7 @@
 
 ### Message broker
 
-  * Monnolith reagiert auf bestimmte Messages bzw. ignoriert bestimmte messages
+  * Monolith reagiert auf bestimmte Messages bzw. ignoriert bestimmte messages
   * monolith bekommt bestimmte nachrichten garnicht 
   * service reagiert auf bestimmte nachrichten 
 
