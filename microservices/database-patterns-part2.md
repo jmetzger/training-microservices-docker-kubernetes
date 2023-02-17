@@ -74,7 +74,7 @@ Tabellen die über Service - Grenzen hinweg existieren aufteilen
 
 #### Nachteil 
  
-  * Schwierig, wenn verschiedene Sprachen
+  * Schwierig, wenn verschiedene Programmier-Sprachen
  
 ### Pattern: Static Reference Data Service 
 
