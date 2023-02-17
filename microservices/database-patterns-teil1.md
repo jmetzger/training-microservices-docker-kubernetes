@@ -6,9 +6,13 @@
 
   * Shared Database:Informations-Hiding ist schwierig 
   * Achtung: nur in 2 Situationen vernünftig
-    1. Lesen statischer Referenzdaten
+    1. Lesen statischer Referenzdaten (Postleitzahlen, Geschlecht, Bundesländer)
     2. Anbieten eines Service, der direkt eine Datenbank als definierten Endpunkt bereitstellt
        * Database as-a-Service-Interface Pattern 
+
+### Wie häufig 
+  
+  * Eher selten ?
   
 
 ## Pattern: Database View 
