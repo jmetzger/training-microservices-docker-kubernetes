@@ -84,8 +84,7 @@
 
   * Altes Schema kann jetzt gefahrlos entfernt werden
 
-
-## Pattern Tracer Write 
+## Pattern: Tracer Write 
 
   * Inkrementelle Verschiebung der Source of Truth. 
   * D.h. nicht komplette Datenbank, sondern einzelne Tabellen
