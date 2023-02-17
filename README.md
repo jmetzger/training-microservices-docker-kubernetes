@@ -94,10 +94,9 @@
     * [Datenbank - Patterns - Teil 1](microservices/database-patterns-teil1.md)
     * [Datenbank - Patterns - Teil 2](microservices/database-patterns-teil2.md)
     * [Strategische Patterns](microservices/strategic-patterns.md)
-    * Tests
+    * [Tests](microservices/tests/overview.md)
     * Skalierbarkeit 
-    * Log Aggregation 
-    * Performance Monitoring 
+    * Monitoring 
     * Demos 
     * Intergrationsstrategie  
     * [Monolith schneiden microservices](microservices/monolith-schneiden.md)
