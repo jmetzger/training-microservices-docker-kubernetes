@@ -2,7 +2,7 @@
 
 ## Was sollte ich zuerst aufteilen: Code oder Datenbank, oder gleichzeitig.
 
- * Datenbank nur zuerst, wenn ich sorge wg. der Performance habe.
+ * Datenbank nur zuerst, wenn ich Sorge wg. der Performance habe.
  * Code in der Regeln zuerst (Machen die meisten Teams so) 
    * Vorteil: Ich weiss dann welche Daten der Service braucht 
 
