@@ -3,7 +3,7 @@
 ## Agenda 
 
  1. Grundlagen
-    * [Eigenschaften von Microservices](microservices/characteristics.md)
+    * [Grundkonzepte von Microservices](microservices/basics.md)
 
  1. Literatur / Documentation 
     * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
