@@ -2,6 +2,15 @@
 
 ## Agenda 
 
+ 1. Grundlagen
+    * [Eigenschaften von Microservices](microservices/characteristics.md)
+
+ 1. Literatur / Documentation 
+    * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
+    * [Sam Newman - Vom Monolithen zu Microservices](https://www.amazon.de/Vom-Monolithen-Microservices-bestehende-umzugestalten/dp/3960091400/)
+   
+## Backlog I
+
  1. Einführung 
     * [Über Microservices](/microservices/monolith-vs-microservice.md)
     * [Praxisbeispiele](/microservices/praxisbeispiele.md) 
@@ -258,7 +267,7 @@
      * [Good Doku with Tasks](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
 
   
-## Backlog
+## Backlog II
 
   1. Docker-Installation
      * [Installation Docker unter Ubuntu mit snap](install-ubuntu-snap.md)
