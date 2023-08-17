@@ -13,4 +13,5 @@ in einer Komponenten zu verstecken
   * Dadurch gibt es eine klare Grenze, **was**
     *  **einfach zu ändern** ist
     *  oder was **komlizierter zu ändern** ist
+  * Informationen die versteckt ist, können __ohne Absprache__ geändert werden.
  
