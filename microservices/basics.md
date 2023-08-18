@@ -14,4 +14,9 @@ in einer Komponenten zu verstecken
     *  **einfach zu ändern** ist
     *  oder was **komlizierter zu ändern** ist
   * Informationen die versteckt ist, können __ohne Absprache__ geändert werden.
- 
+
+ ## Independant Deployability 
+
+   * Make changes to one microservices, redeploy it, without the need of redeploying all the others
+
+
