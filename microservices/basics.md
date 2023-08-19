@@ -17,6 +17,7 @@ in einer Komponenten zu verstecken
 
  ## Independant Deployability 
 
-   * Make changes to one microservices, redeploy it, without the need of redeploying all the others
+   * Änderung in einem microservice machen können ihn redeployen, ohne die Make changes to one microservices, redeploy it, without the need of redeploying all the others
+   * This is the most imporant thing and also the Nr. 1 Tipp
 
 
