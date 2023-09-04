@@ -38,21 +38,18 @@ docker images
 # -> container läuft dann nicht mehr 
 docker run -d -t --name container-ubuntu myubuntu
 docker container ls
-# in den container reingehen mit dem namen des Containers: myubuntu 
-docker exec -it myubuntu bash
-# ls -la
- ```
-
-```
-# Zweiten Container starten
-docker run -d -t --name container-ubuntu2 myubuntu 
 
 # docker inspect to find out ip of other container 
 # 172.17.0.3 
-docker inspect myubuntu
+docker inspect myubuntu | grep -i ip 
+```
+
+```
+# Zweiten Container starten um 1. anzupingen 
+docker run -d -t --name container-ubuntu2 myubuntu 
 
 # Ersten Container -> 2. anpingen 
-docker exec -it container-ubuntu bash 
+docker exec -it container-ubuntu2 bash 
 # Jeder container hat eine eigene IP 
 ping 172.17.0.3
 
