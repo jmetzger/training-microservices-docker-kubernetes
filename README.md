@@ -33,6 +33,9 @@
      * [Logs anschauen - docker logs - mit Beispiel nginx](docker-logs-nginx.md)
      * [Logs anschauen - docker logs - mit Beispiel nginx](docker-logs-nginx.md)
      * [Nginx mit portfreigabe laufen lassen](docker-example-nginx.md)
+    
+  1. Example with Dockerfile
+     * [Ubuntu mit ping](ubuntu-ping.md) 
       
   1. Literatur / Documentation 
      * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
@@ -67,7 +70,6 @@
        
  1. Dockerfile - Examples 
     * [Ubuntu mit hello world](ubuntu-hello-world.md)
-    * [Ubuntu mit ping](ubuntu-ping.md) 
     * [Nginx mit content aus html-ordner](nginx-html-content.md)
   
  1. Docker - Projekt blog
