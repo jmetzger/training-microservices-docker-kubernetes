@@ -12,4 +12,5 @@ cd multi-stage-example
 ```
 # Bau - Variante 1:
 docker build -t multi-stage-example:v1 .
+docker run --name multibuildv1 -p 8080:8080 multi-stage-example:v1 
 ```
