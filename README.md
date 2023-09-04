@@ -11,6 +11,17 @@
     * [Asynchrones Messaging](microservices/asynchronous-messaging.md)
     * [Microservice and Database](microservices/basics/database.md)
 
+  1. Docker-Grundlagen 
+     * [Übersicht Architektur](architektur.md)
+     * [Was ist ein Container ?](container.md)
+     * [Was sind container images](container-images.md) 
+     * [Container vs. Virtuelle Maschine](container-vs-vm.md)
+     * [Was ist ein Dockerfile](dockerfile.md) 
+  
+  1. Docker-Installation
+     * [BEST for Ubuntu : Install Docker from Docker Repo](install-docker-ubuntu-apt.md) 
+  
+
  1. Literatur / Documentation 
     * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
     * [Sam Newman - Vom Monolithen zu Microservices](https://www.amazon.de/Vom-Monolithen-Microservices-bestehende-umzugestalten/dp/3960091400/)
@@ -34,16 +45,6 @@
     * REST Api 
     * Messaging
     
-  1. Docker-Grundlagen 
-     * [Übersicht Architektur](architektur.md)
-     * [Was ist ein Container ?](container.md)
-     * [Was sind container images](container-images.md) 
-     * [Container vs. Virtuelle Maschine](container-vs-vm.md)
-     * [Was ist ein Dockerfile](dockerfile.md) 
-  
-  1. Docker-Installation
-     * [BEST for Ubuntu : Install Docker from Docker Repo](install-docker-ubuntu-apt.md) 
-  
   1. Docker-Befehle 
      * [Die wichtigsten Befehle](docker-befehle.md)
      * [Logs anschauen - docker logs - mit Beispiel nginx](docker-logs-nginx.md)
