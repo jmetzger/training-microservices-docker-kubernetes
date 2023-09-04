@@ -35,7 +35,8 @@
      * [Nginx mit portfreigabe laufen lassen](docker-example-nginx.md)
     
   1. Example with Dockerfile
-     * [Ubuntu mit ping](ubuntu-ping.md) 
+     * [Ubuntu mit ping](ubuntu-ping.md)
+     * [Slim multistage-build](slim-multistage-build.md) 
       
   1. Literatur / Documentation 
      * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
