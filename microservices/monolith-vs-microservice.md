@@ -76,6 +76,11 @@ Quelle: AWS Amazon
     * Monolithisch: Eine Komponente fällt aus, kann zum Ausfall der gesamten Anwendung führen.
     * Microservice: kompletter Ausfall wird vermieden, nur einzelnen Funktionalitäten sind betroffen
 
+## Gut aufgestellt mit Devops 
+
+  * Weil
+    * ansonsten durch alte Strukturen (kein Devops-Team) Geschwindkeit durch notwendige, Klärung, Verantwortlich verloren geht.
+
 ## Nachteile: Microservices 
 
   * Höhere Komplexität 
