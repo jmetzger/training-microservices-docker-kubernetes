@@ -27,6 +27,22 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plu
 systemctl status docker 
 ```
 
+## Docker als normaler Benutzer 
+
+```
+# Wenn dein unpriviligierter Benutzer kurs heisst
+sudo su -
+usermod -aG docker kurs
+exit
+```
+
+```
+# ich wechsele nochmal in den Benutzer kurs
+su - kurs
+# jetzt darf kein Fehler kommen 
+docker images 
+```
+
 ## docker-compose ? 
 
 ```
