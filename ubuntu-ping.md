@@ -13,6 +13,11 @@ RUN apt-get update; apt-get install -y inetutils-ping
 ```
 
 ```
+docker build -t fullubuntu .
+docker images 
+```
+
+```
 # Variante 2
 # nano Dockerfile
 FROM ubuntu:22.04
@@ -25,12 +30,12 @@ RUN apt-get update && \
 ```
 docker build -t myubuntu .
 docker images
-# -t wird benötigt, damit bash WEITER im Hintergrund im läuft.
-# auch mit -d (ohne -t) wird die bash ausgeführt, aber "das Terminal" dann direkt beendet 
-# -> container läuft dann nicht mehr 
 ```
 
 ```
+# -t wird benötigt, damit bash WEITER im Hintergrund im läuft.
+# auch mit -d (ohne -t) wird die bash ausgeführt, aber "das Terminal" dann direkt beendet 
+# -> container läuft dann nicht mehr 
 docker run -d -t --name container-ubuntu myubuntu
 docker container ls
 # in den container reingehen mit dem namen des Containers: myubuntu 
