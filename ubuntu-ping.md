@@ -41,7 +41,7 @@ docker container ls
 
 # docker inspect to find out ip of other container 
 # 172.17.0.3 
-docker inspect myubuntu | grep -i ip 
+docker inspect container-ubuntu | grep -i ipaddress
 ```
 
 ```
