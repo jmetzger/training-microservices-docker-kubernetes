@@ -25,5 +25,5 @@ FROM openjdk:8-jdk-slim
 
 ```
 docker build -t multi-stage-example:v2  .
-ocker run --name multibuildv2 -p 8080:8080 multi-stage-example:v2 
+docker run --name multibuildv2 -p 8080:8080 multi-stage-example:v2 
 ```
