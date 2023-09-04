@@ -4,6 +4,7 @@
 
  1. Grundlagen
     * [Grundkonzepte von Microservices](microservices/basics.md)
+    * [Monolith vs. Microservices](microservices/monolith-vs-microservice.md)
 
  1. Literatur / Documentation 
     * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
