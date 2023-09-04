@@ -40,7 +40,7 @@ docker run -d -t --name container-ubuntu myubuntu
 docker container ls
 # in den container reingehen mit dem namen des Containers: myubuntu 
 docker exec -it myubuntu bash
-ls -la
+# ls -la
  ```
 
 ```
@@ -49,7 +49,7 @@ docker run -d -t --name container-ubuntu2 myubuntu
 
 # docker inspect to find out ip of other container 
 # 172.17.0.3 
-docker inspect <container-id>
+docker inspect myubuntu
 
 # Ersten Container -> 2. anpingen 
 docker exec -it container-ubuntu bash 
