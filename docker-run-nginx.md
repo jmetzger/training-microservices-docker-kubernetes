@@ -17,7 +17,16 @@ cd /var/lib/docker
 ```
 # in den Container reinwechsel
 # interactive 
-docker exec -it my_nginx bash 
+docker exec -it my_nginx bash
+```
+
+```
+# Falls wir Prozesse anschauen wollen mit tool ps
+# im container
+apt update
+apt install -y procps
+ps aux  | grep nginx 
+
 # oder wir führen nur ein Kommando aus
 docker exec my_nginx cat /etc/os-release
 
