@@ -26,7 +26,7 @@
      * [BEST for Ubuntu : Install Docker from Docker Repo](install-docker-ubuntu-apt.md) 
 
   1. Docker-Praxis
-     * [Dockder run mit nginx](docker-run-nginx.md)
+     * [Docker run mit nginx](docker-run-nginx.md)
 
   1. Literatur / Documentation 
      * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
