@@ -9,7 +9,7 @@ docker run <image>
 # hub.docker.com 
 docker run hello-world
 
-# images die lokal vorhanden 
+# images die lokal vorhanden sind.
 docker images 
 
 # container (laufende) 
