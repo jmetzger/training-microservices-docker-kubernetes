@@ -2,14 +2,19 @@
 
 ## Agenda 
 
- 1. Grundlagen
-    * [Was sind microservices](microservices/what-are.md)
-    * [Grundkonzepte von Microservices](microservices/basics.md)
-    * [Monolith vs. Microservices](microservices/monolith-vs-microservice.md)
-    * [Was ist devops](/microservices/what-is-devops.md)
-    * [API-Abfrage über REST-API](microservices/rest-api.md)
-    * [Asynchrones Messaging](microservices/asynchronous-messaging.md)
-    * [Microservice and Database](microservices/basics/database.md)
+  1. Grundlagen
+     * [Was sind microservices](microservices/what-are.md)
+     * [Grundkonzepte von Microservices](microservices/basics.md)
+     * [Monolith vs. Microservices](microservices/monolith-vs-microservice.md)
+     * [Was ist devops](/microservices/what-is-devops.md)
+     * [API-Abfrage über REST-API](microservices/rest-api.md)
+     * [Asynchrones Messaging](microservices/asynchronous-messaging.md)
+     * [Microservice and Database](microservices/basics/database.md)
+
+  1. Linux Tipps & Tricks
+     * [In den Root-Benutzer wechseln](sudo.md)
+     * [Grafischen Modus deaktivieren](systemctl-isolate.md)   
+
 
   1. Docker-Grundlagen 
      * [Übersicht Architektur](architektur.md)
