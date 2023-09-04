@@ -23,10 +23,12 @@
      * [Was ist ein Dockerfile](dockerfile.md) 
   
   1. Docker-Installation
-     * [BEST for Ubuntu : Install Docker from Docker Repo](install-docker-ubuntu-apt.md) 
+     * [BEST for Ubuntu : Install Docker from Docker Repo](install-docker-ubuntu-apt.md)
 
   1. Docker-Praxis
      * [Docker run mit nginx](docker-run-nginx.md)
+     * [Die wichtigsten Befehle](docker-befehle.md)
+     * [Aufräumen - container und images löschen](prune-container-images.md)
 
   1. Literatur / Documentation 
      * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
@@ -52,7 +54,6 @@
     * Messaging
     
   1. Docker-Befehle 
-     * [Die wichtigsten Befehle](docker-befehle.md)
      * [Logs anschauen - docker logs - mit Beispiel nginx](docker-logs-nginx.md)
      * [docker run](docker-run.md)
      * [Docker container/image stoppen/löschen](container-image-delete.md)
@@ -60,7 +61,6 @@
      * [Docker nicht verwendete Images/Container löschen](delete-everything.md)
      * [Docker container analysieren](docker-inspect.md)
      * [Docker container in den Vordergrund bringen - attach](/docker/docker-attach.md) 
-     * [Aufräumen - container und images löschen](prune-container-images.md)
      * [Nginx mit portfreigabe laufen lassen](docker-example-nginx.md)    
   
  1. Dockerfile - Examples 
@@ -175,7 +175,6 @@
      * [BEST for Ubuntu : Install Docker from Docker Repo](install-docker-ubuntu-apt.md) 
   
   1. Docker-Befehle 
-     * [Die wichtigsten Befehle](docker-befehle.md)
      * [Logs anschauen - docker logs - mit Beispiel nginx](docker-logs-nginx.md)
      * [docker run](docker-run.md)
      * [Docker container/image stoppen/löschen](container-image-delete.md)
