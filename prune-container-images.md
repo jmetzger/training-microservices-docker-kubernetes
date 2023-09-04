@@ -7,6 +7,6 @@
 docker container prune 
 
 # Alle images, die nicht an eine container gebunden sind, löschen 
-docker images prune 
+docker image prune 
 
 ```
