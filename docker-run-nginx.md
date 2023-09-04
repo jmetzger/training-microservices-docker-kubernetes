@@ -25,9 +25,11 @@ docker exec -it my_nginx bash
 # im container
 apt update
 apt install -y procps
-ps aux  | grep nginx 
+ps aux  | grep nginx
+exit
+```
 
+```
 # oder wir führen nur ein Kommando aus
 docker exec my_nginx cat /etc/os-release
-
 ```
