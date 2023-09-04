@@ -1,5 +1,9 @@
 # Monolithische Architektur vs. Microservices Architektur
 
+### Schaubild Monolith mit Nachteilen 
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/b7e6316a-7b45-424d-8e8a-139b4a0941bb)
+
 ## Schaubild 
 
 ![Monolithisch vs. Microservices](https://d1.awsstatic.com/Developer%20Marketing/containers/monolith_1-monolith-microservices.70b547e30e30b013051d58a93a6e35e77408a2a8.png)
