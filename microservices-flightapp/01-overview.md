@@ -18,9 +18,6 @@ https://raw.githubusercontent.com/jmetzger/ms-reservations/master/docs/api.yml
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/792bfdd7-4ddb-4f85-84e9-e3732fbc4333)
 
 
-
-
-
 ### Block 2: Clone ms-reservations and build it. 
 
 ```
@@ -100,4 +97,16 @@ HSETNX flight:40d1-898d-bf84a266f1b9 12B b4cdf96e-a24a-a09a-87fb1c47567c
 
 ```
 # this means success error -> (integer) 0
+```
+
+### Block 4: Test microservice with rest-api call 
+
+```
+# only works when project name is: msupandrunning
+make ps 
+```
+
+```
+curl --header "Content-Type: application/json" \ --request PUT \ --data '{"seat_num":"12B","flight_id":"werty", "customer_id": "dfgh"}' \ http://0.0.0.0:7701/reservations curl --header "Content-Type: application/json" \ --request PUT \ --data '{"seat_num":"12C","flight_id":"werty", "customer_id": "jkfl"}' \ http://0.0.0.0:7701/reservations
+
 ```
