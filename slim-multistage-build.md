@@ -15,12 +15,14 @@ docker build -t multi-stage-example:v1 .
 docker run --name multibuildv1 -p 8080:8080 multi-stage-example:v1 
 ```
 
+## Step 2:
+
 ```
 # modifizieren Dockerfile und zwar stage 2 das image
 # vorher:
-# FROM builder
-# jetzt:
-FROM openjdk:8-jdk-slim
+# FROM builder <- hier wird das komplette fertige image verwendet 
+# jetzt: (das scheint das kleinstmögliche Image zu sein)  
+FROM openjdk:8-jdk-alpine
 ```
 
 ```
