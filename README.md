@@ -38,8 +38,11 @@
      * [Ubuntu mit ping](ubuntu-ping.md)
      * [Slim multistage-build](slim-multistage-build.md)
     
+  1. Docker Security 
+     * [Docker Security](docker/security/overview.md)
+     * [Scanning docker image with docker scan/snyx](docker/security/docker-scan-snyk.md) 
+    
   1. Docker Compose
-
      * [Ist docker-compose installiert?](docker-compose-installed.md) 
      * [Example with Wordpress / MySQL](example-wordpress-mysql.md)
      * [Example with Ubuntu and Dockerfile](example-docker-compose-ubuntu-build.md)
@@ -170,8 +173,7 @@
      * [Mesh / istio](sammlung-istio.md)  
      * [pubsub+ for graph kafka](https://solace.com/blog/how-a-financial-services-giant-cleaned-up-their-kafka-with-pubsub-event-portal/)
 
- 1. Literatur / Documentation 
-    * [O'Reilly Sam Newman - Vom Monolithen zu Microservices](https://www.amazon.de/Vom-Monolithen-Microservices-bestehende-umzugestalten/dp/3960091400/)
+
 
 ## Backlog  
 
@@ -220,10 +222,6 @@
      * [Volumes](storage-volumes.md) 
      * [bind-mounts](docker-bind-mount.md)
      
-  1. Docker Security 
-     * [Docker Security](docker/security/overview.md)
-     * [Scanning docker image with docker scan/snyx](docker/security/docker-scan-snyk.md) 
-
   1. Docker - Dokumentation 
      * [Vulnerability Scanner with docker](https://docs.docker.com/engine/scan/#prerequisites)
      * [Vulnerability Scanner mit snyk](https://snyk.io/plans/)
