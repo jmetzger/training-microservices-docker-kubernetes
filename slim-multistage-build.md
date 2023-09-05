@@ -18,7 +18,7 @@ cd multi-stage-example
 docker build -t multi-stage-example:v1 .
 # Größe ?
 docker images
-docker run -d --name multibuildv1 -p 8080:8080 multi-stage-example:v1 
+docker run -d --name multibuildv1 -p 8081:8081 multi-stage-example:v1 
 docker exec -it multibuildv1 sh
 ```
 
@@ -54,4 +54,11 @@ ls -la
 cd /app
 # kein source
 ls -la
+```
+
+## Step 3:
+
+```
+docker rm -f multibuildv2 multibuildv1
+docker rmi multi-stage-example:v1 multi-stage-example:v2
 ```
