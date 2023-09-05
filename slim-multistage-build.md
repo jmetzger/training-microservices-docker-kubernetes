@@ -12,7 +12,18 @@ cd multi-stage-example
 ```
 # Bau - Variante 1:
 docker build -t multi-stage-example:v1 .
-docker run --name multibuildv1 -p 8080:8080 multi-stage-example:v1 
+# Größe ?
+docker images
+docker run -d --name multibuildv1 -p 8080:8080 multi-stage-example:v1 
+docker exec -it multibuildv1 sh
+```
+
+```
+# in der Shell
+ls -la
+cd /app
+# source ist da ! 
+ls -la
 ```
 
 ## Step 2:
@@ -27,5 +38,16 @@ FROM openjdk:8-jdk-alpine
 
 ```
 docker build -t multi-stage-example:v2  .
-docker run --name multibuildv2 -p 8080:8080 multi-stage-example:v2 
+# Größe ?
+docker images 
+docker run -d --name multibuildv2 -p 8080:8080 multi-stage-example:v2 
+docker exec -it multibuildv2 sh
+```
+
+```
+# in der Shell
+ls -la
+cd /app
+# kein source
+ls -la
 ```
