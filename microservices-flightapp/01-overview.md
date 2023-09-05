@@ -16,15 +16,15 @@ CTRL + C
 # app will still be running as it is daemonized (see start in Makefile)
 ```
 
-### Block 3: Open Client on redis-server to test 
+## Block 3: Open Client on redis-server to test 
 
-#### Start redis-cli within redis-server 
+### Start redis-cli within redis-server 
 
 ```
 make redis
 ```
 
-#### These are direct calls to redis trough the redis cli
+### These are direct calls to redis trough the redis cli
 
 ```
 echo "in redis client - enter our first seat reservation"
@@ -42,26 +42,26 @@ HSETNX flight:40d1-898d-bf84a266f1b9 12B b4cdf96e-a24a-a09a-87fb1c47567c
 HSETNX flight:40d1-898d-bf84a266f1b9 12C e0392920-a24a-b6e3-8b4ebcbe7d5c
 ```
 
-#### Now retrieve the occupied seats (in redis cli) 
+### Now retrieve the occupied seats (in redis cli) 
 
 ```
 HKEYS flight:40d1-898d-bf84a266f1b9
 ```
 
-#### This is the output of the reserved seats (keys) 
+### This is the output of the reserved seats (keys) 
 
 ```
 1) "12B"
 2) "12C"
 ```
 
-#### Like so you can also! get the passenger-id of a seat (so including both)
+### Like so you can also! get the passenger-id of a seat (so including both)
 
 ```
 HGETALL flight:40d1-898d-bf84a266f1b9
 ```
 
-#### That is the output 
+### That is the output 
 
 ```
 1) "12B"
@@ -70,7 +70,7 @@ HGETALL flight:40d1-898d-bf84a266f1b9
 4) "b4cdf96e-a24a-a09a-87fb1c47567c"
 ```
 
-#### Let's try double-booking (of seat)
+### Let's try double-booking (of seat)
 
 ```
 HSETNX flight:40d1-898d-bf84a266f1b9 12B b4cdf96e-a24a-a09a-87fb1c47567c
