@@ -24,6 +24,7 @@ https://raw.githubusercontent.com/jmetzger/ms-reservations/master/docs/api.yml
 cd
 git clone https://github.com/jmetzger/ms-reservations.git
 cd ms-reservations
+sudo apt install -y make
 make
 ```
 
