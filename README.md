@@ -60,7 +60,7 @@
      * [Welches System ? (minikube, micro8ks etc.)](welches-system.md)
 
   1. Kubernetes - Client Tools und Verbindung einrichten
-    * [Tools installieren und bash-completion / syntax highlightning]()   
+    * [Tools installieren und bash-completion / syntax highlightning](install-helm-kubectl-syntax-highlightning.md)   
     * [Remote-Verbindung zu Kubernetes (microk8s) einrichten](microk8s/connect-from-remote.md)
     * [Bash completion installieren](kubectl/bash-completion.md)
         
