@@ -61,7 +61,7 @@
 
   1. Kubernetes - Client Tools und Verbindung einrichten
      * [Tools installieren und bash-completion / syntax highlightning](install-helm-kubectl-syntax-highlightning.md)   
-     * [Remote-Verbindung zu Kubernetes (microk8s) einrichten]([microk8s/connect-from-remote.md](/kubectl/kubectl-einrichten.md))
+     * [Remote-Verbindung zu Kubernetes einrichten](/kubectl/kubectl-einrichten.md)
         
   1. Literatur / Documentation 
      * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
