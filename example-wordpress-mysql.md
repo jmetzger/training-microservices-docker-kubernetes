@@ -58,3 +58,9 @@ volumes:
 ```
 docker-compose up -d 
 ```
+
+## Schritt 4: Alles wieder beenden 
+
+```
+docker-compose down
+```
