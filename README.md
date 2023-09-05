@@ -58,6 +58,10 @@
      * [Aufbau Allgemein](/kubernetes/architecture.md)
      * [Aufbau mit helm,OpenShift,Rancher(RKE),microk8s](/kubernetes/aufbau-helm-microk8s-kubernetes.md)
      * [Welches System ? (minikube, micro8ks etc.)](welches-system.md)
+
+  1. Kubernetes - Verbindung   
+    * [Remote-Verbindung zu Kubernetes (microk8s) einrichten](microk8s/connect-from-remote.md)
+    * [Bash completion installieren](kubectl/bash-completion.md)
         
   1. Literatur / Documentation 
      * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
