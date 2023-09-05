@@ -22,6 +22,20 @@ CTRL + C
 make redis
 ```
 
+  * These are direct calls to redis trough the redis cli
+
+```
+echo "in redis client - enter our first seat reservation"
+```
+
 ```
 HSETNX flight:40d1-898d-bf84a266f1b9 12B b4cdf96e-a24a-a09a-87fb1c47567c
+```
+
+```
+# this means success -> (integer) 1
+```
+
+```
+HSETNX flight:40d1-898d-bf84a266f1b9 12C e0392920-a24a-b6e3-8b4ebcbe7d5c
 ```
