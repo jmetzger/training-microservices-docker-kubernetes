@@ -44,13 +44,8 @@
      * [Example with Wordpress / MySQL](example-wordpress-mysql.md)
      * [Example with Ubuntu and Dockerfile](example-docker-compose-ubuntu-build.md)
      * [Logs in docker - compose](docker-compose-logs.md)
-     * [docker-compose und replicas](docker-compose-replicas.md)
      * [docker compose Reference](https://docs.docker.com/compose/compose-file/compose-file-v3/)
-  
-  1. Docker Compose (backlog)
-     * [yaml-format](yaml-format.md)
-     * [Example with Wordpress / Nginx / MariadB - wrong](example-wnm-docker-compose.md)
-      
+        
   1. Literatur / Documentation 
      * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
      * [Sam Newman - Vom Monolithen zu Microservices](https://www.amazon.de/Vom-Monolithen-Microservices-bestehende-umzugestalten/dp/3960091400/)
@@ -82,12 +77,17 @@
      * [Docker container analysieren](docker-inspect.md)
      * [Docker container in den Vordergrund bringen - attach](/docker/docker-attach.md) 
        
- 1. Dockerfile - Examples 
-    * [Ubuntu mit hello world](ubuntu-hello-world.md)
-    * [Nginx mit content aus html-ordner](nginx-html-content.md)
+  1. Dockerfile - Examples 
+     * [Ubuntu mit hello world](ubuntu-hello-world.md)
+     * [Nginx mit content aus html-ordner](nginx-html-content.md)
   
- 1. Docker - Projekt blog
-    * [posts in blog dockerisieren](microservices/exercise/dockerize-posts.md)
+  1. Docker - Projekt blog
+     * [posts in blog dockerisieren](microservices/exercise/dockerize-posts.md)
+
+  1. Docker Compose (backlog)
+     * [yaml-format](yaml-format.md)
+     * [docker-compose und replicas](docker-compose-replicas.md)
+     * [Example with Wordpress / Nginx / MariadB - wrong](example-wnm-docker-compose.md)
   
  1. Kubernetes - Überblick
     * [Warum Kubernetes, was macht Kubernetes](warum-kubernetes.md) 
