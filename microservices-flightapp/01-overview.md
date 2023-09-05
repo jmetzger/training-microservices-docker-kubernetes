@@ -48,9 +48,24 @@ HSETNX flight:40d1-898d-bf84a266f1b9 12C e0392920-a24a-b6e3-8b4ebcbe7d5c
 HKEYS flight:40d1-898d-bf84a266f1b9
 ```
 
-#### This is the output 
+#### This is the output of the reserved seats (keys) 
 
 ```
 1) "12B"
 2) "12C"
+```
+
+#### Like so you can also! get the passenger-id of a seat (so including both)
+
+```
+HGETALL flight:40d1-898d-bf84a266f1b9
+```
+
+#### That is the output 
+
+```
+1) "12B"
+2) "b4cdf96e-a24a-a09a-87fb1c47567c"
+3) "12C"
+4) "b4cdf96e-a24a-a09a-87fb1c47567c"
 ```
