@@ -1,3 +1,4 @@
+```
 @startuml
 
 actor Customer as cust
@@ -27,3 +28,4 @@ return "success"
 return "success"
 return "Success Page"
 @enduml
+```
