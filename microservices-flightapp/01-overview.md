@@ -18,11 +18,13 @@ CTRL + C
 
 ### Block 3: Open Client on redis-server to test 
 
+#### Start redis-cli within redis-server 
+
 ```
 make redis
 ```
 
-  * These are direct calls to redis trough the redis cli
+#### These are direct calls to redis trough the redis cli
 
 ```
 echo "in redis client - enter our first seat reservation"
