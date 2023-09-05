@@ -69,3 +69,15 @@ HGETALL flight:40d1-898d-bf84a266f1b9
 3) "12C"
 4) "b4cdf96e-a24a-a09a-87fb1c47567c"
 ```
+
+#### Let's try double-booking (of seat)
+
+```
+HSETNX flight:40d1-898d-bf84a266f1b9 12B b4cdf96e-a24a-a09a-87fb1c47567c
+```
+
+### This is how the result looks like 
+
+```
+# this means success error -> (integer) 0
+```
