@@ -41,3 +41,9 @@ HSETNX flight:40d1-898d-bf84a266f1b9 12B b4cdf96e-a24a-a09a-87fb1c47567c
 ```
 HSETNX flight:40d1-898d-bf84a266f1b9 12C e0392920-a24a-b6e3-8b4ebcbe7d5c
 ```
+
+#### Now retrieve the occupied seats (in redis cli) 
+
+```
+HKEYS flight:40d1-898d-bf84a266f1b9
+```
