@@ -47,7 +47,7 @@ done
 ```
 # nano Dockerfile 
 FROM ubuntu:22.04
-RUN apt-get update; apt-get install -y inetutils-ping
+RUN apt-get update && apt-get install -y inetutils-ping
 COPY hello.sh .
 RUN chmod u+x hello.sh
 CMD ["/hello.sh"]
