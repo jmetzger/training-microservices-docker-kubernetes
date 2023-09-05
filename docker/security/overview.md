@@ -8,6 +8,7 @@
   * Das nur das drinnen ist, was wirklich gebraucht wird (Produktion)
     * Im Idealfall sogar nur das Executable (siehe auch hashicorp/http-ech -> kein sh, keine bash
   * Alle container einer applikation in einem eigenen Netzwerk  
+  * Images to scannen / security scans. 
 
 ## Images die nicht als root lauen 
 
