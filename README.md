@@ -36,7 +36,21 @@
     
   1. Example with Dockerfile
      * [Ubuntu mit ping](ubuntu-ping.md)
-     * [Slim multistage-build](slim-multistage-build.md) 
+     * [Slim multistage-build](slim-multistage-build.md)
+    
+  1. Docker Compose
+
+     * [Ist docker-compose installiert?](docker-compose-installed.md) 
+     * [Example with Wordpress / MySQL](example-wordpress-mysql.md)
+     * [Example with Wordpress / Nginx / MariadB](example-wnm-docker-compose.md)
+     * [Example with Ubuntu and Dockerfile](example-docker-compose-ubuntu-build.md)
+     * [Logs in docker - compose](docker-compose-logs.md)
+     * [docker-compose und replicas](docker-compose-replicas.md)
+     * [docker compose Reference](https://docs.docker.com/compose/compose-file/compose-file-v3/)
+  
+  1. Docker Compose (backlog)
+     * [yaml-format](yaml-format.md)
+
       
   1. Literatur / Documentation 
      * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
@@ -207,16 +221,6 @@
      * [Volumes](storage-volumes.md) 
      * [bind-mounts](docker-bind-mount.md)
      
-  1. Docker Compose
-     * [yaml-format](yaml-format.md)
-     * [Ist docker-compose installiert?](docker-compose-installed.md) 
-     * [Example with Wordpress / MySQL](example-wordpress-mysql.md)
-     * [Example with Wordpress / Nginx / MariadB](example-wnm-docker-compose.md)
-     * [Example with Ubuntu and Dockerfile](example-docker-compose-ubuntu-build.md)
-     * [Logs in docker - compose](docker-compose-logs.md)
-     * [docker-compose und replicas](docker-compose-replicas.md)
-     * [docker compose Reference](https://docs.docker.com/compose/compose-file/compose-file-v3/)
-  
   1. Docker Security 
      * [Docker Security](docker/security/overview.md)
      * [Scanning docker image with docker scan/snyx](docker/security/docker-scan-snyk.md) 
