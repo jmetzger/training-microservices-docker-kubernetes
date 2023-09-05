@@ -1,5 +1,31 @@
 # Security Overview 
 
+## Generic 
+
+  * Kann ich dem Image vertrauen (nur Images verwenden, denen ich vertrauen kann)
+    * Im Zweifel selber oder nur images von Docker Official Image / Verified Publisher (Suche auf Docker Hub)
+  * Container möglichst nicht als Root laufen lassen (bzw. solche Images vewrenden)
+
+## Images die nicht als root lauen 
+
+  * bitnami
+  * nginx unprivileged
+
+```
+# Variante 1:
+Erkennbar durch USER - Eintrag in Dockerfile
+# oder
+docker compose exec database id
+docker exec <container> id 
+```
+
+```
+# https://hub.docker.com/r/bitnami/mariadb
+# https://github.com/bitnami/containers/blob/main/bitnami/mariadb/11.0/debian-11/Dockerfile
+USER 1001 
+```
+
+
 ## Run container under specific user: 
 
 ```
