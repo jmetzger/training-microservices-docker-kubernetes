@@ -107,6 +107,16 @@ make ps
 ```
 
 ```
-curl --header "Content-Type: application/json" \ --request PUT \ --data '{"seat_num":"12B","flight_id":"werty", "customer_id": "dfgh"}' \ http://0.0.0.0:7701/reservations curl --header "Content-Type: application/json" \ --request PUT \ --data '{"seat_num":"12C","flight_id":"werty", "customer_id": "jkfl"}' \ http://0.0.0.0:7701/reservations
+curl --verbose --header "Content-Type: application/json" --request PUT --data '{"seat_num":"12C","flight_id":"werty", "customer_id": "dfgh"}' http://192.168.56.102:7701/reservations
+```
 
 ```
+curl --verbose --header "Content-Type: application/json" --request PUT --data '{"seat_num":"12D","flight_id":"werty", "customer_id": "dfgh"}' http://192.168.56.102:7701/reservations
+```
+
+```
+# Try once again
+# --verbose also shows the headers 
+curl --verbose --header "Content-Type: application/json" --request PUT --data '{"seat_num":"12D","flight_id":"werty", "customer_id": "dfgh"}' http://192.168.56.102:7701/reservations
+```
+
