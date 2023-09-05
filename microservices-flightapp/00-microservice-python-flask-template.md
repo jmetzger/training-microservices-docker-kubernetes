@@ -8,7 +8,7 @@
 
 ### What do we use it for ?
 
-  * We will use it for the reservations 
+  * We will use it for the reservations (get, put)
 
 ### Refs:
 
