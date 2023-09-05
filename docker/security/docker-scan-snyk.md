@@ -3,8 +3,14 @@
 ## Prerequisites 
 
 ```
+# install docker plugin in some cases
+# Ubuntu
+apt install docker-scan-plugin 
+```
+
+```
 You need to be logged in on docker hub with docker login 
-(with your account credentials
+(with your account credentials)
 ```
 
 
