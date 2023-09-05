@@ -1,5 +1,9 @@
 # Example multistage build 
 
+## Overview
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/c6ee24f7-3669-4410-bfe9-4e2d08cf8ac7)
+
 ## Step 1:
 
 ```
