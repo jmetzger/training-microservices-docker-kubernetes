@@ -65,4 +65,12 @@ kubectl apply -f .
 
 ```
 # Gibt es neue Pods ?
+kubectl get all
+```
+
+```
+# FYI 
+kubectl get deploy
+kubectl get rs
+kubectl get pods --showLabels
 ```
