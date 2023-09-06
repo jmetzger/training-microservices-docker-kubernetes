@@ -80,6 +80,19 @@ kubectl exec -it nginx -- bash
 
 ```
 
+## Zu den Pods (Logs) 
+
+```
+# log eines pods anzeigen
+kubectl logs podname
+
+# Logs aller pods im Deployment
+# Wichtig Option --prefix
+kubectl logs --prefix deploy/web-nginx 
+
+```
+
+
 ## Arbeiten mit namespaces 
 
 ```
