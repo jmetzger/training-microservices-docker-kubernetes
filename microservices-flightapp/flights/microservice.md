@@ -141,3 +141,18 @@ https://github.com/jmetzger/ms-flights/blob/master/migrations/sqls/2020060205512
 # Doing make restart instead of make migrate, because new data needs to be in docker container
 make restart
 ```
+
+#### Step 3.5 Renaming from ms-nodebootstrap-example to ms-flights 
+
+```
+cd ms-flights
+make stop
+# Change all entries that appear here
+grep -r ms-nodebootstrap-example .
+```
+
+```
+# when adjusted all entries doublecheck
+grep -r ms-nodebootstrap-example
+make restart
+```
