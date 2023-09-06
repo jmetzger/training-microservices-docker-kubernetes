@@ -87,6 +87,9 @@
      * [ConfigMap Example](/kubectl-examples/06-configmap.md)
      * [Configmap MariaDB - Example](kubectl-examples/06a-configmap-mariadb.md)
      * [Configmap MariaDB my.cnf](kubectl-examples/06b-mariadb-configmap-configfile.md)
+    
+  1. Kubernetes (Debugging)
+     * [Netzwerkverbindung zu pod testen](/tipps-tricks/verbindung-zu-pod-testen.md)
         
   1. Literatur / Documentation 
      * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
@@ -138,12 +141,7 @@
     * [Remote-Verbindung zu Kubernetes (microk8s) einrichten](microk8s/connect-from-remote.md)
     * [Bash completion installieren](kubectl/bash-completion.md)
     * [vim support for yaml](vim/vim-yaml.md)
-    
-
- 
- 1. Kubernetes (Debugging)
-     * [Netzwerkverbindung zu pod testen](/tipps-tricks/verbindung-zu-pod-testen.md)
- 
+     
  1. Grundwissen Microservices (Teil 2)
     * [Brainstorming Domäne](microservices/brainstorming-domaene.md)
     * [Datenbank - Patterns - Teil 1](microservices/database-patterns-teil1.md)
