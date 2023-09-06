@@ -83,6 +83,50 @@ https://raw.githubusercontent.com/jmetzger/ms-flights/master/lib/flights/control
 
 ### Step 3.4 Integrate MySQL - data 
 
+#### Step 3.4.1 Create files for upgrading/downgrading
+
 ```
 # create migrations scripts (implemented in bootstrap)
 make migration-create name=seat-maps
+make migration-create name=flights
+make migration-create name=sample-data
+```
+
+```
+# if you are working as unprivileged user change permissions accordingly
+# They are root after this process
+sudo chown kurs:kurs ms-flights/migrations/sqls/*sql
+```
+
+#### Step 3.4.2. Populate files 
+
+```
+nano migrations/sqls/[date]-seat-maps-up.sql
+```
+
+```
+# migrations/sqls/[date]-seat-maps-up.sql with data of
+https://raw.githubusercontent.com/jmetzger/ms-flights/master/migrations/sqls/20200602055112-seat-maps-up.sql
+````
+
+
+```
+nano migrations/sql/[date]-flights-up.sql 
+```
+
+```
+# migrations/sqls/[date]-seat-maps-up.sql with data of
+https://github.com/jmetzger/ms-flights/blob/master/migrations/sqls/20200602055121-flights-up.sql
+```
+
+```
+nano migrations/sqls/[date]-sample-data-up.sql
+```
+
+```
+# migrations/sqls/[date]-sample-data-up.sql with data of
+https://github.com/jmetzger/ms-flights/blob/master/migrations/sqls/20200602055127-sample-data-up.sql
+```
+
+
+#### Step 3.4.2 Do the migration 
