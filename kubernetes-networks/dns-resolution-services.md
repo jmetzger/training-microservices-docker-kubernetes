@@ -1,5 +1,26 @@
 # DNS Resolution of services 
 
+## Generic 
+
+  * DNS - Names for Services are automatically created from the Service -> Name
+  * + the namespace the service is in
+  * + the fixed name svc.cluster.local 
+
+## Example:
+
+```
+# Service Name: myservice
+# Being in Namespace: app
+# Results in
+
+myservice
+myservice.app
+myservice.app.svc.cluster.local 
+
+```
+
+## Walkthrough 
+
 ```
 kubectl run podtest --rm -ti --image busybox
 If you don't see a command prompt, try pressing enter.
