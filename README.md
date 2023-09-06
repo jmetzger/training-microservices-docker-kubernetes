@@ -88,6 +88,9 @@
      * [ConfigMap Example](/kubectl-examples/06-configmap.md)
      * [Configmap MariaDB - Example](kubectl-examples/06a-configmap-mariadb.md)
      * [Configmap MariaDB my.cnf](kubectl-examples/06b-mariadb-configmap-configfile.md)
+
+  1. Kubernetes Ingress
+     * [Ingress Controller on Detail](ingress/ingress-controller-on-detail.md)
     
   1. Kubernetes (Debugging)
      * [Netzwerkverbindung zu pod testen](/tipps-tricks/verbindung-zu-pod-testen.md)
