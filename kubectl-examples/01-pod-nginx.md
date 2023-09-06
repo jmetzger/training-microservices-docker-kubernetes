@@ -22,7 +22,7 @@ metadata:
 spec:
   containers:
   - name: web
-    image: nginx
+    image: nginx:1.23
 
 ```
 
