@@ -33,3 +33,8 @@ kubectl describe pod nginx-static-web
 kubectl get pod/nginx-static-web -o yaml
 kubectl get pod/nginx-static-web -o wide 
 ```
+
+```
+# pod auf Basis von manifest löschen
+kubectl delete -f nginx-static.yml
+```
