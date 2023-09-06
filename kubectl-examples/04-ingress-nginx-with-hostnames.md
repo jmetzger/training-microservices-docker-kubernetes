@@ -160,7 +160,7 @@ nano ingress.yml
 ```
 # nur 
 # apiVersion ändern wie folgt
-apiVersion: networking.k8s.io
+apiVersion: networking.k8s.io/v1
 # ändern 
 ```
 
