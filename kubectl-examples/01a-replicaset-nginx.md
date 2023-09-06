@@ -66,6 +66,8 @@ kubectl apply -f .
 ```
 # Gibt es neue Pods ?
 kubectl get all
+# Welche Image - Version
+kubectl describe pods nginx-replica-set-vh6cl
 ```
 
 ```
