@@ -31,8 +31,14 @@ spec:
       image: hashicorp/http-echo
       args:
         - "-text=apple-<dein-name>"
----
+```
 
+```
+kubectl apply -f .
+nano apple-service.yml
+```
+
+```
 kind: Service
 apiVersion: v1
 metadata:
@@ -47,7 +53,7 @@ spec:
 ```
 
 ```
-kubectl apply -f apple.yml 
+kubectl apply -f .
 ```
 
 ```
