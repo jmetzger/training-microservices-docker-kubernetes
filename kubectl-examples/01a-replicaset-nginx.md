@@ -1,5 +1,7 @@
 # Replicaset
 
+## Schritt 1: Erstellen 
+
 ```
 cd
 mkdir -p manifests
@@ -37,4 +39,30 @@ spec:
 
 ```
 kubectl apply -f rs.yml 
+```
+
+## Schritt 2: Erforschen 
+
+```
+kubectl get all
+# Hash entsprechend anpassen
+kubectl delete po nginx-replica-set-<hash>
+# Dass einer neuer Pod dazugekommen ist (seht ihr an der Zeit) 
+kubectl get all
+```
+
+```
+# ändern image in rs.yml
+# vorher
+# image: 1.23
+# jetzt
+image: 1.22 
+```
+
+```
+kubectl apply -f .
+```
+
+```
+# Gibt es neue Pods ?
 ```
