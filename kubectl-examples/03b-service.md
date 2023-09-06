@@ -83,7 +83,8 @@ nano service.yml
 # ClusterIP ersetzt durch NodePort 
 
 kubectl apply -f .
-kubectl get svc 
+kubectl get svc
+# über welche externe IP können wir zugreifen ? 
 kubectl get nodes -o wide
 # im client 
 curl http://164.92.193.245:30280
