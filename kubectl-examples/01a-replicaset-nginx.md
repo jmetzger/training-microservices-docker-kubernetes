@@ -72,7 +72,6 @@ kubectl describe pods nginx-replica-set-vh6cl
 
 ```
 # FYI 
-kubectl get deploy
 kubectl get rs
-kubectl get pods --showLabels
+kubectl get pods --show-labels
 ```
