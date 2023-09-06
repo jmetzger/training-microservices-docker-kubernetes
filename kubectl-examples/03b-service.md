@@ -69,7 +69,7 @@ kubectl describe svc svc-nginx
 # adjust pod-name 
 kubectl delete po web-nginx-596cdd7d5c-2lsr6
 kubectl get pods -o wide
-kubectl get svc
+kubectl get svc svc-nginx 
 # now the new podips should be found 
 kubectl describe svc svc-nginx 
 ```
@@ -83,7 +83,7 @@ nano svc.yml
 # ClusterIP ersetzt durch NodePort 
 
 kubectl apply -f .
-kubectl get svc
+kubectl get svc 
 kubectl get nodes -o wide
 # im client 
 curl http://164.92.193.245:30280
