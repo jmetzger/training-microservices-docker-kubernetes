@@ -58,6 +58,23 @@ spec:
 kubectl apply -f . 
 ```
 
+```
+# find out endpoints, if they are working
+kubectl get svc svc-nginx 
+kubectl describe svc svc-nginx 
+```
+
+```
+# now delete pod and see changes
+# adjust pod-name 
+kubectl delete po web-nginx-596cdd7d5c-2lsr6
+kubectl get pods -o wide
+kubectl get svc
+# now the new podips should be found 
+kubectl describe svc svc-nginx 
+```
+
+
 ## Example II : Short version 
 
 ```
