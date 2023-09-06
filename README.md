@@ -90,6 +90,9 @@
     
   1. Kubernetes (Debugging)
      * [Netzwerkverbindung zu pod testen](/tipps-tricks/verbindung-zu-pod-testen.md)
+    
+  1. Kubernetes Netzwerk 
+     * [Kubernetes Netzwerke Übersicht](kubernetes-networks/overview.md)
         
   1. Literatur / Documentation 
      * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
