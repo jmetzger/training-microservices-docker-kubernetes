@@ -1,64 +1,122 @@
-# Example Service 
+# Service - Examples 
 
-## Schritt 1: Deployment 
+## Example I : Service with ClusterIP 
 
 ```
-cd
-mkdir -p manifests
-cd manifests 
+cd 
+cd manifests
 mkdir 04-service 
 cd 04-service 
 ```
 
 ```
-# 01-deploy.yml 
+nano deploy.yml 
+```
+
+```
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-nginx
+  name: web-nginx
 spec:
   selector:
     matchLabels:
-      app: my-nginx
-  replicas: 3
+      web: my-nginx
+  replicas: 2
   template:
     metadata:
       labels:
-        app: my-nginx
+        web: my-nginx
     spec:
       containers:
-      - name: my-nginx
+      - name: cont-nginx
         image: nginx
         ports:
         - containerPort: 80
 ```
 
 ```
-kubectl apply -f .
+nano service.yml
 ```
-
-## Schritt 2:
 
 
 ```
-# 02-svc.yml 
 apiVersion: v1
 kind: Service
 metadata:
-  name: svc-my-nginx
+  name: svc-nginx
   labels:
-    svc: nginx
+    run: svc-my-nginx
 spec:
+  type: ClusterIP
   ports:
   - port: 80
     protocol: TCP
   selector:
-    app: my-nginx
-```
+    web: my-nginx      
+        
+```        
 
 ```
 kubectl apply -f . 
 ```
+
+## Example II : Short version 
+
+```
+nano svc.yml
+# in Zeile type: 
+# ClusterIP ersetzt durch NodePort 
+
+kubectl apply -f .
+kubectl get svc
+kubectl get nodes -o wide
+# im client 
+curl http://164.92.193.245:30280
+```
+
+## Example II : Service with NodePort (long version)
+
+```
+# you will get port opened on every node in the range 30000+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-nginx
+spec:
+  selector:
+    matchLabels:
+      run: my-nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: my-nginx
+    spec:
+      containers:
+      - name: cont-nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-nginx
+  labels:
+    run: svc-my-nginx
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    run: my-nginx
+       
+```        
+
+
+
 
 
 ## Ref.
