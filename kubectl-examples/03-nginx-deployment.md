@@ -1,5 +1,7 @@
 # Example Deployment nginx 
 
+## Schritt 1: Erstellen 
+
 ```
 cd
 cd manifests
@@ -35,4 +37,22 @@ spec:
 
 ```
 kubectl apply -f deploy.yml 
+```
+
+## Schritt 2: Erforschen 
+
+```
+kubectl get all 
+```
+
+```
+# image ändern in deploy.yml
+# vorher: image: nginx:1.21
+# jetzt
+image: nginx:1.23
+```
+
+```
+# Anwenden und watchen 
+kubectl apply -f . ; kubectl get all; kubectl get pods -w
 ```
