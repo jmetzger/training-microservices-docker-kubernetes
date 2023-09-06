@@ -92,7 +92,7 @@
      * [Netzwerkverbindung zu pod testen](/tipps-tricks/verbindung-zu-pod-testen.md)
     
   1. Kubernetes Netzwerk 
-     * [DNS - Resolution - Services](kubernetes-networks/dns-resolution-services)
+     * [DNS - Resolution - Services](kubernetes-networks/dns-resolution-services.md)
         
   1. Literatur / Documentation 
      * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
