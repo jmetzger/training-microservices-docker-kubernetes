@@ -6,6 +6,7 @@
      * [Was sind microservices](microservices/what-are.md)
      * [Grundkonzepte von Microservices](microservices/basics.md)
      * [Monolith vs. Microservices](microservices/monolith-vs-microservice.md)
+     * [Praxisbeispiele](/microservices/praxisbeispiele.md) 
      * [Was ist devops](/microservices/what-is-devops.md)
      * [API-Abfrage über REST-API](microservices/rest-api.md)
      * [Asynchrones Messaging](microservices/asynchronous-messaging.md)
@@ -68,11 +69,6 @@
      * [Sam Newman - Vom Monolithen zu Microservices](https://www.amazon.de/Vom-Monolithen-Microservices-bestehende-umzugestalten/dp/3960091400/)
    
 ## Backlog I
-
- 1. Einführung 
-    * [Über Microservices](/microservices/monolith-vs-microservice.md)
-    * [Praxisbeispiele](/microservices/praxisbeispiele.md) 
-    * Abgrenzung 
  
  1. Praxis Microservices ohne Docker und Kubernetes 
     * [Schritt 1: Nodejs aufsetzen](microservices/exercise/01-node.md)
@@ -166,20 +162,7 @@
     * tag
     * Sicherheitsaspekte
     * CI / CD
-
- 1. Kubernetes (Teil 1) 
-    * Orchestierung mit K8s
-    * Architektur und Komponenten
-    * Master, Worker
-    * kubectl
-
- 1. Kubernetes Resourcen / Objekte 
-    * Pods
-    * Deployment
-    * Replicas
-    * Labels und Selektoren
-    * Scaling
-    
+   
  1. Kubernetes (Teil 2) 
     * Kubernetes Cloud Provider
     
