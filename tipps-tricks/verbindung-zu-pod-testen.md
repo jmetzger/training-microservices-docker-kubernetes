@@ -8,6 +8,9 @@ Managed Cluster und ich kann nicht auf einzelne Nodes per ssh zugreifen
 
 ## Behelf: Eigenen Pod starten mit busybox 
 
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/e49012af-c278-4922-8029-53896402e85a)
+
+
 ```
 kubectl run podtest --rm -it --image busybox
 ```
