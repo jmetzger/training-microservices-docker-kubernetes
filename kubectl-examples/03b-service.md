@@ -78,7 +78,7 @@ kubectl describe svc svc-nginx
 ## Example II : Short version 
 
 ```
-nano svc.yml
+nano service.yml
 # in Zeile type: 
 # ClusterIP ersetzt durch NodePort 
 
