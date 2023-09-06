@@ -130,3 +130,9 @@ https://github.com/jmetzger/ms-flights/blob/master/migrations/sqls/2020060205512
 
 
 #### Step 3.4.2 Do the migration 
+
+```
+make migrate
+# or
+# make restart
+```
