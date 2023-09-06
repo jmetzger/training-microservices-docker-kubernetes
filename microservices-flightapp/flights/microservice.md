@@ -83,7 +83,13 @@ https://raw.githubusercontent.com/jmetzger/ms-flights/master/lib/flights/control
 
 ### Step 3.4 Integrate MySQL - data 
 
-#### Step 3.4.1 Create files for upgrading/downgrading
+#### Step 3.4.1 Delete old stuff in migrations 
+
+```
+rm -fR migrations/* 
+```
+
+#### Step 3.4.2 Create files for upgrading/downgrading
 
 ```
 # create migrations scripts (implemented in bootstrap)
@@ -98,7 +104,7 @@ make migration-create name=sample-data
 sudo chown kurs:kurs ms-flights/migrations/sqls/*sql
 ```
 
-#### Step 3.4.2. Populate files 
+#### Step 3.4.3 Populate files 
 
 ```
 nano migrations/sqls/[date]-seat-maps-up.sql
@@ -129,10 +135,9 @@ https://github.com/jmetzger/ms-flights/blob/master/migrations/sqls/2020060205512
 ```
 
 
-#### Step 3.4.2 Do the migration 
+#### Step 3.4.4 Do the migration 
 
 ```
-make migrate
-# or
-# make restart
+# Doing make restart instead of make migrate, because new data needs to be in docker container
+make restart
 ```
