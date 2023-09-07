@@ -1,6 +1,6 @@
 # Umgang mit Joins beim Pattern database-per-service 
 
- 1. Pattern: api composition 
+## 1 Pattern: api composition 
 
 ### Nachteile:
 
@@ -18,4 +18,31 @@
 
  * https://microservices.io/patterns/data/api-composition.html
 
-  1. Pattern: CQRS (Command Query Responsibility Segregation)
+## 2 Pattern: CQRS (Command Query Responsibility Segregation)
+
+### Wie ? 
+
+  * Datenbank erzeugen, die nur eine Leseansicht hat.
+  * Synchrnónisierung erfolgt über Subscribition zu Domain Events
+
+### Schaubild 
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/eb670d23-186f-4bf6-8d6e-2d5970a4ca1c)
+
+### Vorteile 
+
+  * Unterstützt mehrere denormalisierte Views, die performant und skalierbar sind
+  * Abfragen sind einfache
+
+### Wann ? 
+
+  * Notwendig bei Joins, wenn wir das Event Sourcing - Pattern verwenden 
+
+### Nachteile 
+
+  * Eventuell doppelter Code
+  * Lag bei den Views / NUR Eventuell Konsistente Views (keine Sicherheit)
+
+### Ref:
+
+  * https://microservices.io/patterns/data/cqrs.html
