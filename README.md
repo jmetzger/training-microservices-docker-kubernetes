@@ -118,14 +118,11 @@
     * [Schritt 1: Nodejs aufsetzen](microservices/exercise/01-node.md)
     * [Schritt 2: Codebasis bereitsstellen](microservices/exercise/02-retrieve-code.md)
     * [Schritt 3: Posts - Service testen](microservices/exercise/03-posts-test-unser-erster-service.md)
- 
- 1. Grundwissen Microservices (Teil 1)
-    * Architektur und Schichten
-    * Teamentwicklung 
-    * Devops
-    * REST Api 
-    * Messaging
-    
+
+  1. Docker-Installation
+     * [Installation Docker unter Ubuntu mit snap](install-ubuntu-snap.md)
+     * [Installation Docker unter SLES 15](install-sles15-zypper.md)
+  
   1. Docker-Befehle 
 
      * [docker run](docker-run.md)
@@ -294,10 +291,6 @@
   
 ## Backlog II
 
-  1. Docker-Installation
-     * [Installation Docker unter Ubuntu mit snap](install-ubuntu-snap.md)
-     * [Installation Docker unter SLES 15](install-sles15-zypper.md)
-  
   1. Dockerfile - Examples 
      * [Nginx mit content aus html-ordner](nginx-html-content.md)
      * [ssh server](ubuntu-ssh-server.md)
