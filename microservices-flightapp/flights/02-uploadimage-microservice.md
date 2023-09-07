@@ -1,6 +1,6 @@
 # 02 Upload image microservice flights to hub.docker. 
 
-## Step 1:
+## Step 1: Upload image to docker hub 
 
 ```
 cd flights
