@@ -50,7 +50,7 @@ x because of this: application cannot simply use a local ACID transaction.
 
 ### When ?
 
-  * Brownfield (we already have a set of microservices
+  * Brownfield (we already have a set of microservices)
 
 ### How ? 
 
