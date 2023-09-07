@@ -1,4 +1,4 @@
-# Setting up flights microservice
+# Create flights microservice
 
 ## Step 1: Use bootstrap github template 
 
