@@ -80,16 +80,32 @@ nano lib/flights/controllers/mappings.js
 #the new version will look like this
 https://raw.githubusercontent.com/jmetzger/ms-flights/master/lib/flights/controllers/mappings.js
 ```
+### Step 3.4 Edit lib/flights/controllers/actions.js  
 
-### Step 3.4 Integrate MySQL - data 
+```
+nano libs/flights/controllers/actions.js 
+```
 
-#### Step 3.4.1 Delete old stuff in migrations 
+```
+# the new version will look like this
+https://raw.githubusercontent.com/jmetzger/ms-flights/master/lib/flights/controllers/actions.js
+```
+
+## Step 3.5 Delete lib/flights/models 
+
+```
+rm -fR lib/flights/models/
+```
+
+### Step 3.6 Integrate MySQL - data 
+
+#### Step 3.6.1 Delete old stuff in migrations 
 
 ```
 rm -fR migrations/* 
 ```
 
-#### Step 3.4.2 Create files for upgrading/downgrading
+#### Step 3.6.2 Create files for upgrading/downgrading
 
 ```
 # create migrations scripts (implemented in bootstrap)
@@ -104,7 +120,7 @@ make migration-create name=sample-data
 sudo chown kurs:kurs ms-flights/migrations/sqls/*sql
 ```
 
-#### Step 3.4.3 Populate files 
+#### Step 3.6.3 Populate files 
 
 ```
 nano migrations/sqls/[date]-seat-maps-up.sql
@@ -135,14 +151,14 @@ https://github.com/jmetzger/ms-flights/blob/master/migrations/sqls/2020060205512
 ```
 
 
-#### Step 3.4.4 Do the migration 
+#### Step 3.6.4 Do the migration 
 
 ```
 # Doing make restart instead of make migrate, because new data needs to be in docker container
 make restart
 ```
 
-#### Step 3.5 Renaming from ms-nodebootstrap-example to ms-flights 
+#### Step 3.7 Renaming from ms-nodebootstrap-example to ms-flights 
 
 ```
 cd ms-flights
