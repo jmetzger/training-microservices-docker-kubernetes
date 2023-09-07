@@ -1,4 +1,4 @@
-# Install kompose 
+# Install kompose (1 use-case: migrate docker-compose files)
 
 ## 
 
