@@ -11,9 +11,15 @@
 
 ### Prämisse 
 
-  * Jeder Service hat seine eigene Datenbank (Credentials mit Rechten zu seiner Datenbank)
+
   * Ein anderer Service kann nur über die API zugreifen.
   * Synchronisierung kann auch über andere Weg als synchron erfolgen (z.B. Messaging -> Saga) 
+
+#### Umsetzung: 
+
+  * Private-tables-per-service – each service owns a set of tables that must only be accessed by that service
+  * Schema-per-service – each service has a database schema that’s private to that service
+  * Database-server-per-service – each service has it’s own database server.
 
 ### Vorteile
 
@@ -22,14 +28,13 @@
 
 ### Nachteile 
 
-  * Transaktionen funktionieren auf DB-Ebene nicht mehr sinnvll
+  * Transaktionen funktionieren auf DB-Ebene nicht mehr.
   * JOINS sind schwierig umzusetzen.
 
 ## Reference:
 
   * https://microservices.io/patterns/data/database-per-service.html
 
-  
 ## Shared Database 
 
 ### Vorteile 
