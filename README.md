@@ -108,9 +108,10 @@
      * [minikube](/minikube/installation.md)
      * [rancher for desktop](https://github.com/rancher-sandbox/rancher-desktop/releases/tag/v1.9.1)
         
-  1. Literatur / Documentation 
+  1. Literatur / Documentation / Information 
      * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
      * [Sam Newman - Vom Monolithen zu Microservices](https://www.amazon.de/Vom-Monolithen-Microservices-bestehende-umzugestalten/dp/3960091400/)
+     * [Microservices.io Patterns](https://microservices.io)
    
 ## Backlog I
  
