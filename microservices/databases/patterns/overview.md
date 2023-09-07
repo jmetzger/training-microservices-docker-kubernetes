@@ -5,6 +5,7 @@
   * Grundlegende Entscheidung, ob
     * Database per Service
     * oder: Shared Database
+  * Kann auch für einzelne Services unterschiedlich ausfallen
 
 ## Database per Service 
 
@@ -12,6 +13,7 @@
 
   * Jeder Service hat seine eigene Datenbank (Credentials mit Rechten zu seiner Datenbank)
   * Ein anderer Service kann nur über die API zugreifen.
+  * Synchronisierung kann auch über andere Weg als synchron erfolgen (z.B. Messaging -> Saga) 
 
 ### Vorteile
 
@@ -47,12 +49,6 @@ Development time coupling - a developer working on, for example, the OrderServic
 ### Wie ?
 
   * Services teilen sich eine Datenbank
-
-### Ref:
-
-  * 
-
-
 
 ### Ref:
 
