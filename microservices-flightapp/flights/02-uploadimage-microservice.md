@@ -1,4 +1,4 @@
-# 02 Build microservice flights 
+# 02 Upload image microservice flights to hub.docker. 
 
 ## Step 1:
 
