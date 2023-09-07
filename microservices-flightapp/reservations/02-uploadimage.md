@@ -1,4 +1,4 @@
-# 02 Upload image microservice flights to hub.docker. 
+# 02 Upload image microservice reservations to hub.docker. 
 
 ## Step 1: Upload image to docker hub 
 
