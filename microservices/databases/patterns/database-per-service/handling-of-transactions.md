@@ -34,14 +34,36 @@ x because of this: application cannot simply use a local ACID transaction.
 
   * Greenfield (starting from scratch) microservices development 
 
+### How ?
+
+  * each microservice that is part of the transaction publishes an event that is processed by the next microservice.
+
+### Schaubild (Success)
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/9261961c-41f7-4d96-b260-c64f332b6d14)
+
+### Schaubild (Failure) 
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/0118fe17-6e95-4281-b305-1e33c868062c)
 
 ## Implementation as Saga Orchestration Pattern 
 
 ### When ?
 
   * Brownfield (we already have a set of microservices
-  * 
 
+### How ? 
+
+  * Orchestrator will be in charge of the whole transactions process
+
+### Schaubild
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/d71df512-af4d-4eae-a3ab-23d4b3f369e3)
+
+## Products 
+
+  * Camunda (framework)
+  * Apache Camel 
 
 ## Reference:
 
