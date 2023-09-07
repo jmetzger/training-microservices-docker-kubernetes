@@ -117,6 +117,12 @@ cd manifests/flight-app/
 kubectl apply -Rf .
 ```
 
+## Schritt 4: Lokal kompose installieren 
+
+(Kompose installieren)[tools/kompose.md]
+
+
+
 ## Important Sidenode 
 
   * If configmap changes, deployment does not know
