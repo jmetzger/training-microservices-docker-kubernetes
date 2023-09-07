@@ -119,7 +119,7 @@ kubectl apply -Rf .
 
 ## Schritt 4: Lokal kompose installieren 
 
-(Kompose installieren)[tools/kompose.md]
+[Kompose installieren](tools/kompose.md)
 
 
 
