@@ -74,7 +74,7 @@ kubectl apply -Rf .
 ```
 cd
 cd manifests/flight-app/flights 
-nano 02-deploy.yml
+nano 03-deploy.yml
 ```
 
 ```
