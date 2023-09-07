@@ -112,7 +112,9 @@ spec:
 ```
 
 ```
-kubectl apply -f .
+cd
+cd manifests/flight-app/
+kubectl apply -Rf .
 ```
 
 ## Important Sidenode 
