@@ -121,6 +121,45 @@ kubectl apply -Rf .
 
 [Kompose installieren](tools/kompose.md)
 
+## Schritt 5: ms-reservations clonen (zur Hilfe bzgl. der manifests
+
+```
+cd 
+git clone https://github.com/jmetzger/ms-reservations
+cd ms-reservations
+
+# create a dummy folder
+mkdir dummy
+cp -a docker-compose.yml dummy
+cp -a database-dev.env dummy
+cd dummy
+kompose --file=docker-compose-yml convert
+```
+
+### Schritt 6: config für redis anlegen 
+
+```
+cd
+mkdir -p  manifests/flight-app/reservations
+cd manifests/flight-app/reservations
+nano 01-cm-redis.yml
+```
+
+```
+apiVersion: v1
+data:
+  REDIS_DB: "0"
+  REDIS_HOST: ms-reservations-redis
+  REDIS_PORT: "6379"
+  REDIS_PWD: 4n_ins3cure_P4ss
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ms-reservations-database-dev-env
+  name: cm-redis
+```
+
 
 
 ## Important Sidenode 
