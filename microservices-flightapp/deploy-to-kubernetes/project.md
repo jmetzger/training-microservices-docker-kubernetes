@@ -131,7 +131,7 @@ kubectl apply -Rf .
 su - kurs 
 ```
 
-## Schritt 5: ms-reservations clonen (zur Hilfe bzgl. der manifests
+## Schritt 5: ms-reservations clonen (zur Hilfe bzgl. der manifests)
 
 ```
 cd 
