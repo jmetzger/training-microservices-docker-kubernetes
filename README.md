@@ -65,6 +65,9 @@
      * [Aufbau Allgemein](/kubernetes/architecture.md)
      * [Aufbau mit helm,OpenShift,Rancher(RKE),microk8s](/kubernetes/aufbau-helm-microk8s-kubernetes.md)
      * [Welches System ? (minikube, micro8ks etc.)](welches-system.md)
+
+  1. Kubernetes - Einsatz (Risiken)
+     * [Kubernetes Einsatz -> Risiken](kubernetes/risks.md)
     
   1. Kubernetes mit microk8s (Installation und Management)
      * [Installation Ubuntu - snap](microk8s/installation-ubuntu-snap.md)
