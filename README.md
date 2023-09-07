@@ -102,6 +102,11 @@
     
   1. Kubernetes Netzwerk 
      * [DNS - Resolution - Services](kubernetes-networks/dns-resolution-services.md)
+
+  1. Lokal Kubernetes verwenden 
+     * [Kubernetes in ubuntu installieren z.B. innerhalb virtualbox](/microk8s/installation-ubuntu-snap.md)
+     * [minikube](/minikube/installation.md)
+     * [rancher for desktop](https://github.com/rancher-sandbox/rancher-desktop/releases/tag/v1.9.1)
         
   1. Literatur / Documentation 
      * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
