@@ -36,4 +36,37 @@
    * Pods falsch konfiguriert sind.
      * Implikation: die falschen Pods werden verschoben.
     
+
+## Microservices 
+
+### Fehlende Tools zur Analyse 
+
+  * Entscheidende Tools für Monitoring, Tracing, Observeability nicht oder falsch eingerichtet.
+  * das aller wichtigste Tracing (Jaeger) und pro Anfrage einen durchgängigen Key
+  * Log Aggregation (ELK / EFK) -> Um aus der Vogelperspektive Problem erfassen und trigger zu setzen
+    * Logs vom Server, Logs vom Kubernetes Cluster, Logs von den Pods -> zentral zusammenläuft
    
+  * Implikation: Blindflug nach Ausrollen von MicroServices
+
+### Wir machen mal microservices weil es cool ist 
+
+   * Wichtig: Warum nehme ich microservices
+   * Warum kein Monolith
+   * Microservices: Kaufpreis für Effekt
+
+   * Implikation: Dat Ding fliegt mir um die Ohren
+     * Team: Zu aufwändig.
+     * Team: fehlendes Knowlegdge.
+     * Team: Falsche Einschätzung der Performance
+     * Team: Grobe Konzeptionsfehler
+
+### Zu schnell zu viel wollen 
+
+   * Alles von Anfang bis Ende durchkonzipieren
+   * Zuviele Microservices werden zu schnell online genommen
+     * UND: die alte Funktionalität im Monolithen zu schnell abgeschaltet.
+    
+   * BESSER: Kleine Schritte, Erfahrungen sammeln, MESSEN ! 
+
+
+
