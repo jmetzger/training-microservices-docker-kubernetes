@@ -69,8 +69,11 @@ kubectl apply -Rf .
 
 
 
-## Schritt 2: Deployment 
+## Schritt 3: Deployment 
+
 ```
+cd
+cd manifests/flight-app/flights 
 nano 02-deploy.yml
 ```
 
@@ -93,10 +96,19 @@ spec:
       containers:
       - name: mariadb-cont
         image: mariadb:latest
+
+        volumeMounts:
+        -  mountPath: "/var/lib/mysql"
+           name: do-volume
+
         envFrom:
         - configMapRef:
             name: mariadb-configmap
-
+        
+      volumes:
+      - name: do-volume
+        persistentVolumeClaim:
+          claimName: pvc-do
 ```
 
 ```
