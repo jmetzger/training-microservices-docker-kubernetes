@@ -25,6 +25,9 @@ data:
 ```
 
 ```
+# als normaler benutzer kurs, wenn wir mit diesem vorher gearbeitet haben.
+# eventuell muss passwort eingegeben werden 
+su - kurs 
 cd
 cd manifests/flight-app
 # alle Unterverzeichnisse recursiv ausführen 
