@@ -52,7 +52,8 @@
 
   1. Microservices - Daten
      * [Überblick shared database / database-per-service](microservices/databases/patterns/overview.md)
-     * [Umgang mit Joins by database-per-service](microservices/databases/patterns/database-per-service/handling-of-joins.md)
+     * [Umgang mit Joins bei database-per-service](microservices/databases/patterns/database-per-service/handling-of-joins.md)
+     * [Umgang mit Transaktionen bei database-per-service](microservices/databases/patterns/database-per-service/handling-of-transactions.md)
     
   1. Microservice - flightapp
      * [Template for microservice with python flask ](microservices-flightapp/00-microservice-python-flask-template.md)
