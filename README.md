@@ -109,6 +109,9 @@
   1. Kubernetes Netzwerk 
      * [DNS - Resolution - Services](kubernetes-networks/dns-resolution-services.md)
 
+  1. Kubernetes Scaling
+     * [Autoscaling Pods/Deployments](/kubernetes/autoscaling.md)
+
   1. Lokal Kubernetes verwenden 
      * [Kubernetes in ubuntu installieren z.B. innerhalb virtualbox](/microk8s/installation-ubuntu-snap.md)
      * [minikube](/minikube/installation.md)
@@ -275,7 +278,6 @@
      * [Kubernetes Debuggen ClusterIP/PodIP](/tipps-tricks/cluster-ip-debug.md)
      * [Debugging pods](tipps-tricks/debugging-pods.md)
      * [Taints und Tolerations](kubernetes/taints-tolerations.md)
-     * [Autoscaling Pods/Deployments](/kubernetes/autoscaling.md)
 
   1. Kubernetes Advanced 
      * [Curl api-server kubernetes aus pod heraus](kubernetes-advanced/curl-api-server.md)
