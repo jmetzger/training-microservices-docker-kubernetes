@@ -25,10 +25,48 @@ data:
 ```
 
 ```
-kubectl apply -f .
+cd
+cd manifests/flight-app
+# alle Unterverzeichnisse recursiv ausführen 
+kubectl apply -Rf .
 kubectl get cm
 kubectl get cm mariadb-configmap -o yaml
 ```
+
+## Schritt 2: PersistentVolumeClaim 
+
+```
+cd
+cd manifests/flight-app
+cd flights
+nano 02-pvc.yml 
+```
+
+```
+# vi 02-pvc.yml
+# now we want to claim space
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-do
+spec:
+  storageClassName: do-block-storage
+  accessModes:
+  - ReadWriteOnce
+  resources:
+     requests:
+       storage: 1Gi
+```
+
+```
+cd
+cd manifests
+cd flight-app
+kubectl apply -Rf .  
+```
+
+  * Ref: https://docs.digitalocean.com/products/kubernetes/how-to/add-volumes/
+
 
 
 ## Schritt 2: Deployment 
