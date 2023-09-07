@@ -126,78 +126,60 @@
      * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
      * [Sam Newman - Vom Monolithen zu Microservices](https://www.amazon.de/Vom-Monolithen-Microservices-bestehende-umzugestalten/dp/3960091400/)
      * [Microservices.io Patterns](https://microservices.io)
+    
+  1. VirtualBox Tipps & Tricks 
+     * [VirtualBox 6.1. - Ubuntu für Kubernetes aufsetzen ](virtualbox-ubuntu.md)
+     * [VirtualBox 6.1. - Shared folder aktivieren](virtualbox-shared-folders.md)
+
    
 ## Backlog I
  
- 1. Praxis Microservices ohne Docker und Kubernetes 
-    * [Schritt 1: Nodejs aufsetzen](microservices/exercise/01-node.md)
-    * [Schritt 2: Codebasis bereitsstellen](microservices/exercise/02-retrieve-code.md)
-    * [Schritt 3: Posts - Service testen](microservices/exercise/03-posts-test-unser-erster-service.md)
+  1. Praxis Microservices ohne Docker und Kubernetes 
+     * [Schritt 1: Nodejs aufsetzen](microservices/exercise/01-node.md)
+     * [Schritt 2: Codebasis bereitsstellen](microservices/exercise/02-retrieve-code.md)
+     * [Schritt 3: Posts - Service testen](microservices/exercise/03-posts-test-unser-erster-service.md)
 
-  1. Docker-Installation
-     * [Installation Docker unter Ubuntu mit snap](install-ubuntu-snap.md)
-     * [Installation Docker unter SLES 15](install-sles15-zypper.md)
+   1. Docker-Installation
+      * [Installation Docker unter Ubuntu mit snap](install-ubuntu-snap.md)
+      * [Installation Docker unter SLES 15](install-sles15-zypper.md)
   
-  1. Docker-Befehle 
+   1. Docker-Befehle 
 
-     * [docker run](docker-run.md)
-     * [Docker container/image stoppen/löschen](container-image-delete.md)
-     * [Docker containerliste anzeigen](container-liste.md)
-     * [Docker container analysieren](docker-inspect.md)
-     * [Docker container in den Vordergrund bringen - attach](/docker/docker-attach.md) 
+      * [docker run](docker-run.md)
+      * [Docker container/image stoppen/löschen](container-image-delete.md)
+      * [Docker containerliste anzeigen](container-liste.md)
+      * [Docker container analysieren](docker-inspect.md)
+      * [Docker container in den Vordergrund bringen - attach](/docker/docker-attach.md) 
        
-  1. Dockerfile - Examples 
-     * [Ubuntu mit hello world](ubuntu-hello-world.md)
-     * [Nginx mit content aus html-ordner](nginx-html-content.md)
+   1. Dockerfile - Examples 
+      * [Ubuntu mit hello world](ubuntu-hello-world.md)
+      * [Nginx mit content aus html-ordner](nginx-html-content.md)
   
-  1. Docker - Projekt blog
-     * [posts in blog dockerisieren](microservices/exercise/dockerize-posts.md)
+   1. Docker - Projekt blog
+      * [posts in blog dockerisieren](microservices/exercise/dockerize-posts.md)
 
-  1. Docker Compose (backlog)
-     * [yaml-format](yaml-format.md)
-     * [docker-compose und replicas](docker-compose-replicas.md)
-     * [Example with Wordpress / Nginx / MariadB - wrong](example-wnm-docker-compose.md)
-  
- 1. Kubernetes - Überblick
-    * [Warum Kubernetes, was macht Kubernetes](warum-kubernetes.md) 
-    * [Aufbau Allgemein](/kubernetes/architecture.md)
-    * [Aufbau mit helm,OpenShift,Rancher(RKE),microk8s](/kubernetes/aufbau-helm-microk8s-kubernetes.md)
-    * [Welches System ? (minikube, micro8ks etc.)](welches-system.md)
+   1. Docker Compose (backlog)
+      * [yaml-format](yaml-format.md)
+      * [docker-compose und replicas](docker-compose-replicas.md)
+      * [Example with Wordpress / Nginx / MariadB - wrong](example-wnm-docker-compose.md)
      
- 1. Grundwissen Microservices (Teil 2)
-    * [Brainstorming Domäne](microservices/brainstorming-domaene.md)
-    * [Datenbank - Patterns - Teil 1](microservices/database-patterns-teil1.md)
-    * [Datenbank - Patterns - Teil 2](microservices/database-patterns-teil2.md)
-    * [Strategische Patterns](microservices/strategic-patterns.md)
-    * [Tests](microservices/tests/overview.md)
-    * Skalierbarkeit 
-    * Monitoring 
-    * Demos 
-    * Intergrationsstrategie  
-    * [Monolith schneiden microservices](microservices/monolith-schneiden.md)
-
- 1. Docker
-    * Einsatz und Abgrenzung
-    * Docker im Microservice Context
-    * DockerHub
-    * build
-    * tag
-    * Sicherheitsaspekte
-    * CI / CD
-   
- 1. Kubernetes (Teil 2) 
-    * Kubernetes Cloud Provider
+   1. Grundwissen Microservices (Teil 2)
+      * [Brainstorming Domäne](microservices/brainstorming-domaene.md)
+      * [Datenbank - Patterns - Teil 1](microservices/database-patterns-teil1.md)
+      * [Datenbank - Patterns - Teil 2](microservices/database-patterns-teil2.md)
+      * [Strategische Patterns](microservices/strategic-patterns.md)
+      * [Tests](microservices/tests/overview.md)
+      * Skalierbarkeit 
+      * Monitoring 
+      * Demos 
+      * Intergrationsstrategie  
+      * [Monolith schneiden microservices](microservices/monolith-schneiden.md)
     
- 1. Kubernetes Netzwerk 
-     * [Mesh / istio](sammlung-istio.md)  
-     * [pubsub+ for graph kafka](https://solace.com/blog/how-a-financial-services-giant-cleaned-up-their-kafka-with-pubsub-event-portal/)
-
-
-
-## Backlog  
+   1. Kubernetes Netzwerk 
+      * [Mesh / istio](sammlung-istio.md)  
+      * [pubsub+ for graph kafka](https://solace.com/blog/how-a-financial-services-giant-cleaned-up-their-kafka-with-pubsub-event-portal/)
 
   1. Grundlagen microservices 
-     * [Monolithische Architektur vs. Microservices Architektur](/microservices/monolithic-vs-microservices.md)
      * [EventBus Implementierungen/Überblick](/microservices/eventbus/overview.md)
 
   1. Kubernetes GUI
@@ -302,9 +284,6 @@
   1. Documentation 
      * [Good Doku with Tasks](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
 
-  
-## Backlog II
-
   1. Dockerfile - Examples 
      * [Nginx mit content aus html-ordner](nginx-html-content.md)
      * [ssh server](ubuntu-ssh-server.md)
@@ -388,6 +367,4 @@
      * [Basis/Parent - Image erstellen](docker-base-image.md)
      * [Eigenes unsichere Registry-Verwenden. ohne https](insecure-registry.md)
      
-  1. VirtualBox Tipps & Tricks 
-     * [VirtualBox 6.1. - Ubuntu für Kubernetes aufsetzen ](virtualbox-ubuntu.md)
-     * [VirtualBox 6.1. - Shared folder aktivieren](virtualbox-shared-folders.md)
+ 
