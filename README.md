@@ -59,6 +59,11 @@
      * [Aufbau Allgemein](/kubernetes/architecture.md)
      * [Aufbau mit helm,OpenShift,Rancher(RKE),microk8s](/kubernetes/aufbau-helm-microk8s-kubernetes.md)
      * [Welches System ? (minikube, micro8ks etc.)](welches-system.md)
+    
+  1. Kubernetes mit microk8s (Installation und Management)
+    * [Installation Ubuntu - snap](microk8s/installation-ubuntu-snap.md)
+    * [Create a cluster with microk8s](microk8s/cluster.md)
+    * [Remote-Verbindung zu Kubernetes (microk8s) einrichten](microk8s/connect-from-remote.md)
 
   1. Kubernetes - Client Tools und Verbindung einrichten
      * [Tools installieren und bash-completion / syntax highlightning](install-helm-kubectl-syntax-highlightning.md)   
@@ -141,13 +146,6 @@
     * [Aufbau Allgemein](/kubernetes/architecture.md)
     * [Aufbau mit helm,OpenShift,Rancher(RKE),microk8s](/kubernetes/aufbau-helm-microk8s-kubernetes.md)
     * [Welches System ? (minikube, micro8ks etc.)](welches-system.md)
-  
- 1. Kubernetes mit microk8s (Installation und Management)
-    * [Installation Ubuntu - snap](microk8s/installation-ubuntu-snap.md)
-    * [Create a cluster with microk8s](microk8s/cluster.md)
-    * [Remote-Verbindung zu Kubernetes (microk8s) einrichten](microk8s/connect-from-remote.md)
-    * [Bash completion installieren](kubectl/bash-completion.md)
-    * [vim support for yaml](vim/vim-yaml.md)
      
  1. Grundwissen Microservices (Teil 2)
     * [Brainstorming Domäne](microservices/brainstorming-domaene.md)
