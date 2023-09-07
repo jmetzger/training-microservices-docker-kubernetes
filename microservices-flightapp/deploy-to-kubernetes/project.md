@@ -122,7 +122,14 @@ kubectl apply -Rf .
 
 ## Schritt 4: Lokal kompose installieren 
 
+  * als root
+
 [Kompose installieren](tools/kompose.md)
+
+```
+# alle weiteren Schritte als kurs 
+su - kurs 
+```
 
 ## Schritt 5: ms-reservations clonen (zur Hilfe bzgl. der manifests
 
