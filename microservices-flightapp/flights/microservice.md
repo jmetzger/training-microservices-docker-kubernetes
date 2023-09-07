@@ -158,7 +158,7 @@ https://github.com/jmetzger/ms-flights/blob/master/migrations/sqls/2020060205512
 make restart
 ```
 
-#### Step 3.7 Renaming from ms-nodebootstrap-example to ms-flights 
+### Step 3.7 Renaming from ms-nodebootstrap-example to ms-flights 
 
 ```
 cd ms-flights
@@ -171,4 +171,16 @@ grep -r ms-nodebootstrap-example .
 # when adjusted all entries doublecheck
 grep -r ms-nodebootstrap-example
 make restart
+```
+
+### Step 3.8 Testing 
+
+```
+# Flight 
+curl http://192.168.56.102:5501/flights?flight_no=AA34&departure_date_time=2020-05-17T13:20
+```
+
+```
+# Seat map
+curl --verbose http://192.168.56.102:5501/flights/AA2532/seat_map
 ```
