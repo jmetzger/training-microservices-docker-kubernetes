@@ -1,6 +1,6 @@
 # Umgang mit Joins beim Pattern database-per-service 
 
-## Pattern: api composition 
+ 1. Pattern: api composition 
 
 ### Nachteile:
 
@@ -17,3 +17,5 @@
 ### Ref:
 
  * https://microservices.io/patterns/data/api-composition.html
+
+  1. Pattern: CQRS (Command Query Responsibility Segregation)
