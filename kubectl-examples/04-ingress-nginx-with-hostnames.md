@@ -170,25 +170,26 @@ apiVersion: networking.k8s.io/v1
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: apps-ingress
+  name: example-ingress
   annotations:
     ingress.kubernetes.io/rewrite-target: /
+    # with the ingress controller from helm, you need to set an annotation 
+    # otherwice it does not know, which controller to use
+    # old version... use ingressClassName instead 
+    # kubernetes.io/ingress.class: nginx
 spec:
   ingressClassName: nginx
   rules:
-  - host: app1.dein-training.de
+  - host: "<euername>.lab1.t3isp.de"
     http:
       paths:
-        - path: /
+        - path: /apple
           backend:
-            serviceName: app1
+            serviceName: apple-service
             servicePort: 80
-  - host: app2.dein-training.de
-    http:
-      paths:
-        - path: /
+        - path: /banana
           backend:
-            serviceName: app2
+            serviceName: banana-service
             servicePort: 80
 ```
 
@@ -263,36 +264,33 @@ nano ingress.yml
 ````
 
 ```
-# Wir passen das manifest wie folgt an:
+# Das gesamte File sieht jetzt so aus:
 # Ingress
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: apps-ingress
+  name: example-ingress
   annotations:
     ingress.kubernetes.io/rewrite-target: /
+    # with the ingress controller from helm, you need to set an annotation 
+    # otherwice it does not know, which controller to use
+    # old version... use ingressClassName instead 
+    # kubernetes.io/ingress.class: nginx
 spec:
   ingressClassName: nginx
   rules:
-  - host: app1.dein-training.de
+  - host: "<euername>.lab1.t3isp.de"
     http:
       paths:
-        - path: /
+        - path: /apple
           backend:
-            # serviceName: app1 # Vorher
-            # Jetzt:
             service:
-              name: app1
+              name: apple-service
             servicePort: 80
-  - host: app2.dein-training.de
-    http:
-      paths:
-        - path: /
+        - path: /banana
           backend:
-            # serviceName: app2 # Vorher
-            # Jetzt:
             service:
-              name: app2
+              name: banana-service
             servicePort: 80
 ```
 
@@ -344,23 +342,16 @@ spec:
   - host: app1.dein-training.de
     http:
       paths:
-        - path: /
+        - path: /apple
           backend:
-            # serviceName: app1 # Vorher
-            # Jetzt:
             service:
-              name: app1
+              name: apple-service
               port:
                 number: 80
-  - host: app2.dein-training.de
-    http:
-      paths:
-        - path: /
+        - path: /banana
           backend:
-            # serviceName: app2 # Vorher
-            # Jetzt:
             service:
-              name: app2
+              name: banana-service
               port:
                 number: 80
 ```
@@ -403,7 +394,6 @@ nano ingress.yml
 ```
 
 ```
-# Wir entscheiden uns für Prefix 
 # So sieht das korrigierte .yml file aus.
 # Ingress
 apiVersion: networking.k8s.io/v1
@@ -418,27 +408,21 @@ spec:
   - host: app1.dein-training.de
     http:
       paths:
-        - path: /
+        - path: /apple
           pathType: Prefix  # <- EINGEFUEGT 
           backend:
-            # serviceName: app1 # Vorher
-            # Jetzt:
             service:
-              name: app1
+              name: apple-service
               port:
                 number: 80
-  - host: app2.dein-training.de
-    http:
-      paths:
-        - path: /
-          pathType: Prefix # <- EINGEFUEGT
+        - path: /banana
+          pathType: Prefix  # <- EINGEFUEGT 
           backend:
-            # serviceName: app2 # Vorher
-            # Jetzt:
             service:
-              name: app2
+              name: banana-service
               port:
                 number: 80
+
 ```
 
 ```
