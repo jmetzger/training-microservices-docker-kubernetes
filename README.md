@@ -51,7 +51,7 @@
      * [docker compose Reference](https://docs.docker.com/compose/compose-file/compose-file-v3/)
 
   1. Microservices - Daten
-     * [Überblick shared database / database-per-service](/databases/patterns/overview.md)
+     * [Überblick shared database / database-per-service](microservices/databases/patterns/overview.md)
 
     
   1. Microservice - flightapp
