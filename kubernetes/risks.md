@@ -2,6 +2,21 @@
 
 ## Kubernetes 
 
+### Leitungsteam 
+
+  * Risiko: Vertrauen aufbauen.
+
+#### Größter Schmerz 
+
+  * Know-How Träger gehen weg 
+    * Lösung: CI/CD Pipeline
+  * Keine neuen Mitarbeiter zu finden/ nicht genug
+    * junge Absolventen wollen hippe Technologie verwenden
+    * Lösung: kein Technologie-Login bzgl der Programmierung
+  * Dauert der Wechsel zu lange ?
+    * Lösung: wie gross der Schmerz bzgl. Probleme die auftreten -> Implementierung zu lange (Time to market) 
+    * Technologie-Schuld: Wo wollen wir in 10 Jahren (und halten wir die Technologie uptodate)  
+    
 ### Team / Prozesse 
 
   * Fehlendes Knowledge im Team für Kubernetes
