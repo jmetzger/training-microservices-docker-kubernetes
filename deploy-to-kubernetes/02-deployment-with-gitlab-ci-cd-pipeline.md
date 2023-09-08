@@ -54,7 +54,16 @@ deploy:
 
 ```
 
+## Schritt 3: KUBECONFIG_SECRET einrichten 
 
+  * in Settings->CI/CD -> Variables -> KUBECONFIG_SECRET
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/ce299745-c478-409d-8416-0bb8261e8133)
+
+```
+# Inhalt kommt aus lokal -> wenn eine Verbindung zum  Cluster besteht, ansonste aus management tool des Clusters 
+cat .kube/config
+```
 
 ## Ref: 
 
