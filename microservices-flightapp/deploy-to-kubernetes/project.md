@@ -171,7 +171,16 @@ data:
     appendonly yes
 ```
 
+```
+kubectl apply -f .
+```
+
 ## Schritt 7: Redis ausrollen 
+
+```
+nano 02-redis-deploy.yml 
+```
+
 
 ```
 apiVersion: apps/v1
