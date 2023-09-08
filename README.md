@@ -141,59 +141,17 @@
      * [VirtualBox 6.1. - Shared folder aktivieren](virtualbox-shared-folders.md)
 
    
-## Backlog I
+## Backlog
  
   1. Praxis Microservices ohne Docker und Kubernetes 
      * [Schritt 1: Nodejs aufsetzen](microservices/exercise/01-node.md)
      * [Schritt 2: Codebasis bereitsstellen](microservices/exercise/02-retrieve-code.md)
      * [Schritt 3: Posts - Service testen](microservices/exercise/03-posts-test-unser-erster-service.md)
 
-   1. Docker-Installation
-      * [Installation Docker unter Ubuntu mit snap](install-ubuntu-snap.md)
-      * [Installation Docker unter SLES 15](install-sles15-zypper.md)
+  1. Docker-Installation
+     * [Installation Docker unter Ubuntu mit snap](install-ubuntu-snap.md)
+     * [Installation Docker unter SLES 15](install-sles15-zypper.md)
   
-   1. Docker-Befehle 
-
-      * [docker run](docker-run.md)
-      * [Docker container/image stoppen/löschen](container-image-delete.md)
-      * [Docker containerliste anzeigen](container-liste.md)
-      * [Docker container analysieren](docker-inspect.md)
-      * [Docker container in den Vordergrund bringen - attach](/docker/docker-attach.md) 
-       
-   1. Dockerfile - Examples 
-      * [Ubuntu mit hello world](ubuntu-hello-world.md)
-      * [Nginx mit content aus html-ordner](nginx-html-content.md)
-  
-   1. Docker - Projekt blog
-      * [posts in blog dockerisieren](microservices/exercise/dockerize-posts.md)
-
-   1. Docker Compose (backlog)
-      * [yaml-format](yaml-format.md)
-      * [docker-compose und replicas](docker-compose-replicas.md)
-      * [Example with Wordpress / Nginx / MariadB - wrong](example-wnm-docker-compose.md)
-     
-   1. Grundwissen Microservices (Teil 2)
-      * [Brainstorming Domäne](microservices/brainstorming-domaene.md)
-      * [Datenbank - Patterns - Teil 1](microservices/database-patterns-teil1.md)
-      * [Datenbank - Patterns - Teil 2](microservices/database-patterns-teil2.md)
-      * [Strategische Patterns](microservices/strategic-patterns.md)
-      * [Tests](microservices/tests/overview.md)
-      * Skalierbarkeit 
-      * Monitoring 
-      * Demos 
-      * Intergrationsstrategie  
-      * [Monolith schneiden microservices](microservices/monolith-schneiden.md)
-    
-   1. Kubernetes Netzwerk 
-      * [Mesh / istio](sammlung-istio.md)  
-      * [pubsub+ for graph kafka](https://solace.com/blog/how-a-financial-services-giant-cleaned-up-their-kafka-with-pubsub-event-portal/)
-
-  1. Grundlagen microservices 
-     * [EventBus Implementierungen/Überblick](/microservices/eventbus/overview.md)
-
-  1. Kubernetes GUI
-     * [OpenLens](/kubernetes/gui/openlens.md) 
-
   1. Docker-Grundlagen 
      * [Übersicht Architektur](architektur.md)
      * [Was ist ein Container ?](container.md)
@@ -201,25 +159,25 @@
      * [Container vs. Virtuelle Maschine](container-vs-vm.md)
      * [Was ist ein Dockerfile](dockerfile.md) 
   
-  1. Docker-Installation
-     * [BEST for Ubuntu : Install Docker from Docker Repo](install-docker-ubuntu-apt.md) 
-  
   1. Docker-Befehle 
      * [Logs anschauen - docker logs - mit Beispiel nginx](docker-logs-nginx.md)
-     * [docker run](docker-run.md)
      * [Docker container/image stoppen/löschen](container-image-delete.md)
      * [Docker containerliste anzeigen](container-liste.md)
      * [Docker nicht verwendete Images/Container löschen](delete-everything.md)
      * [Docker container analysieren](docker-inspect.md)
      * [Docker container in den Vordergrund bringen - attach](/docker/docker-attach.md) 
      * [Aufräumen - container und images löschen](prune-container-images.md)
-     * [Nginx mit portfreigabe laufen lassen](docker-example-nginx.md)    
+     * [Nginx mit portfreigabe laufen lassen](docker-example-nginx.md)
+     * [Docker container/image stoppen/löschen](container-image-delete.md)
+     * [Docker containerliste anzeigen](container-liste.md)
   
   1. Dockerfile - Examples 
      * [Ubuntu mit hello world](ubuntu-hello-world.md)
      * [Ubuntu mit ping](ubuntu-ping.md) 
      * [Nginx mit content aus html-ordner](nginx-html-content.md)
-  
+     * [Ubuntu mit hello world](ubuntu-hello-world.md)
+     * [Nginx mit content aus html-ordner](nginx-html-content.md)
+ 
   1. Docker-Netzwerk 
      * [Netzwerk](network.md)
   
@@ -236,6 +194,30 @@
      * [Vulnerability Scanner with docker](https://docs.docker.com/engine/scan/#prerequisites)
      * [Vulnerability Scanner mit snyk](https://snyk.io/plans/)
      * [Parent/Base - Image bauen für Docker](https://docs.docker.com/develop/develop-images/baseimages/)
+        
+  1. Docker - Projekt blog
+     * [posts in blog dockerisieren](microservices/exercise/dockerize-posts.md)
+
+  1. Docker Compose (backlog)
+     * [yaml-format](yaml-format.md)
+     * [docker-compose und replicas](docker-compose-replicas.md)
+     * [Example with Wordpress / Nginx / MariadB - wrong](example-wnm-docker-compose.md)
+     
+  1. Grundwissen Microservices (Teil 2)
+     * [Brainstorming Domäne](microservices/brainstorming-domaene.md)
+     * [Datenbank - Patterns - Teil 1](microservices/database-patterns-teil1.md)
+     * [Datenbank - Patterns - Teil 2](microservices/database-patterns-teil2.md)
+     * [Strategische Patterns](microservices/strategic-patterns.md)
+     * [Tests](microservices/tests/overview.md)
+     * [Monolith schneiden microservices](microservices/monolith-schneiden.md)
+     * [EventBus Implementierungen/Überblick](/microservices/eventbus/overview.md)
+    
+  1. Kubernetes Netzwerk 
+     * [Mesh / istio](sammlung-istio.md)  
+     * [pubsub+ for graph kafka](https://solace.com/blog/how-a-financial-services-giant-cleaned-up-their-kafka-with-pubsub-event-portal/)
+
+  1. Kubernetes GUI
+     * [OpenLens](/kubernetes/gui/openlens.md) 
 
   1. Kubernetes - microk8s (Installation und Management) 
      * [Ingress controller in microk8s aktivieren](microk8s/ingress.md) 
@@ -294,8 +276,6 @@
      * [Good Doku with Tasks](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
 
   1. Dockerfile - Examples 
-     * [Nginx mit content aus html-ordner](nginx-html-content.md)
-     * [ssh server](ubuntu-ssh-server.md)
   
   1. Docker-Container Examples 
      * [2 Container mit Netzwerk anpingen](2-containers-with-network-ping.md)
@@ -376,4 +356,6 @@
      * [Basis/Parent - Image erstellen](docker-base-image.md)
      * [Eigenes unsichere Registry-Verwenden. ohne https](insecure-registry.md)
      
- 
+  1. Microservices - Messaging
+     * [EventBus Implementierungen/Überblick](/microservices/eventbus/overview.md)
+  
