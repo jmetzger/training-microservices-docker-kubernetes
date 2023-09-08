@@ -82,5 +82,13 @@ build-image:       # This job runs in the build stage, which runs first.
     - docker push $DOCKER_USER/$DOCKER_PROJECT:$CI_COMMIT_TAG
     - echo "BUILD for "$DOCKER_USER/$DOCKER_PROJECT:$CI_COMMIT_TAG" done"
   rules:
+      # Man muss einen Tag setzen, damit die Pipeline triggered.
     - if: $CI_COMMIT_TAG
+```
+
+```
+# Jetzt zum Testen (Triggern der Pipeline) 
+# neuen Tag setzen 
+CODE -> Tags -> New Tag -> (z.B.) v3
+# https://gitlab.com/training.tn1/ms-jochen/-/tags/new
 ```
