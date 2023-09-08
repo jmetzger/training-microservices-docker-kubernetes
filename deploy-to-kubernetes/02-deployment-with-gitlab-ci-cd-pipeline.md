@@ -30,10 +30,33 @@ git remote add origin https://gitlab.com/training.tn1/ms-jochen-k8sdeploy.git
 git branch
 git push -u origin master
 ```
-  
 
+## Schritt 2: pipeline mit kubectl einrichten 
+
+  * Ich brauche ein image, das kubectl kann 
 
 
 ```
+# on gitlab create a new pipeline
+# by editing with pipeline editor
 
-## Schritt 2: 
+```
+# use the following content 
+deploy:
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
+  script:
+    - kubectl config get-contexts
+    - kubectl config use-context path/to/agent/repository:agent-name
+    - kubectl get pods
+
+```
+
+
+
+## Ref: 
+
+  * https://docs.gitlab.com/ee/user/clusters/agent/ci_cd_workflow.html#update-your-gitlab-ciyml-file-to-run-kubectl-commands
+  
+  
