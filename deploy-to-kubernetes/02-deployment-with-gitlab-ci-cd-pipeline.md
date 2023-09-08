@@ -78,7 +78,7 @@ deploy:
 # image-version muss in docker hub vorhanden sein
 z.B. v3 - > v4.
 
-# hier z.B. direkt im repo ändern, oder lokal und pushen
+# hier z.B. direkt im repo ändern
 flight-app/reservations/04-reservations-deploy.yml 
 
 ```
