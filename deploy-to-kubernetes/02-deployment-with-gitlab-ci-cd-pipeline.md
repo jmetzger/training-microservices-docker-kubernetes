@@ -64,8 +64,8 @@ deploy:
   script
     - echo "$KUBECONFIG_SECRET" > ~/.kube/config
     - kubectl cluster-info
-    - ls -la
-
+    # - ls -la 
+    - kubectl apply -Rf .
 ```
 
 
