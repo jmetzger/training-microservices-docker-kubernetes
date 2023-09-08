@@ -16,7 +16,10 @@ https://gitlab.com/training.tn1/ms-jochen-k8sdeploy
 
 ```
 cd
-cd manifests/flight-app/
+cd manifests/
+mkdir project-flight-app
+mv flight-app project-flight-app
+cd project-flight-app
 git init
 git add .
 git status
