@@ -1,6 +1,6 @@
 # Project flight-app  
 
-## Schritt 1: configmap 
+## Schritt 1: configmap - flights
 
 ```
 cd 
