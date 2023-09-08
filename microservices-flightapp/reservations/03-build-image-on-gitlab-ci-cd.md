@@ -1,4 +1,4 @@
-# Build image of reservations on gitlab ci-cd 
+# Build image of reservations on gitlab ci-cd (and push)
 
 ## Step 1: Clone Repo from github locally
 
@@ -46,4 +46,41 @@ build-image:       # This job runs in the build stage, which runs first.
 
 ```
 # this will run, when you commit
+```
+
+## Step 3b: Build image, when setting a tag and upload to docker hub 
+
+### 3a) Ministep 1 - add variables for docker in SETTINGS -> CI/CD -> Variables 
+
+```
+# add
+DOCKER_USER
+DOCKER_PASS
+DOCKER_PROJECT
+in Settings -> CI/CD -> Variables (in your repo)
+```
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/0b245254-8c72-485b-9160-8826ebcaffde)
+
+### 3b) Ministep 2
+```
+stages:          # List of stages for jobs, and their order of execution
+  - build
+
+build-image:       # This job runs in the build stage, which runs first.
+  stage: build
+  image: docker:20.10.10
+  services:
+     - docker:20.10.10-dind
+  script:
+    - echo "user:"$DOCKER_USER
+    - echo "pass:"$DOCKER_PASS
+    - echo "project:"$DOCKER_PROJECT
+    - echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+    - docker build -t $DOCKER_USER/$DOCKER_PROJECT:$CI_COMMIT_TAG .
+    - docker images
+    - docker push $DOCKER_USER/$DOCKER_PROJECT:$CI_COMMIT_TAG
+    - echo "BUILD for "$DOCKER_USER/$DOCKER_PROJECT:$CI_COMMIT_TAG" done"
+  rules:
+    - if: $CI_COMMIT_TAG
 ```
