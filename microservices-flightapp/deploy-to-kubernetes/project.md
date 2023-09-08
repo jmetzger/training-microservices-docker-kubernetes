@@ -143,7 +143,7 @@ mkdir dummy
 cp -a docker-compose.yml dummy
 cp -a database-dev.env dummy
 cd dummy
-kompose --file=docker-compose-yml convert
+kompose --file=docker-compose.yml convert
 ```
 
 ## Schritt 6: config für redis anlegen 
