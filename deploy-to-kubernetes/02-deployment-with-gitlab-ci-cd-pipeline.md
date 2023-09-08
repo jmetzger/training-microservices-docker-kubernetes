@@ -72,6 +72,16 @@ deploy:
     - kubectl apply -Rf .
 ```
 
+## Schritt 4: version des images ändern in ...
+
+```
+# image-version muss in docker hub vorhanden sein
+z.B. v3 - > v4.
+
+# hier z.B. direkt im repo ändern, oder lokal und pushen
+flight-app/reservations/04-reservations-deploy.yml 
+
+```
 
 
 ## Ref: 
