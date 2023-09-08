@@ -39,6 +39,7 @@ git push -u origin master
 ```
 # on gitlab create a new pipeline
 # by editing with pipeline editor
+```
 
 ```
 # use the following content 
