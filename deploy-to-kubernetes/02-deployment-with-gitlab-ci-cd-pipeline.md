@@ -31,7 +31,21 @@ git branch
 git push -u origin master
 ```
 
-## Schritt 2: pipeline mit kubectl einrichten 
+
+## Schritt 2: KUBECONFIG_SECRET einrichten 
+
+  * in Settings->CI/CD -> Variables -> KUBECONFIG_SECRET
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/ce299745-c478-409d-8416-0bb8261e8133)
+
+```
+# Inhalt kommt von meinem lokalen System, wo ich auch kubectl verwende
+#  -> wenn eine Verbindung zum  Cluster besteht, ansonsten aus management tool des Clusters , z.B microk8s config 
+cat .kube/config
+```
+
+
+## Schritt 3: pipeline mit kubectl einrichten 
 
   * Ich brauche ein image, das kubectl kann 
 
@@ -48,22 +62,12 @@ deploy:
     name: bitnami/kubectl:latest
     entrypoint: ['']
   script:
-    - kubectl config get-contexts
-    - kubectl config use-context path/to/agent/repository:agent-name
-    - kubectl get pods
+    - kubectl cluster-info
+    - ls -la
 
 ```
 
-## Schritt 3: KUBECONFIG_SECRET einrichten 
 
-  * in Settings->CI/CD -> Variables -> KUBECONFIG_SECRET
-
-![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/ce299745-c478-409d-8416-0bb8261e8133)
-
-```
-# Inhalt kommt aus lokal -> wenn eine Verbindung zum  Cluster besteht, ansonste aus management tool des Clusters 
-cat .kube/config
-```
 
 ## Ref: 
 
