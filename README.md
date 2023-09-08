@@ -62,6 +62,10 @@
      * [Create microservice - reservations](microservices-flightapp/reservations/01-create-microservice.md)
      * [Upload image microservice - reservations](microservices-flightapp/reservations/02-uploadimage.md)
      * [Build image reservations with gitlab ci/cd](microservices-flightapp/reservations/03-build-image-on-gitlab-ci-cd.md)
+
+  1. Microservice - flightapp - Deployment Kubernetes
+     * [Manual deployment](deploy-to-kubernetes/01-manifests-manually.md)
+     * [Manual deployment](deploy-to-kuberentes/02-deployment-with-gitlab-ci-cd-pipeline.md)
     
   1. Kubernetes - Überblick
      * [Warum Kubernetes, was macht Kubernetes](warum-kubernetes.md) 
