@@ -61,7 +61,8 @@ deploy:
   image:
     name: bitnami/kubectl:latest
     entrypoint: ['']
-  script:
+  script
+    - echo "$KUBECONFIG_SECRET" > ~/.kube/config
     - kubectl cluster-info
     - ls -la
 
