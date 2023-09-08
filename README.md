@@ -123,10 +123,13 @@
      * [minikube](/minikube/installation.md)
      * [rancher for desktop](https://github.com/rancher-sandbox/rancher-desktop/releases/tag/v1.9.1)
         
-  1. Literatur / Documentation / Information 
+  1. Literatur / Documentation / Information (Microservices)
      * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
      * [Sam Newman - Vom Monolithen zu Microservices](https://www.amazon.de/Vom-Monolithen-Microservices-bestehende-umzugestalten/dp/3960091400/)
      * [Microservices.io Patterns](https://microservices.io)
+    
+  1. gitlab ci/cd
+     * [Einfaches Beispielscript](gitlab-ci-cd/01-show-content.md)
     
   1. VirtualBox Tipps & Tricks 
      * [VirtualBox 6.1. - Ubuntu für Kubernetes aufsetzen ](virtualbox-ubuntu.md)
