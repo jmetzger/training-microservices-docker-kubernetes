@@ -12,7 +12,7 @@ in einer Komponenten zu verstecken
 
   * Dadurch gibt es eine klare Grenze, **was**
     *  **einfach zu ändern** ist
-    *  oder was **komlizierter zu ändern** ist
+    *  oder was **komplizierter zu ändern** ist (Änderung des Vertrages)
   * Informationen die versteckt ist, können __ohne Absprache__ geändert werden.
 
  ## Independant Deployability 
