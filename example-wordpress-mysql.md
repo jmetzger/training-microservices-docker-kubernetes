@@ -12,7 +12,7 @@ nano docker-compose.yml
 
 ## Schritt 2:
 
-```
+```yaml
 # docker-compose.yaml
 version: "3.8"
 
