@@ -16,7 +16,7 @@ RUN apt-get update; apt-get install -y inetutils-ping
 ```
 
 ```
-docker build -t fullubuntu .
+docker build -t fullubuntu:1.0 .
 docker images 
 ```
 
@@ -31,7 +31,7 @@ RUN apt-get update && \
 ```
 
 ```
-docker build -t myubuntu .
+docker build -t myubuntu:1.0 .
 docker images
 ```
 
