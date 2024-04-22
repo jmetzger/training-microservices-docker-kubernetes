@@ -13,9 +13,11 @@ docker run hello-world
 docker images 
 
 # container (laufende) 
-docker container ls 
+docker container ls
+docker ps 
 # container (vorhanden, aber beendet)
 docker container ls -a 
+docker ps -a 
 
 # z.b hilfe für docker run 
 docker help run 
