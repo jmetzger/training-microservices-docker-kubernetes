@@ -2,7 +2,7 @@
 
 
 ## Schritt 1:
-```
+```bash
 clear
 cd
 mkdir wp
