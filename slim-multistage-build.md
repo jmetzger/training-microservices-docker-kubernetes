@@ -14,6 +14,9 @@ cd multi-stage-example
 ```
 
 ```
+# Bauen und vor Target stoppen 
+docker build . -t multi-stage-example:v1 --target=builder # - Build image using a specific stage
+
 # Bauen
 docker build . -t multi-stage-example:v1
 ```
@@ -21,7 +24,6 @@ docker build . -t multi-stage-example:v1
 ## Step 2
 
 ```
-docker build . -t multi-stage-example:v1 --target=builder # - Build image using a specific stage
 # run 
 docker run p 8080:8080 multi-stage-example:v1 
 ```
