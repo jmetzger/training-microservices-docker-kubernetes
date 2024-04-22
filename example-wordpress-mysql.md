@@ -56,11 +56,11 @@ volumes:
 ## Schritt 3:
 
 ```
-docker-compose up -d 
+docker compose up -d 
 ```
 
 ## Schritt 4: Alles wieder beenden 
 
 ```
-docker-compose down
+docker compose down
 ```
