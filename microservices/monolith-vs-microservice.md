@@ -79,7 +79,7 @@ Quelle: AWS Amazon
 ## Gut aufgestellt mit Devops 
 
   * Weil
-    * ansonsten durch alte Strukturen (kein Devops-Team) Geschwindkeit durch notwendige, Klärung, Verantwortlich verloren geht.
+    * ansonsten durch alte Strukturen (kein Devops-Team) Geschwindkeit durch notwendige Klärung, Verantwortlichkeiten verloren geht.
 
 ## Nachteile: Microservices 
 
