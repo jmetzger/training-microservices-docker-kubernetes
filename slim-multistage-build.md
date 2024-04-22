@@ -23,5 +23,5 @@ docker build . -t multi-stage-example:v1
 ```
 docker build . -t multi-stage-example:v1 --target=builder # - Build image using a specific stage
 # run 
-docker run multi-stage-example:v1 -p 8080:8080
+docker run p 8080:8080 multi-stage-example:v1 
 ```
