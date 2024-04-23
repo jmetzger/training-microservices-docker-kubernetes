@@ -12,6 +12,15 @@
      * [Asynchrones Messaging](microservices/asynchronous-messaging.md)
      * [Microservice and Database](microservices/basics/database.md)
 
+  1. Grundwissen Microservices (Teil 2)
+     * [Brainstorming Domäne](microservices/brainstorming-domaene.md)
+     * [Datenbank - Patterns - Teil 1](microservices/database-patterns-teil1.md)
+     * [Datenbank - Patterns - Teil 2](microservices/database-patterns-teil2.md)
+     * [Strategische Patterns](microservices/strategic-patterns.md)
+     * [Tests](microservices/tests/overview.md)
+     * [Monolith schneiden microservices](microservices/monolith-schneiden.md)
+     * [EventBus Implementierungen/Überblick](/microservices/eventbus/overview.md)
+
   1. Linux Tipps & Tricks
      * [In den Root-Benutzer wechseln](sudo.md)
      * [Grafischen Modus deaktivieren](systemctl-isolate.md)   
@@ -51,7 +60,7 @@
      * [docker compose Reference](https://docs.docker.com/compose/compose-file/compose-file-v3/)
     
   1. Docker - compose (Testprojekte)
-    * [Testprojekt mit api und mongodb](docker-compose/01-test-project-api-mongodb-nodejs.md)
+     * [Testprojekt mit api und mongodb](docker-compose/01-test-project-api-mongodb-nodejs.md)
 
   1. Microservices - Daten
      * [Überblick shared database / database-per-service](microservices/databases/patterns/overview.md)
@@ -209,16 +218,7 @@
      * [yaml-format](yaml-format.md)
      * [docker-compose und replicas](docker-compose-replicas.md)
      * [Example with Wordpress / Nginx / MariadB - wrong](example-wnm-docker-compose.md)
-     
-  1. Grundwissen Microservices (Teil 2)
-     * [Brainstorming Domäne](microservices/brainstorming-domaene.md)
-     * [Datenbank - Patterns - Teil 1](microservices/database-patterns-teil1.md)
-     * [Datenbank - Patterns - Teil 2](microservices/database-patterns-teil2.md)
-     * [Strategische Patterns](microservices/strategic-patterns.md)
-     * [Tests](microservices/tests/overview.md)
-     * [Monolith schneiden microservices](microservices/monolith-schneiden.md)
-     * [EventBus Implementierungen/Überblick](/microservices/eventbus/overview.md)
-    
+   
   1. Kubernetes Netzwerk 
      * [Mesh / istio](sammlung-istio.md)  
      * [pubsub+ for graph kafka](https://solace.com/blog/how-a-financial-services-giant-cleaned-up-their-kafka-with-pubsub-event-portal/)
@@ -281,8 +281,6 @@
      
   1. Documentation 
      * [Good Doku with Tasks](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
-
-  1. Dockerfile - Examples 
   
   1. Docker-Container Examples 
      * [2 Container mit Netzwerk anpingen](2-containers-with-network-ping.md)
