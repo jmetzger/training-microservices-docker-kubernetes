@@ -140,6 +140,9 @@
   1. VirtualBox Tipps & Tricks 
      * [VirtualBox 6.1. - Ubuntu für Kubernetes aufsetzen ](virtualbox-ubuntu.md)
      * [VirtualBox 6.1. - Shared folder aktivieren](virtualbox-shared-folders.md)
+    
+  1. CloudInit
+     * [Kubernetes Client einrichten mit bash](cloud-init/scripte.md)
 
    
 ## Backlog
