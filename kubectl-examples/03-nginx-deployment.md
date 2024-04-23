@@ -10,9 +10,7 @@ cd 03-deploy
 nano deploy.yml 
 ```
 
-```
-
-# vi deploy.yml 
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
