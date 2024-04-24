@@ -1,3 +1,7 @@
+# Ablaufdiagram in UML 
+
+
+## Schritt 1: UML 
 ```
 @startuml
 
@@ -29,3 +33,11 @@ return "success"
 return "Success Page"
 @enduml
 ```
+
+## Schritt 2: Online Rendern 
+
+  * https://plantuml.com/de/
+  * Ganz unten auf der Seite Daten in das "Textarea" - Feld pasten
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/245f026e-fd4f-4ec3-8d08-a55bf6bb91e5)
+
