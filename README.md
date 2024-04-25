@@ -68,12 +68,19 @@
      * [Umgang mit Transaktionen bei database-per-service](microservices/databases/patterns/database-per-service/handling-of-transactions.md)
      * [Event Sourcing](microservices/databases/patterns/database-per-service/event-sourcing.md)
     
-  1. Microservice - flightapp
+  1. Microservice - flightapp - concepts 
+    
+  1. Microservice - flightapp - reservations 
      * [Template for microservice with python flask ](microservices-flightapp/00-microservice-python-flask-template.md)
      * [Build service - seat reservation](microservices-flightapp/01-overview.md)
      * [Create microservice - reservations](microservices-flightapp/reservations/01-create-microservice.md)
      * [Upload image microservice - reservations](microservices-flightapp/reservations/02-uploadimage.md)
      * [Build image reservations with gitlab ci/cd](microservices-flightapp/reservations/03-build-image-on-gitlab-ci-cd.md)
+
+  1. Microservice - flightapp - flights
+     * [Template for microservice flights with node bootstrap](microservices-flightapp/00-microservice-template-node-bootstrap.md)
+     * [Build flight app](microservices-flightapp/flights/01-create-microservice.md)
+     * [Upload image flight app](microservices-flightapp/flights/02-uploadimage-microservice.md)
 
   1. Microservice - flightapp - Deployment Kubernetes
      * [Manual deployment](deploy-to-kubernetes/01-manifests-manually.md)
