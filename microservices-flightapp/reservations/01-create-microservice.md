@@ -121,3 +121,6 @@ curl --verbose --header "Content-Type: application/json" --request PUT --data '{
 curl --verbose --header "Content-Type: application/json" --request PUT --data '{"seat_num":"12D","flight_id":"werty", "customer_id": "dfgh"}' http://192.168.56.102:7701/reservations
 ```
 
+## Reference 
+
+  * https://redis.io/docs/latest/commands/hsetnx/
