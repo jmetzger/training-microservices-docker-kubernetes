@@ -68,8 +68,10 @@
      * [Umgang mit Transaktionen bei database-per-service](microservices/databases/patterns/database-per-service/handling-of-transactions.md)
      * [Event Sourcing](microservices/databases/patterns/database-per-service/event-sourcing.md)
     
-  1. Microservice - flightapp - concepts 
-    
+  1. Microservice - flightapp - concepts
+     * [Vorgehensweise nach dem SEED-Verfahren](microservices-flightapp/concept/00-design-with-seed-method.md)
+     * [Vorgehensweise nach SEED on Detail](microservices-flightapp/concept/00-design-with-seed-method-in-details.md)
+
   1. Microservice - flightapp - reservations 
      * [Template for microservice with python flask ](microservices-flightapp/00-microservice-python-flask-template.md)
      * [Build service - seat reservation](microservices-flightapp/01-overview.md)
