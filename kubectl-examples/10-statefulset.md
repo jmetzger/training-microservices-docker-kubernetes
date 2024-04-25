@@ -66,6 +66,18 @@ ping web-0.nginx
 ping web-1.nginx 
 ```
 
+## Test der Auflösung 
+
+```
+kubectl run --rm -it podtester --image=busybox
+```
+
+```
+# ping web-0.nginx
+# ping web-1.nginx
+# exit 
+```
+
 ## Referenz 
 
   * https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/
