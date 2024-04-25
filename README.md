@@ -74,7 +74,6 @@
 
   1. Microservice - flightapp - reservations 
      * [Template for microservice with python flask ](microservices-flightapp/00-microservice-python-flask-template.md)
-     * [Build service - seat reservation](microservices-flightapp/01-overview.md)
      * [Create microservice - reservations](microservices-flightapp/reservations/01-create-microservice.md)
      * [Upload image microservice - reservations](microservices-flightapp/reservations/02-uploadimage.md)
      * [Build image reservations with gitlab ci/cd](microservices-flightapp/reservations/03-build-image-on-gitlab-ci-cd.md)
