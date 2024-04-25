@@ -130,6 +130,10 @@
      * [Configmap MariaDB - Example](kubectl-examples/06a-configmap-mariadb.md)
      * [Configmap MariaDB my.cnf](kubectl-examples/06b-mariadb-configmap-configfile.md)
 
+  1. Kubernetes Praxis (Teil 2) - API Objekte 
+     * [Hintergrund Statefulsets](kubernetes/statefulsets.md)
+     * [Übung Statefulsets](kubectl-examples/10-statefulset.md)
+
   1. Kubernetes Ingress
      * [Ingress Controller on Detail](ingress/ingress-controller-on-detail.md)
     
