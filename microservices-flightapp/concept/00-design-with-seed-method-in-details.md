@@ -20,8 +20,8 @@ als anders herum)
   1. Eine Kunden will den Flug buchen 
   1. Die User-App der Airline (web, mobile, usw.)
   1. Die Web API mit der die App interagiert.(dies nenne manche auch "backend for frontends" oder BFF APIs.)
-  1. The flights management microservie: ms-flights
-  1. Der Reservierungs Management microservice: ms-reservations 
+  1. The flights management microservice: ms-flights
+  1. Das Reservierungs Management microservice: ms-reservations 
 
 ## Schritt 3: Beispiele von JTBD's (Jobs to be Done) 
 
