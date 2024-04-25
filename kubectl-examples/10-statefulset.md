@@ -1,5 +1,9 @@
 # Statefulset 
 
+## Overview 
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/7c3ba7c6-5695-4261-8b17-8eafd683ae6a)
+
 ##
 
 ```
