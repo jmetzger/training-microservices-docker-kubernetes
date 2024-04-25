@@ -133,9 +133,12 @@ Wir machen das für ms-flights und ms-reservations
   o Response: Success (200 Success) or failure (403 Forbidden) 
 ```
 
-## Schritt 7: OpenAPI Spezifikation 
+## Schritt 7: Ablaufdiagramm erstellen und anzeigen 
+
+   * Schritte hier: [UML](microservices-flightapp/concept/02-uml.md)
+
+## Schritt 8: OpenAPI Spezifikation 
 
   * Wir werden das bei der Umsetzung testen. 
-  * [s. UML - Seite:](microservices-flightapp/concept/02-uml.md) 
 
 ## Schritt 8: Implementieren 
