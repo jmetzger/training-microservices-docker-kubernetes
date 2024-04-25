@@ -73,9 +73,9 @@ kubectl run --rm -it podtester --image=busybox
 ```
 
 ```
-# ping web-0.nginx
-# ping web-1.nginx
-# exit 
+/ # ping web-0.nginx
+/ # ping web-1.nginx
+/ # exit 
 ```
 
 ## Referenz 
