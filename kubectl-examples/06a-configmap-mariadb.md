@@ -12,7 +12,6 @@ nano 01-configmap.yml
 ```
 
 ```
-## 01-configmap.yml
 kind: ConfigMap 
 apiVersion: v1 
 metadata:
