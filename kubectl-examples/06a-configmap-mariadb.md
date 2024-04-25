@@ -67,8 +67,8 @@ kubectl apply -f .
 ```
 # Führt den Befehl env in einem Pod des Deployments aus  
 kubectl exec deployment mariadb-deployment -- env
-# 
-
+# eigentlich macht er das:
+# kubectl exec mariadb-deployment-c6df6f959-q6swp -- env
 ```
 
 
