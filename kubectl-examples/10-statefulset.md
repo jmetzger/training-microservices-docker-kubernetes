@@ -1,5 +1,19 @@
 # Statefulset 
 
+##
+
+```
+cd
+mkdir -p manifests
+cd manifests
+mkdir sts
+cd sts
+```
+
+```
+nano sts.yaml 
+```
+
 ## 
 
 ```
@@ -39,6 +53,11 @@ spec:
         - containerPort: 80
           name: web
 ```
+
+```
+kubectl apply -f .
+```
+
 
 ## Auflösung Namen.
 
