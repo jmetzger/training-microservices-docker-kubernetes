@@ -62,6 +62,16 @@ spec:
 kubectl apply -f .
 ```
 
+## Testing 
+
+```
+# Führt den Befehl env in einem Pod des Deployments aus  
+kubectl exec deployment mariadb-deployment -- env
+# 
+
+```
+
+
 ## Important Sidenode 
 
   * If configmap changes, deployment does not know
