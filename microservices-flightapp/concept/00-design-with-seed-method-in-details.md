@@ -135,10 +135,10 @@ Wir machen das für ms-flights und ms-reservations
 
 ## Schritt 7: Ablaufdiagramm erstellen und anzeigen 
 
-   * Schritte hier: [UML](microservices-flightapp/concept/02-uml.md)
+   * Schritte hier: [UML](/microservices-flightapp/concept/02-uml.md)
 
 ## Schritt 8: OpenAPI Spezifikation 
 
   * Wir werden das bei der Umsetzung testen. 
 
-## Schritt 8: Implementieren 
+## Schritt 9: Implementieren 
