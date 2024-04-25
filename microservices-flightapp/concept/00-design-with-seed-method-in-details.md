@@ -1,6 +1,6 @@
 # Design with SEED (Schritt für Schritt) 
 
-## Schritt 1:
+## Schritt 1: 
 
 ```
 Identifizierung der bounded contexts 
@@ -89,11 +89,13 @@ lassen wir aber mal jetzt aussen vor.
 
 ```
 Wir machen das für ms-flights und ms-reservations
+```
 
-A. Flights Microservice 
+### A. Flights Microservice 
 
-Get flight details 
+#### Get flight details 
 
+```
   o Input flight_no,
     departure_local_date_time 
     (ISO8601 format und in der lokalen zeitzone)
@@ -104,11 +106,36 @@ Get flight details
     mehr relevanten Felder zurückgeben, aber 
     diese sind für unseren Context unrelevant 
     also überspringen wir diese
+```
 
+#### Get flight seating (the diagram of seats on a flight)
+
+```
+  o Input flight_id
+  o Response: Seat Map Object in JSON Format
+```
+
+### B. Reservations Microservice 
+
+#### Query already reserved seats on a flight
+
+```
+  o Input: flight_id
+  o Response: A list of already-taken seat numbers,
+              each seat number in a format like "2A" 
+```
+#### Reserve a seat on a flight 
+
+```
+  o Input: flight_id,customer_id,seat_num
+  o Expected outcome: A seat is reserved and unavailable
+    to others, or an error fired if the seat was unavailable 
+  o Response: Success (200 Success) or failure (403 Forbidden) 
 ```
 
 ## Schritt 7: OpenAPI Spezifikation 
 
-  * s. UML - Seite
+  * Wir werden das bei der Umsetzung testen. 
+  * [s. UML - Seite:](microservices-flightapp/concept/02-uml.md) 
 
 ## Schritt 8: Implementieren 
