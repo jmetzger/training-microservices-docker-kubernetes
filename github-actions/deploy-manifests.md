@@ -7,6 +7,15 @@
 https://github.com/new
 ```
 
+## Step 2: Create personal access token 
+
+  * you can do this here: https://github.com/settings/tokens/new
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/1ff54521-7f4d-4edb-8cba-f0c20a30782b)
+
+
+
+
 ## Step 2: Clone Repo to local system 
 
 ```
@@ -61,7 +70,8 @@ git push -u origin main
 ## Step 5: Setup authentication in kubernetes (service account) 
 
 ```
-mkdir manifests
+cd
+mkdir -p manifests
 cd manifests
 mkdir github-account
 cd github-account 
