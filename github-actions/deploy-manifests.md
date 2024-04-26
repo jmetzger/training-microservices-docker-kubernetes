@@ -60,6 +60,7 @@ spec:
 ## Step 5: Projekt unter Versionsverwaltung stellen und pushen 
 
 ```
+cd
 git init
 git config --global user.email test@test.de
 git config --global user.name "Jochen from m1"
