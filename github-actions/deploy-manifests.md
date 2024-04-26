@@ -96,7 +96,7 @@ apiVersion: v1
 kind: Secret
 type: kubernetes.io/service-account-token
 metadata:
-  name: mysecretname
+  name: github-actions-secret 
   annotations:
     kubernetes.io/service-account.name: github-actions-tln<nr>
 ```
