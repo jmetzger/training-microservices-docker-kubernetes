@@ -46,6 +46,12 @@ spec:
 
 ## Step 4: Push changes 
 
+```
+git add -A
+git commit -am "Initial Release"
+git push -u origin main
+```
+
 
 ## Step 5: Setup authentication in kubernetes (service account) 
 
