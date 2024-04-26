@@ -15,8 +15,11 @@ cd
 mkdir -p github-test
 cd github-test 
 # so we all have the same folder in the training (for our ease) 
-git clone <your-repo> k8s-deploy 
+git clone <your-repo> k8s-deploy
 cd k8s-deploy
+```
+
+```
 mkdir -p manifests
 cd manifests
 nano 01-pod.yaml 
