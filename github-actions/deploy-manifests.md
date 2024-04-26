@@ -79,101 +79,22 @@ git commit -am "Initial Release"
 git push -u origin master 
 ```
 
-
-## Step 6: Setup authentication in kubernetes (service account) - in kubectl - client 
+## Step 6: KUBERNETES_CONFIG als Secret anlegen 
 
 ```
-# wird in deinem namespace angelegt 
-# create serviceaccount
-kubectl create serviceaccount github-actions-tln<nr>
+# kopieren der Ausgabe von server mit kubectl
+cat ~/.kube/config
 ```
 
 ```
-cd
-mkdir -p manifests
-cd manifests
-mkdir github-account
-cd github-account 
-```
-
-```
-nano 01-sasecret.yaml
-```
-
-```
-# Secret für service account anlegen / wichtig: muss
-# in neueren Versionen von kubernetes gemacht werden
-# da secrets nicht mehr automatisc angelegt werden
-# beim Erstellen von service account (Stand: 26.04.2024) 
-apiVersion: v1
-kind: Secret
-type: kubernetes.io/service-account-token
-metadata:
-  name: github-actions-secret 
-  annotations:
-    kubernetes.io/service-account.name: github-actions-tln<nr>
-```
-
-```
-kubectl apply -f .
-```
-
-```
-nano 02-clusterrole.yml 
-```
-
-```
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: continuous-deployment-tln<nr>
-rules:
-  - apiGroups:
-      - ''
-      - apps
-      - networking.k8s.io
-    resources:
-      - namespaces
-      - deployments
-      - replicasets
-      - ingresses
-      - services
-      - secrets
-    verbs:
-      - create
-      - delete
-      - deletecollection
-      - get
-      - list
-      - patch
-      - update
-      - watch
-```
-
-```
-kubectl apply -f .
-```
-
-```
-kubectl create clusterrolebinding continuous-deployment-tln<nr> \
-    --clusterrole=continuous-deployment-tln<nr>
-    --serviceaccount=<dein-namespace>:github-actions-tln<nr>
-```
-
-## Step 7: secrets auslesen und bei github eintragen 
-
-```
-kubectl get secrets github-actions-secret -o yaml 
-```
-
-```
-# Copy the output
-```
-
-```
-# Enter it here, by adding a new secret: KUBERNETES_SECRET
+# Enter it here, by adding a new secret: KUBERNETES_CONFIG
+# secret für Repositry
 https://github.com/gittrainereu/<your-repo>/settings/secrets/actions/new
 ```
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/89e4fdc1-bcdb-4e69-8db6-3f630eff7655)
+
+
 
 ```
 # Get the url of your kubernetes cluster
@@ -182,7 +103,13 @@ https://github.com/gittrainereu/<your-repo>/settings/secrets/actions/new
 kubectl config view -o 'jsonpath={.clusters[0].cluster.server}'
 ```
 
-## Step 8: Setup github actions (in web ui of github)
+```
+
+
+```
+
+
+## Step 7: Setup github actions (in web ui of github)
 
   * workflow folder: .github/workflows
   * manifests - folder: manifests/
