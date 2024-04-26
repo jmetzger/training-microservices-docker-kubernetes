@@ -82,7 +82,7 @@ nano 01-clusterrole.yml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: continuous-deployment
+  name: continuous-deployment-tln<nr>
 rules:
   - apiGroups:
       - ''
