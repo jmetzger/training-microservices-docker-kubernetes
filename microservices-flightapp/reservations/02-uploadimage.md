@@ -4,12 +4,12 @@
 
 ```
 # eventually 
-cd ms-reservations
+cd msupandrunning
+# show all images build through this docker compose 
+docker compose images
 ```
 
 ```
-# from the last step 01 Create microservce you should already have an image
-docker images | grep reservations
 # msupandrunning-ms-reservations     latest  
 # to upload it to docker hub, we would need to tag it
 # one image can have multiple tags
