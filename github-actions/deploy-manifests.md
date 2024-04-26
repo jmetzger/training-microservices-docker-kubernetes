@@ -2,12 +2,44 @@
 
 ## Step 1: Create Repo in github 
 
+```
+# url
+https://github.com/new
+```
 
-## Step 2: Clone Repo 
+## Step 2: Clone Repo to local system 
 
+```
+# on local system -> clone to k8s-deploy
+cd
+mkdir -p github-test
+cd github-test 
+# so we all have the same folder in the training (for our ease) 
+git clone <your-repo> k8s-deploy 
+cd k8s-deploy
+mkdir -p manifests
+cd manifests
+nano 01-pod.yaml 
+```
 
 ## Step 3: Populate Repo with sample manifest 
 
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: static-web
+  labels:
+    role: myrole
+spec:
+  containers:
+    - name: web
+      image: nginx
+      ports:
+        - name: web
+          containerPort: 80
+          protocol: TCP
+```
 
 ## Step 4: Push changes 
 
