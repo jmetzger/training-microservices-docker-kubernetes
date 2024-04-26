@@ -127,7 +127,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Deploy to the Kubernetes cluster
-        uses: azure/k8s-deploy@v1
+        uses: azure/k8s-deploy@v5
         with:
           namespace: <yournamespace>
           manifests: |
