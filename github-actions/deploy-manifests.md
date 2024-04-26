@@ -16,7 +16,7 @@ https://github.com/new
 
 
 
-## Step 2: Clone Repo to local system 
+## Step 2: Clone Repo to local system (machine where we use kubectl ) 
 
 ```
 # on local system -> clone to k8s-deploy
@@ -67,7 +67,7 @@ git push -u origin main
 ```
 
 
-## Step 5: Setup authentication in kubernetes (service account) 
+## Step 5: Setup authentication in kubernetes (service account) - in kubectl - client 
 
 ```
 cd
