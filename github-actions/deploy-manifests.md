@@ -96,7 +96,7 @@ https://github.com/gittrainereu/<your-repo> /settings/secrets/actions/new
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/89e4fdc1-bcdb-4e69-8db6-3f630eff7655)
 
 
-## Step 7: KUBERNETES_URI als Variable anlegen 
+## Step 7: KUBERNETES_URI als Secret anlegen 
 
 ```
 # Get the url of your kubernetes cluster
