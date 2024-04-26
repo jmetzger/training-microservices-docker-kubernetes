@@ -61,10 +61,17 @@ spec:
 
 ```
 git init
-git add .
-git commit -am "Initial Release" 
 git config --global user.email test@test.de
 git config --global user.name "Jochen from m1"
+```
+
+```
+git remote add origin https://github.com/gittrainereu/microjay2.git
+```
+
+```
+git add .
+git commit -am "Initial Release" 
 git push -u origin master 
 ```
 
