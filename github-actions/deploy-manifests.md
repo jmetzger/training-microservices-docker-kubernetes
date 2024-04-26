@@ -33,7 +33,7 @@ cd manifests
 nano 01-deployment.yaml 
 ```
 
-## Step 4: Populate Repo with sample manifest 
+## Step 4: Populate project with sample manifest 
 
 ```
 apiVersion: apps/v1
@@ -57,17 +57,15 @@ spec:
         - containerPort: 80
 ```
 
-## Step 5: Push changes 
+## Step 5: Projekt unter Versionsverwaltung stellen und pushen 
 
 ```
+git init
+git add .
+git commit -am "Initial Release" 
 git config --global user.email test@test.de
 git config --global user.name "Jochen from m1"
-```
-
-```
-git add -A
-git commit -am "Initial Release"
-git push -u origin main
+git push -u origin master 
 ```
 
 
