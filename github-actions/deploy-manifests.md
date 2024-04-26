@@ -16,7 +16,7 @@ https://github.com/new
 
 
 
-## Step 2: Clone Repo to local system (machine where we use kubectl ) 
+## Step 3: Clone Repo to local system (machine where we use kubectl ) 
 
 ```
 # on local system -> clone to k8s-deploy
@@ -34,7 +34,7 @@ cd manifests
 nano 01-pod.yaml 
 ```
 
-## Step 3: Populate Repo with sample manifest 
+## Step 4: Populate Repo with sample manifest 
 
 ```
 apiVersion: v1
@@ -53,7 +53,7 @@ spec:
           protocol: TCP
 ```
 
-## Step 4: Push changes 
+## Step 5: Push changes 
 
 ```
 git config --global user.email test@test.de
@@ -67,7 +67,7 @@ git push -u origin main
 ```
 
 
-## Step 5: Setup authentication in kubernetes (service account) - in kubectl - client 
+## Step 6: Setup authentication in kubernetes (service account) - in kubectl - client 
 
 ```
 # wird in deinem namespace angelegt 
@@ -141,19 +141,61 @@ rules:
 kubectl apply -f .
 ```
 
+```
+kubectl create clusterrolebinding continuous-deployment-tln<nr> \
+    --clusterrole=continuous-deployment-tln<nr>
+    --serviceaccount=<dein-namespace>:github-actions-tln<nr>
+```
 
+## Step 7: secrets auslesen und bei github eintragen 
 
+```
+kubectl get secrets github-actions-secret -o yaml 
+```
 
-## Step 5: Setup github actions 
+```
+# Copy the output
+```
+
+```
+# Enter it here, by adding a new secret: KUBERNETES_SECRET
+https://github.com/gittrainereu/<your-repo>/settings/secrets/actions/new
+```
+
+```
+# Get the url of your kubernetes cluster
+# And Copy it to clipboard
+# We will need this for your pipeline 
+kubectl config view -o 'jsonpath={.clusters[0].cluster.server}'
+```
+
+## Step 8: Setup github actions (in web ui of github)
 
   * workflow folder: .github/workflows
   * manifests - folder: manifests/
   
 ```
-
-
+# create file .github/workflows/pipeline.yaml
+# with content 
+```
 
 ```
+# adjust server-url / use data from last step 
+jobs:
+  deploy:
+    name: Deploy
+    # needs: [ test, build ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set the Kubernetes context
+        uses: azure/k8s-set-context@v2
+        with:
+          method: service-account
+          k8s-url: <server-url>
+          k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
+```
+
+## Step 9: watch and enjoy 
 
 
 
