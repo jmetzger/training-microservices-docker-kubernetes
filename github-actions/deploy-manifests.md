@@ -182,7 +182,9 @@ kubectl config view -o 'jsonpath={.clusters[0].cluster.server}'
 ```
 # adjust
 # 1. server-url / use data from last step 
-# 2. your-name / use your own namespace here 
+# 2. your-name / use your own namespace here
+name: CI/CD
+on: push
 jobs:
   deploy:
     name: Deploy
