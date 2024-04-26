@@ -22,11 +22,12 @@ docker compose images
 ```
 # Bitte <namenskuerzel> ersetzen, z.B. jm  
 docker tag msupandrunning-ms-reservations dockertrainereu/reservations-<namenskuerzel>:v14
+# now enter dockertrainereu + password-you-will-get-from-your-trainer ;O)
 docker login
 ```
 
 ```
-# now enter gittrainereu + password-you-will-get-from-your-trainer ;O)
+
 # push the image to the server
 # <namenskuerzel> ersetzen durch z.B. jm 
 docker push dockertrainereu/reservations-<namenskuerzel>:v14
