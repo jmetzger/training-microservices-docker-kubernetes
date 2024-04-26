@@ -70,12 +70,43 @@ git push -u origin main
 ## Step 5: Setup authentication in kubernetes (service account) - in kubectl - client 
 
 ```
+# wird in deinem namespace angelegt 
+# create serviceaccount
+kubectl create serviceaccount github-actions-tln<nr>
+```
+
+```
 cd
 mkdir -p manifests
 cd manifests
 mkdir github-account
 cd github-account 
-nano 01-clusterrole.yml 
+```
+
+```
+nano 01-sasecret.yaml
+```
+
+```
+# Secret für service account anlegen / wichtig: muss
+# in neueren Versionen von kubernetes gemacht werden
+# da secrets nicht mehr automatisc angelegt werden
+# beim Erstellen von service account (Stand: 26.04.2024) 
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/service-account-token
+metadata:
+  name: mysecretname
+  annotations:
+    kubernetes.io/service-account.name: github-actions-tln<nr>
+```
+
+```
+kubectl apply -f .
+```
+
+```
+nano 02-clusterrole.yml 
 ```
 
 ```
@@ -109,6 +140,7 @@ rules:
 ```
 kubectl apply -f .
 ```
+
 
 
 
