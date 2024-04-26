@@ -95,26 +95,7 @@ https://github.com/gittrainereu/<your-repo> /settings/secrets/actions/new
 
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/89e4fdc1-bcdb-4e69-8db6-3f630eff7655)
 
-
-## Step 7: KUBERNETES_URI als Secret anlegen 
-
-```
-# Get the url of your kubernetes cluster
-# And Copy it to clipboard
-# We will need this for your pipeline 
-kubectl config view -o 'jsonpath={.clusters[0].cluster.server}'
-```
-
-```
-# Und als neues SECRET in github einfügen
-als KUBERNETES_URI
-
-Settings -> Secrets & Variables -> Actions -> New Repository Setting
-
-```
-
-
-## Step 8: Setup github actions (in web ui of github)
+## Step 7: Setup github actions (in web ui of github)
 
   * workflow folder: .github/workflows
   * manifests - folder: manifests/
@@ -140,7 +121,6 @@ jobs:
         uses: azure/k8s-set-context@v2
         with:
           method: kubeconfig
-          k8s-url: ${{ secrets.KUBERNETES_URI }}
           kubeconfig: ${{ secrets.KUBERNETES_CONFIG }}
 
       - name: Checkout source code
@@ -151,7 +131,7 @@ jobs:
         with:
           namespace: <yournamespace>
           manifests: |
-            manifests/
+            manifests
 
 ```
 
