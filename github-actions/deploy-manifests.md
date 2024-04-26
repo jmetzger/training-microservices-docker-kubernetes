@@ -71,7 +71,10 @@ git remote add origin https://github.com/gittrainereu/microjay2.git
 
 ```
 git add .
-git commit -am "Initial Release" 
+git commit -am "Initial Release"
+# wir werden gefragt nach:
+# user-name
+# password -> hier bitte den Personal Token verwenden 
 git push -u origin master 
 ```
 
