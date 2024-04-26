@@ -89,12 +89,14 @@ cat ~/.kube/config
 ```
 # Enter it here, by adding a new secret: KUBERNETES_CONFIG
 # secret für Repositry
-https://github.com/gittrainereu/<your-repo>/settings/secrets/actions/new
+https://github.com/gittrainereu/<your-repo> /settings/secrets/actions/new
 ```
+
 
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/89e4fdc1-bcdb-4e69-8db6-3f630eff7655)
 
 
+## Step 7: KUBERNETES_URI als Variable anlegen 
 
 ```
 # Get the url of your kubernetes cluster
@@ -104,12 +106,15 @@ kubectl config view -o 'jsonpath={.clusters[0].cluster.server}'
 ```
 
 ```
+# Und als neues SECRET in github einfügen
+als KUBERNETES_URI
 
+Settings -> Secrets & Variables -> Actions -> New Repository Setting
 
 ```
 
 
-## Step 7: Setup github actions (in web ui of github)
+## Step 8: Setup github actions (in web ui of github)
 
   * workflow folder: .github/workflows
   * manifests - folder: manifests/
