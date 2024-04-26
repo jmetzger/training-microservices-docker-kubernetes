@@ -180,7 +180,9 @@ kubectl config view -o 'jsonpath={.clusters[0].cluster.server}'
 ```
 
 ```
-# adjust server-url / use data from last step 
+# adjust
+# 1. server-url / use data from last step 
+# 2. your-name / use your own namespace here 
 jobs:
   deploy:
     name: Deploy
@@ -193,6 +195,17 @@ jobs:
           method: service-account
           k8s-url: <server-url>
           k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
+
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Deploy to the Kubernetes cluster
+        uses: azure/k8s-deploy@v1
+        with:
+          namespace: <yournamespace>
+          manifests: |
+            manifests/
+
 ```
 
 ## Step 9: watch and enjoy 
