@@ -47,6 +47,11 @@ spec:
 ## Step 4: Push changes 
 
 ```
+git config --global user.email test@test.de
+git config --global user.name "Jochen from m1"
+```
+
+```
 git add -A
 git commit -am "Initial Release"
 git push -u origin main
