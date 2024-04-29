@@ -12,6 +12,15 @@
      * [Asynchrones Messaging](#asynchrones-messaging)
      * [Microservice and Database](#microservice-and-database)
 
+  1. Grundwissen Microservices (Teil 2)
+     * [Brainstorming Domäne](#brainstorming-domäne)
+     * [Datenbank - Patterns - Teil 1](#datenbank---patterns---teil-1)
+     * [Datenbank - Patterns - Teil 2](#datenbank---patterns---teil-2)
+     * [Strategische Patterns](#strategische-patterns)
+     * [Tests](#tests)
+     * [Monolith schneiden microservices](#monolith-schneiden-microservices)
+     * [EventBus Implementierungen/Überblick](#eventbus-implementierungenüberblick)
+
   1. Linux Tipps & Tricks
      * [In den Root-Benutzer wechseln](#in-den-root-benutzer-wechseln)
      * [Grafischen Modus deaktivieren](#grafischen-modus-deaktivieren)
@@ -49,6 +58,9 @@
      * [Example with Ubuntu and Dockerfile](#example-with-ubuntu-and-dockerfile)
      * [Logs in docker - compose](#logs-in-docker---compose)
      * [docker compose Reference](https://docs.docker.com/compose/compose-file/compose-file-v3/)
+    
+  1. Docker - compose (Testprojekte)
+     * [Testprojekt mit api und mongodb](#testprojekt-mit-api-und-mongodb)
 
   1. Microservices - Daten
      * [Überblick shared database / database-per-service](#überblick-shared-database--database-per-service)
@@ -56,25 +68,36 @@
      * [Umgang mit Transaktionen bei database-per-service](#umgang-mit-transaktionen-bei-database-per-service)
      * [Event Sourcing](#event-sourcing)
     
-  1. Microservice - flightapp
+  1. Microservice - flightapp - concepts
+     * [Vorgehensweise nach dem SEED-Verfahren](#vorgehensweise-nach-dem-seed-verfahren)
+     * [Vorgehensweise nach SEED on Detail](#vorgehensweise-nach-seed-on-detail)
+
+  1. Microservice - flightapp - reservations 
      * [Template for microservice with python flask ](#template-for-microservice-with-python-flask-)
-     * [Build service - seat reservation](#build-service---seat-reservation)
      * [Create microservice - reservations](#create-microservice---reservations)
      * [Upload image microservice - reservations](#upload-image-microservice---reservations)
      * [Build image reservations with gitlab ci/cd](#build-image-reservations-with-gitlab-cicd)
 
+  1. Microservice - flightapp - flights
+     * [Template for microservice flights with node bootstrap](#template-for-microservice-flights-with-node-bootstrap)
+     * [Build flight app](#build-flight-app)
+     * [Upload image flight app](#upload-image-flight-app)
+
   1. Microservice - flightapp - Deployment Kubernetes
      * [Manual deployment](#manual-deployment)
      * [gitlab Deployment](#gitlab-deployment)
-    
+     * [github Deployment](#github-deployment)
+     * [github Deployment-with-secret-not-working](#github-deployment-with-secret-not-working)
+
   1. Kubernetes - Überblick
      * [Warum Kubernetes, was macht Kubernetes](#warum-kubernetes-was-macht-kubernetes)
      * [Aufbau Allgemein](#aufbau-allgemein)
      * [Aufbau mit helm,OpenShift,Rancher(RKE),microk8s](#aufbau-mit-helmopenshiftrancherrkemicrok8s)
      * [Welches System ? (minikube, micro8ks etc.)](#welches-system--minikube-micro8ks-etc)
 
-  1. Kubernetes - Einsatz (Risiken)
+  1. Kubernetes - Einsatz
      * [Kubernetes Einsatz -> Risiken](#kubernetes-einsatz-->-risiken)
+     * [Kubernetes Datenbanken in Kubernetes oder ausserhalb](#kubernetes-datenbanken-in-kubernetes-oder-ausserhalb)
     
   1. Kubernetes mit microk8s (Installation und Management)
      * [Installation Ubuntu - snap](#installation-ubuntu---snap)
@@ -111,6 +134,10 @@
      * [Configmap MariaDB - Example](#configmap-mariadb---example)
      * [Configmap MariaDB my.cnf](#configmap-mariadb-mycnf)
 
+  1. Kubernetes Praxis (Teil 2) - API Objekte 
+     * [Hintergrund Statefulsets](#hintergrund-statefulsets)
+     * [Übung Statefulsets](#übung-statefulsets)
+
   1. Kubernetes Ingress
      * [Ingress Controller on Detail](#ingress-controller-on-detail)
     
@@ -133,6 +160,7 @@
      * [Sam Newman - Vom Monolithen zu Microservices](https://www.amazon.de/Vom-Monolithen-Microservices-bestehende-umzugestalten/dp/3960091400/)
      * [Microservices.io Patterns](https://microservices.io)
      * [BFF](https://blog.bitsrc.io/bff-pattern-backend-for-frontend-an-introduction-e4fa965128bf)
+     * [Microservices Up and Running](https://www.amazon.de/Kubernetes-Running-Dive-Future-Infrastructure/dp/109811020X/ref=sr_1_1)
     
   1. gitlab ci/cd
      * [Einfaches Beispielscript](#einfaches-beispielscript)
@@ -140,6 +168,9 @@
   1. VirtualBox Tipps & Tricks 
      * [VirtualBox 6.1. - Ubuntu für Kubernetes aufsetzen ](#virtualbox-61---ubuntu-für-kubernetes-aufsetzen-)
      * [VirtualBox 6.1. - Shared folder aktivieren](#virtualbox-61---shared-folder-aktivieren)
+    
+  1. CloudInit
+     * [Kubernetes Client einrichten mit bash](#kubernetes-client-einrichten-mit-bash)
 
    
 ## Backlog
@@ -203,16 +234,7 @@
      * [yaml-format](#yaml-format)
      * [docker-compose und replicas](#docker-compose-und-replicas)
      * [Example with Wordpress / Nginx / MariadB - wrong](#example-with-wordpress--nginx--mariadb---wrong)
-     
-  1. Grundwissen Microservices (Teil 2)
-     * [Brainstorming Domäne](#brainstorming-domäne)
-     * [Datenbank - Patterns - Teil 1](#datenbank---patterns---teil-1)
-     * [Datenbank - Patterns - Teil 2](#datenbank---patterns---teil-2)
-     * [Strategische Patterns](#strategische-patterns)
-     * [Tests](#tests)
-     * [Monolith schneiden microservices](#monolith-schneiden-microservices)
-     * [EventBus Implementierungen/Überblick](#eventbus-implementierungenüberblick)
-    
+   
   1. Kubernetes Netzwerk 
      * [Mesh / istio](#mesh--istio)
      * [pubsub+ for graph kafka](https://solace.com/blog/how-a-financial-services-giant-cleaned-up-their-kafka-with-pubsub-event-portal/)
@@ -275,8 +297,6 @@
      
   1. Documentation 
      * [Good Doku with Tasks](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
-
-  1. Dockerfile - Examples 
   
   1. Docker-Container Examples 
      * [2 Container mit Netzwerk anpingen](#2-container-mit-netzwerk-anpingen)
@@ -369,9 +389,14 @@
 
 
 ```
-1. Microservices oder Microservices-Architekturen sind ein Ansatz zur Anwendungsentwicklung bei dem eine große Anwendung aus modularen Komponenten oder Diensten aufgebaut wird.
+1. Microservices oder Microservices-Architekturen sind ein Ansatz
+zur Anwendungsentwicklung bei dem eine große Anwendung
+aus modularen Komponenten oder Diensten aufgebaut wird.
+```
 
-2. Jedes Modul unterstützt eine bestimmte Aufgabe oder ein Geschäftsziel und verwendet eine einfache, klar definierte Schnittstelle (Contract / Vertrag), wie zum Beispiel eine Anwendungsprogrammierschnittstelle (API), um mit anderen Diensten zu kommunizieren.
+```
+2. Jedes Modul unterstützt eine bestimmte Aufgabe oder ein Geschäftsziel und verwendet eine einfache, klar definierte Schnittstelle (Contract / Vertrag), wie zum Beispiel eine Anwendungsprogrammierschnittstelle (API),
+um mit anderen Diensten zu kommunizieren.
 ```
 
 ### Grundkonzepte von Microservices
@@ -389,12 +414,13 @@ in einer Komponenten zu verstecken
 
   * Dadurch gibt es eine klare Grenze, **was**
     *  **einfach zu ändern** ist
-    *  oder was **komlizierter zu ändern** ist
+    *  oder was **komplizierter zu ändern** ist (Änderung des Vertrages)
   * Informationen die versteckt ist, können __ohne Absprache__ geändert werden.
 
  ## Independant Deployability 
 
-   * Änderung in einem microservice machen können ihn redeployen, ohne die Make changes to one microservices, redeploy it, without the need of redeploying all the others
+   * Teams unabhängig Änderung in Microservices machen und dieses redeployen und zwar on alle anderen
+     * zu redeployen 
    * This is the most imporant thing and also the Nr. 1 Tipp
 
 
@@ -481,7 +507,7 @@ Quelle: AWS Amazon
 ### Gut aufgestellt mit Devops 
 
   * Weil
-    * ansonsten durch alte Strukturen (kein Devops-Team) Geschwindkeit durch notwendige, Klärung, Verantwortlich verloren geht.
+    * ansonsten durch alte Strukturen (kein Devops-Team) Geschwindkeit durch notwendige Klärung, Verantwortlichkeiten verloren geht.
 
 ### Nachteile: Microservices 
 
@@ -578,6 +604,420 @@ curl -X PUT --header 'Content-Type: application/json' --header 'Accept: applicat
 
   * Der MicroService sollte immer die Hoheit über seine Daten haben (Eine eigene Datenbank), das meint NICHT einen eigenen Datenbankserver 
   * Und sollte diese verändern (auch Struktur) und nutzen können, ohne sich mit anderen abzusprechen.  .  
+
+## Grundwissen Microservices (Teil 2)
+
+### Brainstorming Domäne
+
+
+### Prozess aus Domain Drive Design
+
+  * Eventstorming
+  * https://entwickler.de/ddd/domain-driven-design-in-aktion-mehr-dynamik-mit-event-storming
+  * 
+
+### Welche Events gibt es ? (in der Vergangenheit) 
+
+```
+Bewerbungsgespräch geführt 
+Bewerber akzeptiert 
+Beispielvertrag erstellt 
+Beispielvertrag verschickt
+Beispielvertrag von zukünftigen Mitarbeiter angenommen 
+```
+
+### Wer löst dieses Event aus ? 
+
+
+```
+z.B. Button -> Bewerber 
+Command -> Bewerber auf Button im Webfrontend geklickt
+
+```
+
+
+
+### Datenbank - Patterns - Teil 1
+
+
+
+
+### Pattern Shared Database
+
+  * Shared Database:Informations-Hiding ist schwierig 
+  * Achtung: nur in 2 Situationen vernünftig
+    1. Lesen statischer Referenzdaten (Postleitzahlen, Geschlecht, Bundesländer)
+    2. Anbieten eines Service, der direkt eine Datenbank als definierten Endpunkt bereitstellt
+       * Database as-a-Service-Interface Pattern 
+
+#### Wie häufig 
+  
+  * Eher selten ?
+  
+
+### Pattern: Database View 
+
+  * Die Daten werden nicht als Tabelle, sondern als View bereitgestellt
+  * Datenbank (View) ist dann aber ein öffentlicher Vertrag
+
+#### Wo ? 
+
+  * Kann man dann machen, wenn man das monolithische Schema nicht auseinander nehmen kann
+  * Achtung: performance views mysql
+  * Wenn der Aufwand für die Aufteilung zu gross ist, kann das der 1. Schritt in die richtige Richtung sein
+
+
+### Pattern: Database-as-a-Service Interface
+
+  * Manchmal müssen Clients eine Datenbank nur abfragen
+  * z.B. eine dedizierte Datenbank, als Read-Only-Endpunkt 
+    * gefüllt wird diese wenn sich Daten in der zugrundeliegenden Datenbank ändern
+
+  * Wir sollten die Datenbank, die wird nach draussen anbieten, von der Datenbank 
+    * getrennt halten, die wir innerhalb unserer Service-Grenzen einsetzen
+
+#### Wie ?
+
+  * Umsetzung durch eine Mapping - Engine.
+
+#### Wann ? 
+
+   * Wenn legacy-client lesenden Zugriff benötigen 
+
+### Pattern: Database Wrapping Service 
+
+   * Eine Datenbank mit einem Service wrappen.
+   * Damit kann man auch sicherstellen, dass sich die Datenbank nicht verändert.
+   * Zugriffe müssen jetzt aber geändert werden, von direkt auf die service api
+
+#### Wann ? 
+
+   * API davor setzen, um Veränderung der Datenbank zu hindern. 
+   * Einschränken, was man machen darf. 
+
+### Pattern: Aggregate Exposing Monolith 
+
+  * Daten werden über einen Serviceendpunkt vom Monolithen selbst bereitgestellt
+    * API oder ein Stream mit Events
+  * Dadurch wird explizit, welche Informationen der neue Service benötigt
+
+### Pattern: Change Data Ownership 
+
+  * Der neue Dienst übernimmt die Ownership für die Daten 
+
+### Pattern Synchronize Data in Application 
+
+#### Schritt 1: Daten Bulk - synchronisieren
+  
+  * z.B. durch Batch-Job 
+  * dann z.B. Change-Data-Caputre Prozess 
+
+#### Schritt 2: Synchrones Schreiben, aus dem alten Schema lesen 
+
+  * Erfolgt durch Deployment einer neuen Version der Anwendung
+
+#### Schritt 3: Synchrones Schreiben, aus dem neuen Schema lesen 
+
+  * Erfolgt wieder durch Deployment einer neuen Version der Anwendung 
+
+#### Schritt 4: Alte Schema entfernen
+
+  * Altes Schema kann jetzt gefahrlos entfernt werden
+
+### Pattern: Tracer Write 
+
+  * Inkrementelle Verschiebung der Source of Truth. 
+  * D.h. nicht komplette Datenbank, sondern einzelne Tabellen
+
+### Datenbank - Patterns - Teil 2
+
+### Strategische Patterns
+
+
+### Pattern: Strangler Fig Application 
+
+  * Technik zum Umschreiben von Systemen 
+
+#### Wie umleitung, z.B.
+
+  * http proxy 
+  * oder s.u. branch by extraction
+  * An- und Abschalten mit Feature Toggle 
+  * Über message broker 
+
+#### http - proxy - Schritte 
+
+  1. Schritt: Proxy einfügen
+  2. Schritt: Funktionalität migrieren 
+  3. Schritt: Aufrufe umleiten
+
+#### Message broker
+
+  * Monolith reagiert auf bestimmte Messages bzw. ignoriert bestimmte messages
+  * monolith bekommt bestimmte nachrichten garnicht 
+  * service reagiert auf bestimmte nachrichten 
+
+
+### Pattern: Parallel Run 
+
+  * Service und Teil im Monolith wird parallel ausgeführt
+  * Und es wird überprüft, ob das Ergebnis in beiden Systemn das gleiche ist (z.B. per batch job)
+
+### Pattern: Decorating Collaborator
+
+  * Ansteuerung als nachgelagerten Prozess über einen Proxy 
+
+### Pattern Branch by Abstraction 
+
+  * Beispiel Notification 
+
+#### Schritt 1: Abstraction der zu ersetzendne Funktionalität erstellen
+
+
+#### Schritt 2: Ändern sie die Clients der bestehenden Funktionalität so, dass sie die neue Abstraktion verwenden
+
+
+#### Schritt 3: Neue Implementierung der Abstraktion 
+
+```
+Erstellen Sie eine neue Implementierung der Abstraktion mit der 
+überarbeiteten Funktionalität. 
+
+In unserem Fall wird diese neue Implementierung unseren neuen 
+Mikroservice aufrufen
+```
+
+#### Schritt 4: Abstraktion anpassen -> neue Implementierung
+
+```
+Abstraktion anpassen, dass sie unsere neue Implementierung verwendet
+```
+
+#### Schritt 5: Abstraktion aufräumen und alte Implementierung entfernen 
+
+
+
+### Tests
+
+
+### Pyramidenkonzept
+
+  * s. Referenz
+ 
+### Testkategorien 
+
+```
+Klassisch (automatisiertes Testen):
+   Unit tests
+   Integration tests
+   End-to-end tests.
+```
+
+```   
+ 
+Bei microservices kommen noch 2 tests dazu: 
+  Components Tests
+  Contract Tests
+
+so dass es dann so aussieht:
+         
+                      End-To-End Tests
+                  Components Tests 
+              Integration Tests 
+           Contract Tests 
+         Unit Tests 
+
+```
+
+### Contract 
+
+```  
+Schnittstelle wird geprüft, ob sie alle Verträge erfüllt
+Gibt sie die definierten Antworten mit den definierten Parametern
+The contract specifies all the possible inputs and outputs with their data structures and side effects. 
+The consumer and producer of the service must follow the rules stated in the contract for communication to be possible.
+```
+
+#### Components 
+ 
+```
+Components Test:
+A component is a microservice or set of microservices that accomplishes a role within the larger system.
+Component testing is a type of acceptance testing in which we examine the component’s behavior in isolation by substituting services with simulated resources or mocking.
+```
+
+#### References 
+
+ * https://semaphoreci.com/blog/test-microservices
+
+
+
+
+### Monolith schneiden microservices
+
+
+### Wie kann ich schneiden (NOT's) ? 
+
+  * Code-Größe 
+  * Technische Schnitt 
+  * Amazon: 2 Pizzas, wieviele können sich davon, wei gross kann man team 
+  * Microserver wegschmeissen und er müsste in wenigen Tagen oder mehreren Wochen wieder herstellen
+
+### Wie kann ich schneiden (GUT) ? 
+
+  * DDD (Domain Driven Design) - Welche Aufgaben gibt es innerhalb des sogenannten Bounded Context in meiner Domäne 
+  * Domäne: Bibliothek 
+  * In der Bibliothek 
+    * Leihe 
+    * Suche 
+
+### Bounded Context 
+
+![Bounded Context](https://martinfowler.com/bliki/images/boundedContext/sketch.png)
+
+### Zwei Merkmale mit den wir arbeiten
+
+  * Kohäsion (innerer Zusammenhalt des Fachbereichs) - innerhalb eines Services  
+  * Bindung (lose Bindung) - zwischen den Services 
+  * Jeder Service soll unabhängig sein 
+
+### Was heisst unabhängiger Service 
+  
+  1. Er muss funktionieren, auch wenn ein anderes Service nicht läuft (keine Abhängigkeit) 
+  2. Er darf nicht DIREKT auf die Daten eines anderen Services zugreifen (maximal über Schnittstelle)
+  3. Jeder hat Service, ist völlig autark und seine eigene BusinessLogik und seine eigene Datenbank 
+
+### Regeln für das Design von Services 
+
+#### Regel 1:
+
+```
+Es sollte eine große Kohäsion innerhalb des Services sein.
+(Bindung). Alles sollte möglichst benötigt werden.
+
+(Ist eine schwache Kohäsion innerhalb des Services, sind Funktionen 
+dort, die eigentlich in einen anderen Service gehören)
+```
+
+#### Regel 2: lose Bindung (zwischen Services) 
+
+```
+Es sollte eine lose Bindung zu anderen Services geben.
+(Ist die Bindung zu gross, sind entweder die Services zu klein konzipiert
+oder Funktionen sind an der falschen Stelle implementiert) 
+
+zu klein: zu viele Abfragen anderer Service .... 
+
+````
+
+#### Regel 3: unabhängigkeit 
+
+```
+Jeder Service muss eigenständig sein und seine eigene Datenbank haben.
+```
+
+### Datenbanken 
+
+#### Herangehensweise
+
+```
+heisst auch: 
+o Kein großes allmächtiges Datenmodel, sondern viele kleine 
+(nicht alles in jedem kleinen Datenmodel, sondern nur, was im jeweiligen
+Bounded Context benötigt wird)
+```
+
+#### Eine Datenbank pro Service (eigenständig / abgespeckt) 
+
+
+##### Warum ?
+
+```
+Axiom: Eine eigenständige Datenbank pro Service. Warum ? 
+(Service will NEVER reach into another services database)
+```
+
+##### Punkt 1 : Jeder Service soll unabhängig laufen können 
+
+```
+We want earch service to run independently of other services 
+
+o no DB for everything (If DB goes down our service goes down)
+o it easier to scale (if one service needs more capacity)
+o more resilient. If one service goes down, our service will still work.
+```
+
+#### Punkt 2: Datenbank schemata könnten sich unerwartet ändern 
+
+```
+o We (Service A) use data from Service B, directly retrieving it from the db.
+o We (Service) want property name: Lisa
+o Team of Service B changes this property to: firstName 
+  AND do not inform us.
+  (This breaks our service !!) . OUR SERV
+```
+
+#### Punkt 3: Freiheit der Datenbankwahl 
+
+```
+3.4.3 Some services might funtion more efficiently with different types
+of DB's (sql vs. nosql)
+```
+
+
+### Beispiel - Bounded 
+
+```
+Der Bounded Context definiert den Einsatzbereich eines Domänenmodells. 
+```
+
+```
+Es umfasst die Geschäftslogik für eine bestimmte Fachlichkeit. Als Beispiel beschreibt ein Domänenmodell 
+die Buchung von S-Bahn-Fahrkarten 
+und ein weiteres die Suche nach S-Bahn-Verbindungen. 
+```
+
+```
+Da die beiden Fachlichkeiten wenig miteinander zu tun haben, 
+sind es zwei getrennte Modelle. Für die Fahrkarten sind die Tarife relevant und für die Verbindung die Zeit, das Fahrziel und der Startpunkt der Reise.
+```
+
+```
+oder z.B. die Domäne: Bibliothek 
+Bibliothek 
+  Leihe (bounded context 1)
+  Suche (bounded context 2)
+```
+
+
+
+### EventBus Implementierungen/Überblick
+
+
+### Fertige Software, die einen Event Bus bereitsstellt
+
+  * Kafka 
+  * RabbitMQ
+  * NATS 
+
+### Was ist Ihre Aufgabe ? 
+
+  * Events empfangen 
+  * Events veröffentlichen (publish) für die Zuhörer (listener)
+ 
+
+### Wie sehen Events aus ? 
+
+  * Mit Events meinen wir Informations-Snippets 
+    * Es ist nicht festgelegt, wie eine Event aussehen soll, es kann
+      * Rohe Datenbytes
+      * JSON
+      * ein String
+      * u.a. ... sein (was immer du verwenden willst)
+
+### Was sind Listener ?
+
+  * Listener sind Services, die von anderen Events von anderen Services erfahren wollen 
 
 ## Linux Tipps & Tricks
 
@@ -780,9 +1220,11 @@ docker run hello-world
 docker images 
 
 ## container (laufende) 
-docker container ls 
+docker container ls
+docker ps 
 ## container (vorhanden, aber beendet)
 docker container ls -a 
+docker ps -a 
 
 ## z.b hilfe für docker run 
 docker help run 
@@ -809,6 +1251,8 @@ docker container prune
 ## Alle images, die nicht an eine container gebunden sind, löschen 
 docker image prune 
 
+## Alle nicht benötigten Daten löschen
+docker system prune 
 ```
 
 ### Logs des Host-Systems zu den Containern auslesen
@@ -887,14 +1331,17 @@ cd myubuntu/
 ```
 
 ```
-## nano Dockerfile
+nano Dockerfile
+```
+
+```
 FROM ubuntu:22.04
 RUN apt-get update; apt-get install -y inetutils-ping
 ## CMD ["/bin/bash"]
 ```
 
 ```
-docker build -t fullubuntu .
+docker build -t fullubuntu:1.0 .
 docker images 
 ```
 
@@ -909,7 +1356,7 @@ RUN apt-get update && \
 ```
 
 ```
-docker build -t myubuntu .
+docker build -t myubuntu:1.0 .
 docker images
 ```
 
@@ -954,53 +1401,18 @@ cd multi-stage-example
 ```
 
 ```
-## Bau - Variante 1:
-docker build -t multi-stage-example:v1 .
-## Größe ?
-docker images
-docker run -d --name multibuildv1 -p 8081:8081 multi-stage-example:v1 
-docker exec -it multibuildv1 sh
+## Bauen und vor Target stoppen 
+docker build . -t multi-stage-example:v1 --target=builder # - Build image using a specific stage
+
+## Bauen
+docker build . -t multi-stage-example:v1
 ```
 
-```
-## in der Shell
-ls -la
-cd /app
-## source ist da ! 
-ls -la
-```
-
-### Step 2:
+### Step 2
 
 ```
-## modifizieren Dockerfile und zwar stage 2 das image
-## vorher:
-## FROM builder <- hier wird das komplette fertige image verwendet 
-## jetzt: (das scheint das kleinstmögliche Image zu sein)  
-FROM openjdk:8-jdk-alpine
-```
-
-```
-docker build -t multi-stage-example:v2  .
-## Größe ?
-docker images 
-docker run -d --name multibuildv2 -p 8080:8080 multi-stage-example:v2 
-docker exec -it multibuildv2 sh
-```
-
-```
-## in der Shell
-ls -la
-cd /app
-## kein source
-ls -la
-```
-
-### Step 3:
-
-```
-docker rm -f multibuildv2 multibuildv1
-docker rmi multi-stage-example:v1 multi-stage-example:v2
+## run 
+docker run p 8080:8080 multi-stage-example:v1 
 ```
 
 ## Docker Security 
@@ -1152,7 +1564,7 @@ docker-compose --version
 
 
 ### Schritt 1:
-```
+```bash
 clear
 cd
 mkdir wp
@@ -1162,7 +1574,7 @@ nano docker-compose.yml
 
 ### Schritt 2:
 
-```
+```yaml
 ## docker-compose.yaml
 version: "3.8"
 
@@ -1206,13 +1618,13 @@ volumes:
 ### Schritt 3:
 
 ```
-docker-compose up -d 
+docker compose up -d 
 ```
 
 ### Schritt 4: Alles wieder beenden 
 
 ```
-docker-compose down
+docker compose down
 ```
 
 ### Example with Ubuntu and Dockerfile
@@ -1301,6 +1713,50 @@ docker-compose logs
 ### docker compose Reference
 
   * https://docs.docker.com/compose/compose-file/compose-file-v3/
+
+## Docker - compose (Testprojekte)
+
+### Testprojekt mit api und mongodb
+
+
+### Was macht es ?
+
+  * Das Projekt wird direkt gebaut
+  * Es startet eine mongodb.
+  * Daten werden Über api calls geschrieben/gelesen gelöscht
+
+### Wie verwende ich es ?
+
+#### Schritt 1: Aufsetzen 
+
+```bash 
+## Auf dem Docker - server direkt klonen und starten
+cd
+mkdir -p projects
+cd projects
+```
+
+```bash 
+git clone https://github.com/jmetzger/multiple-containers-in-docker.md mcid
+cd mcid
+docker compose up -d 
+```
+
+#### Schritt 2: [Optional] Datenbankverbindung aufbauen 
+
+```
+## Z.B. in visual studio code
+## Extensions MongoDB installieren 
+```
+
+
+#### Schritt 3: Rest API-Calls absetzen
+
+   * Diese finden sich bspw. hier: https://github.com/jmetzger/multiple-containers-in-docker/blob/main/rest.http
+
+```
+## Hierzu kann bspw. der REST-Client in Visual Studio Code verwendet werden 
+```
 
 ## Microservices - Daten
 
@@ -1508,7 +1964,168 @@ x because of this: application cannot simply use a local ACID transaction.
 
   * https://microservices.io/patterns/data/event-sourcing.html
 
-## Microservice - flightapp
+## Microservice - flightapp - concepts
+
+### Vorgehensweise nach dem SEED-Verfahren
+
+
+### 7 Steps 
+
+  * 1. Akteure identifzieren 
+  * 2. Jobs identifizieren, die durch Akteure getätigt werden müssen
+  * 3. Entdecken/Entwickeln von Interaktionsschritte mit Ablaufdiagrammen 
+  * 4. High-Level Aktionen und Abfragen basierend auf den zu tätigenden Jobs (2) und den Interaktionsschritten ableiten 
+  * 5. Jede Abfrage und Aktion als Spezifikation beschreiben, mit einem offenen Standarad (wie OpenAPI Spezifikation [OAS] or GraphQL schemata)
+  * 6. Feedback zur Api erhalten 
+  * 7. Implementieren 
+
+### Vorgehensweise nach SEED on Detail
+
+
+### Schritt 1: 
+
+```
+Identifizierung der bounded contexts 
+
+o Flights Management
+o Reservations Management 
+
+Am Anfang macht es Sinn microservices eher 
+grob/weit (coarse-grained) zu gestalten 
+in Ihrer Funktion. 
+(von allgemein zu spezifischer ist nachher einfach 
+als anders herum) 
+```
+
+### Schritt 2: Akteure/Konsumenten mit der SEED - Methode identifizieren
+
+  1. Eine Kunden will den Flug buchen 
+  1. Die User-App der Airline (web, mobile, usw.)
+  1. Die Web API mit der die App interagiert.(dies nenne manche auch "backend for frontends" oder BFF APIs.)
+  1. The flights management microservice: ms-flights
+  1. Das Reservierungs Management microservice: ms-reservations 
+
+### Schritt 3: Beispiele von JTBD's (Jobs to be Done) 
+
+```
+Fiktiv: Gesammelt von Kunden Interviews und Business Analyse Recherche
+
+1. Wenn ein Kunde mit der UI interagiert, muss die app einen Sitzplan anzeigen, welcher die verfügbaren und die belegten Plätze zeigt, so dass der Kunde einen Sitzplatz auswählen kann. 
+2. Wenn ein Kunde eine Buchung finalisiert, muss die web app einen Sitz reservieren für den Kunden (so kann die App verhinden, dass es im Verlauf Konflikten bei den 
+Sitzen gibt)
+```
+
+### Schritt 4: BFF-Api als Ver-Mittler (JTBD)
+
+```
+(Backend for frontend) 
+
+Empfehlung: Eine BFF-Api, die nur eine ganze schlanke Schicht hat ohne business
+Logik Implementierung. 
+
+Sie "orchestriert" nur die microservices 
+
+Es gibt also jobs für die die BFF API microservices braucht.
+
+Die folgende Liste an Job, die mehr technischen JTBD's beschreiben die Bedürfnisse ziwschen der BFF API und den microservices 
+
+1. Wenn die BFF API angefragt wird einen Sitzplan zur Verfügung zu stellen, braucht die API msflights, um einen Plan der Sitze im Flugzeug zu bekommen, so dass die BFF API Verfügbarkeiten abholen kann und das finale Ergebnis erstellen kann.
+
+2. Wenn die BFF API einen Sitzplan rendern soll, braucht die BFF API ms-reservations um eine Liste von bereits reservierten Sitzen zu bekommen, so dass die BFF API diese Daten dem Sitzplatz-Setup hinzufügen kann und ein Sitzplan zurückgibt. 
+
+3. Wenn die BFF API gefragt wird, einen Sitzplatz zu reservieren, braucht die BFF API ms-reservations um die Reservierung auszuführen, so dass die API einen Sitzplatz reservieren kann
+
+======================================
+Achtung:
+Wir lassen nicht ms-flights -> ms-reservations
+aufrufen, um den Sitzplan zusammenzubauen 
+
+Stattdessen lassen wir die BFF API diese 
+interaktion tun. 
+
+Direkt microservices-to-microservices call
+sollten vermieden 
+werden
+
+============================================
+```
+
+### Schritt 5: Project Flight-Service: UML (Erstellen eines Ablaufdiagramms) 
+
+  * https://github.com/jmetzger/training-microservices-docker-kubernetes/blob/main/microservices-flightapp/concept/02-uml.md
+
+```
+Folgendes kann man hier klar erkennen:
+
+1. flight id muss ich abfragen, weil Kunden oft nicht direkt die Flugnummer eingeben ;o) 
+
+###############################################
+Randnotiz 
+###############################################
+
+Zwar müssten auch Tasks für die BFF API definiert werden,
+lassen wir aber mal jetzt aussen vor. 
+```
+
+### Schritt 6: JBTD in actions und queries überführen 
+
+```
+Wir machen das für ms-flights und ms-reservations
+```
+
+#### A. Flights Microservice 
+
+##### Get flight details 
+
+```
+  o Input flight_no,
+    departure_local_date_time 
+    (ISO8601 format und in der lokalen zeitzone)
+
+  o Response: A unique flight_id identifying a 
+    specific flight on a specific date. 
+    In der Praxis, wird dieser Endpunkt noch
+    mehr relevanten Felder zurückgeben, aber 
+    diese sind für unseren Context unrelevant 
+    also überspringen wir diese
+```
+
+##### Get flight seating (the diagram of seats on a flight)
+
+```
+  o Input flight_id
+  o Response: Seat Map Object in JSON Format
+```
+
+#### B. Reservations Microservice 
+
+##### Query already reserved seats on a flight
+
+```
+  o Input: flight_id
+  o Response: A list of already-taken seat numbers,
+              each seat number in a format like "2A" 
+```
+##### Reserve a seat on a flight 
+
+```
+  o Input: flight_id,customer_id,seat_num
+  o Expected outcome: A seat is reserved and unavailable
+    to others, or an error fired if the seat was unavailable 
+  o Response: Success (200 Success) or failure (403 Forbidden) 
+```
+
+### Schritt 7: Ablaufdiagramm erstellen und anzeigen 
+
+   * Schritte hier: [UML](/microservices-flightapp/concept/02-uml.md)
+
+### Schritt 8: OpenAPI Spezifikation 
+
+  * Wir werden das bei der Umsetzung testen. 
+
+### Schritt 9: Implementieren 
+
+## Microservice - flightapp - reservations 
 
 ### Template for microservice with python flask 
 
@@ -1526,8 +2143,6 @@ x because of this: application cannot simply use a local ACID transaction.
 #### Refs:
 
   * https://github.com/inadarei/ms-python-flask-template/tree/master
-
-### Build service - seat reservation
 
 ### Create microservice - reservations
 
@@ -1554,8 +2169,8 @@ https://raw.githubusercontent.com/jmetzger/ms-reservations/master/docs/api.yml
 
 ```
 cd
-git clone https://github.com/jmetzger/ms-reservations.git
-cd ms-reservations
+git clone https://github.com/jmetzger/ms-reservations.git msupandrunning
+cd msupandrunning
 sudo apt install -y make
 make
 ```
@@ -1653,6 +2268,9 @@ curl --verbose --header "Content-Type: application/json" --request PUT --data '{
 curl --verbose --header "Content-Type: application/json" --request PUT --data '{"seat_num":"12D","flight_id":"werty", "customer_id": "dfgh"}' http://192.168.56.102:7701/reservations
 ```
 
+### Reference 
+
+  * https://redis.io/docs/latest/commands/hsetnx/
 
 ### Upload image microservice - reservations
 
@@ -1661,20 +2279,33 @@ curl --verbose --header "Content-Type: application/json" --request PUT --data '{
 
 ```
 ## eventually 
-cd ms-reservations
+cd msupandrunning
+## show all images build through this docker compose 
+docker compose images
 ```
 
 ```
-## from the last step 01 Create microservce you should already have an image
-docker images | grep reservations
 ## msupandrunning-ms-reservations     latest  
 ## to upload it to docker hub, we would need to tag it
 ## one image can have multiple tags
-docker tag msupandrunning-ms-reservations dockertrainereu/reservations-jm:v1
+```
+
+#### Das image wird getagged 
+
+  * Damit klar ist, wo es hingeschickt werden soll und zwar welches images 
+
+```
+## Bitte <namenskuerzel> ersetzen, z.B. jm  
+docker tag msupandrunning-ms-reservations dockertrainereu/reservations-<namenskuerzel>:v14
+## now enter dockertrainereu + password-you-will-get-from-your-trainer ;O)
 docker login
-## now enter gittrainereu + password-you-will-get-from-your-trainer ;O)
-## push the image to the server 
-docker push dockertrainereu/reservations-jm:v1
+```
+
+```
+
+## push the image to the server
+## <namenskuerzel> ersetzen durch z.B. jm 
+docker push dockertrainereu/reservations-<namenskuerzel>:v14
 ```
 
 ### Build image reservations with gitlab ci/cd
@@ -1773,18 +2404,621 @@ CODE -> Tags -> New Tag -> (z.B.) v3
 ## https://gitlab.com/training.tn1/ms-jochen/-/tags/new
 ```
 
+## Microservice - flightapp - flights
+
+### Template for microservice flights with node bootstrap
+
+
+### Good idea to start microservices with a fixed template within your team 
+
+#### Why ?
+
+  * Way shorter implementation time for new microservice based on python
+
+#### What do we use it for ? 
+
+  * Flights 
+
+#### Refs (Specifically for microservices)
+
+  * https://nodebootstrap.com
+
+### Build flight app
+
+
+### Step 1: Use bootstrap github template 
+
+  * https://github.com/jmetzger/nodebootstrap-microservice
+
+```
+## as unpriviliged user / root
+cd
+```
+
+```
+## either usetemplate
+## but we will just clone it locally
+git clone https://github.com/jmetzger/nodebootstrap-microservice ms-flights
+```
+
+### Step 2: Create documentation 
+
+```
+cd ms-flights/doc
+```
+
+```
+## Replace content in api.yml
+## with our own definition from
+https://raw.githubusercontent.com/jmetzger/ms-flights/master/docs/api.yml
+```
+
+```
+## now render the docs and open 3939 port with container running
+make start
+docker container ls 
+```
+
+```
+## in browser of rdp
+http://192.168.56.102:3939
+```
+
+### Step 3: Cleanup and restructure 
+
+#### Step 3.1 Delete and rename unneeded files 
+
+```
+## we will use the users module for something else 
+cd
+cd ms-flights
+mv lib/users lib/flights
+```
+
+```
+## / -> homedoc is no needed, so we delete it
+rm -fR lib/homedoc
+```
+
+#### Step 3.2 Adjust appConfig.js to change routings 
+
+```
+nano appConfig.js 
+```
+
+```
+## 1. delete this line from appConfig.js
+## app.use('/',      require('homedoc')); // attach to root route
+
+## 2. change line
+## app.use('/users', require('users')); // attach to sub-route
+## to ->
+## app.use('/flights', require('flights')); // attach to sub-route
+```
+
+#### Step 3.3 Edit lib/flights/controllers/mappings.js for input validation and which functions to call
+
+```
+nano lib/flights/controllers/mappings.js
+```
+
+```
+##the new version will look like this
+https://raw.githubusercontent.com/jmetzger/ms-flights/master/lib/flights/controllers/mappings.js
+```
+#### Step 3.4 Edit lib/flights/controllers/actions.js  
+
+```
+nano libs/flights/controllers/actions.js 
+```
+
+```
+## the new version will look like this
+https://raw.githubusercontent.com/jmetzger/ms-flights/master/lib/flights/controllers/actions.js
+```
+
+### Step 3.5 Delete lib/flights/models 
+
+```
+rm -fR lib/flights/models/
+```
+
+#### Step 3.6 Integrate MySQL - data 
+
+##### Step 3.6.1 Delete old stuff in migrations 
+
+```
+rm -fR migrations/* 
+```
+
+##### Step 3.6.2 Create files for upgrading/downgrading
+
+```
+## create migrations scripts (implemented in bootstrap)
+make migration-create name=seat-maps
+make migration-create name=flights
+make migration-create name=sample-data
+```
+
+```
+## if you are working as unprivileged user change permissions accordingly
+## They are root after this process
+sudo chown kurs:kurs ms-flights/migrations/sqls/*sql
+```
+
+##### Step 3.6.3 Populate files 
+
+```
+nano migrations/sqls/[date]-seat-maps-up.sql
+```
+
+```
+## migrations/sqls/[date]-seat-maps-up.sql with data of
+https://raw.githubusercontent.com/jmetzger/ms-flights/master/migrations/sqls/20200602055112-seat-maps-up.sql
+````
+
+
+```
+nano migrations/sql/[date]-flights-up.sql 
+```
+
+```
+## migrations/sqls/[date]-seat-maps-up.sql with data of
+https://github.com/jmetzger/ms-flights/blob/master/migrations/sqls/20200602055121-flights-up.sql
+```
+
+```
+nano migrations/sqls/[date]-sample-data-up.sql
+```
+
+```
+## migrations/sqls/[date]-sample-data-up.sql with data of
+https://github.com/jmetzger/ms-flights/blob/master/migrations/sqls/20200602055127-sample-data-up.sql
+```
+
+
+##### Step 3.6.4 Do the migration 
+
+```
+## Doing make restart instead of make migrate, because new data needs to be in docker container
+make restart
+```
+
+#### Step 3.7 Renaming from ms-nodebootstrap-example to ms-flights 
+
+```
+cd ms-flights
+make stop
+## Change all entries that appear here
+grep -r ms-nodebootstrap-example .
+```
+
+```
+## when adjusted all entries doublecheck
+grep -r ms-nodebootstrap-example
+make restart
+```
+
+#### Step 3.8 Testing 
+
+```
+## Flight 
+curl http://192.168.56.102:5501/flights?flight_no=AA34&departure_date_time=2020-05-17T13:20
+```
+
+```
+## Seat map
+curl --verbose http://192.168.56.102:5501/flights/AA2532/seat_map
+```
+
+### Upload image flight app
+
+
+### Step 1: Upload image to docker hub 
+
+```
+cd flights
+```
+
+```
+## from the last step 01 Create microservce you should already have an image
+docker images | grep flights
+## nb-demo-ms-flights                 latest  
+## to upload it to docker hub, we would need to tag it
+## one image can have multiple tags
+docker tag nb-demo-ms-flights dockertrainereu/flights-jm:v1
+docker login
+## now enter gittrainereu + password-you-will-get-from-your-trainer ;O)
+## push the image to the server 
+docker push
+```
+
 ## Microservice - flightapp - Deployment Kubernetes
 
 ### Manual deployment
 
 ### gitlab Deployment
 
+### github Deployment
+
+
+### Step 1: Create Repo in github 
+
+```
+## url
+https://github.com/new
+
+## Bitte hier keine Dateien anlegen
+## keine README.md
+## keine .gitignore
+
+```
+
+### Step 2: Create personal access token (Optional) 
+
+  * you can do this here: https://github.com/settings/tokens/new
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/1ff54521-7f4d-4edb-8cba-f0c20a30782b)
+
+
+### Step 3: Lokal projekt anlegen (auf dem kubectl - client) 
+
+```
+cd
+mkdir -p github-test
+cd github-test 
+```
+
+```
+mkdir -p manifests
+cd manifests
+nano 01-deployment.yaml 
+```
+
+### Step 4: Populate project with sample manifest 
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 8
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.23
+        ports:
+        - containerPort: 80
+```
+
+### Step 5: Projekt unter Versionsverwaltung stellen und pushen 
+
+```
+cd
+git init
+git config --global user.email test@test.de
+git config --global user.name "Jochen from m1"
+```
+
+```
+git remote add origin https://github.com/gittrainereu/microjay2.git
+```
+
+```
+git add .
+git commit -am "Initial Release"
+## wir werden gefragt nach:
+## user-name
+## password -> hier bitte den Personal Token verwenden 
+git push -u origin master 
+```
+
+### Step 6: KUBERNETES_CONFIG als Secret anlegen 
+
+```
+## kopieren der Ausgabe von server mit kubectl
+cat ~/.kube/config
+```
+
+```
+## Enter it here, by adding a new secret: KUBERNETES_CONFIG
+## secret für Repositry
+https://github.com/gittrainereu/<your-repo> /settings/secrets/actions/new
+```
+
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/89e4fdc1-bcdb-4e69-8db6-3f630eff7655)
+
+### Step 7: Setup github actions (in web ui of github)
+
+  * workflow folder: .github/workflows
+  * manifests - folder: manifests/
+  
+```
+## create file .github/workflows/pipeline.yaml
+## with content 
+```
+
+```
+## adjust
+## 1. server-url / use data from last step 
+## 2. your-name / use your own namespace here
+name: CI/CD
+on: push
+jobs:
+  deploy:
+    name: Deploy
+    # needs: [ test, build ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set the Kubernetes context
+        uses: azure/k8s-set-context@v2
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBERNETES_CONFIG }}
+
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Deploy to the Kubernetes cluster
+        uses: azure/k8s-deploy@v5
+        with:
+          namespace: <yournamespace>
+          manifests: |
+            manifests
+
+```
+
+### Step 9: watch and enjoy 
+
+
+
+
+### Reference 
+
+  * https://github.com/marketplace/actions/deploy-to-kubernetes-cluster
+
+### github Deployment-with-secret-not-working
+
+
+### What is not working ? 
+
+  * We get an error in the pipeline, there seems
+  * to be a misconfiguration about the secret we use
+
+### Step 1: Create Repo in github 
+
+```
+## url
+https://github.com/new
+```
+
+### Step 2: Create personal access token 
+
+  * you can do this here: https://github.com/settings/tokens/new
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/1ff54521-7f4d-4edb-8cba-f0c20a30782b)
+
+
+
+
+### Step 3: Clone Repo to local system (machine where we use kubectl ) 
+
+```
+## on local system -> clone to k8s-deploy
+cd
+mkdir -p github-test
+cd github-test 
+## so we all have the same folder in the training (for our ease) 
+git clone <your-repo> k8s-deploy
+cd k8s-deploy
+```
+
+```
+mkdir -p manifests
+cd manifests
+nano 01-pod.yaml 
+```
+
+### Step 4: Populate Repo with sample manifest 
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: static-web
+  labels:
+    role: myrole
+spec:
+  containers:
+    - name: web
+      image: nginx
+      ports:
+        - name: web
+          containerPort: 80
+          protocol: TCP
+```
+
+### Step 5: Push changes 
+
+```
+git config --global user.email test@test.de
+git config --global user.name "Jochen from m1"
+```
+
+```
+git add -A
+git commit -am "Initial Release"
+git push -u origin main
+```
+
+
+### Step 6: Setup authentication in kubernetes (service account) - in kubectl - client 
+
+```
+## wird in deinem namespace angelegt 
+## create serviceaccount
+kubectl create serviceaccount github-actions-tln<nr>
+```
+
+```
+cd
+mkdir -p manifests
+cd manifests
+mkdir github-account
+cd github-account 
+```
+
+```
+nano 01-sasecret.yaml
+```
+
+```
+## Secret für service account anlegen / wichtig: muss
+## in neueren Versionen von kubernetes gemacht werden
+## da secrets nicht mehr automatisc angelegt werden
+## beim Erstellen von service account (Stand: 26.04.2024) 
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/service-account-token
+metadata:
+  name: github-actions-secret 
+  annotations:
+    kubernetes.io/service-account.name: github-actions-tln<nr>
+```
+
+```
+kubectl apply -f .
+```
+
+```
+nano 02-clusterrole.yml 
+```
+
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: continuous-deployment-tln<nr>
+rules:
+  - apiGroups:
+      - ''
+      - apps
+      - networking.k8s.io
+    resources:
+      - namespaces
+      - deployments
+      - replicasets
+      - ingresses
+      - services
+      - secrets
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - get
+      - list
+      - patch
+      - update
+      - watch
+```
+
+```
+kubectl apply -f .
+```
+
+```
+kubectl create clusterrolebinding continuous-deployment-tln<nr> \
+    --clusterrole=continuous-deployment-tln<nr>
+    --serviceaccount=<dein-namespace>:github-actions-tln<nr>
+```
+
+### Step 7: secrets auslesen und bei github eintragen 
+
+```
+kubectl get secrets github-actions-secret -o yaml 
+```
+
+```
+## Copy the output
+```
+
+```
+## Enter it here, by adding a new secret: KUBERNETES_SECRET
+https://github.com/gittrainereu/<your-repo>/settings/secrets/actions/new
+```
+
+```
+## Get the url of your kubernetes cluster
+## And Copy it to clipboard
+## We will need this for your pipeline 
+kubectl config view -o 'jsonpath={.clusters[0].cluster.server}'
+```
+
+### Step 8: Setup github actions (in web ui of github)
+
+  * workflow folder: .github/workflows
+  * manifests - folder: manifests/
+  
+```
+## create file .github/workflows/pipeline.yaml
+## with content 
+```
+
+```
+## adjust
+## 1. server-url / use data from last step 
+## 2. your-name / use your own namespace here
+name: CI/CD
+on: push
+jobs:
+  deploy:
+    name: Deploy
+    # needs: [ test, build ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set the Kubernetes context
+        uses: azure/k8s-set-context@v2
+        with:
+          method: service-account
+          k8s-url: <server-url>
+          k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
+
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Deploy to the Kubernetes cluster
+        uses: azure/k8s-deploy@v1
+        with:
+          namespace: <yournamespace>
+          manifests: |
+            manifests/
+
+```
+
+### Step 9: watch and enjoy 
+
+
+
+
+### Reference 
+
+  * https://github.com/marketplace/actions/deploy-to-kubernetes-cluster
+
 ## Kubernetes - Überblick
 
 ### Warum Kubernetes, was macht Kubernetes
 
 
-  * Virtualisierung von Hardware - 5fache bessere Auslastung
+  * Virtualisierung von Hardware - xfache bessere Auslastung
   * Google als Ausgangspunkt 
   * Software 2014 als OpenSource zur Verfügung gestellt (Name bei Google: Borg)
   * Optimale Ausnutzung der Hardware, hunderte bis tausende Dienste können auf einigen Maschinen laufen (Cluster)  
@@ -1801,7 +3035,7 @@ CODE -> Tags -> New Tag -> (z.B.) v3
 
 ### Schaubild 
 
-![Kubernetes Architecture - src: syseleven](https://www.syseleven.de/wp-content/uploads/2020/11/syseleven-webiste-loesungen-kubernetes-modell-800x400-web.jpg)
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/0c915cb1-5e5a-4ef1-a978-f3c16633be69)
 
 ### Komponenten / Grundbegriffe
 
@@ -1974,7 +3208,7 @@ it is not suitable for production.
 
 
 
-## Kubernetes - Einsatz (Risiken)
+## Kubernetes - Einsatz
 
 ### Kubernetes Einsatz -> Risiken
 
@@ -2063,6 +3297,44 @@ it is not suitable for production.
    * BESSER: Kleine Schritte, Erfahrungen sammeln, MESSEN ! 
 
 
+
+
+### Kubernetes Datenbanken in Kubernetes oder ausserhalb
+
+
+### Aspekt: Debugging (Expertise im Team) 
+
+  * Kann kann ein Killer-Kriterium sein, weil ich jemand brauche,
+    * der sowohl die DB beherrscht als auch Kubernetes
+  * Wenn ich keinen solchen habe, sollte ich es NICHT in Kubernetes betreiben 
+   
+### Performance - Optimierung / Debugging 
+
+  * Memory is key (Je mehr Arbeitsspeicher desto besser)
+  * Funktionieren am besten, wenn alle häufig verwendeten Daten in den Arbeitsspeicher passen
+
+### Nachteil Kubernetes:
+
+  * Erhöhte Komplexität (wo muss ich hinlangen)
+  * Manche Datenbanksystemen kommen nicht gut damit zurecht, wenn pods häufig mit der Datenbank
+    * neu erstellt werden
+   
+ ## Wenn Kubernetes:
+
+   * Gibt es einene Operator für diesen Datenbank
+
+### Folgende Datenbanken gehen garnicht als Installation innerhalb des Kubernetes Clustter
+
+  * Oracle
+
+### Folgende Datenbanken sind nicht so gut geeignet eine Installation innerhalb des Kubernetes Cluster
+
+  * mariadb und postgresql
+
+### Referenz:
+
+  * https://cloud.google.com/blog/products/databases/to-run-or-not-to-run-a-database-on-kubernetes-what-to-consider?hl=en
+  * https://operatorhub.io/?keyword=mariadb
 
 
 ## Kubernetes mit microk8s (Installation und Management)
@@ -2392,11 +3664,11 @@ kubectl get pods -o wide
 ### Example (that does not work) 
 
 ```
-kubectl run foo2 --image=foo2
+kubectl run meinfalscherpod --image=foo2
 ## ImageErrPull - Image konnte nicht geladen werden 
 kubectl get pods 
 ## Weitere status - info 
-kubectl describe pods foo2 
+kubectl describe pods meinfalscherpod
 ```
 
 ### Ref:
@@ -2422,8 +3694,10 @@ cd web
 ```
 
 ```
-## vi nginx-static.yml 
+nano nginx-static.yml
+```
 
+```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -2542,9 +3816,7 @@ cd 03-deploy
 nano deploy.yml 
 ```
 
-```
-
-## vi deploy.yml 
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -2553,7 +3825,7 @@ spec:
   selector:
     matchLabels:
       app: nginx
-  replicas: 8 # tells deployment to run 2 pods matching the template
+  replicas: 8 
   template:
     metadata:
       labels:
@@ -2663,11 +3935,14 @@ kubectl describe svc svc-nginx
 
 ```
 ## now delete pod and see changes
-## adjust pod-name 
+## -> podip will disappear from service / kubectl describe svc-nginx 
 kubectl delete po web-nginx-596cdd7d5c-2lsr6
 kubectl get pods -o wide
+
 kubectl get svc svc-nginx 
-## now the new podips should be found 
+
+## New pod (with pod-ip) is detected by service
+## and now in the list of the endpoints 
 kubectl describe svc svc-nginx 
 ```
 
@@ -3627,7 +4902,6 @@ nano 01-configmap.yml
 ```
 
 ```
-### 01-configmap.yml
 kind: ConfigMap 
 apiVersion: v1 
 metadata:
@@ -3677,6 +4951,16 @@ spec:
 ```
 kubectl apply -f .
 ```
+
+### Testing 
+
+```
+## Führt den Befehl env in einem Pod des Deployments aus  
+kubectl exec deployment/mariadb-deployment -- env
+## eigentlich macht er das:
+## kubectl exec mariadb-deployment-c6df6f959-q6swp -- env
+```
+
 
 ### Important Sidenode 
 
@@ -3749,6 +5033,168 @@ spec:
 ```
 kubectl apply -f .
 ```
+
+## Kubernetes Praxis (Teil 2) - API Objekte 
+
+### Hintergrund Statefulsets
+
+
+### Why ?
+
+  * stable network identities (always the same name across restarts)  in contrast to deployments
+
+```
+Server:    10.0.0.10
+Address 1: 10.0.0.10 kube-dns.kube-system.svc.cluster.local
+
+Name:      web-0.nginx
+Address 1: 10.244.1.6
+
+nslookup web-1.nginx
+Server:    10.0.0.10
+Address 1: 10.0.0.10 kube-dns.kube-system.svc.cluster.local
+
+Name:      web-1.nginx
+Address 1: 10.244.2
+```
+
+```
+The Pods' ordinals, hostnames, SRV records, and A record names have not changed, but the IP addresses associated with the Pods may have changed.
+```
+
+
+
+
+### Features 
+
+  * Scaling Up: Ordered creation on scaling (web 2 till ready then web-3 till ready and so on) 
+
+```
+StatefulSet controller created each Pod sequentially 
+with respect to its ordinal index, 
+
+and it waited for each Pod's predecessor to be Running and Ready 
+
+before launching the subsequent Pod
+```
+
+  * Scaling Down: last created pod is torn down firstly, till finished, then the one before
+
+```
+The controller deleted one Pod at a time, 
+in reverse order with respect to its ordinal index, 
+and it waited for each to be completely shutdown before deleting the next.
+```
+
+  * VolumeClaimTemplate (In addition if the pod is scaled the copies will have their own storage)
+    * Plus: When you delete it, it gets recreated and claims the same persistentVolumeClaim 
+
+```
+volumeClaimTemplates:
+  - metadata:
+      name: www
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+```
+
+   * Update Strategy: RollingUpdate / OnDelete 
+   * Feature: Staging an Update with Partitions
+     * https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/#staging-an-update
+   * Feature: Rolling out a canary 
+     * https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/#rolling-out-a-canary
+
+### Übung Statefulsets
+
+
+### Overview 
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/7c3ba7c6-5695-4261-8b17-8eafd683ae6a)
+
+###
+
+```
+cd
+mkdir -p manifests
+cd manifests
+mkdir sts
+cd sts
+```
+
+```
+nano sts.yaml 
+```
+
+### 
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None
+  selector:
+    app: nginx
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web
+spec:
+  serviceName: "nginx"
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: registry.k8s.io/nginx-slim:0.8
+        ports:
+        - containerPort: 80
+          name: web
+```
+
+```
+kubectl apply -f .
+```
+
+
+### Auflösung Namen.
+
+```
+ping web-0.nginx 
+ping web-1.nginx 
+```
+
+### Test der Auflösung 
+
+```
+kubectl run --rm -it podtester --image=busybox
+```
+
+```
+/ # ping web-0.nginx
+/ # ping web-1.nginx
+/ # exit 
+```
+
+### Referenz 
+
+  * https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/
+
 
 ## Kubernetes Ingress
 
@@ -4000,6 +5446,10 @@ sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
   * https://blog.bitsrc.io/bff-pattern-backend-for-frontend-an-introduction-e4fa965128bf
 
+### Microservices Up and Running
+
+  * https://www.amazon.de/Kubernetes-Running-Dive-Future-Infrastructure/dp/109811020X/ref=sr_1_1
+
 ## gitlab ci/cd
 
 ### Einfaches Beispielscript
@@ -4245,6 +5695,94 @@ reboot
 ### Reference:
 
   * https://gist.github.com/estorgio/1d679f962e8209f8a9232f7593683265
+
+## CloudInit
+
+### Kubernetes Client einrichten mit bash
+
+
+```
+##!/bin/bash 
+
+groupadd sshadmin
+USERS="11trainingdo $(echo tln{1..20})"
+echo $USERS
+for USER in $USERS
+do
+  echo "Adding user $USER"
+  useradd -s /bin/bash --create-home $USER
+  usermod -aG sshadmin $USER
+  echo "$USER:deinpassword" | chpasswd
+done
+
+## We can sudo with 11trainingdo
+usermod -aG sudo 11trainingdo 
+
+## Now let us do some generic setup 
+echo "Installing kubectl"
+snap install --classic kubectl
+
+echo "Installing helm"
+snap install --classic helm 
+
+
+
+## 20.04 and 22.04 this will be in the subfolder
+if [ -f /etc/ssh/sshd_config.d/50-cloud-init.conf ]
+then
+  sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config.d/50-cloud-init.conf
+fi
+
+### both is needed 
+sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+
+usermod -aG sshadmin root
+
+## TBD - Delete AllowUsers Entries with sed 
+## otherwice we cannot login by group 
+
+echo "AllowGroups sshadmin" >> /etc/ssh/sshd_config 
+systemctl reload sshd 
+
+#### BASH Completion ###
+## update repo 
+apt-get update 
+apt-get install -y bash-completion
+source /usr/share/bash-completion/bash_completion
+## is it installed properly
+type _init_completion
+
+## 1. kubectl completion -> activate for all users
+kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null
+
+## 2. helm completion -> activate for all users 
+helm completion bash | sudo tee /etc/bash_completion.d/helm > /dev/null
+
+
+## Activate syntax - stuff for vim
+## Tested on Ubuntu 
+echo "hi CursorColumn cterm=NONE ctermbg=lightred ctermfg=white" >> /etc/vim/vimrc.local 
+echo "autocmd FileType y?ml setlocal ts=2 sts=2 sw=2 ai number expandtab cursorline cursorcolumn" >> /etc/vim/vimrc.local 
+
+## Activate Syntax highlightning/autoindenting for nano 
+## v1 - old version / remove if new version works 
+##cd /usr/local/bin
+##git clone https://github.com/serialhex/nano-highlight.git 
+## Now set it generically in /etc/nanorc to work for all 
+##echo 'include "/usr/local/bin/nano-highlight/yaml.nanorc"' >> /etc/nanorc 
+
+#####################################
+## v2 - new version / more simplistic
+##################################### 
+echo "include /usr/share/nano/yaml.nanorc" >> /etc/nanorc 
+echo "set autoindent" >> /etc/nanorc
+echo "set tabsize 2" >> /etc/nanorc
+echo "set tabstospaces" >> /etc/nanorc 
+
+## Install nfs-common for mounting, just in case we need it for persistant storage exercise 
+apt-get install -y nfs-common
+
+```
 
 ## Praxis Microservices ohne Docker und Kubernetes 
 
@@ -4654,6 +6192,8 @@ docker container prune
 ## Alle images, die nicht an eine container gebunden sind, löschen 
 docker image prune 
 
+## Alle nicht benötigten Daten löschen
+docker system prune 
 ```
 
 ### Nginx mit portfreigabe laufen lassen
@@ -4799,14 +6339,17 @@ cd myubuntu/
 ```
 
 ```
-## nano Dockerfile
+nano Dockerfile
+```
+
+```
 FROM ubuntu:22.04
 RUN apt-get update; apt-get install -y inetutils-ping
 ## CMD ["/bin/bash"]
 ```
 
 ```
-docker build -t fullubuntu .
+docker build -t fullubuntu:1.0 .
 docker images 
 ```
 
@@ -4821,7 +6364,7 @@ RUN apt-get update && \
 ```
 
 ```
-docker build -t myubuntu .
+docker build -t myubuntu:1.0 .
 docker images
 ```
 
@@ -5417,420 +6960,6 @@ docker compose logs
 ## 
 docker compose down 
 ```
-
-## Grundwissen Microservices (Teil 2)
-
-### Brainstorming Domäne
-
-
-### Prozess aus Domain Drive Design
-
-  * Eventstorming
-  * https://entwickler.de/ddd/domain-driven-design-in-aktion-mehr-dynamik-mit-event-storming
-  * 
-
-### Welche Events gibt es ? (in der Vergangenheit) 
-
-```
-Bewerbungsgespräch geführt 
-Bewerber akzeptiert 
-Beispielvertrag erstellt 
-Beispielvertrag verschickt
-Beispielvertrag von zukünftigen Mitarbeiter angenommen 
-```
-
-### Wer löst dieses Event aus ? 
-
-
-```
-z.B. Button -> Bewerber 
-Command -> Bewerber auf Button im Webfrontend geklickt
-
-```
-
-
-
-### Datenbank - Patterns - Teil 1
-
-
-
-
-### Pattern Shared Database
-
-  * Shared Database:Informations-Hiding ist schwierig 
-  * Achtung: nur in 2 Situationen vernünftig
-    1. Lesen statischer Referenzdaten (Postleitzahlen, Geschlecht, Bundesländer)
-    2. Anbieten eines Service, der direkt eine Datenbank als definierten Endpunkt bereitstellt
-       * Database as-a-Service-Interface Pattern 
-
-#### Wie häufig 
-  
-  * Eher selten ?
-  
-
-### Pattern: Database View 
-
-  * Die Daten werden nicht als Tabelle, sondern als View bereitgestellt
-  * Datenbank (View) ist dann aber ein öffentlicher Vertrag
-
-#### Wo ? 
-
-  * Kann man dann machen, wenn man das monolithische Schema nicht auseinander nehmen kann
-  * Achtung: performance views mysql
-  * Wenn der Aufwand für die Aufteilung zu gross ist, kann das der 1. Schritt in die richtige Richtung sein
-
-
-### Pattern: Database-as-a-Service Interface
-
-  * Manchmal müssen Clients eine Datenbank nur abfragen
-  * z.B. eine dedizierte Datenbank, als Read-Only-Endpunkt 
-    * gefüllt wird diese wenn sich Daten in der zugrundeliegenden Datenbank ändern
-
-  * Wir sollten die Datenbank, die wird nach draussen anbieten, von der Datenbank 
-    * getrennt halten, die wir innerhalb unserer Service-Grenzen einsetzen
-
-#### Wie ?
-
-  * Umsetzung durch eine Mapping - Engine.
-
-#### Wann ? 
-
-   * Wenn legacy-client lesenden Zugriff benötigen 
-
-### Pattern: Database Wrapping Service 
-
-   * Eine Datenbank mit einem Service wrappen.
-   * Damit kann man auch sicherstellen, dass sich die Datenbank nicht verändert.
-   * Zugriffe müssen jetzt aber geändert werden, von direkt auf die service api
-
-#### Wann ? 
-
-   * API davor setzen, um Veränderung der Datenbank zu hindern. 
-   * Einschränken, was man machen darf. 
-
-### Pattern: Aggregate Exposing Monolith 
-
-  * Daten werden über einen Serviceendpunkt vom Monolithen selbst bereitgestellt
-    * API oder ein Stream mit Events
-  * Dadurch wird explizit, welche Informationen der neue Service benötigt
-
-### Pattern: Change Data Ownership 
-
-  * Der neue Dienst übernimmt die Ownership für die Daten 
-
-### Pattern Synchronize Data in Application 
-
-#### Schritt 1: Daten Bulk - synchronisieren
-  
-  * z.B. durch Batch-Job 
-  * dann z.B. Change-Data-Caputre Prozess 
-
-#### Schritt 2: Synchrones Schreiben, aus dem alten Schema lesen 
-
-  * Erfolgt durch Deployment einer neuen Version der Anwendung
-
-#### Schritt 3: Synchrones Schreiben, aus dem neuen Schema lesen 
-
-  * Erfolgt wieder durch Deployment einer neuen Version der Anwendung 
-
-#### Schritt 4: Alte Schema entfernen
-
-  * Altes Schema kann jetzt gefahrlos entfernt werden
-
-### Pattern: Tracer Write 
-
-  * Inkrementelle Verschiebung der Source of Truth. 
-  * D.h. nicht komplette Datenbank, sondern einzelne Tabellen
-
-### Datenbank - Patterns - Teil 2
-
-### Strategische Patterns
-
-
-### Pattern: Strangler Fig Application 
-
-  * Technik zum Umschreiben von Systemen 
-
-#### Wie umleitung, z.B.
-
-  * http proxy 
-  * oder s.u. branch by extraction
-  * An- und Abschalten mit Feature Toggle 
-  * Über message broker 
-
-#### http - proxy - Schritte 
-
-  1. Schritt: Proxy einfügen
-  2. Schritt: Funktionalität migrieren 
-  3. Schritt: Aufrufe umleiten
-
-#### Message broker
-
-  * Monolith reagiert auf bestimmte Messages bzw. ignoriert bestimmte messages
-  * monolith bekommt bestimmte nachrichten garnicht 
-  * service reagiert auf bestimmte nachrichten 
-
-
-### Pattern: Parallel Run 
-
-  * Service und Teil im Monolith wird parallel ausgeführt
-  * Und es wird überprüft, ob das Ergebnis in beiden Systemn das gleiche ist (z.B. per batch job)
-
-### Pattern: Decorating Collaborator
-
-  * Ansteuerung als nachgelagerten Prozess über einen Proxy 
-
-### Pattern Branch by Abstraction 
-
-  * Beispiel Notification 
-
-#### Schritt 1: Abstraction der zu ersetzendne Funktionalität erstellen
-
-
-#### Schritt 2: Ändern sie die Clients der bestehenden Funktionalität so, dass sie die neue Abstraktion verwenden
-
-
-#### Schritt 3: Neue Implementierung der Abstraktion 
-
-```
-Erstellen Sie eine neue Implementierung der Abstraktion mit der 
-überarbeiteten Funktionalität. 
-
-In unserem Fall wird diese neue Implementierung unseren neuen 
-Mikroservice aufrufen
-```
-
-#### Schritt 4: Abstraktion anpassen -> neue Implementierung
-
-```
-Abstraktion anpassen, dass sie unsere neue Implementierung verwendet
-```
-
-#### Schritt 5: Abstraktion aufräumen und alte Implementierung entfernen 
-
-
-
-### Tests
-
-
-### Pyramidenkonzept
-
-  * s. Referenz
- 
-### Testkategorien 
-
-```
-Klassisch (automatisiertes Testen):
-   Unit tests
-   Integration tests
-   End-to-end tests.
-```
-
-```   
- 
-Bei microservices kommen noch 2 tests dazu: 
-  Components Tests
-  Contract Tests
-
-so dass es dann so aussieht:
-         
-                      End-To-End Tests
-                  Components Tests 
-              Integration Tests 
-           Contract Tests 
-         Unit Tests 
-
-```
-
-### Contract 
-
-```  
-Schnittstelle wird geprüft, ob sie alle Verträge erfüllt
-Gibt sie die definierten Antworten mit den definierten Parametern
-The contract specifies all the possible inputs and outputs with their data structures and side effects. 
-The consumer and producer of the service must follow the rules stated in the contract for communication to be possible.
-```
-
-#### Components 
- 
-```
-Components Test:
-A component is a microservice or set of microservices that accomplishes a role within the larger system.
-Component testing is a type of acceptance testing in which we examine the component’s behavior in isolation by substituting services with simulated resources or mocking.
-```
-
-#### References 
-
- * https://semaphoreci.com/blog/test-microservices
-
-
-
-
-### Monolith schneiden microservices
-
-
-### Wie kann ich schneiden (NOT's) ? 
-
-  * Code-Größe 
-  * Technische Schnitt 
-  * Amazon: 2 Pizzas, wieviele können sich davon, wei gross kann man team 
-  * Microserver wegschmeissen und er müsste in wenigen Tagen oder mehreren Wochen wieder herstellen
-
-### Wie kann ich schneiden (GUT) ? 
-
-  * DDD (Domain Driven Design) - Welche Aufgaben gibt es innerhalb des sogenannten Bounded Context in meiner Domäne 
-  * Domäne: Bibliothek 
-  * In der Bibliothek 
-    * Leihe 
-    * Suche 
-
-### Bounded Context 
-
-![Bounded Context](https://martinfowler.com/bliki/images/boundedContext/sketch.png)
-
-### Zwei Merkmale mit den wir arbeiten
-
-  * Kohäsion (innerer Zusammenhalt des Fachbereichs) - innerhalb eines Services  
-  * Bindung (lose Bindung) - zwischen den Services 
-  * Jeder Service soll unabhängig sein 
-
-### Was heisst unabhängiger Service 
-  
-  1. Er muss funktionieren, auch wenn ein anderes Service nicht läuft (keine Abhängigkeit) 
-  2. Er darf nicht DIREKT auf die Daten eines anderen Services zugreifen (maximal über Schnittstelle)
-  3. Jeder hat Service, ist völlig autark und seine eigene BusinessLogik und seine eigene Datenbank 
-
-### Regeln für das Design von Services 
-
-#### Regel 1:
-
-```
-Es sollte eine große Kohäsion innerhalb des Services sein.
-(Bindung). Alles sollte möglichst benötigt werden.
-
-(Ist eine schwache Kohäsion innerhalb des Services, sind Funktionen 
-dort, die eigentlich in einen anderen Service gehören)
-```
-
-#### Regel 2: lose Bindung (zwischen Services) 
-
-```
-Es sollte eine lose Bindung zu anderen Services geben.
-(Ist die Bindung zu gross, sind entweder die Services zu klein konzipiert
-oder Funktionen sind an der falschen Stelle implementiert) 
-
-zu klein: zu viele Abfragen anderer Service .... 
-
-````
-
-#### Regel 3: unabhängigkeit 
-
-```
-Jeder Service muss eigenständig sein und seine eigene Datenbank haben.
-```
-
-### Datenbanken 
-
-#### Herangehensweise
-
-```
-heisst auch: 
-o Kein großes allmächtiges Datenmodel, sondern viele kleine 
-(nicht alles in jedem kleinen Datenmodel, sondern nur, was im jeweiligen
-Bounded Context benötigt wird)
-```
-
-#### Eine Datenbank pro Service (eigenständig / abgespeckt) 
-
-
-##### Warum ?
-
-```
-Axiom: Eine eigenständige Datenbank pro Service. Warum ? 
-(Service will NEVER reach into another services database)
-```
-
-##### Punkt 1 : Jeder Service soll unabhängig laufen können 
-
-```
-We want earch service to run independently of other services 
-
-o no DB for everything (If DB goes down our service goes down)
-o it easier to scale (if one service needs more capacity)
-o more resilient. If one service goes down, our service will still work.
-```
-
-#### Punkt 2: Datenbank schemata könnten sich unerwartet ändern 
-
-```
-o We (Service A) use data from Service B, directly retrieving it from the db.
-o We (Service) want property name: Lisa
-o Team of Service B changes this property to: firstName 
-  AND do not inform us.
-  (This breaks our service !!) . OUR SERV
-```
-
-#### Punkt 3: Freiheit der Datenbankwahl 
-
-```
-3.4.3 Some services might funtion more efficiently with different types
-of DB's (sql vs. nosql)
-```
-
-
-### Beispiel - Bounded 
-
-```
-Der Bounded Context definiert den Einsatzbereich eines Domänenmodells. 
-```
-
-```
-Es umfasst die Geschäftslogik für eine bestimmte Fachlichkeit. Als Beispiel beschreibt ein Domänenmodell 
-die Buchung von S-Bahn-Fahrkarten 
-und ein weiteres die Suche nach S-Bahn-Verbindungen. 
-```
-
-```
-Da die beiden Fachlichkeiten wenig miteinander zu tun haben, 
-sind es zwei getrennte Modelle. Für die Fahrkarten sind die Tarife relevant und für die Verbindung die Zeit, das Fahrziel und der Startpunkt der Reise.
-```
-
-```
-oder z.B. die Domäne: Bibliothek 
-Bibliothek 
-  Leihe (bounded context 1)
-  Suche (bounded context 2)
-```
-
-
-
-### EventBus Implementierungen/Überblick
-
-
-### Fertige Software, die einen Event Bus bereitsstellt
-
-  * Kafka 
-  * RabbitMQ
-  * NATS 
-
-### Was ist Ihre Aufgabe ? 
-
-  * Events empfangen 
-  * Events veröffentlichen (publish) für die Zuhörer (listener)
- 
-
-### Wie sehen Events aus ? 
-
-  * Mit Events meinen wir Informations-Snippets 
-    * Es ist nicht festgelegt, wie eine Event aussehen soll, es kann
-      * Rohe Datenbytes
-      * JSON
-      * ein String
-      * u.a. ... sein (was immer du verwenden willst)
-
-### Was sind Listener ?
-
-  * Listener sind Services, die von anderen Events von anderen Services erfahren wollen 
 
 ## Kubernetes Netzwerk 
 
@@ -6712,11 +7841,11 @@ kubectl get pods -o wide
 ### Example (that does not work) 
 
 ```
-kubectl run foo2 --image=foo2
+kubectl run meinfalscherpod --image=foo2
 ## ImageErrPull - Image konnte nicht geladen werden 
 kubectl get pods 
 ## Weitere status - info 
-kubectl describe pods foo2 
+kubectl describe pods meinfalscherpod
 ```
 
 ### Ref:
@@ -7715,8 +8844,6 @@ docker-compose up -d --build
 ### Good Doku with Tasks
 
   * https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
-
-## Dockerfile - Examples 
 
 ## Docker-Container Examples 
 
