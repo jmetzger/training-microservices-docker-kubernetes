@@ -1,5 +1,10 @@
 # Deploying manifests from github actions 
 
+## What is not working ? 
+
+  * We get an error in the pipeline, there seems
+  * to be a misconfiguration about the secret we use
+
 ## Step 1: Create Repo in github 
 
 ```
