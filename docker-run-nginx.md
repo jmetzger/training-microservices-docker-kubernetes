@@ -3,7 +3,7 @@
 ## Beispiel (binden an ein terminal), detached
 
 ```
-docker run -d --name my_nginx nginx
+docker run -d --name my_nginx nginx:1.23
 docker container ls 
 ```
 
