@@ -12,8 +12,6 @@ cd bautest
 
 ```
 # nano docker-compose.yml
-version: "3.8"
-
 services:
   myubuntu:
     build: ./myubuntu
@@ -46,7 +44,7 @@ done
 
 ```
 # nano Dockerfile 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 RUN apt-get update && apt-get install -y inetutils-ping
 COPY hello.sh .
 RUN chmod u+x hello.sh
