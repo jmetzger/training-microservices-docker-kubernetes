@@ -18,12 +18,13 @@ cd multi-stage-example
 docker build . -t multi-stage-example:v1 --target=builder # - Build image using a specific stage
 
 # Bauen
-docker build . -t multi-stage-example:v1
+docker build . -t multi-stage-binary:v1
 ```
 
-## Step 2
+## Step 2: Run only binary-version 
 
 ```
 # run 
-docker run -p 8080:8080 multi-stage-example:v1 
+docker run --name app -d -t multi-stage-binary:v1 sh  
+docker exec -it app sh 
 ```
