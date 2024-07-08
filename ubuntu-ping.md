@@ -39,7 +39,7 @@ docker images
 # -t wird benötigt, damit bash WEITER im Hintergrund im läuft.
 # auch mit -d (ohne -t) wird die bash ausgeführt, aber "das Terminal" dann direkt beendet 
 # -> container läuft dann nicht mehr 
-docker run -d -t --name container-ubuntu myubuntu
+docker run -d -t --name container-ubuntu myubuntu:1.0
 docker container ls
 
 # docker inspect to find out ip of other container 
@@ -49,7 +49,7 @@ docker inspect container-ubuntu | grep -i ipaddress
 
 ```
 # Zweiten Container starten um 1. anzupingen 
-docker run -d -t --name container-ubuntu2 myubuntu 
+docker run -d -t --name container-ubuntu2 myubuntu:1.0 
 
 # Ersten Container -> 2. anpingen 
 docker exec -it container-ubuntu2 bash 
