@@ -1,5 +1,7 @@
 # Scanning image with docker scan (using snyk) 
 
+## ACHTUNG_ Deprecated - USE Docker Scout instead (only Docker Desktop ?) 
+
 ## Prerequisites 
 
 ```
