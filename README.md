@@ -50,7 +50,7 @@
     
   1. Docker Security 
      * [Docker Security](docker/security/overview.md)
-     * [Scanning docker image with docker scan/snyx](docker/security/docker-scan-snyk.md) 
+     * [Scanning docker image with docker scan/snyx(Deprecated)](docker/security/docker-scan-snyk.md) 
     
   1. Docker Compose
      * [Ist docker-compose installiert?](docker-compose-installed.md) 
