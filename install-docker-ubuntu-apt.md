@@ -1,4 +1,4 @@
-# Install docker ubuntu apt 
+te# Install docker ubuntu apt 
 
 ## Walkthrough 
 
@@ -32,13 +32,13 @@ systemctl status docker
 ```
 # Wenn dein unpriviligierter Benutzer kurs heisst
 sudo su -
-usermod -aG docker kurs
+usermod -aG docker 11trainingdo 
 exit
 ```
 
 ```
 # ich wechsele nochmal in den Benutzer kurs
-su - kurs
+su - 11trainingdo
 # jetzt darf kein Fehler kommen 
 docker images 
 ```
