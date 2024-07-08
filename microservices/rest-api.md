@@ -6,7 +6,7 @@
 
 ## Idee dahinter (microservice) 
 
- *  Nie direkt auf Daten zugreifen 
+ *  Nie direkt auf Daten zuzugreifen (immer nur immer API)  
 
 ## Damit auch die Möglichkeit haben, Informationen zu verstecken
 
