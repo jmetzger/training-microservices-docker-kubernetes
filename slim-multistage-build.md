@@ -25,5 +25,5 @@ docker build . -t multi-stage-example:v1
 
 ```
 # run 
-docker run p 8080:8080 multi-stage-example:v1 
+docker run -p 8080:8080 multi-stage-example:v1 
 ```
