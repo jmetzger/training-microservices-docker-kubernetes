@@ -4,7 +4,8 @@
 
 ```
 # Installiert man docker in der neuesten 20.10.21 
-# existiert docker als plugin und wird anders aufgerufen 
+# existiert docker als plugin und wird anders aufgerufen
+# Je nach distribution als Zusatzplugin von docker 
 docker compose 
 ```
 
