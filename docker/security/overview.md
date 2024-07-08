@@ -3,10 +3,10 @@
 ## Generic 
 
   * Kann ich dem Image vertrauen (nur Images verwenden, denen ich vertrauen kann)
-    * Im Zweifel selber oder nur images von Docker Official Image / Verified Publisher (Suche auf Docker Hub)
+    * Im Zweifel eigene Images oder nur images von Docker Official Image / Verified Publisher (Suche auf Docker Hub)
   * Container möglichst nicht als Root laufen lassen (bzw. solche Images vewrenden)
   * Das nur das drinnen ist, was wirklich gebraucht wird (Produktion)
-    * Im Idealfall sogar nur das Executable (siehe auch hashicorp/http-ech -> kein sh, keine bash
+    * Im Idealfall sogar nur das Executable (siehe auch hashicorp/http-echo -> kein sh, keine bash)
   * Alle container einer applikation in einem eigenen Netzwerk  
   * Images to scannen / security scans. 
 
