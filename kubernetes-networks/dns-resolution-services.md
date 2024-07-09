@@ -4,7 +4,7 @@
 
   * DNS - Names for Services are automatically created from the Service -> Name
   * + the namespace the service is in
-  * + the fixed name svc.cluster.local 
+  * + fixed subdomain svc.cluster.local 
 
 ## Example:
 
