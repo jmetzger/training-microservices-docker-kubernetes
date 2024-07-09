@@ -46,7 +46,11 @@ kubectl get pods -o json
 
 # gilt natürluch auch für andere kommandos
 kubectl get deploy -o json 
-kubectl get deploy -o yaml 
+kubectl get deploy -o yaml
+
+# Eigenschaft auslesen
+kubectl get pods nginx-deployment-74676ff58f-fxcjv -o jsonpath='{.metadata.ownerReferences[0].name}'
+
 ```
 
 
@@ -111,6 +115,7 @@ kubectl get deployments -n kube-system
 # wir wollen unseren default namespace ändern 
 kubectl config set-context --current --namespace <dein-namespace>
 ```
+
 
 
 
