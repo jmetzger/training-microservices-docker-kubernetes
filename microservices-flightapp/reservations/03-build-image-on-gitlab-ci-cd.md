@@ -8,6 +8,14 @@ git clone https://github.com/jmetzger/ms-reservations.git
 cd ms-reservations
 ```
 
+## Step 1.5: Set identity 
+
+```
+git config --global user.name "Max Mustermann"
+git config --global user.email "tn1@t3company.de"
+```
+
+
 ## Step 2: Change origin (target where push data) and push 
 
 ```
