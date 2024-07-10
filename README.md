@@ -149,6 +149,9 @@
   1. Kubernetes Scaling
      * [Autoscaling Pods/Deployments](/kubernetes/autoscaling.md)
 
+  1. Kubernetes Tipps & Tricks
+     * [Oomkiller and maxReadySeconds for safe migration to new pods](tipps-tricks/oomkiller-test-max-ready-seconds.md) 
+
   1. Lokal Kubernetes verwenden 
      * [Kubernetes in ubuntu installieren z.B. innerhalb virtualbox](/microk8s/installation-ubuntu-snap.md)
      * [minikube](/minikube/installation.md)
@@ -278,7 +281,6 @@
      * [Kubernetes Debuggen ClusterIP/PodIP](/tipps-tricks/cluster-ip-debug.md)
      * [Debugging pods](tipps-tricks/debugging-pods.md)
      * [Taints und Tolerations](kubernetes/taints-tolerations.md)
-     * [Oomkiller and maxReadySeconds for safe migration to new pods](tipps-tricks/oomkiller-test-max-ready-seconds.md) 
 
   1. Kubernetes Advanced 
      * [Curl api-server kubernetes aus pod heraus](kubernetes-advanced/curl-api-server.md)
