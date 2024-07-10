@@ -26,7 +26,8 @@ nano values.yml
 # It will be setup with type loadbalancer - so waiting to retrieve an ip from the external loadbalancer
 # This will take a little. 
 controller:
-  publishService: enabled
+  publishService:
+    enabled: true 
 ```
 
 ```
