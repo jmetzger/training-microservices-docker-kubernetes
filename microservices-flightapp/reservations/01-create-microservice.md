@@ -100,6 +100,12 @@ HSETNX flight:40d1-898d-bf84a266f1b9 12B b4cdf96e-a24a-a09a-87fb1c47567c
 # this means success error -> (integer) 0
 ```
 
+#### now leave redis-cli again 
+
+```
+exit
+```
+
 ### Block 4: Test microservice with rest-api call 
 
 ```
