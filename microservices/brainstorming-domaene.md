@@ -1,6 +1,6 @@
 # Klarheit bzgl. der Domäne 
 
-## Prozess aus Domain Drive Design
+## Prozess aus Domain Driven Design
 
   * Eventstorming
   * https://entwickler.de/ddd/domain-driven-design-in-aktion-mehr-dynamik-mit-event-storming
