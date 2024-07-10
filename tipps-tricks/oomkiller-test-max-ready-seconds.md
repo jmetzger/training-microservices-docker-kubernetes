@@ -1,9 +1,9 @@
 # Example of triggering oom killer and savely fire up new pods in new replicaset 
 
-## What to do ? 
+## What to achieve ?
 
  1. Deploy a working version
- 2. Deploy a new version that fails OOM-Killer, but be sure pod from old replicaset still works 
+ 2. Deploy a new version that fails with OOM-Killer (but we can be sure pod from old replicaset still works) 
 
 ## Step 1: Create deployment that works 
 
