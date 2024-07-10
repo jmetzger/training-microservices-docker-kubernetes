@@ -13,3 +13,4 @@
  ## Reference:
 
    * https://www.oreilly.com/library/view/microservices-up-and/9781492075448/ch03.html
+   * https://rolfsblog.ch/openapi/
