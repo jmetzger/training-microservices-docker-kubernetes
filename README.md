@@ -84,8 +84,8 @@
      * [Upload image flight app](microservices-flightapp/flights/02-uploadimage-microservice.md)
 
   1. Microservice - flightapp - Deployment Kubernetes
-     * [Manual deployment](deploy-to-kubernetes/01-manifests-manually.md)
-     * [gitlab Deployment](deploy-to-kubernetes/02-deployment-with-gitlab-ci-cd-pipeline.md)
+     * [Manual deployment](microservices-flightapp/deploy-to-kubernetes/01-manifests-manually.md)
+     * [gitlab Deployment](microservices-flightapp/deploy-to-kubernetes/02-deployment-with-gitlab-ci-cd-pipeline.md)
      * [github Deployment](github-actions/deploy-manifests.md)
      * [github Deployment-with-secret-not-working](github-actions/deploy-manifests-using-secret-not-working.md)
 
