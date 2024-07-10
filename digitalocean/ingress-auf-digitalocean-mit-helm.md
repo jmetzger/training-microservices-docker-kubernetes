@@ -12,14 +12,28 @@
 ## Walkthrough (Setup Ingress Controller) 
 
 ```
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update
-helm show values ingress-nginx/ingress-nginx
+mkdir -p manifests
+cd manifests
+mkdir ingress
+cd ingress
+```
 
+```
+nano values.yml
+```
+
+```
 # It will be setup with type loadbalancer - so waiting to retrieve an ip from the external loadbalancer
 # This will take a little. 
-helm install nginx-ingress ingress-nginx/ingress-nginx --namespace ingress --create-namespace --set controller.publishService.enabled=true 
+controller:
+  publishService: enabled
+´´´
 
+```
+helm install nginx-ingress ingress-nginx/ingress-nginx --namespace ingress --create-namespace -f values.yml  
+```
+
+```
 # See when the external ip comes available
 kubectl -n ingress get all
 kubectl --namespace ingress get services -o wide -w nginx-ingress-ingress-nginx-controller
