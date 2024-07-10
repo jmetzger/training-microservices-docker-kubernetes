@@ -64,7 +64,7 @@ build-image:       # This job runs in the build stage, which runs first.
 # add
 DOCKER_USER
 DOCKER_PASS
-DOCKER_PROJECT
+DOCKER_PROJECT # z.B, reservations-jm
 in Settings -> CI/CD -> Variables (in your repo)
 ```
 
