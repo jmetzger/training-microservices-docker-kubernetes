@@ -278,6 +278,7 @@
      * [Kubernetes Debuggen ClusterIP/PodIP](/tipps-tricks/cluster-ip-debug.md)
      * [Debugging pods](tipps-tricks/debugging-pods.md)
      * [Taints und Tolerations](kubernetes/taints-tolerations.md)
+     * [Oomkiller and maxReadySeconds for safe migration to new pods](tipps-tricks/oomkiller-test-max-ready-seconds.md) 
 
   1. Kubernetes Advanced 
      * [Curl api-server kubernetes aus pod heraus](kubernetes-advanced/curl-api-server.md)
