@@ -101,5 +101,5 @@ kubectl -n mem-example get all
 kubectl apply -f .
 kubectl -n mem-example get all
 # after a while we will see the new pod being in mode OOMKiller 
-kubectl get pods -w 
+kubectl -n mem-example get pods -w 
 ```
