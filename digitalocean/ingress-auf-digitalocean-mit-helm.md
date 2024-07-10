@@ -27,7 +27,7 @@ nano values.yml
 # This will take a little. 
 controller:
   publishService: enabled
-´´´
+```
 
 ```
 helm install nginx-ingress ingress-nginx/ingress-nginx --namespace ingress --create-namespace -f values.yml  
