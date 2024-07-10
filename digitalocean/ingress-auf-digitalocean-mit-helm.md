@@ -12,6 +12,11 @@
 ## Walkthrough (Setup Ingress Controller) 
 
 ```
+# Setup repo
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+```
+
+```
 mkdir -p manifests
 cd manifests
 mkdir ingress
