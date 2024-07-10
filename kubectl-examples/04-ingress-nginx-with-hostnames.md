@@ -17,19 +17,28 @@ cd abi
 ```
 
 ```
-# apple.yml 
-# vi apple.yml 
-kind: Pod
-apiVersion: v1
+nano apple.yml
+```
+
+```
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: apple-app
-  labels:
-    app: apple
+  name: apple-deployment
 spec:
-  containers:
-    - name: apple-app
-      image: hashicorp/http-echo
-      args:
+  selector:
+    matchLabels:
+      app: apple
+  replicas: 8
+  template:
+    metadata:
+      labels:
+        app: apple
+    spec:
+      containers:
+      - name: apple-app
+        image: hashicorp/http-echo
+        args:
         - "-text=apple-<dein-name>"
 ```
 
@@ -54,25 +63,36 @@ spec:
 
 ```
 kubectl apply -f .
+nano banana.yml 
 ```
 
 ```
-# banana
-# vi banana.yml
-kind: Pod
-apiVersion: v1
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: banana-app
-  labels:
-    app: banana
+  name: banana-deployment
 spec:
-  containers:
-    - name: banana-app
-      image: hashicorp/http-echo
-      args:
+  selector:
+    matchLabels:
+      app: banana
+  replicas: 8
+  template:
+    metadata:
+      labels:
+        app: banana
+    spec:
+      containers:
+      - name: banana-app
+        image: hashicorp/http-echo
+        args:
         - "-text=banana-<dein-name>"
+```
 
----
+```
+nano banana-service.yml 
+```
+
+```
 
 kind: Service
 apiVersion: v1
@@ -87,7 +107,7 @@ spec:
 ```
 
 ```
-kubectl apply -f banana.yml
+kubectl apply -f .
 ```
 
 ### Step 2: Ingress 
