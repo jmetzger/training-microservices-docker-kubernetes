@@ -150,13 +150,11 @@
      * [Autoscaling Pods/Deployments](/kubernetes/autoscaling.md)
 
   1. Kubernetes Tipps & Tricks
-     * [Oomkiller and maxReadySeconds for safe migration to new pods](tipps-tricks/oomkiller-test-max-ready-seconds.md) 
+     * [Oomkiller and maxReadySeconds for safe migration to new pods](tipps-tricks/oomkiller-test-max-ready-seconds.md)
+    
+  1. Helm
+     * [Helm internals / secret a.s.o](helm/deep-dive.yml)
 
-  1. Lokal Kubernetes verwenden 
-     * [Kubernetes in ubuntu installieren z.B. innerhalb virtualbox](/microk8s/installation-ubuntu-snap.md)
-     * [minikube](/minikube/installation.md)
-     * [rancher for desktop](https://github.com/rancher-sandbox/rancher-desktop/releases/tag/v1.9.1)
-        
   1. Literatur / Documentation / Information (Microservices)
      * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/) 
      * [Sam Newman - Vom Monolithen zu Microservices](https://www.amazon.de/Vom-Monolithen-Microservices-bestehende-umzugestalten/dp/3960091400/)
