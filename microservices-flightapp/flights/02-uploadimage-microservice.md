@@ -17,5 +17,5 @@ docker tag ms-flights-ms-flights dockertrainereu/flights-jm:v11
 docker login
 # now enter gittrainereu + password-you-will-get-from-your-trainer ;O)
 # push the image to the server 
-docker push
+docker push dockertrainereu/flights-jm:v11
 ```
