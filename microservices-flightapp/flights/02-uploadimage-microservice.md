@@ -3,6 +3,7 @@
 ## Step 1: Upload image to docker hub 
 
 ```
+cd
 cd ms-flights
 ```
 
