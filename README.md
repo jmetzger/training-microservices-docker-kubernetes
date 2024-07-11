@@ -151,6 +151,7 @@
 
   1. Kubernetes Tipps & Tricks
      * [Oomkiller and maxReadySeconds for safe migration to new pods](tipps-tricks/oomkiller-test-max-ready-seconds.md)
+     * [Pod-Netzwerk debuggen durch weiteren Pod der daneben liegt kubectl debug](tipps-tricks/kubectl-debug.md)
     
   1. Helm
      * [Helm internals / secret a.s.o](helm/deep-dive.yml)
