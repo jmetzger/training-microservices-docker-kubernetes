@@ -78,12 +78,12 @@ cd lib/flights/controllers
 
 ```
 #the new version will look like this
-https://raw.githubusercontent.com/jmetzger/ms-flights/master/lib/flights/controllers/mappings.js
+wget https://raw.githubusercontent.com/jmetzger/ms-flights/master/lib/flights/controllers/mappings.js
 ```
 ### Step 3.4 Edit lib/flights/controllers/actions.js  
 
 ```
-nano libs/flights/controllers/actions.js 
+cd libs/flights/controllers/ 
 ```
 
 ```
