@@ -74,7 +74,7 @@ kubectl apply -Rf .
 
 
 
-## Schritt 3: Deployment 
+## Schritt 3: mariadb Deployment 
 
 ```
 cd
