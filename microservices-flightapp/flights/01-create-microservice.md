@@ -173,7 +173,7 @@ make restart
 ```
 cd ms-flights
 make stop
-# Change all entries that appear here
+# Change all entries that appear here to ms-flights
 grep -r ms-nodebootstrap-example .
 ```
 
