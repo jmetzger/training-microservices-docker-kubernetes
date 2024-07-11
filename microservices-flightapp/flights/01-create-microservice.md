@@ -98,6 +98,8 @@ wget https://raw.githubusercontent.com/jmetzger/ms-flights/master/lib/flights/co
 ## Step 3.5 Delete lib/flights/models 
 
 ```
+cd
+cd ms-flights
 rm -fR lib/flights/models/
 ```
 
