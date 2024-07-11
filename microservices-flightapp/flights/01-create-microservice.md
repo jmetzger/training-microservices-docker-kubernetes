@@ -126,7 +126,7 @@ make migration-create name=sample-data
 # They are root after this process
 cd
 cd ms-flights
-sudo chown 11trainingdo:11trainingdo migrations/sqls/*sql
+sudo chown -R 11trainingdo:11trainingdo migrations
 ```
 
 #### Step 3.6.3 Populate files 
