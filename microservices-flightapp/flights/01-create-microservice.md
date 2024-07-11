@@ -18,7 +18,7 @@ git clone https://github.com/jmetzger/nodebootstrap-microservice ms-flights
 ## Step 2: Create documentation 
 
 ```
-cd ms-flights/doc
+cd ms-flights/docs
 ```
 
 ```
