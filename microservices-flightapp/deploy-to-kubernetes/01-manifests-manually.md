@@ -18,7 +18,7 @@ nano 01-secret.yml
 kind: Secret 
 apiVersion: v1 
 metadata:
-  name: mariadb-configmap 
+  name: mariadb-secret
 data:
   # als Wertepaare
   MARIADB_ROOT_PASSWORD: 11abc432
