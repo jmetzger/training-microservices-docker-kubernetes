@@ -87,7 +87,7 @@ wget https://raw.githubusercontent.com/jmetzger/ms-flights/master/lib/flights/co
 cd
 cd ms-flights
 mkdir -p libs/flights/controllers/
-rm actions.js
+rm -f actions.js
 ```
 
 ```
