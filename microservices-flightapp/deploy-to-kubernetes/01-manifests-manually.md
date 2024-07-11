@@ -107,8 +107,8 @@ spec:
            name: do-volume
 
         envFrom:
-        - configMapRef:
-            name: mariadb-configmap
+        - secretRef:
+            name: mariadb-secret
         
       volumes:
       - name: do-volume
