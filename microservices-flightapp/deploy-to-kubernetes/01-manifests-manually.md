@@ -14,6 +14,11 @@ nano 01-secret.yml
 ```
 
 ```
+# you could also create a secret with
+#  kubectl create secret generic mariadb-secret --from-literal=MARIADB_ROOT_PASSWORD=11abc432 --dry-run=client -o yaml > 01-secrets.yml
+```
+
+```
 ## 01-secrets.yml
 kind: Secret 
 apiVersion: v1 
@@ -21,7 +26,7 @@ metadata:
   name: mariadb-secret
 data:
   # als Wertepaare
-  MARIADB_ROOT_PASSWORD: 11abc432
+  MARIADB_ROOT_PASSWORD: MTFhYmM0MzI=
 ```
 
 ```
