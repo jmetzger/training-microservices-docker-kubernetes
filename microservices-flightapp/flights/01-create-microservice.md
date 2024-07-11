@@ -124,7 +124,9 @@ make migration-create name=sample-data
 ```
 # if you are working as unprivileged user change permissions accordingly
 # They are root after this process
-sudo chown kurs:kurs ms-flights/migrations/sqls/*sql
+cd
+cd ms-flights
+sudo chown 11trainingdo:11trainingdo migrations/sqls/*sql
 ```
 
 #### Step 3.6.3 Populate files 
