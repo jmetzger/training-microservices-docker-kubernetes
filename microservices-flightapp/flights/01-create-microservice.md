@@ -147,7 +147,7 @@ nano migrations/sql/[date]-flights-up.sql
 ```
 
 ```
-# migrations/sqls/[date]-seat-maps-up.sql with data of
+# migrations/sqls/[date]-seat-flight-up.sql with data of
 https://raw.githubusercontent.com/jmetzger/ms-flights/master/migrations/sqls/20200602055121-flights-up.sql
 ```
 
