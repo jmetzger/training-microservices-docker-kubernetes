@@ -10,7 +10,7 @@ mkdir flight-app
 cd flight-app
 mkdir flights
 cd flights 
-nano 01-configmap.yml 
+nano 01-secret.yml 
 ```
 
 ```
