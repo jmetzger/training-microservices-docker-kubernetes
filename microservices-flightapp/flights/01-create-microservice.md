@@ -192,5 +192,5 @@ curl http://192.168.56.102:5501/flights?flight_no=AA34&departure_date_time=2020-
 
 ```
 # Seat map
-curl --verbose http://192.168.56.102:5501/flights/AA2532/seat_map
+curl --verbose http://192.168.56.102:5501/flights/AA34/seat_map
 ```
