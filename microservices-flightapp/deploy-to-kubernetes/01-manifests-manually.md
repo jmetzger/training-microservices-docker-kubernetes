@@ -79,7 +79,7 @@ kubectl apply -Rf .
 ```
 cd
 cd manifests/flight-app/flights 
-nano 03-deploy.yml
+nano 03-deploy-mariadb.yml
 ```
 
 ```
@@ -121,6 +121,93 @@ cd
 cd manifests/flight-app/
 kubectl apply -Rf .
 ```
+
+## Schritt 3.1 Service für MariaDB anlegen 
+
+```
+cd
+cd manifests/flight-app/flights
+nano 04-service-mariadb.yml
+```
+
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: ms-flights-db
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3306
+    protocol: TCP
+  selector:
+    app: mariadb
+```
+
+```
+cd
+cd manifests/flight-app/
+kubectl apply -Rf .
+```
+
+## Schritt 3.2: Add flights deployment 
+
+```
+cd
+cd manifests/flight-app/flights
+nano 03-deploy-flights.yml
+```
+
+```
+#deploy.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flights-deployment
+spec:
+  selector:
+    matchLabels:
+      app: flights
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: flights
+    spec:
+      containers:
+      - name: app
+        image: dockertrainereu/flights-jm:v11
+        command: [ "/bin/sh", "-c", "--" ]
+        args: [ "while true; do sleep 30; done;" ]
+          #volumeMounts:
+          #-  mountPath: "/var/lib/mysql"
+          # name: do-volume
+
+        env:
+        - name: NODE_ENV
+          value: dev
+              #- name: NODE_HOT_RELOAD
+              #value: "1"
+              #- name: NODE_LOGGER_GRANULARLEVELS
+              #value: "1"
+        - name: NODE_CONFIG_DISABLE_FILE_WATCH
+          value: "Y"
+
+              #volumes:
+              #- name: do-volume
+              #persistentVolumeClaim:
+              #claimName: pvc-do
+
+
+```
+
+```
+cd
+cd manifests/flight-app/
+kubectl apply -Rf .
+```
+
 
 ## Schritt 4: Lokal kompose installieren 
 
