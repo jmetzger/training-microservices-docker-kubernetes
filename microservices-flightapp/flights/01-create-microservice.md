@@ -73,7 +73,7 @@ nano appConfig.js
 ### Step 3.3 Edit lib/flights/controllers/mappings.js for input validation and which functions to call
 
 ```
-nano lib/flights/controllers/mappings.js
+cd lib/flights/controllers
 ```
 
 ```
