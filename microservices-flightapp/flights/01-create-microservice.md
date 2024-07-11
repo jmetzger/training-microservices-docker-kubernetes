@@ -84,7 +84,9 @@ wget https://raw.githubusercontent.com/jmetzger/ms-flights/master/lib/flights/co
 ### Step 3.4 Edit lib/flights/controllers/actions.js  
 
 ```
-cd libs/flights/controllers/
+cd
+cd ms-flights
+mkdir -p libs/flights/controllers/
 rm actions.js
 ```
 
