@@ -88,7 +88,7 @@ nano libs/flights/controllers/actions.js
 
 ```
 # the new version will look like this
-https://raw.githubusercontent.com/jmetzger/ms-flights/master/lib/flights/controllers/actions.js
+wget https://raw.githubusercontent.com/jmetzger/ms-flights/master/lib/flights/controllers/actions.js
 ```
 
 ## Step 3.5 Delete lib/flights/models 
