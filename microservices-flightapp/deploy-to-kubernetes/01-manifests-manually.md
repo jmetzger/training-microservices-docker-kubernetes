@@ -14,8 +14,8 @@ nano 01-configmap.yml
 ```
 
 ```
-## 01-configmap.yml
-kind: ConfigMap 
+## 01-secrets.yml
+kind: Secret 
 apiVersion: v1 
 metadata:
   name: mariadb-configmap 
@@ -25,15 +25,12 @@ data:
 ```
 
 ```
-# als normaler benutzer kurs, wenn wir mit diesem vorher gearbeitet haben.
-# eventuell muss passwort eingegeben werden 
-su - kurs 
 cd
 cd manifests/flight-app
 # alle Unterverzeichnisse recursiv ausführen 
 kubectl apply -Rf .
-kubectl get cm
-kubectl get cm mariadb-configmap -o yaml
+kubectl get secrets
+kubectl get secrets mariadb-configmap -o yaml
 ```
 
 ## Schritt 2: PersistentVolumeClaim 
