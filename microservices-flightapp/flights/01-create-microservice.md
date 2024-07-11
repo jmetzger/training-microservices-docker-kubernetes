@@ -115,6 +115,7 @@ rm -fR migrations/*
 
 ```
 # create migrations scripts (implemented in bootstrap)
+# with correct dates 
 make migration-create name=seat-maps
 make migration-create name=flights
 make migration-create name=sample-data
@@ -129,6 +130,7 @@ sudo chown kurs:kurs ms-flights/migrations/sqls/*sql
 #### Step 3.6.3 Populate files 
 
 ```
+
 nano migrations/sqls/[date]-seat-maps-up.sql
 ```
 
