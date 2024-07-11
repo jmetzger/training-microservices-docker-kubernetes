@@ -86,8 +86,8 @@ wget https://raw.githubusercontent.com/jmetzger/ms-flights/master/lib/flights/co
 ```
 cd
 cd ms-flights
-mkdir -p libs/flights/controllers/
-cd libs/flights/controllers/
+mkdir -p lib/flights/controllers/
+cd lib/flights/controllers/
 ```
 
 ```
