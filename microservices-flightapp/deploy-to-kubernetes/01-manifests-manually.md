@@ -30,7 +30,7 @@ cd manifests/flight-app
 # alle Unterverzeichnisse recursiv ausführen 
 kubectl apply -Rf .
 kubectl get secrets
-kubectl get secrets mariadb-configmap -o yaml
+kubectl get secrets mariadb-secret -o yaml
 ```
 
 ## Schritt 2: PersistentVolumeClaim 
