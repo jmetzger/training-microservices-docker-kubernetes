@@ -319,8 +319,7 @@ spec:
                 configMapKeyRef:
                   key: REDIS_PWD
                   name: redis-cm
-          image: dockertrainereu/reservations-jm:v2
-          # image: isaiasdgr/ms-reservation:latest
+          image: dockertrainereu/reservations-jm:v16
           name: ms-reservations
           ports:
             - containerPort: 5000
