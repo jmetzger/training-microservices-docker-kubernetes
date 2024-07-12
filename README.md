@@ -153,6 +153,11 @@
      * [Oomkiller and maxReadySeconds for safe migration to new pods](tipps-tricks/oomkiller-test-max-ready-seconds.md)
      * [Pod-Netzwerk debuggen durch weiteren Pod der daneben liegt kubectl debug](tipps-tricks/kubectl-debug.md)
      * [Aus pod mit curl api-server abfragen](/kubernetes-advanced/curl-api-server.md)
+
+  1. Kubernetes - Monitoring 
+     * [metrics-server aktivieren (microk8s und vanilla)](/microk8s/metrics-server.md)
+     * [Prometheus Überblick](/prometheus/overview.md)
+     * [Prometheus Kubernetes Stack installieren](prometheus-grafana/helm-install.md)
     
   1. Helm
      * [Helm internals / secret a.s.o](helm/deep-dive.yml)
@@ -337,10 +342,7 @@
      
   1. kubectl 
      * [Tipps&Tricks zu Deploymnent - Rollout](/kubectl/rollout.md) 
-     
-  1. Kubernetes - Monitoring (microk8s und vanilla) 
-     * [metrics-server aktivieren (microk8s und vanilla)](/microk8s/metrics-server.md)
-
+    
   1. Kubernetes - Backups 
      + [Kubernetes Aware Cloud Backup - kasten.io](/backups/cluster-backup-kasten-io.md)
 
