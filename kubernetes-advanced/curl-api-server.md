@@ -40,6 +40,15 @@ kubectl -n app apply -f .
 ```
 kubectl -n app create rolebinding api-service-explorer:service-reader --clusterrole service-reader --serviceaccount app:api-service-explorer
 ```
+
+```
+# Einfacher hack, wir verwenden den default-service - account
+kubectl -n app create rolebinding api-service-explorer:default --clusterrole service-reader --serviceaccount default
+
+´´´
+
+
+
 ## Reference 
 
   * https://nieldw.medium.com/curling-the-kubernetes-api-server-d7675cfc398c
