@@ -161,6 +161,7 @@
      * [metrics-server aktivieren (microk8s und vanilla)](/microk8s/metrics-server.md)
      * [Prometheus Überblick](/prometheus/overview.md)
      * [Prometheus Kubernetes Stack installieren](prometheus-grafana/install-with-helm.md)
+     * [Prometheus - Services scrapen die keine Endpunkte für Prometheus haben](prometheus-grafana/z_blackbox-exporter.md)
     
   1. Helm
      * [Helm internals / secret a.s.o](helm/deep-dive.yml)
