@@ -1,4 +1,4 @@
-# Change schema, when there is a breaking changed 
+# Change schema, when there is a breaking change
 
 ## Step 1: Status Quo 
 
