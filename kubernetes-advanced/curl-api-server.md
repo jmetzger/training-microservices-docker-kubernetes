@@ -43,7 +43,7 @@ kubectl -n app create rolebinding api-service-explorer:service-reader --clusterr
 
 ```
 # Einfacher hack, wir verwenden den default-service - account
-kubectl -n app create rolebinding api-service-explorer:default --clusterrole service-reader --serviceaccount default
+kubectl -n app create rolebinding api-service-explorer:default --clusterrole service-reader --serviceaccount app:default
 
 ´´´
 
