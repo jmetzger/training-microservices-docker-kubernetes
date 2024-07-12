@@ -7,10 +7,6 @@ kubectl create ns app
 ```
 
 ```
-kubectl -n app create serviceaccount api-service-explorer
-```
-
-```
 cd
 mkdir -p manifests
 cd manifests
@@ -35,10 +31,6 @@ rules:
 
 ```
 kubectl -n app apply -f .
-```
-
-```
-kubectl -n app create rolebinding api-service-explorer:service-reader --clusterrole service-reader --serviceaccount app:api-service-explorer
 ```
 
 ```
