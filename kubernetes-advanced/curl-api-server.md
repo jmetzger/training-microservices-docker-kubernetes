@@ -25,7 +25,7 @@ metadata:
   name: service-reader
 rules:
 - apiGroups: [""] # "" indicates the core API group
-  resources: ["services"]
+  resources: ["services","endpoints"]
   verbs: ["get", "list"]
 ```
 
@@ -58,6 +58,11 @@ curl https://$KUBERNETES_SERVICE_HOST/api/v1/namespaces/app/services/ --header "
 ```
 # Now look into one of the services
  curl https://$KUBERNETES_SERVICE_HOST/api/v1/namespaces/app/services/apple-service/ --header "Authorization: Bearer $TOKEN" --cacert ca.crt
+```
+
+```
+# We will get the pod ip's from the endpoints
+ curl https://$KUBERNETES_SERVICE_HOST/api/v1/namespaces/app/endpoints/apple-service/ --header "Authorization: Bearer $TOKEN" --cacert ca.crt
 ```
 
 ## Reference 
