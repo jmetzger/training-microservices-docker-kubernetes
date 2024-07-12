@@ -26,6 +26,10 @@ my-prometheus-blackbox-exporter   ClusterIP   10.245.183.66    <none>        911
 ## Step 3: Test with Curl 
 
 ```
+kubectl run -it --rm curltest --image=curlimages/curl -- sh 
+```
 
-
+```
+# Testen nach google in shell von curl
+curl http://my-prometheus-blackbox-exporter.monitoring:9115/probe?target=google.com&module=http_2xx
 ```
