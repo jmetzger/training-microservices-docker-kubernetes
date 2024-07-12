@@ -45,6 +45,21 @@ kubectl -n app create rolebinding api-service-explorer:default --clusterrole ser
 kubectl run -it --rm curltest --image=curlimages/curl -- sh
 ```
 
+## Schritt 3: in curl - shell 
+
+```
+cd /var/run/kubernetes.io/serviceaccount
+TOKEN=$(cat token)
+env | grep KUBERNETES_SERVICE
+curl https://$KUBERNETES_SERVICE_HOST/openapi/v2 --header "Authorization: Bearer $TOKEN" --cacert ca.crt
+curl https://$KUBERNETES_SERVICE_HOST/api/v1/namespaces/app/services/ --header "Authorization: Bearer $TOKEN" --cacert ca.crt
+```
+
+```
+# Now look into one of the services
+ curl https://$KUBERNETES_SERVICE_HOST/api/v1/namespaces/app/services/apple-service/ --header "Authorization: Bearer $TOKEN" --cacert ca.crt
+```
+
 ## Reference 
 
   * https://nieldw.medium.com/curling-the-kubernetes-api-server-d7675cfc398c
