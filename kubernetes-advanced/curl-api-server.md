@@ -48,7 +48,7 @@ kubectl run -it --rm curltest --image=curlimages/curl -- sh
 ## Schritt 3: in curl - shell 
 
 ```
-cd /var/run/kubernetes.io/serviceaccount
+cd /var/run/secrets/kubernetes.io/serviceaccount
 TOKEN=$(cat token)
 env | grep KUBERNETES_SERVICE
 curl https://$KUBERNETES_SERVICE_HOST/openapi/v2 --header "Authorization: Bearer $TOKEN" --cacert ca.crt
