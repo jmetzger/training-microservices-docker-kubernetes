@@ -8,7 +8,7 @@
 cd
 mkdir -p manifests 
 cd manifests 
-mkdir monitoring 
+mkdir -p monitoring 
 cd monitoring 
 ```
 
