@@ -38,7 +38,7 @@ kubectl -n app apply -f .
 ```
 
 ```
-kubectl -n app create rolebinding api-service-explorer:service-reader --clusterrole service-reader --serviceaccount app:api-explorer
+kubectl -n app create rolebinding api-service-explorer:service-reader --clusterrole service-reader --serviceaccount app:api-service-explorer
 ```
 ## Reference 
 
