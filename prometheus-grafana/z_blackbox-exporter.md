@@ -33,3 +33,8 @@ kubectl run -it --rm curltest --image=curlimages/curl -- sh
 # Testen nach google in shell von curl
 curl http://my-prometheus-blackbox-exporter.monitoring:9115/probe?target=google.com&module=http_2xx
 ```
+
+```
+# Looking for metric 
+probe_http_status_code 200
+```
