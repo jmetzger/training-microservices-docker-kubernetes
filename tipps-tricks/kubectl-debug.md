@@ -9,7 +9,7 @@
 ```
 kubectl run my-nginx --image=nginx
 # Daneben einen pod starten, der auf das gleiche Netzwerk zugreift (d.h. die gleiche IP-Adresse hat)
-kubectl debug my-nginx --image=busybox
+kubectl debug -it my-nginx --image=busybox
 ```
 
 ```
