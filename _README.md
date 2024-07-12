@@ -3,7 +3,7 @@
 
 ## Agenda
   1. Grundlagen
-     * [Was sind microservices](#was-sind-microservices)
+     * [Was sind Microservices ?](#was-sind-microservices-)
      * [Grundkonzepte von Microservices](#grundkonzepte-von-microservices)
      * [Monolith vs. Microservices](#monolith-vs-microservices)
      * [Praxisbeispiele](#praxisbeispiele)
@@ -23,8 +23,7 @@
 
   1. Linux Tipps & Tricks
      * [In den Root-Benutzer wechseln](#in-den-root-benutzer-wechseln)
-     * [Grafischen Modus deaktivieren](#grafischen-modus-deaktivieren)
-
+ 
   1. Docker-Grundlagen 
      * [Übersicht Architektur](#übersicht-architektur)
      * [Was ist ein Container ?](#was-ist-ein-container-)
@@ -50,7 +49,7 @@
     
   1. Docker Security 
      * [Docker Security](#docker-security)
-     * [Scanning docker image with docker scan/snyx](#scanning-docker-image-with-docker-scansnyx)
+     * [Scanning docker image with docker scan/snyx(Deprecated)](#scanning-docker-image-with-docker-scansnyxdeprecated)
     
   1. Docker Compose
      * [Ist docker-compose installiert?](#ist-docker-compose-installiert)
@@ -67,6 +66,10 @@
      * [Umgang mit Joins bei database-per-service](#umgang-mit-joins-bei-database-per-service)
      * [Umgang mit Transaktionen bei database-per-service](#umgang-mit-transaktionen-bei-database-per-service)
      * [Event Sourcing](#event-sourcing)
+
+  1. Microservices (async messaging)
+     * [Topic/Queue ohne Downtime migrieren](#topicqueue-ohne-downtime-migrieren)
+     * [Disruptive Änderungen im Schema migrieren](#disruptive-änderungen-im-schema-migrieren)
     
   1. Microservice - flightapp - concepts
      * [Vorgehensweise nach dem SEED-Verfahren](#vorgehensweise-nach-dem-seed-verfahren)
@@ -122,7 +125,6 @@
      * [kubectl/manifest/service](#kubectlmanifestservice)
      * DaemonSets (Devs/Ops)
      * [Hintergrund Ingress](#hintergrund-ingress)
-     * [IngressController nginx on detail](#ingresscontroller-nginx-on-detail)
      * [Ingress Controller auf Digitalocean (doks) mit helm installieren](#ingress-controller-auf-digitalocean-doks-mit-helm-installieren)
      * [Documentation for default ingress nginx](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/)
      * [Beispiel Ingress](#beispiel-ingress)
@@ -150,11 +152,20 @@
   1. Kubernetes Scaling
      * [Autoscaling Pods/Deployments](#autoscaling-podsdeployments)
 
-  1. Lokal Kubernetes verwenden 
-     * [Kubernetes in ubuntu installieren z.B. innerhalb virtualbox](#kubernetes-in-ubuntu-installieren-zb-innerhalb-virtualbox)
-     * [minikube](#minikube)
-     * [rancher for desktop](https://github.com/rancher-sandbox/rancher-desktop/releases/tag/v1.9.1)
-        
+  1. Kubernetes Tipps & Tricks
+     * [Oomkiller and maxReadySeconds for safe migration to new pods](#oomkiller-and-maxreadyseconds-for-safe-migration-to-new-pods)
+     * [Pod-Netzwerk debuggen durch weiteren Pod der daneben liegt kubectl debug](#pod-netzwerk-debuggen-durch-weiteren-pod-der-daneben-liegt-kubectl-debug)
+     * [Aus pod mit curl api-server abfragen](#aus-pod-mit-curl-api-server-abfragen)
+
+  1. Kubernetes - Monitoring 
+     * [metrics-server aktivieren (microk8s und vanilla)](#metrics-server-aktivieren-microk8s-und-vanilla)
+     * [Prometheus Überblick](#prometheus-überblick)
+     * [Prometheus Kubernetes Stack installieren](#prometheus-kubernetes-stack-installieren)
+     * [Prometheus - Services scrapen die keine Endpunkte für Prometheus haben](#prometheus---services-scrapen-die-keine-endpunkte-für-prometheus-haben)
+    
+  1. Helm
+     * [Helm internals / secret a.s.o](#helm-internals--secret-aso)
+
   1. Literatur / Documentation / Information (Microservices)
      * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/)
      * [Sam Newman - Vom Monolithen zu Microservices](https://www.amazon.de/Vom-Monolithen-Microservices-bestehende-umzugestalten/dp/3960091400/)
@@ -164,15 +175,7 @@
     
   1. gitlab ci/cd
      * [Einfaches Beispielscript](#einfaches-beispielscript)
-    
-  1. VirtualBox Tipps & Tricks 
-     * [VirtualBox 6.1. - Ubuntu für Kubernetes aufsetzen ](#virtualbox-61---ubuntu-für-kubernetes-aufsetzen-)
-     * [VirtualBox 6.1. - Shared folder aktivieren](#virtualbox-61---shared-folder-aktivieren)
-    
-  1. CloudInit
-     * [Kubernetes Client einrichten mit bash](#kubernetes-client-einrichten-mit-bash)
-
-   
+       
 ## Backlog
  
   1. Praxis Microservices ohne Docker und Kubernetes 
@@ -335,10 +338,7 @@
      
   1. kubectl 
      * [Tipps&Tricks zu Deploymnent - Rollout](#tippstricks-zu-deploymnent---rollout)
-     
-  1. Kubernetes - Monitoring (microk8s und vanilla) 
-     * [metrics-server aktivieren (microk8s und vanilla)](#metrics-server-aktivieren-microk8s-und-vanilla)
-
+    
   1. Kubernetes - Backups 
      + [Kubernetes Aware Cloud Backup - kasten.io](/backups/cluster-backup-kasten-io.md)
 
@@ -376,6 +376,16 @@
      * [Läuft der ssh-server](#läuft-der-ssh-server)
      * [Basis/Parent - Image erstellen](#basisparent---image-erstellen)
      * [Eigenes unsichere Registry-Verwenden. ohne https](#eigenes-unsichere-registry-verwenden-ohne-https)
+    
+  1. Linux Tipps & Tricks
+     * [Grafischen Modus deaktivieren](#grafischen-modus-deaktivieren)
+    
+  1. VirtualBox Tipps & Tricks 
+     * [VirtualBox 6.1. - Ubuntu für Kubernetes aufsetzen ](#virtualbox-61---ubuntu-für-kubernetes-aufsetzen-)
+     * [VirtualBox 6.1. - Shared folder aktivieren](#virtualbox-61---shared-folder-aktivieren)
+    
+  1. CloudInit
+     * [Kubernetes Client einrichten mit bash](#kubernetes-client-einrichten-mit-bash)
      
   1. Microservices - Messaging
      * [EventBus Implementierungen/Überblick](#eventbus-implementierungenüberblick)
@@ -385,7 +395,7 @@
 
 ## Grundlagen
 
-### Was sind microservices
+### Was sind Microservices ?
 
 
 ```
@@ -419,7 +429,7 @@ in einer Komponenten zu verstecken
 
  ## Independant Deployability 
 
-   * Teams unabhängig Änderung in Microservices machen und dieses redeployen und zwar on alle anderen
+   * Teams unabhängig Änderung in Microservices machen und dieses redeployen und zwar ohne alle anderen
      * zu redeployen 
    * This is the most imporant thing and also the Nr. 1 Tipp
 
@@ -557,7 +567,7 @@ II. Im Rahmen eines DevOps-Modells sind Entwicklungs- und Operations-Teams nicht
 
 ### Idee dahinter (microservice) 
 
- *  Nie direkt auf Daten zugreifen 
+ *  Nie direkt auf Daten zuzugreifen (immer nur immer API)  
 
 ### Damit auch die Möglichkeit haben, Informationen zu verstecken
 
@@ -610,7 +620,7 @@ curl -X PUT --header 'Content-Type: application/json' --header 'Accept: applicat
 ### Brainstorming Domäne
 
 
-### Prozess aus Domain Drive Design
+### Prozess aus Domain Driven Design
 
   * Eventstorming
   * https://entwickler.de/ddd/domain-driven-design-in-aktion-mehr-dynamik-mit-event-storming
@@ -1031,22 +1041,6 @@ sudo su -
 ## wenn wir vorher der benutzer kurs waren
 ```
 
-### Grafischen Modus deaktivieren
-
-
-  * Besser: komplett deinstallieren
-
-### Das geht immer 
-
-```
-## also root
-sudo su -
-## target ohne Grafik 
-systemctl isolate multi-user
-## Beim Start auch diese Target setzen
-systemctl set-default multi-user
-```
-
 ## Docker-Grundlagen 
 
 ### Übersicht Architektur
@@ -1147,13 +1141,13 @@ systemctl status docker
 ```
 ## Wenn dein unpriviligierter Benutzer kurs heisst
 sudo su -
-usermod -aG docker kurs
+usermod -aG docker 11trainingdo 
 exit
 ```
 
 ```
 ## ich wechsele nochmal in den Benutzer kurs
-su - kurs
+su - 11trainingdo
 ## jetzt darf kein Fehler kommen 
 docker images 
 ```
@@ -1173,7 +1167,7 @@ docker compose version
 ### Beispiel (binden an ein terminal), detached
 
 ```
-docker run -d --name my_nginx nginx
+docker run -d --name my_nginx nginx:1.23
 docker container ls 
 ```
 
@@ -1364,7 +1358,7 @@ docker images
 ## -t wird benötigt, damit bash WEITER im Hintergrund im läuft.
 ## auch mit -d (ohne -t) wird die bash ausgeführt, aber "das Terminal" dann direkt beendet 
 ## -> container läuft dann nicht mehr 
-docker run -d -t --name container-ubuntu myubuntu
+docker run -d -t --name container-ubuntu myubuntu:1.0
 docker container ls
 
 ## docker inspect to find out ip of other container 
@@ -1374,7 +1368,7 @@ docker inspect container-ubuntu | grep -i ipaddress
 
 ```
 ## Zweiten Container starten um 1. anzupingen 
-docker run -d -t --name container-ubuntu2 myubuntu 
+docker run -d -t --name container-ubuntu2 myubuntu:1.0 
 
 ## Ersten Container -> 2. anpingen 
 docker exec -it container-ubuntu2 bash 
@@ -1405,14 +1399,15 @@ cd multi-stage-example
 docker build . -t multi-stage-example:v1 --target=builder # - Build image using a specific stage
 
 ## Bauen
-docker build . -t multi-stage-example:v1
+docker build . -t multi-stage-binary:v1
 ```
 
-### Step 2
+### Step 2: Run only binary-version 
 
 ```
 ## run 
-docker run p 8080:8080 multi-stage-example:v1 
+docker run --name app -d -t multi-stage-binary:v1 sh  
+docker exec -it app sh 
 ```
 
 ## Docker Security 
@@ -1423,10 +1418,10 @@ docker run p 8080:8080 multi-stage-example:v1
 ### Generic 
 
   * Kann ich dem Image vertrauen (nur Images verwenden, denen ich vertrauen kann)
-    * Im Zweifel selber oder nur images von Docker Official Image / Verified Publisher (Suche auf Docker Hub)
+    * Im Zweifel eigene Images oder nur images von Docker Official Image / Verified Publisher (Suche auf Docker Hub)
   * Container möglichst nicht als Root laufen lassen (bzw. solche Images vewrenden)
   * Das nur das drinnen ist, was wirklich gebraucht wird (Produktion)
-    * Im Idealfall sogar nur das Executable (siehe auch hashicorp/http-ech -> kein sh, keine bash
+    * Im Idealfall sogar nur das Executable (siehe auch hashicorp/http-echo -> kein sh, keine bash)
   * Alle container einer applikation in einem eigenen Netzwerk  
   * Images to scannen / security scans. 
 
@@ -1511,8 +1506,10 @@ docker compose down
   * https://www.redhat.com/en/blog/secure-your-containers-one-weird-trick
   * man capabilities
 
-### Scanning docker image with docker scan/snyx
+### Scanning docker image with docker scan/snyx(Deprecated)
 
+
+### ACHTUNG_ Deprecated - USE Docker Scout instead (only Docker Desktop ?) 
 
 ### Prerequisites 
 
@@ -1545,7 +1542,8 @@ docker scan --json --accept-license dockertrainereu/jm-hello-docker  > result.js
 
 ```
 ## Installiert man docker in der neuesten 20.10.21 
-## existiert docker als plugin und wird anders aufgerufen 
+## existiert docker als plugin und wird anders aufgerufen
+## Je nach distribution als Zusatzplugin von docker 
 docker compose 
 ```
 
@@ -1642,8 +1640,6 @@ cd bautest
 
 ```
 ## nano docker-compose.yml
-version: "3.8"
-
 services:
   myubuntu:
     build: ./myubuntu
@@ -1675,8 +1671,11 @@ done
 ```
 
 ```
-## nano Dockerfile 
-FROM ubuntu:22.04
+nano Dockerfile
+```
+
+```
+FROM ubuntu:24.04
 RUN apt-get update && apt-get install -y inetutils-ping
 COPY hello.sh .
 RUN chmod u+x hello.sh
@@ -1964,6 +1963,103 @@ x because of this: application cannot simply use a local ACID transaction.
 
   * https://microservices.io/patterns/data/event-sourcing.html
 
+## Microservices (async messaging)
+
+### Topic/Queue ohne Downtime migrieren
+
+
+### How can you be sure, that consumer goes not get data from the old topic 
+
+  * Producer should only (!) write to one topic (the newest)
+
+### How to switch to a new version ? (Part 1: producer) 
+
+  1. Every topics has a version
+  1. New Version :: myTopic.v0 -> myTopic.v1
+  1. Whenever a new version is there, we will write it into topics: _meta_version
+  1. Producer will be consumer for the _meta_version and wil get to know about the topic
+  1. Producer will immediately write to the new topic, BUT ONLY to the new topic
+
+### How to switch to a new version ? (Part 2: consumer) 
+
+  1. consumer has to drain the old topic before switching to the new one
+  1. how to know it is drained ? Ask for "watermark" offset (gives back the last offset)
+  1. When you have the last message with the watermark offset -> switch to new topic
+
+### Watermark - Background 
+
+  1. The offset of the last message in topic, can be retrieved with "watermark"
+  1. Example Code: https://github.com/confluentinc/confluent-kafka-python/blob/master/examples/get_watermark_offsets.py
+
+### Reference:
+
+  * https://gauravsarma1992.medium.com/migrating-kafka-topic-without-downtime-f863819cfb3d
+
+### Disruptive Änderungen im Schema migrieren
+
+
+### Step 1: Status Quo 
+
+  1. Producer P1 is producing Message to Topic T1
+  1. Consumer C1 and C2 are consuming this topic
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/25a964ce-ca64-4403-8685-70e53346e6b4)
+
+### Step 2: New Topic T2 with breaking Schema S2 
+
+   1. Topic is currently empty 
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/baef7656-386d-42e7-916b-693b6ced0bb5)
+
+### Step 3: Maintaining history order with migration component (Mode 1 -> 2)
+
+  * reproducing all existing records from topic T1 on topic T2
+    * by transforming them into messages following schema S2 and producing them on topic T2.
+  * Same keys are to be used (so it will be in the same partitions)
+  * reproduced messages are to retain the original timestamp
+    * in order to preserve the semantics of the message
+  * No Downtime: producer P1 can meanwhile still produce new messages that may get consumed by existing consumer
+  * Every message from P1 will be picked up by the migration component and reproduced in T2
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/2c220ecc-2f4d-4590-b6ab-7fceb5e4e3f7)
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/2eb44846-96ee-4523-99a7-0dc396b65aa0)
+
+### Step 4: New Version P1 (will not send to T1) any more 
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/61344c81-d2da-4d6f-9c9a-f94c072ae691)
+
+### Step 5: P1 sends messages to T2 (after migration component has reproduced ...)
+
+  1. Migration component has reproduced all messages from T1 -> T2
+  1. AFTER THAT ! P1 will start to send messages to T2
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/c752284e-fb77-4b31-9bac-1fd50c532cca)
+
+### Step 6: Switching operation mode of migration component (mode: 2->1)
+
+  1. Migration component will from now on consume messages from topic T2 and reproduce them on topic T1.
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/131fa36c-3b52-49fb-9fa0-5d3c5ebb4d2f)
+
+### Step 7: Ready for consumers 
+
+  1. It is now possible for the consumers C1 and C2 to switch to T2 at any time
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/2606dc14-e2b1-48fd-ad6e-a2aa6a6088d7)
+
+### Step 8: All consumers have migrated 
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/4269a17e-f9ef-44af-8889-7a8a214b406d)
+
+### Step 9: Cleanup, when all have migrated 
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/1c4ed6c5-3d6d-4cc5-aea3-b0a9595df957)
+
+
+### Reference
+
+  * https://cymo.eu/blog/a-strategy-for-dealing-with-breaking-schema
+
 ## Microservice - flightapp - concepts
 
 ### Vorgehensweise nach dem SEED-Verfahren
@@ -1975,9 +2071,14 @@ x because of this: application cannot simply use a local ACID transaction.
   * 2. Jobs identifizieren, die durch Akteure getätigt werden müssen
   * 3. Entdecken/Entwickeln von Interaktionsschritte mit Ablaufdiagrammen 
   * 4. High-Level Aktionen und Abfragen basierend auf den zu tätigenden Jobs (2) und den Interaktionsschritten ableiten 
-  * 5. Jede Abfrage und Aktion als Spezifikation beschreiben, mit einem offenen Standarad (wie OpenAPI Spezifikation [OAS] or GraphQL schemata)
+  * 5. Jede Abfrage und Aktion als Spezifikation beschreiben, mit einem offenen Standard (wie OpenAPI Spezifikation [OAS] or GraphQL schemata)
   * 6. Feedback zur Api erhalten 
-  * 7. Implementieren 
+  * 7. Implementieren
+   
+ ## Reference:
+
+   * https://www.oreilly.com/library/view/microservices-up-and/9781492075448/ch03.html
+   * https://rolfsblog.ch/openapi/
 
 ### Vorgehensweise nach SEED on Detail
 
@@ -2001,7 +2102,7 @@ als anders herum)
 
   1. Eine Kunden will den Flug buchen 
   1. Die User-App der Airline (web, mobile, usw.)
-  1. Die Web API mit der die App interagiert.(dies nenne manche auch "backend for frontends" oder BFF APIs.)
+  1. Die Web API mit der die App interagiert.(dies nennen manche auch "backend for frontends" oder BFF APIs.)
   1. The flights management microservice: ms-flights
   1. Das Reservierungs Management microservice: ms-reservations 
 
@@ -2247,6 +2348,12 @@ HSETNX flight:40d1-898d-bf84a266f1b9 12B b4cdf96e-a24a-a09a-87fb1c47567c
 ## this means success error -> (integer) 0
 ```
 
+##### now leave redis-cli again 
+
+```
+exit
+```
+
 #### Block 4: Test microservice with rest-api call 
 
 ```
@@ -2319,6 +2426,14 @@ git clone https://github.com/jmetzger/ms-reservations.git
 cd ms-reservations
 ```
 
+### Step 1.5: Set identity 
+
+```
+git config --global user.name "Max Mustermann"
+git config --global user.email "tn1@t3company.de"
+```
+
+
 ### Step 2: Change origin (target where push data) and push 
 
 ```
@@ -2367,7 +2482,7 @@ build-image:       # This job runs in the build stage, which runs first.
 ## add
 DOCKER_USER
 DOCKER_PASS
-DOCKER_PROJECT
+DOCKER_PROJECT # z.B, reservations-jm
 in Settings -> CI/CD -> Variables (in your repo)
 ```
 
@@ -2444,7 +2559,7 @@ git clone https://github.com/jmetzger/nodebootstrap-microservice ms-flights
 ### Step 2: Create documentation 
 
 ```
-cd ms-flights/doc
+cd ms-flights/docs
 ```
 
 ```
@@ -2499,27 +2614,33 @@ nano appConfig.js
 #### Step 3.3 Edit lib/flights/controllers/mappings.js for input validation and which functions to call
 
 ```
-nano lib/flights/controllers/mappings.js
+cd lib/flights/controllers
+rm mappings.js
 ```
 
 ```
 ##the new version will look like this
-https://raw.githubusercontent.com/jmetzger/ms-flights/master/lib/flights/controllers/mappings.js
+wget https://raw.githubusercontent.com/jmetzger/ms-flights/master/lib/flights/controllers/mappings.js
 ```
 #### Step 3.4 Edit lib/flights/controllers/actions.js  
 
 ```
-nano libs/flights/controllers/actions.js 
+cd
+cd ms-flights
+mkdir -p lib/flights/controllers/
+cd lib/flights/controllers/
 ```
 
 ```
 ## the new version will look like this
-https://raw.githubusercontent.com/jmetzger/ms-flights/master/lib/flights/controllers/actions.js
+wget https://raw.githubusercontent.com/jmetzger/ms-flights/master/lib/flights/controllers/actions.js
 ```
 
 ### Step 3.5 Delete lib/flights/models 
 
 ```
+cd
+cd ms-flights
 rm -fR lib/flights/models/
 ```
 
@@ -2535,6 +2656,7 @@ rm -fR migrations/*
 
 ```
 ## create migrations scripts (implemented in bootstrap)
+## with correct dates 
 make migration-create name=seat-maps
 make migration-create name=flights
 make migration-create name=sample-data
@@ -2543,12 +2665,15 @@ make migration-create name=sample-data
 ```
 ## if you are working as unprivileged user change permissions accordingly
 ## They are root after this process
-sudo chown kurs:kurs ms-flights/migrations/sqls/*sql
+cd
+cd ms-flights
+sudo chown -R 11trainingdo:11trainingdo migrations
 ```
 
 ##### Step 3.6.3 Populate files 
 
 ```
+
 nano migrations/sqls/[date]-seat-maps-up.sql
 ```
 
@@ -2563,8 +2688,8 @@ nano migrations/sql/[date]-flights-up.sql
 ```
 
 ```
-## migrations/sqls/[date]-seat-maps-up.sql with data of
-https://github.com/jmetzger/ms-flights/blob/master/migrations/sqls/20200602055121-flights-up.sql
+## migrations/sqls/[date]-flights-up.sql with data of
+https://raw.githubusercontent.com/jmetzger/ms-flights/master/migrations/sqls/20200602055121-flights-up.sql
 ```
 
 ```
@@ -2589,7 +2714,7 @@ make restart
 ```
 cd ms-flights
 make stop
-## Change all entries that appear here
+## Change all entries that appear here to ms-flights
 grep -r ms-nodebootstrap-example .
 ```
 
@@ -2608,7 +2733,7 @@ curl http://192.168.56.102:5501/flights?flight_no=AA34&departure_date_time=2020-
 
 ```
 ## Seat map
-curl --verbose http://192.168.56.102:5501/flights/AA2532/seat_map
+curl --verbose http://192.168.56.102:5501/flights/AA34/seat_map
 ```
 
 ### Upload image flight app
@@ -2617,27 +2742,546 @@ curl --verbose http://192.168.56.102:5501/flights/AA2532/seat_map
 ### Step 1: Upload image to docker hub 
 
 ```
-cd flights
+cd
+cd ms-flights
 ```
 
 ```
 ## from the last step 01 Create microservce you should already have an image
 docker images | grep flights
-## nb-demo-ms-flights                 latest  
+## ms-flights-ms-flights                 latest  
 ## to upload it to docker hub, we would need to tag it
 ## one image can have multiple tags
-docker tag nb-demo-ms-flights dockertrainereu/flights-jm:v1
+docker tag ms-flights-ms-flights dockertrainereu/flights-jm:v11
 docker login
 ## now enter gittrainereu + password-you-will-get-from-your-trainer ;O)
 ## push the image to the server 
-docker push
+docker push dockertrainereu/flights-jm:v11
 ```
 
 ## Microservice - flightapp - Deployment Kubernetes
 
 ### Manual deployment
 
+
+### Schritt 1: configmap - flights
+
+```
+cd 
+mkdir -p manifests
+cd manifests
+mkdir flight-app
+cd flight-app
+mkdir flights
+cd flights 
+nano 01-secret.yml 
+```
+
+```
+## you could also create a secret with
+##  kubectl create secret generic mariadb-secret --from-literal=MARIADB_ROOT_PASSWORD=11abc432 --dry-run=client -o yaml > 01-secrets.yml
+```
+
+```
+### 01-secrets.yml
+kind: Secret 
+apiVersion: v1 
+metadata:
+  name: mariadb-secret
+data:
+  # als Wertepaare
+  MARIADB_ROOT_PASSWORD: MTFhYmM0MzI=
+```
+
+```
+cd
+cd manifests/flight-app
+## alle Unterverzeichnisse recursiv ausführen 
+kubectl apply -Rf .
+kubectl get secrets
+kubectl get secrets mariadb-secret -o yaml
+```
+
+### Schritt 2: PersistentVolumeClaim 
+
+```
+cd
+cd manifests/flight-app
+cd flights
+nano 02-pvc.yml 
+```
+
+```
+## vi 02-pvc.yml
+## now we want to claim space
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-do
+spec:
+  storageClassName: do-block-storage
+  accessModes:
+  - ReadWriteOnce
+  resources:
+     requests:
+       storage: 1Gi
+```
+
+```
+cd
+cd manifests
+cd flight-app
+kubectl apply -Rf .  
+```
+
+  * Ref: https://docs.digitalocean.com/products/kubernetes/how-to/add-volumes/
+
+
+
+### Schritt 3: mariadb Deployment 
+
+```
+cd
+cd manifests/flight-app/flights 
+nano 03-deploy-mariadb.yml
+```
+
+```
+##deploy.yml 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb-deployment
+spec:
+  selector:
+    matchLabels:
+      app: mariadb
+  replicas: 1 
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+      - name: mariadb-cont
+        image: mariadb:latest
+
+        volumeMounts:
+        -  mountPath: "/var/lib/mysql"
+           name: do-volume
+
+        envFrom:
+        - secretRef:
+            name: mariadb-secret
+        
+      volumes:
+      - name: do-volume
+        persistentVolumeClaim:
+          claimName: pvc-do
+```
+
+```
+cd
+cd manifests/flight-app/
+kubectl apply -Rf .
+```
+
+### Schritt 3.1 Service für MariaDB anlegen 
+
+```
+cd
+cd manifests/flight-app/flights
+nano 04-service-mariadb.yml
+```
+
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: ms-flights-db
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3306
+    protocol: TCP
+  selector:
+    app: mariadb
+```
+
+```
+cd
+cd manifests/flight-app/
+kubectl apply -Rf .
+```
+
+### Schritt 3.2: Add flights deployment 
+
+```
+cd
+cd manifests/flight-app/flights
+nano 03-deploy-flights.yml
+```
+
+```
+##deploy.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flights-deployment
+spec:
+  selector:
+    matchLabels:
+      app: flights
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: flights
+    spec:
+      containers:
+      - name: app
+        image: dockertrainereu/flights-jm:v11
+        command: [ "/bin/sh", "-c", "--" ]
+        args: [ "while true; do sleep 30; done;" ]
+          #volumeMounts:
+          #-  mountPath: "/var/lib/mysql"
+          # name: do-volume
+
+        env:
+        - name: NODE_ENV
+          value: dev
+              #- name: NODE_HOT_RELOAD
+              #value: "1"
+              #- name: NODE_LOGGER_GRANULARLEVELS
+              #value: "1"
+        - name: NODE_CONFIG_DISABLE_FILE_WATCH
+          value: "Y"
+
+              #volumes:
+              #- name: do-volume
+              #persistentVolumeClaim:
+              #claimName: pvc-do
+
+
+```
+
+```
+cd
+cd manifests/flight-app/
+kubectl apply -Rf .
+```
+
+
+### Schritt 4: Lokal kompose installieren 
+
+  * als root
+
+[Kompose installieren](#tool-zum-konvertion-von-docker-composeyaml-file-manifesten)
+
+```
+## alle weiteren Schritte als kurs 
+su - kurs 
+```
+
+### Schritt 5: ms-reservations clonen (zur Hilfe bzgl. der manifests)
+
+```
+cd 
+git clone https://github.com/jmetzger/ms-reservations
+cd ms-reservations
+
+## create a dummy folder
+mkdir dummy
+cp -a docker-compose.yml dummy
+cp -a database-dev.env dummy
+cd dummy
+kompose --file=docker-compose.yml convert
+```
+
+### Schritt 6: config für redis anlegen 
+
+```
+cd
+mkdir -p  manifests/flight-app/reservations
+cd manifests/flight-app/reservations
+nano 01-redis-cm.yml
+```
+
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-cm
+data:
+
+  REDIS_HOST: "ms-reservations-redis"
+  REDIS_PORT: "6379"
+  REDIS_DB: "0"
+  REDIS_PWD: "4n_ins3cure_P4ss"
+
+  redis-config: |
+    appendonly yes
+```
+
+```
+kubectl apply -f .
+```
+
+### Schritt 7: Redis ausrollen 
+
+```
+nano 02-redis-deploy.yml 
+```
+
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-reservations-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      storage: redis
+  strategy:
+    type: Recreate
+
+  template:
+    metadata:
+      labels:
+        storage: redis
+
+    spec:
+      containers:
+        - command:
+            - redis-server
+            - /usr/local/etc/redis/redis.conf
+            - --requirepass
+            - 4n_ins3cure_P4ss
+          env:
+            - name: REDIS_REPLICATION_MODE
+              value: master
+          image: redis:6-alpine
+          name: ms-reservations-redis
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - mountPath: /data
+              name: data
+            - mountPath: /usr/local/etc/redis/redis.conf
+              name: config
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: redis-cm
+            items:
+            - key: redis-config
+              path: redis.conf
+```
+
+```
+kubectl apply -f .
+```
+
+
+### Schritt 8: service für redis 
+
+```
+nano 03-redis-service.yml
+```
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: ms-reservations-redis
+spec:
+  ports:
+    - name: "redis"
+      port: 6379
+  selector:
+    storage: redis
+```
+
+```
+kubectl apply -f .
+```
+
+### Schritt 9: deployment for reservations 
+
+```
+nano 04-reservations-deploy.yml
+```
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-reservations
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reservations
+  template:
+    metadata:
+      labels:
+        app: reservations
+    spec:
+      containers:
+        - command: [ "/bin/bash", "-c", "--" ]
+          args: [ "while true; do sleep 30; done;" ]
+          #     - ./wait-for.sh
+          #   - -t
+          #   - "60"
+          #   - ms-reservations-redis:6379
+          #   - --
+          #   - gunicorn
+          #   - -b
+          #   - 0.0.0.0:5000
+          #   - --reload
+          #   - -w
+          #   - "1"
+          #   - service:app
+          env:
+            - name: FLASK_ENV
+              value: development
+            - name: REDIS_DB
+              valueFrom:
+                configMapKeyRef:
+                  key: REDIS_DB
+                  name: redis-cm
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: REDIS_HOST
+                  name: redis-cm
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: REDIS_PORT
+                  name: redis-cm
+            - name: REDIS_PWD
+              valueFrom:
+                configMapKeyRef:
+                  key: REDIS_PWD
+                  name: redis-cm
+          image: dockertrainereu/reservations-jm:v16
+          name: ms-reservations
+          ports:
+            - containerPort: 5000
+          resources: {}
+          volumeMounts:
+            - mountPath: /app
+              name: ms-reservations-claim0
+
+      volumes:
+        - name: ms-reservations-claim0
+          emptyDir: {}
+          #persistentVolumeClaim:
+          #  claimName: ms-reservations-claim0
+```
+
+```
+kubectl apply -f .
+```
+
 ### gitlab Deployment
+
+
+### Prerequisites 
+
+  * 01-xxxx is done by you (manifests created) 
+
+
+### Schritt 1: Neues repo anlegen und manifeste pushen 
+
+```
+### neues repo in gitlab anlegen
+### achtung ohne README -> d.h. leer
+z.B.
+https://gitlab.com/training.tn1/ms-jochen-k8sdeploy
+```
+
+```
+cd
+cd manifests/
+mkdir project-flight-app
+mv flight-app project-flight-app
+cd project-flight-app
+git init
+git add .
+git status
+git config --global user.email "you@email.com"
+git config --global user.name "Phantomas"
+git commit -am "initial release"
+git log
+##  Wo soll es hingehen, aus Startseite im Repo, wenn keine README gesetzt 
+git remote add origin https://gitlab.com/training.tn1/ms-jochen-k8sdeploy.git
+## In welchem Branch bin ich
+git branch
+git push -u origin master
+```
+
+
+### Schritt 2: KUBECONFIG_SECRET einrichten 
+
+  * in Settings->CI/CD -> Variables -> KUBECONFIG_SECRET
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/ce299745-c478-409d-8416-0bb8261e8133)
+
+```
+## Inhalt kommt von meinem lokalen System, wo ich auch kubectl verwende
+##  -> wenn eine Verbindung zum  Cluster besteht, ansonsten aus management tool des Clusters , z.B microk8s config 
+cat .kube/config
+```
+
+
+### Schritt 3: pipeline mit kubectl einrichten 
+
+  * Ich brauche ein image, das kubectl kann 
+
+
+```
+## on gitlab create a new pipeline
+## by editing with pipeline editor
+```
+
+```
+## use the following content 
+deploy:
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
+  script:
+    - echo "$KUBECONFIG_SECRET" > ~/.kube/config
+    - kubectl cluster-info
+    # - ls -la
+    - cd flight-app
+    - kubectl apply -Rf .
+```
+
+### Schritt 4: version des images ändern in ...
+
+```
+## image-version muss in docker hub vorhanden sein
+z.B. v3 - > v4.
+
+## hier z.B. direkt im repo ändern
+flight-app/reservations/04-reservations-deploy.yml 
+
+```
+
+
+### Ref: 
+
+  * https://docs.gitlab.com/ee/user/clusters/agent/ci_cd_workflow.html#update-your-gitlab-ciyml-file-to-run-kubectl-commands
+  
+  
 
 ### github Deployment
 
@@ -3019,7 +3663,7 @@ jobs:
 
 
   * Virtualisierung von Hardware - xfache bessere Auslastung
-  * Google als Ausgangspunkt 
+  * Ist in Google entstanden 
   * Software 2014 als OpenSource zur Verfügung gestellt (Name bei Google: Borg)
   * Optimale Ausnutzung der Hardware, hunderte bis tausende Dienste können auf einigen Maschinen laufen (Cluster)  
   * Immutable - System
@@ -3570,7 +4214,11 @@ kubectl get pods -o json
 
 ## gilt natürluch auch für andere kommandos
 kubectl get deploy -o json 
-kubectl get deploy -o yaml 
+kubectl get deploy -o yaml
+
+## Eigenschaft auslesen
+kubectl get pods nginx-deployment-74676ff58f-fxcjv -o jsonpath='{.metadata.ownerReferences[0].name}'
+
 ```
 
 
@@ -3635,6 +4283,7 @@ kubectl get deployments -n kube-system
 ## wir wollen unseren default namespace ändern 
 kubectl config set-context --current --namespace <dein-namespace>
 ```
+
 
 
 
@@ -3991,8 +4640,6 @@ spec:
 
   * https://matthewpalmer.net/kubernetes-app-developer/articles/kubernetes-ingress-guide-nginx-example.html
 
-### IngressController nginx on detail
-
 ### Ingress Controller auf Digitalocean (doks) mit helm installieren
 
 
@@ -4003,19 +4650,39 @@ spec:
 
 ### Prerequisites 
 
-  * kubectl muss eingerichtet sein 
+  * kubectl und helm muss eingerichtet sein 
 
 ### Walkthrough (Setup Ingress Controller) 
 
 ```
+## Setup repo
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update
-helm show values ingress-nginx/ingress-nginx
+```
 
+```
+mkdir -p manifests
+cd manifests
+mkdir ingress
+cd ingress
+```
+
+```
+nano values.yml
+```
+
+```
 ## It will be setup with type loadbalancer - so waiting to retrieve an ip from the external loadbalancer
 ## This will take a little. 
-helm install nginx-ingress ingress-nginx/ingress-nginx --namespace ingress --create-namespace --set controller.publishService.enabled=true 
+controller:
+  publishService:
+    enabled: true 
+```
 
+```
+helm install nginx-ingress ingress-nginx/ingress-nginx --namespace ingress --create-namespace -f values.yml  
+```
+
+```
 ## See when the external ip comes available
 kubectl -n ingress get all
 kubectl --namespace ingress get services -o wide -w nginx-ingress-ingress-nginx-controller
@@ -4230,19 +4897,28 @@ cd abi
 ```
 
 ```
-## apple.yml 
-## vi apple.yml 
-kind: Pod
-apiVersion: v1
+nano apple.yml
+```
+
+```
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: apple-app
-  labels:
-    app: apple
+  name: apple-deployment
 spec:
-  containers:
-    - name: apple-app
-      image: hashicorp/http-echo
-      args:
+  selector:
+    matchLabels:
+      app: apple
+  replicas: 8
+  template:
+    metadata:
+      labels:
+        app: apple
+    spec:
+      containers:
+      - name: apple-app
+        image: hashicorp/http-echo
+        args:
         - "-text=apple-<dein-name>"
 ```
 
@@ -4267,25 +4943,36 @@ spec:
 
 ```
 kubectl apply -f .
+nano banana.yml 
 ```
 
 ```
-## banana
-## vi banana.yml
-kind: Pod
-apiVersion: v1
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: banana-app
-  labels:
-    app: banana
+  name: banana-deployment
 spec:
-  containers:
-    - name: banana-app
-      image: hashicorp/http-echo
-      args:
+  selector:
+    matchLabels:
+      app: banana
+  replicas: 8
+  template:
+    metadata:
+      labels:
+        app: banana
+    spec:
+      containers:
+      - name: banana-app
+        image: hashicorp/http-echo
+        args:
         - "-text=banana-<dein-name>"
+```
 
----
+```
+nano banana-service.yml 
+```
+
+```
 
 kind: Service
 apiVersion: v1
@@ -4300,7 +4987,7 @@ spec:
 ```
 
 ```
-kubectl apply -f banana.yml
+kubectl apply -f .
 ```
 
 #### Step 2: Ingress 
@@ -5251,7 +5938,7 @@ kubectl run podtest --rm -ti --image busybox
 
   * DNS - Names for Services are automatically created from the Service -> Name
   * + the namespace the service is in
-  * + the fixed name svc.cluster.local 
+  * + fixed subdomain svc.cluster.local 
 
 ### Example:
 
@@ -5360,73 +6047,624 @@ spec:
   * https://medium.com/expedia-group-tech/autoscaling-in-kubernetes-why-doesnt-the-horizontal-pod-autoscaler-work-for-me-5f0094694054
   * Alternative: https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler
 
-## Lokal Kubernetes verwenden 
+## Kubernetes Tipps & Tricks
 
-### Kubernetes in ubuntu installieren z.B. innerhalb virtualbox
+### Oomkiller and maxReadySeconds for safe migration to new pods
 
 
-### Walkthrough
+### What to achieve ?
 
-```
-sudo snap install microk8s --classic
-microk8s status
+ 1. Deploy a working version
+ 2. Deploy a new version that fails with OOM-Killer (but we can be sure pod from old replicaset still works) 
 
-## Sobald Kubernetes zur Verfügung steht aktivieren wir noch das plugin dns
-microk8s enable dns 
-microk8s status
-```
-
-### Optional
+### Step 1: Create deployment that works 
 
 ```
-## Execute kubectl commands like so 
-microk8s kubectl
-microk8s kubectl cluster-info
-
-## Make it easier with an alias 
-echo "alias kubectl='microk8s kubectl'" >> ~/.bashrc
-source ~/.bashrc
-kubectl
-
-```
-### Working with snaps 
-
-```
-snap info microk8s 
-
+mkdir -p manifests
+cd manifests
+mkdir -p stress
+cd stress
 ```
 
-### Ref:
-
-  * https://microk8s.io/docs/setting-snap-channel
-
-### minikube
-
-
-### Decide for an hypervisor 
-
 ```
-e.g. hyperv 
-
+kubectl create ns mem-example 
+nano deployment.yml
 ```
 
-  * https://minikube.sigs.k8s.io/docs/drivers/hyperv/
-
-### Walkthrough (Linux)
-
 ```
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-memtest
+  namespace: mem-example
+spec:
+  minReadySeconds: 120
+  selector:
+    matchLabels:
+      app: memtest
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: memtest
+    spec:
+      containers:
+      - name: memory-demo-ctr
+        image: polinux/stress
+        resources:
+          requests:
+            memory: "100Mi"
+          limits:
+            memory: "200Mi"
+        command: ["stress"]
+        args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1"]
 
 ```
 
-### Install minikube 
+```
+kubectl apply -f .
+kubectl -n mem-example get all
+kubectl get pods 
+```
 
-  * https://minikube.sigs.k8s.io/docs/start/
+### Schritt 2: Now with oom - killer version 
 
-### rancher for desktop
+  * More memory than available
+  * So new pods fail (normally, old pods would be terminated
+  * But: Due to minReadySeconds (each pod must at least 120seconds before state is switched to ready)
+    * System will wait / and old pods are still availale
 
-  * https://github.com/rancher-sandbox/rancher-desktop/releases/tag/v1.9.1
+```
+Change line --args from: --vm-bytes 150M to --vm-bytes 250M
+```
+   
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-memtest
+  namespace: mem-example
+spec:
+  minReadySeconds: 120
+  selector:
+    matchLabels:
+      app: memtest
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: memtest
+    spec:
+      containers:
+      - name: memory-demo-ctr
+        image: polinux/stress
+        resources:
+          requests:
+            memory: "100Mi"
+          limits:
+            memory: "200Mi"
+        command: ["stress"]
+        args: ["--vm", "1", "--vm-bytes", "250M", "--vm-hang", "1"]
+
+```
+
+```
+kubectl -n mem-example get all
+kubectl apply -f .
+kubectl -n mem-example get all
+## after a while we will see the new pod being in mode OOMKiller 
+kubectl -n mem-example get pods -w 
+```
+
+### Pod-Netzwerk debuggen durch weiteren Pod der daneben liegt kubectl debug
+
+
+### Andere Anwendungsfälle 
+
+  * Tools die nicht auf dem Pod installiert sind, benötigen
+
+### Walkthrough 
+
+```
+kubectl run my-nginx --image=nginx
+## Daneben einen pod starten, der auf das gleiche Netzwerk zugreift (d.h. die gleiche IP-Adresse hat)
+kubectl debug -it my-nginx --image=busybox
+```
+
+```
+## Kann ich rauspingen ?
+ping www.google.de
+```
+
+### Reference:
+
+  * https://kubernetes.io/docs/reference/kubectl/generated/kubectl_debug/
+  * https://kubernetes.io/docs/tasks/debug/debug-application/debug-running-pod/
+
+### Aus pod mit curl api-server abfragen
+
+
+### Step 1: Prepare Permissions  
+
+```
+kubectl create ns app 
+```
+
+```
+cd
+mkdir -p manifests
+cd manifests
+mkdir curltest
+cd curltest
+```
+
+```
+nano 01-clusterrole.yml
+```
+
+```
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: service-reader
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["services","endpoints"]
+  verbs: ["get", "list"]
+```
+
+```
+kubectl -n app apply -f .
+```
+
+```
+## Einfacher hack, wir verwenden den default-service - account
+kubectl -n app create rolebinding api-service-explorer:default --clusterrole service-reader --serviceaccount app:default
+
+```
+
+### Schritt 2: curlimage/curl starten
+
+```
+kubectl run -it --rm curltest --image=curlimages/curl -- sh
+```
+
+### Schritt 3: in curl - shell 
+
+```
+cd /var/run/secrets/kubernetes.io/serviceaccount
+TOKEN=$(cat token)
+env | grep KUBERNETES_SERVICE
+curl https://$KUBERNETES_SERVICE_HOST/openapi/v2 --header "Authorization: Bearer $TOKEN" --cacert ca.crt
+curl https://$KUBERNETES_SERVICE_HOST/api/v1/namespaces/app/services/ --header "Authorization: Bearer $TOKEN" --cacert ca.crt
+```
+
+```
+## Now look into one of the services
+ curl https://$KUBERNETES_SERVICE_HOST/api/v1/namespaces/app/services/apple-service/ --header "Authorization: Bearer $TOKEN" --cacert ca.crt
+```
+
+```
+## We will get the pod ip's from the endpoints
+ curl https://$KUBERNETES_SERVICE_HOST/api/v1/namespaces/app/endpoints/apple-service/ --header "Authorization: Bearer $TOKEN" --cacert ca.crt
+```
+
+### Reference 
+
+  * https://nieldw.medium.com/curling-the-kubernetes-api-server-d7675cfc398c
+
+## Kubernetes - Monitoring 
+
+### metrics-server aktivieren (microk8s und vanilla)
+
+
+### Warum ? Was macht er ? 
+
+```
+Der Metrics-Server sammelt Informationen von den einzelnen Nodes und Pods
+Er bietet mit 
+
+kubectl top pods
+kubectl top nodes 
+
+ein einfaches Interface, um einen ersten Eindruck über die Auslastung zu bekommen. 
+```
+
+### Walktrough 
+
+```
+## Auf einem der Nodes im Cluster (HA-Cluster) 
+microk8s enable metrics-server 
+
+## Es dauert jetzt einen Moment bis dieser aktiv ist auch nach der Installation 
+## Auf dem Client
+kubectl top nodes 
+kubectl top pods 
+
+```
+
+### Kubernetes 
+
+  * https://kubernetes-sigs.github.io/metrics-server/
+  * kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+### Prometheus Überblick
+
+
+### What does it do ?
+
+  * It monitors your system by collecting data
+  * Data is pulled from your system by defined endpoints (http) from your cluster 
+  * To provide data on your system, a lot of exporters are available, that
+    * collect the data and provide it in Prometheus
+
+### Technical 
+
+  * Prometheus has a TDB (Time Series Database) and is good as storing time series with data
+  * Prometheus includes a local on-disk time series database, but also optionally integrates with remote storage systems.
+  * Prometheus's local time series database stores data in a custom, highly efficient format on local storage.
+  * Ref: https://prometheus.io/docs/prometheus/latest/storage/
+
+### What are time series ? 
+
+  * A time series is a sequence of data points that occur in successive order over some period of time. 
+  * Beispiel: 
+    * Du willst die täglichen Schlusspreise für eine Aktie für ein Jahr dokumentieren
+    * Damit willst Du weitere Analysen machen 
+    * Du würdest das Paar Datum/Preis dann in der Datumsreihenfolge sortieren und so ausgeben
+    * Dies wäre eine "time series" 
+
+### Kompenenten von Prometheus 
+
+![Prometheus Schaubild](https://www.devopsschool.com/blog/wp-content/uploads/2021/01/What-is-Prometheus-Architecutre-components1-740x414.png)
+
+Quelle: https://www.devopsschool.com/
+
+#### Prometheus Server 
+
+1. Retrieval (Sammeln) 
+   * Data Retrieval Worker 
+     * pull metrics data
+1. Storage 
+   * Time Series Database (TDB)
+     * stores metrics data
+1. HTTP Server 
+   * Accepts PromQL - Queries (e.g. from Grafana)
+     * accept queries 
+  
+### Grafana ? 
+
+  * Grafana wird meist verwendet um die grafische Auswertung zu machen.
+  * Mit Grafana kann ich einfach Dashboards verwenden 
+  * Ich kann sehr leicht festlegen (Durch Data Sources), so meine Daten herkommen
+
+### Prometheus Kubernetes Stack installieren
+
+
+  * using the kube-prometheus-stack (recommended !: includes important metrics)
+
+### Step 1: Prepare values-file  
+
+```
+cd
+mkdir -p manifests 
+cd manifests 
+mkdir -p monitoring 
+cd monitoring 
+```
+
+```
+vi values.yml 
+```
+
+```
+fullnameOverride: prometheus
+
+alertmanager:
+  fullnameOverride: alertmanager
+
+grafana:
+  fullnameOverride: grafana
+
+kube-state-metrics:
+  fullnameOverride: kube-state-metrics
+
+prometheus-node-exporter:
+  fullnameOverride: node-exporter
+```
+
+### Step 2: Install with helm 
+
+```
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm install prometheus prometheus-community/kube-prometheus-stack -f values.yml --namespace monitoring --create-namespace --version 61.3.1
+```
+
+### Step 3: Connect to prometheus from the outside world 
+
+#### Step 3.1: Start proxy to connect (to on Linux Client)
+
+```
+## this is shown in the helm information 
+helm -n monitoring get notes prometheus
+
+## Get pod that runs prometheus 
+kubectl -n monitoring get service 
+kubectl -n monitoring port-forward svc/prometheus-prometheus 9090 &
+
+```
+
+#### Step 3.2: Start a tunnel in (from) your local-system to the server 
+
+```
+ssh -L 9090:localhost:9090 tln1@164.92.129.7
+```
+
+#### Step 3.3: Open prometheus in your local browser 
+
+```
+## in browser
+http://localhost:9090 
+```
+
+### Step 4: Connect to the grafana from the outside world 
+
+#### Step 4.1: Start proxy to connect 
+
+```
+## Do the port forwarding 
+## Adjust your pods here
+kubectl -n monitoring get pods | grep grafana 
+kubectl -n monitoring port-forward grafana-56b45d8bd9-bp899 3000 &
+```
+
+#### Step 4.2: Start a tunnel in (from) your local-system to the server 
+
+```
+ssh -L 3000:localhost:3000 tln1@164.92.129.7
+```
+
+
+
+
+
+
+### References:
+
+  * https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/README.md
+  * https://artifacthub.io/packages/helm/prometheus-community/prometheus
+
+  
+
+### Prometheus - Services scrapen die keine Endpunkte für Prometheus haben
+
+
+### Prerequisites 
+
+  * prometheus setup with helm
+
+### Step 1: Setup
+
+```
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm install my-prometheus-blackbox-exporter prometheus-community/prometheus-blackbox-exporter --version 8.17.0 --namespace monitoring --create-namespace
+
+```
+
+### Step 2: Find SVC 
+
+```
+kubectl -n monitoring get svc | grep blackbox
+```
+
+```
+my-prometheus-blackbox-exporter   ClusterIP   10.245.183.66    <none>        9115/TCP              
+```
+
+
+### Step 3: Test with Curl 
+
+```
+kubectl run -it --rm curltest --image=curlimages/curl -- sh 
+```
+
+```
+## Testen nach google in shell von curl
+curl http://my-prometheus-blackbox-exporter.monitoring:9115/probe?target=google.com&module=http_2xx
+```
+
+```
+## Looking for metric 
+probe_http_status_code 200
+```
+
+### Step 4: Test apple-service with Curl 
+
+```
+## From within curlimages/curl pod 
+curl http://my-prometheus-blackbox-exporter.monitoring:9115/probe?target=apple-service.app&module=http_2xx
+```
+
+
+### Step 5: Scrape Config (We want to get all services being labeled example.io/should_be_probed = true
+
+```
+prometheus:
+  prometheusSpec:
+    additionalScrapeConfigs:
+    - job_name: "blackbox-microservices"
+      metrics_path: /probe
+      params:
+        module: [http_2xx]
+      # Autodiscovery through kube-api-server 
+      # https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config
+      kubernetes_sd_configs:
+      - role: service
+      relabel_configs:
+        # Example relabel to probe only some services that have "example.io/should_be_probed = true" annotation
+        - source_labels: [__meta_kubernetes_service_annotation_example_io_should_be_probed]
+          action: keep
+          regex: true
+        - source_labels: [__address__]
+          target_label: __param_target
+        - target_label: __address__
+          replacement:  my-prometheus-blackbox-exporter:9115
+        - source_labels: [__param_target]
+          target_label: instance
+        - action: labelmap
+          regex: __meta_kubernetes_service_label_(.+)
+        - source_labels: [__meta_kubernetes_namespace]
+          target_label: app
+        - source_labels: [__meta_kubernetes_service_name]
+          target_label: kubernetes_service_name
+```
+
+### Step 6: Test with relabeler 
+
+ * https://relabeler.promlabs.com
+
+```
+
+
+```
+
+### Step 7: Scrapeconfig einbauen 
+
+```
+## von kube-prometheus-grafana in values und ugraden 
+ helm upgrade prometheus prometheus-community/kube-prometheus-stack -f values.yml --namespace monitoring --create-namespace --version 61.3.1
+```
+
+### Step 8: annotation in service einfügen 
+
+```
+kind: Service
+apiVersion: v1
+metadata:
+  name: apple-service
+  annotations:
+    example.io/should_be_probed: "true"
+
+spec:
+  selector:
+    app: apple
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5678 # Default port for image
+```
+
+
+```
+kubectl apply -f service.yml
+```
+
+### Step 9: Look into Status -> Discovery Services and wait
+
+  * blackbox services should now appear under blackbox_microservices
+  * and not being dropped
+
+### Step 10: Unter http://64.227.125.201:30090/targets?search= gucken
+
+  * .. ob das funktioniert
+
+### Step 11: Hauptseite (status code 200) 
+
+  * Metrik angekommen `?
+  * http://64.227.125.201:30090/graph?g0.expr=probe_http_status_code&g0.tab=1&g0.display_mode=lines&g0.show_exemplars=0&g0.range_input=1h
+
+### Step 12: pod vom service stoppen
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apple-deployment
+spec:
+  selector:
+    matchLabels:
+      app: apple
+  replicas: 8
+  template:
+    metadata:
+      labels:
+        app: apple
+    spec:
+      containers:
+      - name: apple-app
+        image: hashicorp/http-echo
+        args:
+        - "-text=apple-<dein-name>"
+
+
+```
+
+```
+kubectl apply -f apple.yml # (deployment)
+
+```
+
+### Step 13: status_code 0
+
+
+  * Metrik angekommen `?
+  * http://64.227.125.201:30090/graph?g0.expr=probe_http_status_code&g0.tab=1&g0.display_mode=lines&g0.show_exemplars=0&g0.range_input=1h
+
+## Helm
+
+### Helm internals / secret a.s.o
+
+
+### How are information about realeases stored 
+
+  1. Stored in secrets 
+  1. One secret for every release 
+  1. gzip | base64 | base64 done before saving it there 
+
+### what is stored in each secret object concerning helm 
+
+  * Chart-Information 
+  * chart-templates 
+  * manifest (like it is applied by helm)
+
+  ## Process of helm install
+
+  ```
+  helm pull -> helm template -> kubectl apply -f -> construct helm secret and create by sending it to 
+  kube-api-server
+  ```
+
+  ## Process of helm uninstall 
+
+  ```
+  # Get secret of release, current revision 
+  1. helm get secret sh.helm ..... 
+
+  2. -> extract manifests
+
+  3. kubectl delete -f manifest
+
+  4. delete all secrets for that release with kubectl 
+  kubectl delete secrets sh.helm.release.v1.my-mariadb.v2
+  kubectl delete secrets sh.helm.release.v1.my-mariadb.v2
+
+  ```
+
+
+  ## How to get information for release (raw) 
+
+  ```
+  kubectl get secrets sh.helm.release.v1.my-mariadb.v2 -o jsonpath='{.data.release}' | base64 -d | base64 -d | gzip -d > all.yml
+
+
+  ```
+
+  ## How to get information of applied manifest 
+
+  ```
+  helm get manifest my-mariadb 
+  ```
+  
 
 ## Literatur / Documentation / Information (Microservices)
 
@@ -5472,317 +6710,6 @@ build-job:       # This job runs in the build stage, which runs first.
 ```
 
 
-
-## VirtualBox Tipps & Tricks 
-
-### VirtualBox 6.1. - Ubuntu für Kubernetes aufsetzen 
-
-
-### Vorbereitung 
-
-  * Ubuntu Server 22.04 LTS - ISO herunterladen
-
-### Schritt 1: Virtuelle Maschine erstellen 
-
-```
-In VirtualBox Manager -> Menu -> Maschine -> Neu (Oder Neu icon) 
-
-Seite 1:
-Bei Name Ubuntu Server eingeben (dadurch wird gleich das richtige ausgewählt, bei den Selects) 
-Alles andere so lassen.
-Weiter 
-
-Seite 2: 
-Hauptspeicher mindest 4 GB , d.h. 4096 auswählen (füpr Kubernetes / microk8s)
-Weiter
-
-Seite 3:
-Festplatte erzeugen ausgewählt lassen
-Weiter
-
-Seite 4: 
-Dateityp der Festplatte: VDI ausgewählt lassen
-Weiter 
-
-Seite 5:
-Art der Speicherung -> dynamisch alloziert ausgewählt lassen
-Weiter 
-
-Seite 6:
-Dateiname und Größe -> bei Größe mindestens 30 GB einstellen (bei Bedarf größer) 
--> Erzeugen 
-```
-
-### Schritt 2: ISO einhängen / Netzwerk und starten / installieren
-
-```
-Neuen Server anklicken und ändern klicken:
-
-1. 
-Massenspeicher -> Controller IDE -> CD (Leer) klicken
-CD - Symbol rechts neben -> Optisches Laufwerk (sekundärer Master) -> klicken -> Abbild auswählen
-Downgeloadetes ISO Ubuntu 22.04 auswählen -> Öffnen klicken 
-
-2. 
-Netzwerk -> Adapter 2 (Reiter) anklicken -> Netzwerkadapter aktivieren
-Angeschlossen an -> Host-only - Adapter 
-
-3. 
-unten rechts -> ok klicken 
-
-```
-
-### Schritt 3: Starten klicken und damit Installationsprozess beginnen
-
-```
-Try or install Ubuntu Server -> ausgewählt lassen
-
-Seite 1:
-Use up -.... Select your language 
--> English lassen
-Enter eingeben
-
-Seite 2: Keyboard Configuration
-Layout auswählen (durch Navigieren mit Tab-Taste) -> Return
-German auswählen (Pfeiltaste nach unten bis German, dann return)
-Identify Keyboard -> Return
-Keyboard Detection starting -> Ok 
-Jetzt die gewünschten tasten drücken und Fragen beantworten
-Layout - Variante bestätigen mit OK 
-
--> Done 
-
-Seite 3: Choose type of install 
-Ubuntu - Server ausgewählt lassen
-
--> Done 
-
-Seite 4: Erkennung der Netzwerkkarten 
-(192.168.56.1x) sollte auftauchen
-
--> Done 
-
-Seite 5: Proxy
-
-leer lassen
-
--> Done 
-
-Seite 6: Mirror Address
-
-kann so bleiben
-
--> Done 
-
-Seite 7: 
-
-Guided Storage konfiguration
-Entire Disk 
-
--> Done 
-
-Seite 8: File System Summary
-
--> Done 
-
-Seite 9: Popup: Confirm destructive action 
-Bestätigen, dass gesamte Festplatte überschrieben wird
-(kein Problem, da Festplatte ohnehin leer und virtuell)
-
--> Continue 
-
-Seite 10: Profile Setup
-
-User eingeben / einrichten 
-Servernamen einrichten 
-
--> Done 
-
-Seite 11: SSH Setup 
-
-Haken bei: Install OpenSSH Server 
-setzen
-
--> Done 
-
-Seite 12: Featured Server Snaps 
-
-Hier brauchen wir nichts auswählen, alles kann später installiert werden
-
--> Done 
-
-Seit 13:  Installation
-
-Warten bis Installation Complete und dies auch unten angezeigt wird (Reboot Now):
-(es dauert hier etwas bis alle Updates (unattended-upgrades) im Hintergrund durchgeführt worden sind) 
-
--> Reboot Now 
-
-Wenn "Failed unmounting /cdrom" kommt 
-dann einfach Server stoppen
--> Virtual Box Manager -> Virtuelle Maschine auswählen -> Rechte Maustaste -> Schliessen ->  Ausschalten 
-
-```
-
-### Schritt 4: Starten des Gast-Systems in virtualbox 
-
-```
-* Im VirtualBox Manager auf virtuelle Maschine klicken
-* Neben dem Start - Pfeil -> Dreieck anklicken und Ohne Gui starten wählen 
-* System startet dann im Hintergrund (kein 2. Fenster)
-```
-
-### Erklärung 
-
- * Console wird nicht benötigt, da wir mit putty (ssh) arbeiten zum Administrieren des Clusters
- * Putty-Verbindung muss nur auf sein, wenn wir administrieren
- * Verwendung des Clusters (nutzer/Entwickler) erfolgt ausschliesslich über kubectl in powershell !! 
-
-### VirtualBox 6.1. - Shared folder aktivieren
-
-
-### Prepare 
-
-```
-Walkthrough
-
-## At the top menu of the virtual machine 
-## Menu -> Geräte -> Gasterweiterung einlegen 
-
-## In the console do a 
-mount /dev/cdrom /mnt
-cd /mnt
-sudo apt-get install -y build-essential linux-headers-`uname -r`
-sudo ./VBoxLinuxAdditions.run 
-
-
-sudo reboot
-
-```
-
-### Configure 
-
-```
-Geräte -> Gemeinsame Ordner 
-Hinzufügen (blaues Ordnersymbol mit + ) -> 
-Ordner-Pfad: C:\Linux (Ordner muss auf Windows angelegt sein) 
-Ordner-Name: linux
-checkbox nicht ausgewählt bei : automatisch einbinden, nur lesbar
-checkbox ausgewählt bei: Permanent erzeugen
-
-Dann rebooten
-
-In der virtuellen Maschine:  
-sudo su -
-mkdir /linux
-## linux ist der vergebene Ordnername 
-mount -t vboxsf linux /linux 
-
-## Optional, falls du nicht zugreifen kannst:
-sudo usermod -aG vboxsf root 
-sudo usermod -aG vboxsf <your-user>
-
-
-```
-
-
-### persistent setzen (beim booten mounten) 
-```
-echo "linux	/linux	vboxsf	defaults	0	0" >> /etc/fstab 
-reboot
-```
-
-### Reference:
-
-  * https://gist.github.com/estorgio/1d679f962e8209f8a9232f7593683265
-
-## CloudInit
-
-### Kubernetes Client einrichten mit bash
-
-
-```
-##!/bin/bash 
-
-groupadd sshadmin
-USERS="11trainingdo $(echo tln{1..20})"
-echo $USERS
-for USER in $USERS
-do
-  echo "Adding user $USER"
-  useradd -s /bin/bash --create-home $USER
-  usermod -aG sshadmin $USER
-  echo "$USER:deinpassword" | chpasswd
-done
-
-## We can sudo with 11trainingdo
-usermod -aG sudo 11trainingdo 
-
-## Now let us do some generic setup 
-echo "Installing kubectl"
-snap install --classic kubectl
-
-echo "Installing helm"
-snap install --classic helm 
-
-
-
-## 20.04 and 22.04 this will be in the subfolder
-if [ -f /etc/ssh/sshd_config.d/50-cloud-init.conf ]
-then
-  sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config.d/50-cloud-init.conf
-fi
-
-### both is needed 
-sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
-
-usermod -aG sshadmin root
-
-## TBD - Delete AllowUsers Entries with sed 
-## otherwice we cannot login by group 
-
-echo "AllowGroups sshadmin" >> /etc/ssh/sshd_config 
-systemctl reload sshd 
-
-#### BASH Completion ###
-## update repo 
-apt-get update 
-apt-get install -y bash-completion
-source /usr/share/bash-completion/bash_completion
-## is it installed properly
-type _init_completion
-
-## 1. kubectl completion -> activate for all users
-kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null
-
-## 2. helm completion -> activate for all users 
-helm completion bash | sudo tee /etc/bash_completion.d/helm > /dev/null
-
-
-## Activate syntax - stuff for vim
-## Tested on Ubuntu 
-echo "hi CursorColumn cterm=NONE ctermbg=lightred ctermfg=white" >> /etc/vim/vimrc.local 
-echo "autocmd FileType y?ml setlocal ts=2 sts=2 sw=2 ai number expandtab cursorline cursorcolumn" >> /etc/vim/vimrc.local 
-
-## Activate Syntax highlightning/autoindenting for nano 
-## v1 - old version / remove if new version works 
-##cd /usr/local/bin
-##git clone https://github.com/serialhex/nano-highlight.git 
-## Now set it generically in /etc/nanorc to work for all 
-##echo 'include "/usr/local/bin/nano-highlight/yaml.nanorc"' >> /etc/nanorc 
-
-#####################################
-## v2 - new version / more simplistic
-##################################### 
-echo "include /usr/share/nano/yaml.nanorc" >> /etc/nanorc 
-echo "set autoindent" >> /etc/nanorc
-echo "set tabsize 2" >> /etc/nanorc
-echo "set tabstospaces" >> /etc/nanorc 
-
-## Install nfs-common for mounting, just in case we need it for persistant storage exercise 
-apt-get install -y nfs-common
-
-```
 
 ## Praxis Microservices ohne Docker und Kubernetes 
 
@@ -6372,7 +7299,7 @@ docker images
 ## -t wird benötigt, damit bash WEITER im Hintergrund im läuft.
 ## auch mit -d (ohne -t) wird die bash ausgeführt, aber "das Terminal" dann direkt beendet 
 ## -> container läuft dann nicht mehr 
-docker run -d -t --name container-ubuntu myubuntu
+docker run -d -t --name container-ubuntu myubuntu:1.0
 docker container ls
 
 ## docker inspect to find out ip of other container 
@@ -6382,7 +7309,7 @@ docker inspect container-ubuntu | grep -i ipaddress
 
 ```
 ## Zweiten Container starten um 1. anzupingen 
-docker run -d -t --name container-ubuntu2 myubuntu 
+docker run -d -t --name container-ubuntu2 myubuntu:1.0 
 
 ## Ersten Container -> 2. anpingen 
 docker exec -it container-ubuntu2 bash 
@@ -7955,7 +8882,11 @@ kubectl get pods -o json
 
 ## gilt natürluch auch für andere kommandos
 kubectl get deploy -o json 
-kubectl get deploy -o yaml 
+kubectl get deploy -o yaml
+
+## Eigenschaft auslesen
+kubectl get pods nginx-deployment-74676ff58f-fxcjv -o jsonpath='{.metadata.ownerReferences[0].name}'
+
 ```
 
 
@@ -8020,6 +8951,7 @@ kubectl get deployments -n kube-system
 ## wir wollen unseren default namespace ändern 
 kubectl config set-context --current --namespace <dein-namespace>
 ```
+
 
 
 
@@ -8332,7 +9264,74 @@ kubectl convert --help
 ### Curl from pod api-server
 
 
-https://nieldw.medium.com/curling-the-kubernetes-api-server-d7675cfc398c
+### Step 1: Prepare Permissions  
+
+```
+kubectl create ns app 
+```
+
+```
+cd
+mkdir -p manifests
+cd manifests
+mkdir curltest
+cd curltest
+```
+
+```
+nano 01-clusterrole.yml
+```
+
+```
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: service-reader
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["services","endpoints"]
+  verbs: ["get", "list"]
+```
+
+```
+kubectl -n app apply -f .
+```
+
+```
+## Einfacher hack, wir verwenden den default-service - account
+kubectl -n app create rolebinding api-service-explorer:default --clusterrole service-reader --serviceaccount app:default
+
+```
+
+### Schritt 2: curlimage/curl starten
+
+```
+kubectl run -it --rm curltest --image=curlimages/curl -- sh
+```
+
+### Schritt 3: in curl - shell 
+
+```
+cd /var/run/secrets/kubernetes.io/serviceaccount
+TOKEN=$(cat token)
+env | grep KUBERNETES_SERVICE
+curl https://$KUBERNETES_SERVICE_HOST/openapi/v2 --header "Authorization: Bearer $TOKEN" --cacert ca.crt
+curl https://$KUBERNETES_SERVICE_HOST/api/v1/namespaces/app/services/ --header "Authorization: Bearer $TOKEN" --cacert ca.crt
+```
+
+```
+## Now look into one of the services
+ curl https://$KUBERNETES_SERVICE_HOST/api/v1/namespaces/app/services/apple-service/ --header "Authorization: Bearer $TOKEN" --cacert ca.crt
+```
+
+```
+## We will get the pod ip's from the endpoints
+ curl https://$KUBERNETES_SERVICE_HOST/api/v1/namespaces/app/endpoints/apple-service/ --header "Authorization: Bearer $TOKEN" --cacert ca.crt
+```
+
+### Reference 
+
+  * https://nieldw.medium.com/curling-the-kubernetes-api-server-d7675cfc398c
 
 ## Kubernetes - Tipps & Tricks 
 
@@ -8524,7 +9523,74 @@ kubectl uncordon n111
 ### Curl api-server kubernetes aus pod heraus
 
 
-https://nieldw.medium.com/curling-the-kubernetes-api-server-d7675cfc398c
+### Step 1: Prepare Permissions  
+
+```
+kubectl create ns app 
+```
+
+```
+cd
+mkdir -p manifests
+cd manifests
+mkdir curltest
+cd curltest
+```
+
+```
+nano 01-clusterrole.yml
+```
+
+```
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: service-reader
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["services","endpoints"]
+  verbs: ["get", "list"]
+```
+
+```
+kubectl -n app apply -f .
+```
+
+```
+## Einfacher hack, wir verwenden den default-service - account
+kubectl -n app create rolebinding api-service-explorer:default --clusterrole service-reader --serviceaccount app:default
+
+```
+
+### Schritt 2: curlimage/curl starten
+
+```
+kubectl run -it --rm curltest --image=curlimages/curl -- sh
+```
+
+### Schritt 3: in curl - shell 
+
+```
+cd /var/run/secrets/kubernetes.io/serviceaccount
+TOKEN=$(cat token)
+env | grep KUBERNETES_SERVICE
+curl https://$KUBERNETES_SERVICE_HOST/openapi/v2 --header "Authorization: Bearer $TOKEN" --cacert ca.crt
+curl https://$KUBERNETES_SERVICE_HOST/api/v1/namespaces/app/services/ --header "Authorization: Bearer $TOKEN" --cacert ca.crt
+```
+
+```
+## Now look into one of the services
+ curl https://$KUBERNETES_SERVICE_HOST/api/v1/namespaces/app/services/apple-service/ --header "Authorization: Bearer $TOKEN" --cacert ca.crt
+```
+
+```
+## We will get the pod ip's from the endpoints
+ curl https://$KUBERNETES_SERVICE_HOST/api/v1/namespaces/app/endpoints/apple-service/ --header "Authorization: Bearer $TOKEN" --cacert ca.crt
+```
+
+### Reference 
+
+  * https://nieldw.medium.com/curling-the-kubernetes-api-server-d7675cfc398c
 
 ## Kubernetes - Documentation 
 
@@ -8967,6 +10033,8 @@ docker network rm test_net
 ### Scanning docker image with docker scan/snyx
 
 
+### ACHTUNG_ Deprecated - USE Docker Scout instead (only Docker Desktop ?) 
+
 ### Prerequisites 
 
 ```
@@ -9034,8 +10102,6 @@ cd bautest
 
 ```
 ## nano docker-compose.yml
-version: "3.8"
-
 services:
   myubuntu:
     build: ./myubuntu
@@ -9067,8 +10133,11 @@ done
 ```
 
 ```
-## nano Dockerfile 
-FROM ubuntu:22.04
+nano Dockerfile
+```
+
+```
+FROM ubuntu:24.04
 RUN apt-get update && apt-get install -y inetutils-ping
 COPY hello.sh .
 RUN chmod u+x hello.sh
@@ -9672,41 +10741,6 @@ kubectl rollout restart deploy nginx-deployment
 kubectl rollout undo deploy nginx-deployment 
 
 ```
-
-## Kubernetes - Monitoring (microk8s und vanilla) 
-
-### metrics-server aktivieren (microk8s und vanilla)
-
-
-### Warum ? Was macht er ? 
-
-```
-Der Metrics-Server sammelt Informationen von den einzelnen Nodes und Pods
-Er bietet mit 
-
-kubectl top pods
-kubectl top nodes 
-
-ein einfaches Interface, um einen ersten Eindruck über die Auslastung zu bekommen. 
-```
-
-### Walktrough 
-
-```
-## Auf einem der Nodes im Cluster (HA-Cluster) 
-microk8s enable metrics-server 
-
-## Es dauert jetzt einen Moment bis dieser aktiv ist auch nach der Installation 
-## Auf dem Client
-kubectl top nodes 
-kubectl top pods 
-
-```
-
-### Kubernetes 
-
-  * https://kubernetes-sigs.github.io/metrics-server/
-  * kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 
 ## Kubernetes - Backups 
 
@@ -10414,6 +11448,335 @@ https://docs.docker.com/registry/recipes/mirror/
 ### Ref:
 
   * https://docs.docker.com/registry/insecure/
+
+## Linux Tipps & Tricks
+
+### Grafischen Modus deaktivieren
+
+
+  * Besser: komplett deinstallieren
+
+### Das geht immer 
+
+```
+## also root
+sudo su -
+## target ohne Grafik 
+systemctl isolate multi-user
+## Beim Start auch diese Target setzen
+systemctl set-default multi-user
+```
+
+## VirtualBox Tipps & Tricks 
+
+### VirtualBox 6.1. - Ubuntu für Kubernetes aufsetzen 
+
+
+### Vorbereitung 
+
+  * Ubuntu Server 22.04 LTS - ISO herunterladen
+
+### Schritt 1: Virtuelle Maschine erstellen 
+
+```
+In VirtualBox Manager -> Menu -> Maschine -> Neu (Oder Neu icon) 
+
+Seite 1:
+Bei Name Ubuntu Server eingeben (dadurch wird gleich das richtige ausgewählt, bei den Selects) 
+Alles andere so lassen.
+Weiter 
+
+Seite 2: 
+Hauptspeicher mindest 4 GB , d.h. 4096 auswählen (füpr Kubernetes / microk8s)
+Weiter
+
+Seite 3:
+Festplatte erzeugen ausgewählt lassen
+Weiter
+
+Seite 4: 
+Dateityp der Festplatte: VDI ausgewählt lassen
+Weiter 
+
+Seite 5:
+Art der Speicherung -> dynamisch alloziert ausgewählt lassen
+Weiter 
+
+Seite 6:
+Dateiname und Größe -> bei Größe mindestens 30 GB einstellen (bei Bedarf größer) 
+-> Erzeugen 
+```
+
+### Schritt 2: ISO einhängen / Netzwerk und starten / installieren
+
+```
+Neuen Server anklicken und ändern klicken:
+
+1. 
+Massenspeicher -> Controller IDE -> CD (Leer) klicken
+CD - Symbol rechts neben -> Optisches Laufwerk (sekundärer Master) -> klicken -> Abbild auswählen
+Downgeloadetes ISO Ubuntu 22.04 auswählen -> Öffnen klicken 
+
+2. 
+Netzwerk -> Adapter 2 (Reiter) anklicken -> Netzwerkadapter aktivieren
+Angeschlossen an -> Host-only - Adapter 
+
+3. 
+unten rechts -> ok klicken 
+
+```
+
+### Schritt 3: Starten klicken und damit Installationsprozess beginnen
+
+```
+Try or install Ubuntu Server -> ausgewählt lassen
+
+Seite 1:
+Use up -.... Select your language 
+-> English lassen
+Enter eingeben
+
+Seite 2: Keyboard Configuration
+Layout auswählen (durch Navigieren mit Tab-Taste) -> Return
+German auswählen (Pfeiltaste nach unten bis German, dann return)
+Identify Keyboard -> Return
+Keyboard Detection starting -> Ok 
+Jetzt die gewünschten tasten drücken und Fragen beantworten
+Layout - Variante bestätigen mit OK 
+
+-> Done 
+
+Seite 3: Choose type of install 
+Ubuntu - Server ausgewählt lassen
+
+-> Done 
+
+Seite 4: Erkennung der Netzwerkkarten 
+(192.168.56.1x) sollte auftauchen
+
+-> Done 
+
+Seite 5: Proxy
+
+leer lassen
+
+-> Done 
+
+Seite 6: Mirror Address
+
+kann so bleiben
+
+-> Done 
+
+Seite 7: 
+
+Guided Storage konfiguration
+Entire Disk 
+
+-> Done 
+
+Seite 8: File System Summary
+
+-> Done 
+
+Seite 9: Popup: Confirm destructive action 
+Bestätigen, dass gesamte Festplatte überschrieben wird
+(kein Problem, da Festplatte ohnehin leer und virtuell)
+
+-> Continue 
+
+Seite 10: Profile Setup
+
+User eingeben / einrichten 
+Servernamen einrichten 
+
+-> Done 
+
+Seite 11: SSH Setup 
+
+Haken bei: Install OpenSSH Server 
+setzen
+
+-> Done 
+
+Seite 12: Featured Server Snaps 
+
+Hier brauchen wir nichts auswählen, alles kann später installiert werden
+
+-> Done 
+
+Seit 13:  Installation
+
+Warten bis Installation Complete und dies auch unten angezeigt wird (Reboot Now):
+(es dauert hier etwas bis alle Updates (unattended-upgrades) im Hintergrund durchgeführt worden sind) 
+
+-> Reboot Now 
+
+Wenn "Failed unmounting /cdrom" kommt 
+dann einfach Server stoppen
+-> Virtual Box Manager -> Virtuelle Maschine auswählen -> Rechte Maustaste -> Schliessen ->  Ausschalten 
+
+```
+
+### Schritt 4: Starten des Gast-Systems in virtualbox 
+
+```
+* Im VirtualBox Manager auf virtuelle Maschine klicken
+* Neben dem Start - Pfeil -> Dreieck anklicken und Ohne Gui starten wählen 
+* System startet dann im Hintergrund (kein 2. Fenster)
+```
+
+### Erklärung 
+
+ * Console wird nicht benötigt, da wir mit putty (ssh) arbeiten zum Administrieren des Clusters
+ * Putty-Verbindung muss nur auf sein, wenn wir administrieren
+ * Verwendung des Clusters (nutzer/Entwickler) erfolgt ausschliesslich über kubectl in powershell !! 
+
+### VirtualBox 6.1. - Shared folder aktivieren
+
+
+### Prepare 
+
+```
+Walkthrough
+
+## At the top menu of the virtual machine 
+## Menu -> Geräte -> Gasterweiterung einlegen 
+
+## In the console do a 
+mount /dev/cdrom /mnt
+cd /mnt
+sudo apt-get install -y build-essential linux-headers-`uname -r`
+sudo ./VBoxLinuxAdditions.run 
+
+
+sudo reboot
+
+```
+
+### Configure 
+
+```
+Geräte -> Gemeinsame Ordner 
+Hinzufügen (blaues Ordnersymbol mit + ) -> 
+Ordner-Pfad: C:\Linux (Ordner muss auf Windows angelegt sein) 
+Ordner-Name: linux
+checkbox nicht ausgewählt bei : automatisch einbinden, nur lesbar
+checkbox ausgewählt bei: Permanent erzeugen
+
+Dann rebooten
+
+In der virtuellen Maschine:  
+sudo su -
+mkdir /linux
+## linux ist der vergebene Ordnername 
+mount -t vboxsf linux /linux 
+
+## Optional, falls du nicht zugreifen kannst:
+sudo usermod -aG vboxsf root 
+sudo usermod -aG vboxsf <your-user>
+
+
+```
+
+
+### persistent setzen (beim booten mounten) 
+```
+echo "linux	/linux	vboxsf	defaults	0	0" >> /etc/fstab 
+reboot
+```
+
+### Reference:
+
+  * https://gist.github.com/estorgio/1d679f962e8209f8a9232f7593683265
+
+## CloudInit
+
+### Kubernetes Client einrichten mit bash
+
+
+```
+##!/bin/bash 
+
+groupadd sshadmin
+USERS="11trainingdo $(echo tln{1..20})"
+echo $USERS
+for USER in $USERS
+do
+  echo "Adding user $USER"
+  useradd -s /bin/bash --create-home $USER
+  usermod -aG sshadmin $USER
+  echo "$USER:deinpassword" | chpasswd
+done
+
+## We can sudo with 11trainingdo
+usermod -aG sudo 11trainingdo 
+
+## Now let us do some generic setup 
+echo "Installing kubectl"
+snap install --classic kubectl
+
+echo "Installing helm"
+snap install --classic helm 
+
+
+
+## 20.04 and 22.04 this will be in the subfolder
+if [ -f /etc/ssh/sshd_config.d/50-cloud-init.conf ]
+then
+  sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config.d/50-cloud-init.conf
+fi
+
+### both is needed 
+sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
+
+usermod -aG sshadmin root
+
+## TBD - Delete AllowUsers Entries with sed 
+## otherwice we cannot login by group 
+
+echo "AllowGroups sshadmin" >> /etc/ssh/sshd_config 
+systemctl reload sshd 
+
+#### BASH Completion ###
+## update repo 
+apt-get update 
+apt-get install -y bash-completion
+source /usr/share/bash-completion/bash_completion
+## is it installed properly
+type _init_completion
+
+## 1. kubectl completion -> activate for all users
+kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null
+
+## 2. helm completion -> activate for all users 
+helm completion bash | sudo tee /etc/bash_completion.d/helm > /dev/null
+
+
+## Activate syntax - stuff for vim
+## Tested on Ubuntu 
+echo "hi CursorColumn cterm=NONE ctermbg=lightred ctermfg=white" >> /etc/vim/vimrc.local 
+echo "autocmd FileType y?ml setlocal ts=2 sts=2 sw=2 ai number expandtab cursorline cursorcolumn" >> /etc/vim/vimrc.local 
+
+## Activate Syntax highlightning/autoindenting for nano 
+## v1 - old version / remove if new version works 
+##cd /usr/local/bin
+##git clone https://github.com/serialhex/nano-highlight.git 
+## Now set it generically in /etc/nanorc to work for all 
+##echo 'include "/usr/local/bin/nano-highlight/yaml.nanorc"' >> /etc/nanorc 
+
+#####################################
+## v2 - new version / more simplistic
+##################################### 
+echo "include /usr/share/nano/yaml.nanorc" >> /etc/nanorc 
+echo "set autoindent" >> /etc/nanorc
+echo "set tabsize 2" >> /etc/nanorc
+echo "set tabstospaces" >> /etc/nanorc 
+
+## Install nfs-common for mounting, just in case we need it for persistant storage exercise 
+apt-get install -y nfs-common
+
+```
 
 ## Microservices - Messaging
 
