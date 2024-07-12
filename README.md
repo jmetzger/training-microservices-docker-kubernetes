@@ -3,7 +3,7 @@
 ## Agenda 
 
   1. Grundlagen
-     * [Was sind microservices](microservices/what-are.md)
+     * [Was sind Microservices ?](microservices/what-are.md)
      * [Grundkonzepte von Microservices](microservices/basics.md)
      * [Monolith vs. Microservices](microservices/monolith-vs-microservice.md)
      * [Praxisbeispiele](/microservices/praxisbeispiele.md) 
@@ -69,8 +69,8 @@
      * [Event Sourcing](microservices/databases/patterns/database-per-service/event-sourcing.md)
 
    !. Microservices (async messaging)
-      * []()
-      * []() 
+      * [Topic/Queue ohne Downtime migrieren](/async-messaging/01-migrate-topic-without-downtime.md)
+      * [Disruptive Änderungen im Schema migrieren](/async-messaging/02-change-schema-breaking-change.md) 
     
   1. Microservice - flightapp - concepts
      * [Vorgehensweise nach dem SEED-Verfahren](microservices-flightapp/concept/00-design-with-seed-method.md)
