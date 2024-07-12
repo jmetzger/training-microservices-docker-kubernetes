@@ -23,8 +23,7 @@
 
   1. Linux Tipps & Tricks
      * [In den Root-Benutzer wechseln](sudo.md)
-     * [Grafischen Modus deaktivieren](systemctl-isolate.md)   
-
+ 
   1. Docker-Grundlagen 
      * [Übersicht Architektur](architektur.md)
      * [Was ist ein Container ?](container.md)
@@ -68,9 +67,9 @@
      * [Umgang mit Transaktionen bei database-per-service](microservices/databases/patterns/database-per-service/handling-of-transactions.md)
      * [Event Sourcing](microservices/databases/patterns/database-per-service/event-sourcing.md)
 
-   !. Microservices (async messaging)
-      * [Topic/Queue ohne Downtime migrieren](/async-messaging/01-migrate-topic-without-downtime.md)
-      * [Disruptive Änderungen im Schema migrieren](/async-messaging/02-change-schema-breaking-change.md) 
+  1. Microservices (async messaging)
+     * [Topic/Queue ohne Downtime migrieren](/async-messaging/01-migrate-topic-without-downtime.md)
+     * [Disruptive Änderungen im Schema migrieren](/async-messaging/02-change-schema-breaking-change.md) 
     
   1. Microservice - flightapp - concepts
      * [Vorgehensweise nach dem SEED-Verfahren](microservices-flightapp/concept/00-design-with-seed-method.md)
@@ -175,15 +174,7 @@
     
   1. gitlab ci/cd
      * [Einfaches Beispielscript](gitlab-ci-cd/01-show-content.md)
-    
-  1. VirtualBox Tipps & Tricks 
-     * [VirtualBox 6.1. - Ubuntu für Kubernetes aufsetzen ](virtualbox-ubuntu.md)
-     * [VirtualBox 6.1. - Shared folder aktivieren](virtualbox-shared-folders.md)
-    
-  1. CloudInit
-     * [Kubernetes Client einrichten mit bash](cloud-init/scripte.md)
-
-   
+       
 ## Backlog
  
   1. Praxis Microservices ohne Docker und Kubernetes 
@@ -384,6 +375,16 @@
      * [Läuft der ssh-server](ssh-running.md)
      * [Basis/Parent - Image erstellen](docker-base-image.md)
      * [Eigenes unsichere Registry-Verwenden. ohne https](insecure-registry.md)
+    
+  1. Linux Tipps & Tricks
+     * [Grafischen Modus deaktivieren](systemctl-isolate.md)  
+    
+  1. VirtualBox Tipps & Tricks 
+     * [VirtualBox 6.1. - Ubuntu für Kubernetes aufsetzen ](virtualbox-ubuntu.md)
+     * [VirtualBox 6.1. - Shared folder aktivieren](virtualbox-shared-folders.md)
+    
+  1. CloudInit
+     * [Kubernetes Client einrichten mit bash](cloud-init/scripte.md) 
      
   1. Microservices - Messaging
      * [EventBus Implementierungen/Überblick](/microservices/eventbus/overview.md)
