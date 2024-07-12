@@ -32,7 +32,7 @@
 
 ## Step 5: P1 sends messages to T2 (after migration component has reproduced ...)
 
-  1. Migration component as reproduced all messages from T1 -> T2
+  1. Migration component has reproduced all messages from T1 -> T2
   1. AFTER THAT ! P1 will start to send messages to T2
 
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/c752284e-fb77-4b31-9bac-1fd50c532cca)
