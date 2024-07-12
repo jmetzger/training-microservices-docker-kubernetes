@@ -1,6 +1,6 @@
 # Curl api - server 
 
-## Walkthrough 
+## Step 1: Prepare Permissions  
 
 ```
 kubectl create ns app 
@@ -45,9 +45,13 @@ kubectl -n app create rolebinding api-service-explorer:service-reader --clusterr
 # Einfacher hack, wir verwenden den default-service - account
 kubectl -n app create rolebinding api-service-explorer:default --clusterrole service-reader --serviceaccount app:default
 
-´´´
+```
 
+## Schritt 2: curlimage/curl starten
 
+```
+kubectl run -it --rm curltest --image=curlimages/curl -- sh
+```
 
 ## Reference 
 
