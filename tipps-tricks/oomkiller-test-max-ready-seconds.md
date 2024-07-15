@@ -26,7 +26,7 @@ metadata:
   name: deploy-memtest
   namespace: mem-example
 spec:
-  minReadySeconds: 120
+#  minReadySeconds: 120
   selector:
     matchLabels:
       app: memtest
@@ -73,7 +73,7 @@ metadata:
   name: deploy-memtest
   namespace: mem-example
 spec:
-  minReadySeconds: 120
+#  minReadySeconds: 120
   selector:
     matchLabels:
       app: memtest
