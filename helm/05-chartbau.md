@@ -26,4 +26,10 @@ cd /tmp
 cp -a storage-do/* ~/manifests/beispielapp
 ```
 
+```
+cd
+cd manifests
+cd beispielapp
+cd templates
+```
 
