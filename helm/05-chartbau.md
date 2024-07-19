@@ -33,3 +33,8 @@ cd beispielapp
 cd templates
 ```
 
+```
+cd ..
+mv apple.yml banana.yml 01-pvc.yaml 02-configmap.yml 03-deploy.yml templates
+```
+
