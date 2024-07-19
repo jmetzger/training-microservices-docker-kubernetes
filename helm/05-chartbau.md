@@ -23,7 +23,7 @@ cd
 cd manifests
 cp -a abi/* beispielapp
 cd /tmp
-cp -a /storage-do/* ~/manifests/beispielapp
+cp -a storage-do/* ~/manifests/beispielapp
 ```
 
 
