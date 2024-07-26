@@ -6,7 +6,7 @@
 
 ## What does Kubernetes Native Backup mean ? 
 
-  * It is tight into the control plane, so it knows about the objects 
+  * It is tight into the kube api server, so it knows about the objects 
   * Uses the api to find out about Kubernetes 
 
 ## Setup a storage class (Where to store backup) 
