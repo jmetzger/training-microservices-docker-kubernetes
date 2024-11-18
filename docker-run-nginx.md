@@ -33,6 +33,11 @@ exit
 ```
 
 ```
+# auf dem Host-System
+ps aux | grep nginx
+```
+
+```
 # oder wir führen nur ein Kommando aus
 docker exec my_nginx cat /etc/os-release
 ```
