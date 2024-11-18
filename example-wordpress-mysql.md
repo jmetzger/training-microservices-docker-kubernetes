@@ -53,7 +53,24 @@ volumes:
 ## Schritt 3:
 
 ```
-docker compose up -d 
+docker compose up -d
+# show all containers
+docker ps
+# show only containers from docker compose project
+docker compose ps
+```
+
+## Schritt 3.5:
+
+```
+docker compose exec -it wordpress bash
+```
+
+```
+apt update
+apt install -y iputils-ping
+ping -c4 database
+exit
 ```
 
 ## Schritt 4: Alles wieder beenden 
