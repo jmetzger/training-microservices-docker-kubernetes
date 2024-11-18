@@ -12,7 +12,8 @@ docker container ls
 sudo su -
 # wo sind die overlays
 cd /var/lib/docker
-# now find out 
+# now find out
+ls -la
 ```
 
 
