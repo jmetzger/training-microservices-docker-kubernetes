@@ -69,3 +69,11 @@ docker compose up -d
 # Bei Veränderung vom Dockerfile, muss man den Parameter --build mitangeben 
 docker compose up -d --build 
 ```
+
+## Schritt 5: Logs anzeigen
+
+```
+docker logs bautest-myubuntu-1
+docker compose logs 
+
+```
