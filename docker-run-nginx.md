@@ -8,6 +8,8 @@ docker container ls
 ```
 
 ```
+# falls nicht root
+sudo su -
 # wo sind die overlays
 cd /var/lib/docker
 # now find out 
