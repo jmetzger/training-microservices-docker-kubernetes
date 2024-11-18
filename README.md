@@ -40,7 +40,6 @@
      * [Aufräumen - container und images löschen](prune-container-images.md)
      * [Logs des Host-Systems zu den Containern auslesen](journalctl-u-docker.md)
      * [Logs anschauen - docker logs - mit Beispiel nginx](docker-logs-nginx.md)
-     * [Logs anschauen - docker logs - mit Beispiel nginx](docker-logs-nginx.md)
      * [Nginx mit portfreigabe laufen lassen](docker-example-nginx.md)
     
   1. Example with Dockerfile
