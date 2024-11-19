@@ -10,7 +10,7 @@ cd .kube
 ```
 
 ```
-cp -a /tmp/config config
+cp /tmp/config config
 ls -la
 ```
 
