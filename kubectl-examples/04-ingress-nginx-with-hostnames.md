@@ -113,6 +113,10 @@ kubectl apply -f .
 ### Step 2: Ingress 
 
 ```
+nano ingress.yml
+```
+
+```
 # Ingress
 apiVersion: extensions/v1beta1
 kind: Ingress
