@@ -22,21 +22,8 @@ cd manifests
 mkdir ingress
 cd ingress
 ```
-
 ```
-nano values.yml
-```
-
-```
-# It will be setup with type loadbalancer - so waiting to retrieve an ip from the external loadbalancer
-# This will take a little. 
-controller:
-  publishService:
-    enabled: true 
-```
-
-```
-helm install nginx-ingress ingress-nginx/ingress-nginx --namespace ingress --create-namespace -f values.yml  
+helm install nginx-ingress ingress-nginx/ingress-nginx --namespace ingress --create-namespace  
 ```
 
 ```
