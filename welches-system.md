@@ -68,7 +68,10 @@ Ref: https://ubuntu.com/blog/introduction-to-microk8s-part-1-2
 
 ## k3s
 
-
+  * Sehr schlanker Footprint
+  * Sehr einfach und schnell zu installieren (ein binary)
+  * Auch für die Produktion geeignet.
+  * Sinnvoll für den Einsatz auf sehr ressourcenarmen Systemen 
 
 ## kind (Kubernetes-In-Docker)
 
