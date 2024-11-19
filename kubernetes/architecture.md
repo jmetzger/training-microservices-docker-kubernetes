@@ -57,7 +57,7 @@
     
 ## Control Plane Node (former: master) - components 
 
-## Node (Minion) - components 
+## Worker Node (Minion) - components 
 
 ### General 
 
