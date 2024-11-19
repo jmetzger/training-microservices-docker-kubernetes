@@ -116,8 +116,14 @@ kubectl get deployments -n kube-system
 kubectl config set-context --current --namespace <dein-namespace>
 ```
 
+## Arbeiten mit der Config (lokal) 
 
-
+```
+# namespace jochen als default setzen
+kubectl config set-context --current --namespace jochen
+# config anzeigen 
+kubectl config view 
+```
 
 ## Referenz
 
