@@ -5,6 +5,7 @@
 ```
 snap install kubectl --classic 
 snap install helm --classic
+# Voraussetzung, ist dass das Paket bash-completion installiert 
 kubectl completion bash > /etc/bash_completion.d/kubectl
 helm completion bash > /etc/bash_completion.d/helm
 ```
