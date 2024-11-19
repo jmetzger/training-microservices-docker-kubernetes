@@ -44,7 +44,8 @@
  
 ### Nodes  
 
-  * Nodes (Knoten) sind die Arbeiter (Maschinen), die Anwendungen ausführen
+  * Worker Nodes (Knoten) sind die Arbeiter (Maschinen), die die Anwendungen ausführen
+  * Control Plane Node, dort laufen die Tools zur Verwaltung/Beobachtung etc. des Clusters 
   * Ref: https://kubernetes.io/de/docs/concepts/architecture/nodes/
 
 ### Pod/Pods 
