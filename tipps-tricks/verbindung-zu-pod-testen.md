@@ -30,6 +30,6 @@ kubectl get pods -o wide
 # -O -> Output (grosses O (buchstabe)) 
 kubectl run podtest --rm -ti --image busybox
 / # wget -O - http://10.244.0.99
-/ # ping 10.244.0.99
+/ # ping -c 4 10.244.0.99
 / # exit 
 ```
