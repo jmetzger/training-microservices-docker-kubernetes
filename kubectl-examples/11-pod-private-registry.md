@@ -40,6 +40,7 @@ cd docker
 cp /tmp/config.json .
 
 ```
+```
 kubectl create secret generic docker-credentials \
     --from-file=.dockerconfigjson=<path/to/.docker/config.json> \
     --type=kubernetes.io/dockerconfigjson
