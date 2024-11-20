@@ -1,4 +1,4 @@
-# Pod aus private registry verwenden
+# Pod aus privater Registry verwenden
 
 ## Create config.json with login docker
 
