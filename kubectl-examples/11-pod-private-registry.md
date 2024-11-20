@@ -79,4 +79,6 @@ spec:
 
 ```
 kubectl apply -f .
+kubectl get pods dockertrainereu-pod
+kubectl describe pods dockertrainereu-pod
 ```
