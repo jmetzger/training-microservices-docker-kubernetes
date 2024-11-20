@@ -140,6 +140,10 @@
      * [Hintergrund Statefulsets](kubernetes/statefulsets.md)
      * [Übung Statefulsets](kubectl-examples/10-statefulset.md)
 
+  1. Kubernetes Praxis (Teil 3)
+     * [Using private registry](kubectl-examples/11-pod-private-registry.md)
+
+
   1. Kubernetes Ingress
      * [Ingress Controller on Detail](ingress/ingress-controller-on-detail.md)
     
