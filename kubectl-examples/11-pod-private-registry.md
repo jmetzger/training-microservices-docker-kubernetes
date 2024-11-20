@@ -43,7 +43,7 @@ cp /tmp/config.json .
 ```
 kubectl create secret generic docker-credentials \
     --from-file=.dockerconfigjson=config.json \
-    --type=kubernetes.io/dockerconfigjson
+    --type=kubernetes.io/dockerconfigjson \
     --dry-run=client -o yaml > secret.yaml 
 ```
 
