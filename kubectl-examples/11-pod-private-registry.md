@@ -48,6 +48,11 @@ cat secret.yaml
 ```
 
 ```
+# umbenennen, damit es nicht von kubectl apply gelesen wird
+mv config.json config.json.bkup 
+```
+
+```
 kubectl apply -f .
 ```
 
