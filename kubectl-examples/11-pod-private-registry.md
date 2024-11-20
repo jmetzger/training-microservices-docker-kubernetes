@@ -35,6 +35,9 @@ mkdir docker
 cd docker
 ```
 
+```
+# Für die Teilnehmer
+cp /tmp/config.json .
 
 ```
 kubectl create secret generic docker-credentials \
