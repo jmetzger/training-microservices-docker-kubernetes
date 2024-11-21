@@ -19,7 +19,7 @@ helm install csi-driver-nfs csi-driver-nfs/csi-driver-nfs --namespace kube-syste
 
 ```
 cd
-mkdir manifests
+mkdir -p manifests
 cd manifests
 mkdir csi
 cd csi
