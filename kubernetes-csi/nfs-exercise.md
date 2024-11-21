@@ -94,7 +94,35 @@ spec:
 ```
 
 ```
+
 kubectl apply -f .
+# im namespace 
+kubectl get pods nginx-nfs
+kubectl get pvc
+
+# global
+kubectl get pv 
+```
+
+## Step 5: recherche 
+
+```
+kubectl exec nginx-nfs -- tail /mnt/nfs/outfile
+```
+
+## Step 6: delete und recreate 
+
+```
+kubectl delete -f 03-pod.yaml
+```
+
+```
+# wieder erstellen
+kubectl apply -f 03-pod.yaml
+# alte daten sichtbar 
+kubectl exec nginx-nfs -- head /mnt/nfs/outfile
+# neue daten sichtbar
+kubectl exec nginx-nfs -- tail /mnt/nfs/outfile
 ```
 
 
