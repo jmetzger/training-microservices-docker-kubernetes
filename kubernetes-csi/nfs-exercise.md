@@ -42,6 +42,11 @@ volumeBindingMode: Immediate
 ## Step 3: Persistent Volume Claim 
 
 ```
+cd
+mkdir -p manifests
+cd manifests
+mkdir -p csi
+cd csi
 nano 02-pvc.yaml
 ```
 
