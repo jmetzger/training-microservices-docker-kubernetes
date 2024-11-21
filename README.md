@@ -107,6 +107,9 @@
      * [Create a cluster with microk8s](microk8s/cluster.md)
      * [Remote-Verbindung zu Kubernetes (microk8s) einrichten](microk8s/connect-from-remote.md)
 
+  1. Kubernetes mit k3s
+     * [Kubernetes mit k3s](kubernetes/install/k3s/overview.md)
+
   1. Kubernetes - Client Tools und Verbindung einrichten
      * [Tools installieren und bash-completion / syntax highlightning](install-helm-kubectl-syntax-highlightning.md)   
      * [Remote-Verbindung zu Kubernetes einrichten](/kubectl/kubectl-einrichten.md)
