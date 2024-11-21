@@ -55,6 +55,11 @@ spec:
   storageClassName: nfs-csi
 ```
 
+```
+kubectl apply -f .
+```
+
+
 ## Step 4: Pod 
 
 ```
@@ -78,6 +83,10 @@ spec:
     - name: persistent-storage
       persistentVolumeClaim:
         claimName: pvc-nfs-dynamic
+```
+
+```
+kubectl apply -f .
 ```
 
 
