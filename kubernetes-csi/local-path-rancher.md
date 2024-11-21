@@ -54,3 +54,9 @@ spec:
     persistentVolumeClaim:
       claimName: local-path-pvc
 ```
+
+
+```
+kubectl apply -f .
+```
+
