@@ -42,6 +42,10 @@ volumeBindingMode: Immediate
 ## Step 3: Persistent Volume Claim 
 
 ```
+nano 02-pvc.yaml
+```
+
+```
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -61,6 +65,10 @@ kubectl apply -f .
 
 
 ## Step 4: Pod 
+
+```
+nano 03-pod.yaml
+```
 
 ```
 kind: Pod
