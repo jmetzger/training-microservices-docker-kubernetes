@@ -58,5 +58,6 @@ spec:
 
 ```
 kubectl apply -f .
+kubectl get pods volume-test 
 ```
 
