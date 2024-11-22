@@ -113,7 +113,7 @@ kubectl auth can-i get pods -n default --as system:serviceaccount:jochen:trainin
 ### Mini-Schritt 1: kubeconfig setzen 
 
 ```
-kubectl config set-context training-ctx --cluster microk8s-cluster --user training
+kubectl config set-context training-ctx --cluster do-fra1-ks-cluster --user training
 
 # extract name of the token from here 
 
@@ -121,10 +121,17 @@ TOKEN=`kubectl get secret trainingtoken -o jsonpath='{.data.token}' | base64 --d
 echo $TOKEN
 kubectl config set-credentials training --token=$TOKEN
 kubectl config use-context training-ctx
+```
 
+```
+# kubectl config set-context --current --namespace <dein-name>
+kubectl config set-context --curent --namespace joche 
+```
+
+```
 # Hier reichen die Rechte nicht aus 
 kubectl get deploy
-# Error from server (Forbidden): pods is forbidden: User "system:serviceaccount:kube-system:training" cannot list # resource "pods" in API group "" in the namespace "default"
+# Error from server (Forbidden): pods is forbidden: User "system:serviceaccount:jochen:training" cannot list # resource "pods" in API group "" in the namespace "jochen"
 ```
 
 ### Mini-Schritt 2:
@@ -140,9 +147,9 @@ kubectl config get-contexts
 ```
 
 ```
-CURRENT   NAME           CLUSTER            AUTHINFO    NAMESPACE
-          microk8s       microk8s-cluster   admin2
-*         training-ctx   microk8s-cluster   training2
+CURRENT   NAME                          CLUSTER            AUTHINFO    NAMESPACE
+          do-fra1-ks-cluster-admin      do-fra1-ks-cluster   admin
+*         training-ctx                  do-fra1-ks-cluster   training
 ```
 
 ```
