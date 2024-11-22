@@ -9,7 +9,7 @@ helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
 helm install metrics-server metrics-server/metrics-server --namespace kube-system --version 3.12.2
 ```
 
-## Walkthrough 
+## Szenario 1 
 
 ```
 cd
