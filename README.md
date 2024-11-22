@@ -138,6 +138,7 @@
      * [ConfigMap Example](/kubectl-examples/06-configmap.md)
      * [Configmap MariaDB - Example](kubectl-examples/06a-configmap-mariadb.md)
      * [Configmap MariaDB my.cnf](kubectl-examples/06b-mariadb-configmap-configfile.md)
+     * [Secret MariaDB - Example](kubectl-examples/07-mariadb-secret.md)
 
   1. Kubernetes Praxis (Teil 2) - API Objekte 
      * [Hintergrund Statefulsets](kubernetes/statefulsets.md)
