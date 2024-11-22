@@ -17,7 +17,10 @@ data:
   my.cnf: |
  [mysqld]
  slow_query_log = 1
- innodb_buffer_pool_size = 1G 
+ innodb_buffer_pool_size = 1G
+
+ !includedir /etc/mysql/mariadb.conf.d/
+ !includedir /etc/mysql/conf.d/
   
 ```
 
