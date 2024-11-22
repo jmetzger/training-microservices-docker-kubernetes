@@ -125,7 +125,7 @@ kubectl config use-context training-ctx
 
 ```
 # kubectl config set-context --current --namespace <dein-name>
-kubectl config set-context --curent --namespace joche 
+kubectl config set-context --current --namespace jochen 
 ```
 
 ```
