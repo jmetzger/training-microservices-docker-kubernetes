@@ -24,7 +24,7 @@ metadata:
 ```
 
 ```
-kubectl apply -f service-account.yml 
+kubectl apply -f .
 ```
 
 ### Mini-Schritt 1.5: Secret erstellen 
