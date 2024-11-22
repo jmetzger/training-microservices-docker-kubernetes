@@ -6,8 +6,8 @@
 cd 
 mkdir -p manifests
 cd manifests
-mkdir cftest 
-cd cftest 
+mkdir secrettest
+cd secrettest 
 ```
 
 ```
