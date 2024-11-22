@@ -74,3 +74,9 @@ spec:
 kubectl apply -f .
 kubectl exec -it deployment/mariadb-deployment -- bash 
 ```
+
+```
+cd /etc/mysql
+ls -la
+cat my.cnf
+```
