@@ -21,7 +21,7 @@ nano 01-deployment.yaml
 ```
 
 ```
-apiVersion: apps
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: helloworldhostpath
