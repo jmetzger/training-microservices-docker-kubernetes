@@ -11,7 +11,7 @@ cd mariadb-vol-cm
 ```
 
 ```
-nano mariadb-config2.yml 
+nano 01-mariadb-config2.yml 
 ```
 
 ```
@@ -33,6 +33,10 @@ data:
 
 ```
 kubectl apply -f .
+```
+
+```
+nano 02-deployment.yaml 
 ```
 
 ```
