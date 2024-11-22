@@ -164,8 +164,10 @@
   1. Kubernetes Netzwerk 
      * [DNS - Resolution - Services](kubernetes-networks/dns-resolution-services.md)
 
-  1. Kubernetes Scaling
+  1. Kubernetes Scaling / Resource Management 
      * [Autoscaling Pods/Deployments](/kubernetes/autoscaling.md)
+     * [Resources and Limits for containers](kubernetes-resource-control/limits-resources.md)
+     * [ResourceQuotas and LimitQuotas by Namespace](https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/quota-memory-cpu-namespace/)
 
   1. Kubernetes Tipps & Tricks
      * [Oomkiller and maxReadySeconds for safe migration to new pods](tipps-tricks/oomkiller-test-max-ready-seconds.md)
