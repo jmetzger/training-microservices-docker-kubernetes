@@ -3,7 +3,7 @@
 ## configmap zu fuss 
 
 ```
-vi mariadb-config2.yml 
+nano mariadb-config2.yml 
 ```
 
 ```
