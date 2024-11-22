@@ -53,6 +53,9 @@ kubectl get pods cpu-demo -o yaml
 kubectl top pod cpu-demo
 ```
 
+## Version 2
+
+
 ```
 nano 02-pod-toomuch.yaml
 ```
