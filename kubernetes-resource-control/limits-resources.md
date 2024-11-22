@@ -49,6 +49,7 @@ kubectl apply -f .
 
 ```
 kubectl get pods cpu-demo
+kubectl get pods cpu-demo -o yaml 
 kubectl top pod cpu-demo
 ```
 
