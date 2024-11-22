@@ -3,6 +3,14 @@
 ## configmap zu fuss 
 
 ```
+cd
+mkdir -p manifests
+cd manifests
+mkdir mariadb-vol-cm
+cd mariadb-vol-cm
+```
+
+```
 nano mariadb-config2.yml 
 ```
 
