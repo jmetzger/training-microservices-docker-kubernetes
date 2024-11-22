@@ -104,8 +104,8 @@ kubectl apply -f .
 ### Mini-Schritt 4: Testen (klappt der Zugang) 
 
 ```
-# kubectl auth can-i get pods -n default --as system:serviceaccount:<deinnamespace>:training
-kubectl auth can-i get pods -n default --as system:serviceaccount:jochen:training
+# kubectl auth can-i get pods --as system:serviceaccount:<deinnamespace>:training
+kubectl auth can-i get pods --as system:serviceaccount:jochen:training
 ```
 
 ## Schritt 2: Context anlegen / Credentials auslesen und in kubeconfig hinterlegen (bis Version 1.25.) 
