@@ -20,7 +20,6 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: training
-  namespace: default
 ```
 
 ```
@@ -89,7 +88,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: rolebinding-ns-default-pods
-  namespace: default
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -97,7 +95,6 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: training
-  namespace: default
 ```
 
 ```
