@@ -11,6 +11,10 @@ cd manifests/rbac
 ###  Mini-Schritt 1: Definition für Nutzer 
 
 ```
+nano 01-sa.yml 
+```
+
+```
 # vi service-account.yml 
 apiVersion: v1
 kind: ServiceAccount
@@ -46,6 +50,10 @@ kubectl apply -f .
 
 
 ### Mini-Schritt 2: ClusterRolle festlegen - Dies gilt für alle namespaces, muss aber noch zugewiesen werden
+
+```
+nano 02-cr.yml 
+```
 
 ```
 ## Bevor sie zugewiesen ist, funktioniert sie nicht - da sie keinem Nutzer zugewiesen ist 
