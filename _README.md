@@ -40,7 +40,6 @@
      * [Aufräumen - container und images löschen](#aufräumen---container-und-images-löschen)
      * [Logs des Host-Systems zu den Containern auslesen](#logs-des-host-systems-zu-den-containern-auslesen)
      * [Logs anschauen - docker logs - mit Beispiel nginx](#logs-anschauen---docker-logs---mit-beispiel-nginx)
-     * [Logs anschauen - docker logs - mit Beispiel nginx](#logs-anschauen---docker-logs---mit-beispiel-nginx)
      * [Nginx mit portfreigabe laufen lassen](#nginx-mit-portfreigabe-laufen-lassen)
     
   1. Example with Dockerfile
@@ -95,6 +94,7 @@
   1. Kubernetes - Überblick
      * [Warum Kubernetes, was macht Kubernetes](#warum-kubernetes-was-macht-kubernetes)
      * [Aufbau Allgemein](#aufbau-allgemein)
+     * [Structure Kubernetes Deep Dive](https://github.com/jmetzger/training-kubernetes-advanced/assets/1933318/1ca0d174-f354-43b2-81cc-67af8498b56c)
      * [Aufbau mit helm,OpenShift,Rancher(RKE),microk8s](#aufbau-mit-helmopenshiftrancherrkemicrok8s)
      * [Welches System ? (minikube, micro8ks etc.)](#welches-system--minikube-micro8ks-etc)
 
@@ -106,6 +106,9 @@
      * [Installation Ubuntu - snap](#installation-ubuntu---snap)
      * [Create a cluster with microk8s](#create-a-cluster-with-microk8s)
      * [Remote-Verbindung zu Kubernetes (microk8s) einrichten](#remote-verbindung-zu-kubernetes-microk8s-einrichten)
+
+  1. Kubernetes mit k3s
+     * [Kubernetes mit k3s](#kubernetes-mit-k3s)
 
   1. Kubernetes - Client Tools und Verbindung einrichten
      * [Tools installieren und bash-completion / syntax highlightning](#tools-installieren-und-bash-completion--syntax-highlightning)
@@ -135,14 +138,26 @@
      * [ConfigMap Example](#configmap-example)
      * [Configmap MariaDB - Example](#configmap-mariadb---example)
      * [Configmap MariaDB my.cnf](#configmap-mariadb-mycnf)
+     * [Secret MariaDB - Example](#secret-mariadb---example)
 
   1. Kubernetes Praxis (Teil 2) - API Objekte 
      * [Hintergrund Statefulsets](#hintergrund-statefulsets)
      * [Übung Statefulsets](#übung-statefulsets)
 
+  1. Kubernetes Praxis (Teil 3)
+     * [Using private registry](#using-private-registry)
+
   1. Kubernetes Ingress
      * [Ingress Controller on Detail](#ingress-controller-on-detail)
-    
+
+  1. ServiceMesh
+     * [Why a ServiceMesh ?](#why-a-servicemesh-)
+     * [How does a ServiceMeshs work? (example istio](#how-does-a-servicemeshs-work-example-istio)
+     * [istio security features](#istio-security-features)
+     * [istio-service mesh - ambient mode](#istio-service-mesh---ambient-mode)
+     * [istio-traffic-management](#istio-traffic-management)
+     * [Performance comparison - baseline,sidecar,ambient](#performance-comparison---baselinesidecarambient)
+      
   1. Kubernetes (Debugging)
      * [Netzwerkverbindung zu pod testen](#netzwerkverbindung-zu-pod-testen)
     
@@ -165,6 +180,9 @@
     
   1. Helm
      * [Helm internals / secret a.s.o](#helm-internals--secret-aso)
+    
+  1. Kubernetes with ServerLess
+     * [Kubernetes with Serverless](#kubernetes-with-serverless)
 
   1. Literatur / Documentation / Information (Microservices)
      * [Sam Newman - Microservices](https://www.amazon.de/Building-Microservices-English-Sam-Newman-ebook/dp/B09B5L4NVT/)
@@ -431,7 +449,7 @@ in einer Komponenten zu verstecken
 
    * Teams unabhängig Änderung in Microservices machen und dieses redeployen und zwar ohne alle anderen
      * zu redeployen 
-   * This is the most imporant thing and also the Nr. 1 Tipp
+   * This is the most important thing and also the (Die wichtigste Sache, der Tipp Nr. 1)
 
 
 
@@ -650,21 +668,22 @@ Command -> Bewerber auf Button im Webfrontend geklickt
 ### Datenbank - Patterns - Teil 1
 
 
-
-
 ### Pattern Shared Database
 
   * Shared Database:Informations-Hiding ist schwierig 
   * Achtung: nur in 2 Situationen vernünftig
     1. Lesen statischer Referenzdaten (Postleitzahlen, Geschlecht, Bundesländer)
     2. Anbieten eines Service, der direkt eine Datenbank als definierten Endpunkt bereitstellt
-       * Database as-a-Service-Interface Pattern 
+       * Alternative: Database as-a-Service-Interface Pattern 
 
 #### Wie häufig 
   
-  * Eher selten ?
-  
+  * Eher selten
 
+#### Referenz 
+
+  * https://microservices.io/patterns/data/shared-database.html
+  
 ### Pattern: Database View 
 
   * Die Daten werden nicht als Tabelle, sondern als View bereitgestellt
@@ -673,16 +692,14 @@ Command -> Bewerber auf Button im Webfrontend geklickt
 #### Wo ? 
 
   * Kann man dann machen, wenn man das monolithische Schema nicht auseinander nehmen kann
-  * Achtung: performance views mysql
+  * Achtung: performance views mysql (nur bei älteren Versionen)
   * Wenn der Aufwand für die Aufteilung zu gross ist, kann das der 1. Schritt in die richtige Richtung sein
-
 
 ### Pattern: Database-as-a-Service Interface
 
   * Manchmal müssen Clients eine Datenbank nur abfragen
   * z.B. eine dedizierte Datenbank, als Read-Only-Endpunkt 
     * gefüllt wird diese wenn sich Daten in der zugrundeliegenden Datenbank ändern
-
   * Wir sollten die Datenbank, die wird nach draussen anbieten, von der Datenbank 
     * getrennt halten, die wir innerhalb unserer Service-Grenzen einsetzen
 
@@ -692,7 +709,11 @@ Command -> Bewerber auf Button im Webfrontend geklickt
 
 #### Wann ? 
 
-   * Wenn legacy-client lesenden Zugriff benötigen 
+   * Wenn legacy-client lesenden Zugriff benötigen
+
+#### Reference:
+
+  * https://microservices.io/patterns/data/database-per-service.html
 
 ### Pattern: Database Wrapping Service 
 
@@ -740,6 +761,104 @@ Command -> Bewerber auf Button im Webfrontend geklickt
   * D.h. nicht komplette Datenbank, sondern einzelne Tabellen
 
 ### Datenbank - Patterns - Teil 2
+
+
+### Was sollte ich zuerst aufteilen: Code oder Datenbank, oder gleichzeitig.
+
+ * Datenbank nur zuerst, wenn ich Sorge wg. der Performance habe.
+ * Code in der Regeln zuerst (Machen die meisten Teams so) 
+   * Vorteil: Ich weiss dann welche Daten der Service braucht 
+
+ * Gleichzeitig auf keinen Fall 
+
+### Anwendungsfall 1: Zuerst die Daten aufteilen 
+
+
+#### Pattern: Repository per Bounded Context
+
+  * Im Code habe ich pro Bounded Context ein Repository - Layer, der
+    auf die Datenbank zugreift 
+
+#### Pattern: Database per Bounded Context 
+
+  * Vorsichtsmaßnahme, falls ich später ein Service draus machen will
+
+### Anwendungsfall 2: Zuerst den Code aufteilen 
+
+#### Pattern: Monolith as Data Access Layer 
+
+  * [Monolith Data Access Layer - Schritt 1](https://photos.app.goo.gl/XhBKuGRAFaubN99CA)
+  * [Monolith Data Access Layer - Schritt 2](https://photos.app.goo.gl/k3vg1BsoRonHi7pe9)
+
+#### Pattern: Multischema Storage 
+
+  * Service speichert Teile der Daten selbst 
+    * und Teile der Daten kommen aus dem Monolithen 
+
+
+
+#### Pattern: Split Table 
+
+  * [Split Table - Teil 1](https://photos.app.goo.gl/DJ9oXXWwJg62qb199)
+  * [Split Table - Teil 2](https://photos.app.goo.gl/T3yDBMCh5xr9NMKB8)
+  * [Split Table - Teil 3](https://photos.app.goo.gl/ynrXyq4gD18HHAg66)
+
+##### Grund
+
+```
+Tabellen die über Service - Grenzen hinweg existieren aufteilen
+```
+
+#### Pattern: Move Foreign Key Relationship To Code 
+
+  * [Schritt 1](https://photos.app.goo.gl/zgSYAeg6Qq5vWnYx7)
+  * [Schritt 2](https://photos.app.goo.gl/cciUQwy71HZXdHB67)
+
+
+### Anwendungsfall 3: Gemeinsame genutzte statische Daten
+
+#### Pattern: Duplicate Static Reference Data 
+
+  * Jeder Service hat seine eigenen Ländercodes 
+  * Zwar redundant, aber ändern sich fast nie.
+  * Und ist es ein Problem, wenn sie sich ändern ? 
+  * Letzte Änderung 2011 (bei Länder-Codes)
+
+#### Pattern: Static Dedicated Reference Data Schema 
+
+  * Dediziertes Schema für Ländercodes in eigener Datenbank 
+  * Alle Services greifen auf diese Datenbank direkt zu 
+  * Es gibt dort einen Vertrag (Änderungen an der Struktur sind kritisch) 
+
+##### Nachteil 
+
+  * Probleme beim Ändern des Encodings in der Datenbank (Migration von alter auf neue Datenbank) 
+
+#### Pattern: Static Reference Data Library 
+
+  * z.B. Ländercodes wandern von der Datenbank in eine Bibliothek 
+    * die dann einfach eingebunden wird. 
+
+##### Nachteil 
+ 
+  * Schwierig, wenn verschiedene Programmier-Sprachen
+ 
+#### Pattern: Static Reference Data Service 
+
+  * z.B. dedizierter Service für Ländercodes 
+  * REST-API
+
+##### Aufbau 
+
+```
+    Service        Service
+   Warehouse       Finance 
+       \              /
+        \            /
+            Service
+         Country Code 
+
+```
 
 ### Strategische Patterns
 
@@ -1172,9 +1291,12 @@ docker container ls
 ```
 
 ```
+## falls nicht root
+sudo su -
 ## wo sind die overlays
 cd /var/lib/docker
-## now find out 
+## now find out
+ls -la
 ```
 
 
@@ -1191,6 +1313,11 @@ apt update
 apt install -y procps
 ps aux  | grep nginx
 exit
+```
+
+```
+## auf dem Host-System
+ps aux | grep nginx
 ```
 
 ```
@@ -1256,24 +1383,6 @@ docker system prune
 ## e steht für ende // letzte Einträge des Logs 
 journalctl -eu docker 
 
-```
-
-### Logs anschauen - docker logs - mit Beispiel nginx
-
-
-### Allgemein 
-```
-## Erstmal nginx starten und container-id wird ausgegeben 
-docker run -d nginx:1.22.1
-a234
-docker logs a234 # a234 sind die ersten 4 Ziffern der Container ID 
-```
-
-### Laufende Log-Ausgabe 
-
-```
-docker logs -f a234 
-## Abbrechen CTRL + c 
 ```
 
 ### Logs anschauen - docker logs - mit Beispiel nginx
@@ -1419,7 +1528,7 @@ docker exec -it app sh
 
   * Kann ich dem Image vertrauen (nur Images verwenden, denen ich vertrauen kann)
     * Im Zweifel eigene Images oder nur images von Docker Official Image / Verified Publisher (Suche auf Docker Hub)
-  * Container möglichst nicht als Root laufen lassen (bzw. solche Images vewrenden)
+  * Container möglichst nicht als Root laufen lassen (bzw. nicht solche Images verwenden)
   * Das nur das drinnen ist, was wirklich gebraucht wird (Produktion)
     * Im Idealfall sogar nur das Executable (siehe auch hashicorp/http-echo -> kein sh, keine bash)
   * Alle container einer applikation in einem eigenen Netzwerk  
@@ -1573,9 +1682,6 @@ nano docker-compose.yml
 ### Schritt 2:
 
 ```yaml
-## docker-compose.yaml
-version: "3.8"
-
 services:
   database:
     image: mysql:5.7
@@ -1616,7 +1722,24 @@ volumes:
 ### Schritt 3:
 
 ```
-docker compose up -d 
+docker compose up -d
+## show all containers
+docker ps
+## show only containers from docker compose project
+docker compose ps
+```
+
+### Schritt 3.5:
+
+```
+docker compose exec -it wordpress bash
+```
+
+```
+apt update
+apt install -y iputils-ping
+ping -c4 database
+exit
 ```
 
 ### Schritt 4: Alles wieder beenden 
@@ -1696,6 +1819,14 @@ docker compose up -d
 
 ## Bei Veränderung vom Dockerfile, muss man den Parameter --build mitangeben 
 docker compose up -d --build 
+```
+
+### Schritt 5: Logs anzeigen
+
+```
+docker logs bautest-myubuntu-1
+docker compose logs 
+
 ```
 
 ### Logs in docker - compose
@@ -3664,7 +3795,7 @@ jobs:
 
   * Virtualisierung von Hardware - xfache bessere Auslastung
   * Ist in Google entstanden 
-  * Software 2014 als OpenSource zur Verfügung gestellt (Name bei Google: Borg)
+  * Software 2014 als OpenSource zur Verfügung gestellt (Nachfolger von: Borg)
   * Optimale Ausnutzung der Hardware, hunderte bis tausende Dienste können auf einigen Maschinen laufen (Cluster)  
   * Immutable - System
   * Selbstheilend
@@ -3721,19 +3852,20 @@ jobs:
  
 #### Nodes  
 
-  * Nodes (Knoten) sind die Arbeiter (Maschinen), die Anwendungen ausführen
+  * Worker Nodes (Knoten) sind die Arbeiter (Maschinen), die die Anwendungen ausführen
+  * Control Plane Node, dort laufen die Tools zur Verwaltung/Beobachtung etc. des Clusters 
   * Ref: https://kubernetes.io/de/docs/concepts/architecture/nodes/
 
 #### Pod/Pods 
 
-  * Pods sind die kleinsten einsetzbaren Einheiten, die in Kubernetes erstellt und verwaltet werden können.
+  * Pods sind die kleinsten verwaltbaren Einheiten, die in Kubernetes erstellt und verwaltet werden können.
   * Ein Pod (übersetzt Gruppe) ist eine Gruppe von einem oder mehreren Containern
     * gemeinsam genutzter Speicher- und Netzwerkressourcen   
     * Befinden sich immer auf dem gleich virtuellen Server 
     
 ### Control Plane Node (former: master) - components 
 
-### Node (Minion) - components 
+### Worker Node (Minion) - components 
 
 #### General 
 
@@ -3756,6 +3888,10 @@ Er stellt sicher, dass Container in einem Pod ausgeführt werden.
 
   * https://www.redhat.com/de/topics/containers/kubernetes-architecture
 
+
+### Structure Kubernetes Deep Dive
+
+  * https://github.com/jmetzger/training-kubernetes-advanced/assets/1933318/1ca0d174-f354-43b2-81cc-67af8498b56c
 
 ### Aufbau mit helm,OpenShift,Rancher(RKE),microk8s
 
@@ -3833,7 +3969,10 @@ Ref: https://ubuntu.com/blog/introduction-to-microk8s-part-1-2
 
 ### k3s
 
-
+  * Sehr schlanker Footprint
+  * Sehr einfach und schnell zu installieren (ein binary)
+  * Auch für die Produktion geeignet.
+  * Sinnvoll für den Einsatz auf sehr ressourcenarmen Systemen 
 
 ### kind (Kubernetes-In-Docker)
 
@@ -4082,6 +4221,27 @@ kubectl --kubeconfig /home/myuser/.kube/myconfig
 
 ```
 
+## Kubernetes mit k3s
+
+### Kubernetes mit k3s
+
+
+### Install (Quickstart) - 1 Node Cluster
+
+```
+curl -sfL https://get.k3s.io | sh -
+```
+
+### Flannel 
+
+  * Kann keine NetworkPolicies
+  * Angelegte NetzwerkPolicies rennen ins Leere
+  * Flannel läuft nicht als Pod, sondenr ist in der k3s - binary drin 
+
+### Wenn Netzwerkpolicies dann z.B. calico install 
+
+  * https://docs.tigera.io/calico/latest/getting-started/kubernetes/k3s/quickstart
+
 ## Kubernetes - Client Tools und Verbindung einrichten
 
 ### Tools installieren und bash-completion / syntax highlightning
@@ -4092,6 +4252,7 @@ kubectl --kubeconfig /home/myuser/.kube/myconfig
 ```
 snap install kubectl --classic 
 snap install helm --classic
+## Voraussetzung, ist dass das Paket bash-completion installiert 
 kubectl completion bash > /etc/bash_completion.d/kubectl
 helm completion bash > /etc/bash_completion.d/helm
 ```
@@ -4117,16 +4278,11 @@ sudo echo "set tabstospaces" >> /etc/nanorc
 cd
 mkdir -p .kube
 cd .kube
-nano config 
 ```
 
 ```
-## nano config befüllen 
-## das bekommt ihr aus Eurem Cluster Management Tool 
-## oder: wenn Trainer das sagt:
-## cp -a /tmp/config config
+cp /tmp/config config
 ls -la
-
 ```
 
 ```
@@ -4139,6 +4295,7 @@ kubectl cluster-info
 kubectl create ns jochen
 kubectl get ns
 kubectl config set-context --current --namespace jochen
+kubectl get pods
 ```
 
 ### Tool zum Konvertion von docker-compose.yaml file manifesten
@@ -4284,8 +4441,14 @@ kubectl get deployments -n kube-system
 kubectl config set-context --current --namespace <dein-namespace>
 ```
 
+### Arbeiten mit der Config (lokal) 
 
-
+```
+## namespace jochen als default setzen
+kubectl config set-context --current --namespace jochen
+## config anzeigen 
+kubectl config view 
+```
 
 ### Referenz
 
@@ -4665,21 +4828,8 @@ cd manifests
 mkdir ingress
 cd ingress
 ```
-
 ```
-nano values.yml
-```
-
-```
-## It will be setup with type loadbalancer - so waiting to retrieve an ip from the external loadbalancer
-## This will take a little. 
-controller:
-  publishService:
-    enabled: true 
-```
-
-```
-helm install nginx-ingress ingress-nginx/ingress-nginx --namespace ingress --create-namespace -f values.yml  
+helm install nginx-ingress ingress-nginx/ingress-nginx --namespace ingress --create-namespace  
 ```
 
 ```
@@ -4993,17 +5143,15 @@ kubectl apply -f .
 #### Step 2: Ingress 
 
 ```
+nano ingress.yml
+```
+
+```
 ## Ingress
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: example-ingress
-  annotations:
-    ingress.kubernetes.io/rewrite-target: /
-    # with the ingress controller from helm, you need to set an annotation 
-    # otherwice it does not know, which controller to use
-    # old version... use ingressClassName instead 
-    # kubernetes.io/ingress.class: nginx
 spec:
   ingressClassName: nginx
   rules:
@@ -5662,7 +5810,15 @@ kubectl exec deployment/mariadb-deployment -- env
 ### configmap zu fuss 
 
 ```
-vi mariadb-config2.yml 
+cd
+mkdir -p manifests
+cd manifests
+mkdir mariadb-vol-cm
+cd mariadb-vol-cm
+```
+
+```
+nano 01-mariadb-config2.yml 
 ```
 
 ```
@@ -5674,14 +5830,18 @@ data:
   # als Wertepaare
   database: mongodb
   my.cnf: |
- [mysqld]
- slow_query_log = 1
- innodb_buffer_pool_size = 1G 
+   [mysqld]
+   slow_query_log = 1
+   innodb_buffer_pool_size = 1G
   
 ```
 
 ```
 kubectl apply -f .
+```
+
+```
+nano 02-deployment.yaml 
 ```
 
 ```
@@ -5709,7 +5869,7 @@ spec:
 
         volumeMounts:
           - name: example-configmap-volume
-            mountPath: /etc/my
+            mountPath: /etc/mysql
 
       volumes:
       - name: example-configmap-volume
@@ -5719,7 +5879,89 @@ spec:
 
 ```
 kubectl apply -f .
+kubectl exec -it deployment/mariadb-deployment -- bash 
 ```
+
+```
+cd /etc/mysql
+ls -la
+cat my.cnf
+```
+
+### Secret MariaDB - Example
+
+
+### Schritt 1: secret  
+
+```
+cd 
+mkdir -p manifests
+cd manifests
+mkdir secrettest
+cd secrettest 
+```
+
+```
+kubectl create secret generic mariadb-secret --from-literal=MARIADB_ROOT_PASSWORD=11abc432 --dry-run=client -o yaml > 01-secrets.yml
+```
+
+```
+kubectl apply -f .
+kubectl get secrets 
+kubectl get secrets  mariadb-secret  -o yaml
+```
+
+
+### Schritt 2: Deployment 
+```
+nano 02-deploy.yml
+```
+
+```
+##deploy.yml 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb-deployment
+spec:
+  selector:
+    matchLabels:
+      app: mariadb
+  replicas: 1 
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+      - name: mariadb-cont
+        image: mariadb:latest
+        envFrom:
+        - secretRef:
+            name: mariadb-secret
+
+```
+
+```
+kubectl apply -f .
+```
+
+### Testing 
+
+```
+## Führt den Befehl env in einem Pod des Deployments aus  
+kubectl exec deployment/mariadb-deployment -- env
+## eigentlich macht er das:
+## kubectl exec mariadb-deployment-c6df6f959-q6swp -- env
+```
+
+
+### Important Sidenode 
+
+  * If configmap changes, deployment does not know
+  * So kubectl apply -f deploy.yml will not have any effect
+  * to fix, use stakater/reloader: https://github.com/stakater/Reloader
+
 
 ## Kubernetes Praxis (Teil 2) - API Objekte 
 
@@ -5883,12 +6125,225 @@ kubectl run --rm -it podtester --image=busybox
   * https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/
 
 
+## Kubernetes Praxis (Teil 3)
+
+### Using private registry
+
+
+### Create config.json with login docker
+
+#### Step 1: On docker machine 
+
+```
+docker login
+```
+
+```
+cat ~/.docker/config.json
+```
+
+```
+{
+        "auths": {
+                "https://index.docker.io/v1/": {
+                        "auth": "ZG9............"
+                }
+}
+```
+
+```
+copy to kubectl client
+```
+
+#### Step 2: on kubectl-client machine 
+
+```
+cd
+mkdir -p manifests
+cd manifests
+mkdir docker
+cd docker
+```
+
+```
+## Für die Teilnehmer
+cp /tmp/config.json .
+
+```
+```
+kubectl create secret generic docker-credentials \
+    --from-file=.dockerconfigjson=config.json \
+    --type=kubernetes.io/dockerconfigjson \
+    --dry-run=client -o yaml > secret.yaml 
+```
+
+```
+cat secret.yaml
+```
+
+```
+## umbenennen, damit es nicht von kubectl apply gelesen wird
+mv config.json config.json.bkup 
+```
+
+```
+kubectl apply -f .
+```
+
+```
+nano pod.yaml 
+```
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dockertrainereu-pod
+spec:
+  containers:
+  - name: private-container
+    image: dockertrainereu/jm-hello-web
+  imagePullSecrets:
+  - name: docker-credentials
+```
+
+```
+kubectl apply -f .
+kubectl get pods dockertrainereu-pod
+kubectl describe pods dockertrainereu-pod
+```
+
 ## Kubernetes Ingress
 
 ### Ingress Controller on Detail
 
 
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/abe9798c-eb2b-4afc-bd17-6bca294bfeaf)
+
+## ServiceMesh
+
+### Why a ServiceMesh ?
+
+
+### What is a service mesh ?
+
+```
+A service mesh is an infrastructure layer
+that gives applications capabilities
+like zero-trust security, observability,
+and advanced traffic management, without code changes.
+```
+
+### Advantages / Features 
+
+ 1. Observability & monitoring
+ 1. Traffic management
+ 1. Resilience & Reliability 
+ 1. Security
+ 1. Service Discovery
+
+#### Observability & monitoring
+
+  * Service mesh offers:
+    * valuable insights into the communication between services
+    * effective monitoring to help in troubleshooting application errors.
+
+#### Traffic management
+
+  * Service mesh offers:
+    * intelligent request distribution
+    * load balancing, 
+    * support for canary deployments. 
+    * These capabilities enhance resource utilization and enable efficient traffic management
+
+#### Resilience & Reliability 
+
+  * By handling retries, timeouts, and failures,
+    * service mesh contributes to the overall stability and resilience of services
+    * reducing the impact of potential disruptions.
+
+#### Security
+
+  * Service mesh enforces security policies, and handles authentication, authorization, and encryption
+    * ensuring secure communication between services and eventually, strengthening the overall security posture of the application.
+
+#### Service Discovery
+
+  * With service discovery features, service mesh can simplify the process of locating and routing services dynamically
+  * adapting to system changes seamlessly. This enables easier management and interaction between services.
+
+### Overall benefits 
+
+```
+Microservices communication:
+Adopting a service mesh can simplify the implementation of a microservices architecture by abstracting away infrastructure complexities.
+It provides a standardized approach to manage and orchestrate communication within the microservices ecosystem.
+```
+
+
+### How does a ServiceMeshs work? (example istio
+
+
+![image](https://github.com/user-attachments/assets/ad858ca2-2bdc-4604-beef-f543f833e56f)
+
+![image](https://github.com/user-attachments/assets/cad96bcb-8fb8-445c-b371-5a3b728a0a5f)
+* Source: kubebyexample.com 
+
+### istio security features
+
+
+### Overview 
+
+![image](https://github.com/user-attachments/assets/c31b0e10-bdb9-43e1-a162-274711079e94)
+
+### Security needs of microservices 
+
+![image](https://github.com/user-attachments/assets/35092c36-ffd8-428b-bf71-b60ff3749fb7)
+
+### Implementation of security 
+
+![image](https://github.com/user-attachments/assets/2fce84cf-4483-4772-aabf-c27d099e303e)
+
+
+### istio-service mesh - ambient mode
+
+
+### Light: Only Layer 4 per node (ztunnel) 
+
+  * No sidecar (envoy-proxy) per Pod, but one ztunnel agent per Node (Layer 4)
+  * Enables security features (mtls, traffic encryption)
+
+#### Like so:
+
+  ![image](https://github.com/user-attachments/assets/755931d7-5bdd-43c9-8f93-28e8ee0b2bf3)
+
+### Full fledged: Layer 4 (ztunnel) per Node & Layer 7 per Namespace
+
+  * One waypoint - proxy is rolled out per Namespace, which connects to the ztunnel agents 
+
+![image](https://github.com/user-attachments/assets/a2aadab7-2ec0-446f-a35a-e972b8ac46b8)
+
+#### Features in "fully-fledged" - ambient - mode 
+
+![image](https://github.com/user-attachments/assets/30b89a37-cb71-46e9-a395-aafb593ebb12)
+
+
+### Advantages:
+
+  * Less overhead
+  * One can start step-by-step moving towards a mesh (Layer 4 firstly and if wanted Layer 7 for specicfic namespaces)
+  * Old pattern: sidecar and new pattern: ambient can live side by side. 
+
+### istio-traffic-management
+
+
+  * https://istio.io/latest/docs/concepts/traffic-management/#retries
+
+### Performance comparison - baseline,sidecar,ambient
+
+
+  * https://livewyer.io/blog/2024/06/06/comparison-of-service-meshes-part-two/
+  * https://github.com/livewyer-ops/poc-servicemesh2024/blob/main/docs/test-report-istio.md
 
 ## Kubernetes (Debugging)
 
@@ -5925,7 +6380,7 @@ kubectl get pods -o wide
 ## -O -> Output (grosses O (buchstabe)) 
 kubectl run podtest --rm -ti --image busybox
 / # wget -O - http://10.244.0.99
-/ # ping 10.244.0.99
+/ # ping -c 4 10.244.0.99
 / # exit 
 ```
 
@@ -6078,7 +6533,7 @@ metadata:
   name: deploy-memtest
   namespace: mem-example
 spec:
-  minReadySeconds: 120
+##  minReadySeconds: 120
   selector:
     matchLabels:
       app: memtest
@@ -6125,7 +6580,7 @@ metadata:
   name: deploy-memtest
   namespace: mem-example
 spec:
-  minReadySeconds: 120
+##  minReadySeconds: 120
   selector:
     matchLabels:
       app: memtest
@@ -6614,57 +7069,54 @@ kubectl apply -f apple.yml # (deployment)
 
 ### Helm internals / secret a.s.o
 
+## Kubernetes with ServerLess
 
-### How are information about realeases stored 
-
-  1. Stored in secrets 
-  1. One secret for every release 
-  1. gzip | base64 | base64 done before saving it there 
-
-### what is stored in each secret object concerning helm 
-
-  * Chart-Information 
-  * chart-templates 
-  * manifest (like it is applied by helm)
-
-  ## Process of helm install
-
-  ```
-  helm pull -> helm template -> kubectl apply -f -> construct helm secret and create by sending it to 
-  kube-api-server
-  ```
-
-  ## Process of helm uninstall 
-
-  ```
-  # Get secret of release, current revision 
-  1. helm get secret sh.helm ..... 
-
-  2. -> extract manifests
-
-  3. kubectl delete -f manifest
-
-  4. delete all secrets for that release with kubectl 
-  kubectl delete secrets sh.helm.release.v1.my-mariadb.v2
-  kubectl delete secrets sh.helm.release.v1.my-mariadb.v2
-
-  ```
+### Kubernetes with Serverless
 
 
-  ## How to get information for release (raw) 
+### What is serverless ?
 
-  ```
-  kubectl get secrets sh.helm.release.v1.my-mariadb.v2 -o jsonpath='{.data.release}' | base64 -d | base64 -d | gzip -d > all.yml
+  * Serverless-Computing ist eine Möglichkeit, Code auszuführen, ohne sich um Server zu kümmern.
+  * Mit am beliebtesten ist: FaaS (Function as a service)
+  * Serverless ist eine Kategorie von Cloud-Computing, die eine Plattform für die Entwicklung und Bereitstellung von Anwendungen bereitstellt, ohne sich um die zugrunde liegende Infrastruktur zu sorgen.
 
+### Products to install on Kubernetes to use the Serverless concept.
 
-  ```
+#### OpenFaas 
 
-  ## How to get information of applied manifest 
+##### Example  
 
-  ```
-  helm get manifest my-mariadb 
-  ```
-  
+#### OpenWhisk 
+
+##### Example 
+
+  * https://github.com/appvia/serverless-kube/tree/master/openwhisk
+
+#### Kubeless 
+
+  * Described as the most Kubernetes-native. Easy installation and simple architecture using Custom Resource Definitions. No scale-to-zero functionality at the time of writing.
+
+#### Fission 
+
+##### Example 
+
+  * https://github.com/fission/fission#getting-started
+
+#### Knative 
+
+##### Example
+
+  * https://github.com/appvia/serverless-kube/tree/master/knative#template-for-autoscaling-flask-app-using-knative
+
+#### fn 
+
+##### Example
+
+  * https://github.com/appvia/serverless-kube/tree/master/fn#example-app-for-deployment-to-fn
+
+### Reference 
+
+  * https://www.appvia.io/blog/serverless-on-kubernetes 
 
 ## Literatur / Documentation / Information (Microservices)
 
@@ -8339,7 +8791,6 @@ kubectl config use-context microk8s
 
 #### Overview 
 
-![Overview](https://www.inovex.de/wp-content/uploads/2020/05/Container-to-Container-Networking_2_neu-400x401.png)
 ![Overview Kubernetes Networking](https://www.inovex.de/wp-content/uploads/2020/05/Container-to-Container-Networking_3_neu-400x412.png)
 
 #### General 
@@ -8952,8 +9403,14 @@ kubectl get deployments -n kube-system
 kubectl config set-context --current --namespace <dein-namespace>
 ```
 
+### Arbeiten mit der Config (lokal) 
 
-
+```
+## namespace jochen als default setzen
+kubectl config set-context --current --namespace jochen
+## config anzeigen 
+kubectl config view 
+```
 
 ### Referenz
 
@@ -10158,6 +10615,14 @@ docker compose up -d
 
 ## Bei Veränderung vom Dockerfile, muss man den Parameter --build mitangeben 
 docker compose up -d --build 
+```
+
+### Schritt 5: Logs anzeigen
+
+```
+docker logs bautest-myubuntu-1
+docker compose logs 
+
 ```
 
 ### docker-compose und replicas
