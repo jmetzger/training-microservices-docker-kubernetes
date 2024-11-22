@@ -8,7 +8,7 @@
 
 ```
 mkdir /data2
-chmod /data2
+chmod 777 /data2
 ```
 
 ```
