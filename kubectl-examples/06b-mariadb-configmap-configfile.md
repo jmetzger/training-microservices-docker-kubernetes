@@ -50,7 +50,7 @@ spec:
 
         volumeMounts:
           - name: example-configmap-volume
-            mountPath: /etc/my
+            mountPath: /etc/mysql
 
       volumes:
       - name: example-configmap-volume
