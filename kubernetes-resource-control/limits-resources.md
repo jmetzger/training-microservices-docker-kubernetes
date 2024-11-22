@@ -28,7 +28,6 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: cpu-demo
-  namespace: cpu-example
 spec:
   containers:
   - name: cpu-demo-ctr
