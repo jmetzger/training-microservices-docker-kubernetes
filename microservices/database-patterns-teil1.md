@@ -6,7 +6,7 @@
   * Achtung: nur in 2 Situationen vernünftig
     1. Lesen statischer Referenzdaten (Postleitzahlen, Geschlecht, Bundesländer)
     2. Anbieten eines Service, der direkt eine Datenbank als definierten Endpunkt bereitstellt
-       * Database as-a-Service-Interface Pattern 
+       * Alternative: Database as-a-Service-Interface Pattern 
 
 ### Wie häufig 
   
