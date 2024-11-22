@@ -1,7 +1,5 @@
 # Database Patterns (Part 1)  
 
-
-
 ## Pattern Shared Database
 
   * Shared Database:Informations-Hiding ist schwierig 
@@ -12,9 +10,12 @@
 
 ### Wie häufig 
   
-  * Eher selten ?
-  
+  * Eher selten
 
+### Referenz 
+
+  * https://microservices.io/patterns/data/shared-database.html
+  
 ## Pattern: Database View 
 
   * Die Daten werden nicht als Tabelle, sondern als View bereitgestellt
@@ -23,18 +24,19 @@
 ### Wo ? 
 
   * Kann man dann machen, wenn man das monolithische Schema nicht auseinander nehmen kann
-  * Achtung: performance views mysql
+  * Achtung: performance views mysql (nur bei älteren Versionen)
   * Wenn der Aufwand für die Aufteilung zu gross ist, kann das der 1. Schritt in die richtige Richtung sein
-
 
 ## Pattern: Database-as-a-Service Interface
 
   * Manchmal müssen Clients eine Datenbank nur abfragen
   * z.B. eine dedizierte Datenbank, als Read-Only-Endpunkt 
     * gefüllt wird diese wenn sich Daten in der zugrundeliegenden Datenbank ändern
-
   * Wir sollten die Datenbank, die wird nach draussen anbieten, von der Datenbank 
     * getrennt halten, die wir innerhalb unserer Service-Grenzen einsetzen
+
+
+
 
 ### Wie ?
 
