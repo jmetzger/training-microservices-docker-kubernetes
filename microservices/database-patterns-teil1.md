@@ -35,16 +35,17 @@
   * Wir sollten die Datenbank, die wird nach draussen anbieten, von der Datenbank 
     * getrennt halten, die wir innerhalb unserer Service-Grenzen einsetzen
 
-
-
-
 ### Wie ?
 
   * Umsetzung durch eine Mapping - Engine.
 
 ### Wann ? 
 
-   * Wenn legacy-client lesenden Zugriff benötigen 
+   * Wenn legacy-client lesenden Zugriff benötigen
+
+### Reference:
+
+  * https://microservices.io/patterns/data/database-per-service.html
 
 ## Pattern: Database Wrapping Service 
 
