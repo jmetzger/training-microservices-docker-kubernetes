@@ -20,7 +20,7 @@ cd hostPath
 nano 01-deployment.yaml
 ```
 
-``
+```
 apiVersion: apps
 kind: Deployment
 metadata:
@@ -42,7 +42,7 @@ spec:
         image: nginx
         volumeMounts:
          - name: task-pv-storage
-           mountPath: /mnt/sample`
+           mountPath: /mnt/sample
 
 ```
 
