@@ -8,7 +8,6 @@ mkdir -p manifests
 cd manifests
 mkdir cftest 
 cd cftest 
-nano 01-secret.yml 
 ```
 
 ```
