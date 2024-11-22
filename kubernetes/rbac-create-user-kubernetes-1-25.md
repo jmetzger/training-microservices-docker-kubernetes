@@ -56,7 +56,7 @@ kubectl apply -f .
 ### Mini-Schritt 2: ClusterRolle festlegen - Dies gilt für alle namespaces, muss aber noch zugewiesen werden
 
 ```
-nano 02-cr.yml 
+nano 03-cr.yml 
 ```
 
 ```
