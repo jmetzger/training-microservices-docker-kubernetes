@@ -72,4 +72,5 @@ spec:
 
 ```
 kubectl apply -f .
+kubectl exec -it deployment/mariadb-deployment -- bash 
 ```
