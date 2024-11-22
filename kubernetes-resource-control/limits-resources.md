@@ -53,7 +53,7 @@ kubectl get pods cpu-demo -o yaml
 kubectl top pod cpu-demo
 ```
 
-## Version 2
+## Szenario 2
 
 
 ```
