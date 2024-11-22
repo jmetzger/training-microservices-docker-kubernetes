@@ -53,38 +53,7 @@ kubectl get pods cpu-demo -o yaml
 kubectl top pod cpu-demo
 ```
 
-## Szenario 2
 
-
-```
-nano 02-pod-toomuch.yaml
-```
-
-```
-# overprovision
-apiVersion: v1
-kind: Pod
-metadata:
-  name: cpu-demo-2
-  namespace: cpu-example
-spec:
-  containers:
-  - name: cpu-demo-ctr-2
-    image: vish/stress
-    resources:
-      limits:
-        cpu: "100"
-      requests:
-        cpu: "100"
-    args:
-    - -cpus
-    - "2"
-```
-
-```
-kubectl apply -f .
-kubectl describe pod cpu-demo-2
-```
 
 
 ## Reference: 
