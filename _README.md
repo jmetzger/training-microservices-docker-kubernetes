@@ -164,8 +164,10 @@
   1. Kubernetes Netzwerk 
      * [DNS - Resolution - Services](#dns---resolution---services)
 
-  1. Kubernetes Scaling
+  1. Kubernetes Scaling / Resource Management 
      * [Autoscaling Pods/Deployments](#autoscaling-podsdeployments)
+     * [Resources and Limits for containers](#resources-and-limits-for-containers)
+     * [ResourceQuotas and LimitQuotas by Namespace](https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/quota-memory-cpu-namespace/)
 
   1. Kubernetes Tipps & Tricks
      * [Oomkiller and maxReadySeconds for safe migration to new pods](#oomkiller-and-maxreadyseconds-for-safe-migration-to-new-pods)
@@ -6433,7 +6435,7 @@ apple-tln1
 written to stdout
 ```
 
-## Kubernetes Scaling
+## Kubernetes Scaling / Resource Management 
 
 ### Autoscaling Pods/Deployments
 
@@ -6501,6 +6503,73 @@ spec:
   * https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-more-specific-metrics
   * https://medium.com/expedia-group-tech/autoscaling-in-kubernetes-why-doesnt-the-horizontal-pod-autoscaler-work-for-me-5f0094694054
   * Alternative: https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler
+
+### Resources and Limits for containers
+
+
+### Prerequisites - install metrics - server 
+
+  * That one is already present in k3s
+
+```
+helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+helm install metrics-server metrics-server/metrics-server --namespace kube-system --version 3.12.2
+```
+
+### Szenario 1 
+
+```
+cd
+mkdir -p manifests
+cd manifests
+mkdir res
+cd res
+```
+
+```
+nano 01-pod.yaml
+```
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cpu-demo
+spec:
+  containers:
+  - name: cpu-demo-ctr
+    image: vish/stress
+    resources:
+      limits:
+        cpu: "1"
+      requests:
+        cpu: "0.5"
+    args:
+    - -cpus
+    - "2"
+```
+
+
+```
+kubectl apply -f .
+```
+
+```
+kubectl get pods cpu-demo
+kubectl get pods cpu-demo -o yaml 
+kubectl top pod cpu-demo
+```
+
+
+
+
+### Reference: 
+
+  * https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/
+
+### ResourceQuotas and LimitQuotas by Namespace
+
+  * https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/quota-memory-cpu-namespace/
 
 ## Kubernetes Tipps & Tricks
 
@@ -8630,13 +8699,6 @@ helm install my-wordpress bitnami/wordpress -f values
 ### Nutzer einrichten microk8s ab kubernetes 1.25
 
 
-### Enable RBAC in microk8s 
-
-```
-## This is important, if not enable every user on the system is allowed to do everything 
-microk8s enable rbac 
-```
-
 ### Schritt 1: Nutzer-Account auf Server anlegen und secret anlegen / in Client 
 
 ```
@@ -8648,16 +8710,19 @@ cd manifests/rbac
 ####  Mini-Schritt 1: Definition für Nutzer 
 
 ```
+nano 01-sa.yml 
+```
+
+```
 ## vi service-account.yml 
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: training
-  namespace: default
 ```
 
 ```
-kubectl apply -f service-account.yml 
+kubectl apply -f .
 ```
 
 #### Mini-Schritt 1.5: Secret erstellen 
@@ -8665,6 +8730,10 @@ kubectl apply -f service-account.yml
   * From Kubernetes 1.25 tokens are not created automatically when creating a service account (sa)
   * You have to create them manually with annotation attached 
   * https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#create-token
+
+```
+nano 02-secret.yml
+```
 
 ```
 ## vi secret.yml 
@@ -8685,6 +8754,10 @@ kubectl apply -f .
 #### Mini-Schritt 2: ClusterRolle festlegen - Dies gilt für alle namespaces, muss aber noch zugewiesen werden
 
 ```
+nano 03-cr.yml 
+```
+
+```
 ### Bevor sie zugewiesen ist, funktioniert sie nicht - da sie keinem Nutzer zugewiesen ist 
 
 ## vi pods-clusterrole.yml 
@@ -8699,17 +8772,21 @@ rules:
 ```
 
 ```
-kubectl apply -f pods-clusterrole.yml 
+kubectl apply -f -
 ```
 
 #### Mini-Schritt 3: Die ClusterRolle den entsprechenden Nutzern über RoleBinding zu ordnen 
+
+```
+nano 04-crb.yml
+```
+
 ```
 ## vi rb-training-ns-default-pods.yml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: rolebinding-ns-default-pods
-  namespace: default
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -8717,17 +8794,17 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: training
-  namespace: default
 ```
 
 ```
-kubectl apply -f rb-training-ns-default-pods.yml
+kubectl apply -f .
 ```
 
 #### Mini-Schritt 4: Testen (klappt der Zugang) 
 
 ```
-kubectl auth can-i get pods -n default --as system:serviceaccount:default:training
+## kubectl auth can-i get pods --as system:serviceaccount:<deinnamespace>:training
+kubectl auth can-i get pods --as system:serviceaccount:jochen:training
 ```
 
 ### Schritt 2: Context anlegen / Credentials auslesen und in kubeconfig hinterlegen (bis Version 1.25.) 
@@ -8735,7 +8812,7 @@ kubectl auth can-i get pods -n default --as system:serviceaccount:default:traini
 #### Mini-Schritt 1: kubeconfig setzen 
 
 ```
-kubectl config set-context training-ctx --cluster microk8s-cluster --user training
+kubectl config set-context training-ctx --cluster do-fra1-ks-cluster --user training
 
 ## extract name of the token from here 
 
@@ -8743,10 +8820,17 @@ TOKEN=`kubectl get secret trainingtoken -o jsonpath='{.data.token}' | base64 --d
 echo $TOKEN
 kubectl config set-credentials training --token=$TOKEN
 kubectl config use-context training-ctx
+```
 
+```
+## kubectl config set-context --current --namespace <dein-name>
+kubectl config set-context --current --namespace jochen 
+```
+
+```
 ## Hier reichen die Rechte nicht aus 
 kubectl get deploy
-## Error from server (Forbidden): pods is forbidden: User "system:serviceaccount:kube-system:training" cannot list # resource "pods" in API group "" in the namespace "default"
+## Error from server (Forbidden): pods is forbidden: User "system:serviceaccount:jochen:training" cannot list # resource "pods" in API group "" in the namespace "jochen"
 ```
 
 #### Mini-Schritt 2:
@@ -8762,9 +8846,9 @@ kubectl config get-contexts
 ```
 
 ```
-CURRENT   NAME           CLUSTER            AUTHINFO    NAMESPACE
-          microk8s       microk8s-cluster   admin2
-*         training-ctx   microk8s-cluster   training2
+CURRENT   NAME                          CLUSTER            AUTHINFO    NAMESPACE
+          do-fra1-ks-cluster-admin      do-fra1-ks-cluster   admin
+*         training-ctx                  do-fra1-ks-cluster   training
 ```
 
 ```
