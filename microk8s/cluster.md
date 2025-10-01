@@ -13,6 +13,18 @@ microk8s join 10.128.63.86:25000/567a21bdfc9a64738ef4b3286b2b8a69
 
 ```
 
+## Testing 
+
+```
+# auf dem master z.B variante 1
+microk8s status
+
+# Variante
+microk8s kubectl get nodes
+```
+
+
+
 ## Auf einem Node addon aktivieren z.B. ingress
 
 ```
