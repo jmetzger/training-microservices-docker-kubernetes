@@ -26,6 +26,7 @@ docker images
 sudo su -
 # wo sind die overlays
 cd /var/lib/docker
+cd overlay2
 # now find out
 ls -la
 ```
