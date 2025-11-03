@@ -28,3 +28,8 @@ docker build . -t multi-stage-binary:v1
 docker run --name app -d -t multi-stage-binary:v1 sh  
 docker exec -it app sh 
 ```
+
+```
+cd /app
+ls -la
+```
