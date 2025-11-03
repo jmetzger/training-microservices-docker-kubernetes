@@ -9,7 +9,7 @@ docker run --name test-nginx -d -p 8080:80 nginx
 ip a  show eth0 
 
 docker container ls
-lsof -i
+sudo lsof -i
 cat /etc/services | grep 8080
 curl http://localhost:8080
 docker container ls
