@@ -4,7 +4,9 @@
 
 ```
 docker run -d --name my_nginx nginx:1.23
-docker container ls 
+docker container ls
+# oder 
+docker ps
 ```
 
 ```
