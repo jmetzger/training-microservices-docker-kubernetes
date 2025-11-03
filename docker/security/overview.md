@@ -12,7 +12,7 @@
 
 ## Images die nicht als root lauen 
 
-  * bitnami
+  * ~bitnami~ 
   * nginx unprivileged
 
 ```
