@@ -9,6 +9,8 @@ docker container ls
 docker ps
 ```
 
+## Erkundung 
+
 ```
 # falls nicht root
 sudo su -
