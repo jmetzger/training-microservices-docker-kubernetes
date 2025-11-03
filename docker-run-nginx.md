@@ -18,6 +18,10 @@ curl http://172.17.0.2
 ## Erkundung 
 
 ```
+docker images
+```
+
+```
 # falls nicht root
 sudo su -
 # wo sind die overlays
