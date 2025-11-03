@@ -63,7 +63,7 @@
   1. Microservices - Daten
      * [Überblick shared database / database-per-service](microservices/databases/patterns/overview.md)
      * [Umgang mit Joins bei database-per-service](microservices/databases/patterns/database-per-service/handling-of-joins.md)
-     * [Umgang mit Transaktionen bei database-per-service](microservices/databases/patterns/database-per-service/handling-of-transactions.md)
+     * [Umgang mit Transaktionen bei database-per-service (SAGA)](microservices/databases/patterns/database-per-service/handling-of-transactions.md)
      * [Event Sourcing](microservices/databases/patterns/database-per-service/event-sourcing.md)
 
   1. Microservices (async messaging)
