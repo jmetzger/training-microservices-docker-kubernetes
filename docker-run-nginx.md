@@ -29,6 +29,7 @@ cd /var/lib/docker
 cd overlay2
 # now find out
 ls -la
+exit
 ```
 
 
