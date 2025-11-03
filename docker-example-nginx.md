@@ -5,6 +5,9 @@ docker run --name test-nginx -d -p 8080:80 nginx
 ```
 
 ```
+# auf host machine ip des hosts ausfindig machen
+ip a  show eth0 
+
 docker container ls
 lsof -i
 cat /etc/services | grep 8080
