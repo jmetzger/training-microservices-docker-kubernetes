@@ -7,6 +7,12 @@ docker run -d --name my_nginx nginx:1.23
 docker container ls
 # oder 
 docker ps
+
+# Ip-Adresse rausfinden 
+docker inspect my_nginx | grep -i -A 20 networksettings
+# ip ist: 172.17.0.2
+# Webseite von nginx anzeigen 
+curl http://172.17.0.2
 ```
 
 ## Erkundung 
