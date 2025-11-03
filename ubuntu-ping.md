@@ -23,7 +23,7 @@ docker images
 ```
 # Variante 2
 # nano Dockerfile
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 RUN apt-get update && \
     apt-get install -y inetutils-ping && \
     rm -rf /var/lib/apt/lists/*
