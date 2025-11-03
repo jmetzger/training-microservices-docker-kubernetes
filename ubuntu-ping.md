@@ -1,5 +1,7 @@
 # Ubuntu mit ping 
 
+## Image erstellen 
+
 ```
 mkdir myubuntu 
 cd myubuntu/
@@ -34,6 +36,8 @@ RUN apt-get update && \
 docker build -t myubuntu:1.0 .
 docker images
 ```
+
+## Image (ping) testen  
 
 ```
 # -t wird benötigt, damit bash WEITER im Hintergrund im läuft.
