@@ -42,8 +42,6 @@ Bewerte:
 1. Dringlichkeit der Migration (1-10)
 2. Risiken und Voraussetzungen
 3. Empfohlene Strategie (Big Bang vs. Strangler Pattern)
-
-```
 4. Erste Kandidaten für Extraktion
 5. Geschätzte Kosten vs. Nutzen
 ```
