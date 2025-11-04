@@ -29,7 +29,7 @@
   
   1. Er muss funktionieren, auch wenn ein anderes Service nicht läuft (keine Abhängigkeit) 
   2. Er darf nicht DIREKT auf die Daten eines anderen Services zugreifen (maximal über Schnittstelle)
-  3. Jeder Service ist völlig autark und seine eigene BusinessLogik und seine eigene Datenbank 
+  3. Jeder Service ist völlig autark und hat seine eigene BusinessLogik und seine eigene Datenbank 
 
 ## Regeln für das Design von Services 
 
