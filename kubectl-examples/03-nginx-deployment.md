@@ -44,6 +44,10 @@ kubectl get all
 ```
 
 ```
+nano deploy.yml
+```
+
+```
 # image ändern in deploy.yml
 # vorher: image: nginx:1.21
 # jetzt
@@ -52,5 +56,9 @@ image: nginx:1.23
 
 ```
 # Anwenden und watchen 
-kubectl apply -f . ; kubectl get all; kubectl get pods -w
+# kubectl apply -f . ; kubectl get all; kubectl get pods -w
+# Nicer:
+# Ändern des images von nginx:1.22 in nginx:1.23
+# danach 
+kubectl apply -f . && watch kubectl get pods 
 ```
