@@ -12,6 +12,9 @@
      * [Asynchrones Messaging](microservices/asynchronous-messaging.md)
      * [Microservice and Database](microservices/basics/database.md)
 
+  1. Analyse Monolith / Microservice
+     * [Indikatoren für Microservices (Wechsel von Monolith](microservices/analyse/indikatoren-fuer-wechsel-von-monolith-auf-microservices.md)
+
   1. Grundwissen Microservices (Teil 2)
      * [Brainstorming Domäne](microservices/brainstorming-domaene.md)
      * [Datenbank - Patterns - Teil 1](microservices/database-patterns-teil1.md)
