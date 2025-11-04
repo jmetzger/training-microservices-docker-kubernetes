@@ -1,5 +1,13 @@
 # Example multistage build 
 
+## Why ? 
+
+ * Ziel: Wir wollen ein möglichst kleine Image als Endprodukt haben
+ * Um das zu erreichen, können mit einem speziellen Image, was alles bauen das image bauen
+   * Dann, nehmen wir aber nur den Teil, den wir brauchen aus diesem Schritt 1: in unserem Fall /app/app.jar 
+   * Und verwenden es mit einem wesentlichen kleineren Image
+ * Ergebnis: Das fertige image ist wesentlich kleiner 
+
 ## Overview
 
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/c6ee24f7-3669-4410-bfe9-4e2d08cf8ac7)
