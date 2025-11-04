@@ -192,6 +192,9 @@
      * [Microservices.io Patterns](https://microservices.io)
      * [BFF](https://blog.bitsrc.io/bff-pattern-backend-for-frontend-an-introduction-e4fa965128bf)
      * [Microservices Up and Running](https://www.amazon.de/Kubernetes-Running-Dive-Future-Infrastructure/dp/109811020X/ref=sr_1_1)
+
+  1. FAQ
+     * [Verschlüsselung mit Thales docker-container](encryption/thales.md)
     
   1. gitlab ci/cd
      * [Einfaches Beispielscript](gitlab-ci-cd/01-show-content.md)
