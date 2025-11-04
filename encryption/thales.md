@@ -20,8 +20,9 @@
 ## Wie hänge ich ein mount ein, der nicht unter volumes liegt in docker ? 
 
   * Achtung, Rechte müssen richtig gesetzt sein
-  * chown 1001:1001 /data/mariadb # wenn der mariadb - container unter diesem User läuft  
+  * chown 10001:10001 /data/mariadb # wenn der mariadb - container unter diesem User läuft / Achtung uid_mapping, da ist es anders 
 
+```
 version: '3.8'
 
 services:
@@ -39,4 +40,4 @@ services:
     ports:
       - "3306:3306"
     restart: unless-stopped
-
+````
