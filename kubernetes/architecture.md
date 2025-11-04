@@ -2,7 +2,7 @@
 
 ## Schaubild 
 
-![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/0c915cb1-5e5a-4ef1-a978-f3c16633be69)
+![image](https://github.com/user-attachments/assets/f4de7c54-33a8-46e5-916c-1119575b1aed)
 
 ## Komponenten / Grundbegriffe
 
