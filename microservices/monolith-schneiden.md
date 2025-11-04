@@ -36,7 +36,7 @@
 ### Regel 1:
 
 ```
-Es sollte eine große Kohäsion innerhalb des Services sein.
+Es sollte eine große Kohäsion innerhalb des Services geben.
 (Bindung). Alles sollte möglichst benötigt werden.
 
 (Ist eine schwache Kohäsion innerhalb des Services, sind Funktionen 
