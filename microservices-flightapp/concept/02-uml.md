@@ -36,15 +36,12 @@ return "Success Page"
 
 ## Schritt 2: Online Rendern 
 
-  * https://plantuml.com/de/
-  * Ganz unten auf der Seite Daten in das "Textarea" - Feld pasten
-
-![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/245f026e-fd4f-4ec3-8d08-a55bf6bb91e5)
+  * https://www.plantuml.com/plantuml/uml/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000 (Achtung: Session-Problem ? Sonst über Startseite gehen https://plantuml.com/de/ und Online-Server - Menüpunkt
 
 
 ## Alternative mermaid 
 
-  * https://mermaid.live/edit#pako:eNqNk8tqwzAQRX9l0KK0pO4HeBFIUwJZFEKz6CIORZHHtkhsqXo0lJB_70i2iZN4UW9kdM-8rpgTEypHljKL3x4bgW-Sl4bXWQP0ceGUAeGtA25hTqeq0bSa5sZJITVvSNQ6AJ-4g5nWY7oM-utiAbPV8l6vbRH02ibFQZaVs2OI6RCDFs0Pd1I1xLVkaDGZTifUSAqLmAPWyJ2FFS-xG0brFpEptGVeSnSBkk25ls7HlI9PPS2JjjD3rhpeTqjdFCi2LbTM-xi6T0hPBiW-ZD4MvY7sat-Ex-jNthgiN-VNTPIRjcA8DnpJYi49bLZmyFyytIQOxK0BF7MCFIxNOyvXeEARkM7UEevnlVIWgYOlCHgAUaHYK--GLxDBXoCjMvvioI73b7RTag-uwpjrP49CrnTjhn5HDbFeCLRjRtwoV9O3Ujc1e2a0AzWXOW3NKfAZoy5rzFhKvzkW3B9cxrLmTCi1qda_jWCpMx6fmdc5d_2S9ZeYS9qz93YR4z6e_wBczjCM
+  * [Mermaid Live Edit](https://mermaid.live/edit)
 
 ### UML abweichend bei mermaid 
 
