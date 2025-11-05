@@ -25,7 +25,10 @@ cd
 git clone https://github.com/jmetzger/ms-reservations.git msupandrunning
 cd msupandrunning
 sudo apt install -y make
-make
+# make
+# Alternativ
+docker compose up -d 
+
 ```
 
 ```
@@ -39,7 +42,9 @@ CTRL + C
 #### Start redis-cli within redis-server 
 
 ```
-make redis
+# make redis
+# Alternative:
+docker compose exec ms-reservations-redis redis-cli -a 4n_ins3cure_P4ss
 ```
 
 #### These are direct calls to redis trough the redis cli
@@ -114,17 +119,22 @@ make ps
 ```
 
 ```
-curl --verbose --header "Content-Type: application/json" --request PUT --data '{"seat_num":"12C","flight_id":"werty", "customer_id": "dfgh"}' http://192.168.56.102:7701/reservations
+curl --verbose --header "Content-Type: application/json" --request PUT --data '{"seat_num":"12C","flight_id":"werty", "customer_id": "dfgh"}' http://165.22.18.90:7701/reservations
 ```
 
 ```
-curl --verbose --header "Content-Type: application/json" --request PUT --data '{"seat_num":"12D","flight_id":"werty", "customer_id": "dfgh"}' http://192.168.56.102:7701/reservations
+curl --verbose --header "Content-Type: application/json" --request PUT --data '{"seat_num":"12D","flight_id":"werty", "customer_id": "dfgh"}' http://165.22.18.90:7701/reservations
 ```
 
 ```
 # Try once again
 # --verbose also shows the headers 
-curl --verbose --header "Content-Type: application/json" --request PUT --data '{"seat_num":"12D","flight_id":"werty", "customer_id": "dfgh"}' http://192.168.56.102:7701/reservations
+curl --verbose --header "Content-Type: application/json" --request PUT --data '{"seat_num":"12D","flight_id":"werty", "customer_id": "dfgh"}' http://165.22.18.90:7701/reservations
+```
+
+```
+# Try to get the data
+curl --verbose --header "Content-Type: application/json" http://165.22.18.90:7701/reservations?flight_id=werty
 ```
 
 ## Reference 
