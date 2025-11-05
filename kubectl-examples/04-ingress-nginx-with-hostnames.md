@@ -123,7 +123,7 @@ nano ingress.yml
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: example-ingress
+  name: ingress-abi
 spec:
   ingressClassName: nginx
   rules:
@@ -190,7 +190,7 @@ apiVersion: networking.k8s.io/v1
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: example-ingress
+  name: ingress-abi
   annotations:
     ingress.kubernetes.io/rewrite-target: /
     # with the ingress controller from helm, you need to set an annotation 
