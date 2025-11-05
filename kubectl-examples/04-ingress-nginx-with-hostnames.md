@@ -506,3 +506,11 @@ spec:
               port:
                 number: 80                
 ```
+
+## Analyse nach Erfolg 
+
+```
+kubectl get ing
+kubectl describe ing ingress-abi
+```
+
