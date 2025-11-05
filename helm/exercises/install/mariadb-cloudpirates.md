@@ -74,7 +74,7 @@ kubectl get pods
 
 ```
 kubectl get pods
-helm status my-nginx 
+helm status my-mariadb 
 helm list
 # alle helm charts anzeigen, die im gesamten Cluster installierst wurden 
 helm list -A
