@@ -46,6 +46,12 @@ A component is a microservice or set of microservices that accomplishes a role w
 Component testing is a type of acceptance testing in which we examine the component’s behavior in isolation by substituting services with simulated resources or mocking.
 ```
 
+### Be Careful - E2E - Testing ! 
+
+```
+Aim for a pyramid where a small number of critical user journeys are covered by E2E tests (e.g. 5-10% of total tests), and the rest by faster tests
+```
+
 ### References 
 
  * https://semaphoreci.com/blog/test-microservices
