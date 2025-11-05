@@ -32,7 +32,7 @@
   * Manchmal müssen Clients eine Datenbank nur abfragen
   * z.B. eine dedizierte Datenbank, als Read-Only-Endpunkt 
     * gefüllt wird diese wenn sich Daten in der zugrundeliegenden Datenbank ändern
-  * Wir sollten die Datenbank, die wird nach draussen anbieten, von der Datenbank 
+  * Wir sollten die Datenbank, die wir nach draussen anbieten, von der Datenbank 
     * getrennt halten, die wir innerhalb unserer Service-Grenzen einsetzen
 
 ### Wie ?
