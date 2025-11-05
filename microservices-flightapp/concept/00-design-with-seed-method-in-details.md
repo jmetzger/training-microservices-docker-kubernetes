@@ -35,10 +35,12 @@ Sitzen gibt)
 
 ## Schritt 4: BFF-API als Vermittler (JTBD)
 
+<img width="746" height="769" alt="image" src="https://github.com/user-attachments/assets/25f56865-f48f-4a51-ad0f-988c5608b039" />
+
 ```
 (Backend for frontend) 
 
-Empfehlung: Eine BFF-Api, die nur eine ganze schlanke Schicht hat ohne business
+Empfehlung: Eine BFF-API (pro Frontend), die nur eine ganze schlanke Schicht hat ohne business
 Logik Implementierung. 
 
 Sie "orchestriert" nur die microservices 
