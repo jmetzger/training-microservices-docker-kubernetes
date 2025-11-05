@@ -53,6 +53,7 @@ apiVersion: v1
 metadata:
   name: apple-service
 spec:
+  type: ClusterIP
   selector:
     app: apple
   ports:
@@ -99,6 +100,7 @@ apiVersion: v1
 metadata:
   name: banana-service
 spec:
+  type: ClusterIP
   selector:
     app: banana
   ports:
