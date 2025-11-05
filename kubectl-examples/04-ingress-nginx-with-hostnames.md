@@ -521,3 +521,20 @@ kubectl describe ing ingress-abi
 kubectl apply -f apple.yml
 kubectl describe ing ingress-abi
 ```
+
+<img width="927" height="88" alt="image" src="https://github.com/user-attachments/assets/e30140d3-fa30-4833-b55b-902e661dee80" />
+
+
+```
+# Testweise löschen eines Service
+kubectl delete -f apple-service.yml
+kubectl describe ing ingress-abi
+```
+
+
+
+
+```
+kubectl apply -f apple-service.yml
+kubectl describe ing ingress-abi
+```
