@@ -29,7 +29,9 @@ git branch
 git push -u origin master 
 ```
 
-## Step 3a: build image and push to gitlab registry 
+
+
+## Step 3a: (gitlab) build image and push to gitlab registry 
 
 ```
 # modify gitlab-ci.yml with pipeline editor as follows
@@ -72,25 +74,25 @@ in Settings -> CI/CD -> Variables (in your repo)
 
 ### 3b) Ministep 2
 ```
-stages:          # List of stages for jobs, and their order of execution
+stages:
   - build
 
-build-image:       # This job runs in the build stage, which runs first.
+build-image:
   stage: build
-  image: docker:20.10.10
-  services:
-     - docker:20.10.10-dind
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
   script:
     - echo "user:"$DOCKER_USER
-    - echo "pass:"$DOCKER_PASS
     - echo "project:"$DOCKER_PROJECT
-    - echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-    - docker build -t $DOCKER_USER/$DOCKER_PROJECT:$CI_COMMIT_TAG .
-    - docker images
-    - docker push $DOCKER_USER/$DOCKER_PROJECT:$CI_COMMIT_TAG
-    - echo "BUILD for "$DOCKER_USER/$DOCKER_PROJECT:$CI_COMMIT_TAG" done"
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$(printf "%s:%s" "${DOCKER_USER}" "${DOCKER_PASS}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${DOCKER_USER}/${DOCKER_PROJECT}:${CI_COMMIT_TAG}"
+    - echo "BUILD for "${DOCKER_USER}/${DOCKER_PROJECT}:${CI_COMMIT_TAG}" done"
   rules:
-      # Man muss einen Tag setzen, damit die Pipeline triggered.
     - if: $CI_COMMIT_TAG
 ```
 
