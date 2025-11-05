@@ -28,7 +28,7 @@ helm show values oci://registry-1.docker.io/cloudpirates/mariadb
 helm show values oci://registry-1.docker.io/cloudpirates/mariadb | less
 ```
 
-## Schritt 2.2 Upgrade und resources ändern 
+### Schritt 2.2 Upgrade und resources ändern 
 
 
 ```
