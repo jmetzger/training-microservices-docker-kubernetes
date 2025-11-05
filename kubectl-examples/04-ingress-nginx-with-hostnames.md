@@ -514,3 +514,10 @@ kubectl get ing
 kubectl describe ing ingress-abi
 ```
 
+```
+# Löschen eines Deployment testweise (zum Kennenlernen)
+kubectl delete -f apple.yml
+kubectl describe ing ingress-abi
+kubectl apply -f apple.yml
+kubectl describe ing ingress-abi
+```
