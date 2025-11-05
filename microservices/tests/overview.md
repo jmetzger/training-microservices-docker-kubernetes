@@ -52,6 +52,14 @@ Component testing is a type of acceptance testing in which we examine the compon
 Aim for a pyramid where a small number of critical user journeys are covered by E2E tests (e.g. 5-10% of total tests), and the rest by faster tests
 ```
 
+#### Design Tests for Resilience 
+
+```
+Design Tests for Resilience: Write your E2E test scripts to be resilient to minor delays and asynchronous behavior. This means adding appropriate retries, waits, and timeouts around steps that involve eventual consistency. For instance, if a user action triggers an email service, your test shouldn’t immediately fail if the email isn’t instant – instead poll an API or database until a reasonable timeout. However, avoid simply increasing waits to mask race conditions; whenever you add a wait, understand why it’s needed and whether the system provides a way to know when the state is ready (e.g., a webhook or a status poll). Use idempotency where possible: tests should be able to rerun without side effects. If your E2E tests occasionally hit external APIs or services, build in fallbacks or simulate those interactions to reduce flakiness from outside variability.
+```
+
+  * Ref: https://www.bunnyshell.com/blog/end-to-end-testing-for-microservices-a-2025-guide/
+
 ### References 
 
  * https://semaphoreci.com/blog/test-microservices
