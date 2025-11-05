@@ -33,7 +33,7 @@ Fiktiv: Gesammelt von Kunden Interviews und Business Analyse Recherche
 Sitzen gibt)
 ```
 
-## Schritt 4: BFF-Api als Ver-Mittler (JTBD)
+## Schritt 4: BFF-API als Vermittler (JTBD)
 
 ```
 (Backend for frontend) 
