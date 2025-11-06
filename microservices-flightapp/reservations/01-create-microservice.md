@@ -32,9 +32,7 @@ docker compose up -d
 ```
 
 ```
-# it then shows the logs
-CTRL + C
-# app will still be running as it is daemonized (see start in Makefile)
+docker compose logs 
 ```
 
 ### Block 3: Open Client on redis-server to test 
