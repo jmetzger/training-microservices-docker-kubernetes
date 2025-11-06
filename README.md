@@ -31,7 +31,8 @@
       * [Tests](microservices/tests/overview.md) 
       * [Static Tests](microservices/tests/static.md)
       * [Unit-Tests](microservices/tests/unit_testing.md)
-      * [Contract Testing](microservices/tests/integration_testing_gitlab_ci_cd.md)
+      * [Integration Testing](microservices/tests/integration_testing_gitlab_ci_cd.md)
+      * [Contract Testing](microservices/tests/contract-test.md)
 
   1. Linux Tipps & Tricks
      * [In den Root-Benutzer wechseln](sudo.md)
