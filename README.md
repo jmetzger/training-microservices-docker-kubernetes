@@ -13,7 +13,7 @@
      * [Microservice and Database](microservices/basics/database.md)
 
   1. Analyse Monolith / Microservice
-     * [Indikatoren für Microservices (Wechsel von Monolith](microservices/analyse/indikatoren-fuer-wechsel-von-monolith-auf-microservices.md)
+     * [Indikatoren für Microservices (Wechsel von Monolith)](microservices/analyse/indikatoren-fuer-wechsel-von-monolith-auf-microservices.md)
 
   1. Grundwissen Microservices (Teil 2)
      * [Brainstorming Domäne](microservices/brainstorming-domaene.md)
