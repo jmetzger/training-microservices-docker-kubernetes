@@ -24,6 +24,10 @@
      * [Monolith schneiden microservices](microservices/monolith-schneiden.md)
      * [EventBus Implementierungen/Überblick](/microservices/eventbus/overview.md)
 
+  1. Grundwissen Microsercies (Teil 3)
+      * [Tests](microservices/tests/overview.md) 
+      * [Static Tests](microservices/tests/static.md)
+
   1. Linux Tipps & Tricks
      * [In den Root-Benutzer wechseln](sudo.md)
  
