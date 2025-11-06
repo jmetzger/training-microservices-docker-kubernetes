@@ -29,7 +29,9 @@ https://raw.githubusercontent.com/jmetzger/ms-flights/master/docs/api.yml
 
 ```
 # now render the docs and open 3939 port with container running
-make start
+# make start
+docker run -d --rm --name ms-nb-docs -p 3939:80 -v ${PWD}/api.yml:/usr/share/nginx/html/swagger.yaml -e SPEC_URL=swagger.yaml redocly/redoc:v2.0.0-rc.8-1
+
 docker container ls 
 ```
 
