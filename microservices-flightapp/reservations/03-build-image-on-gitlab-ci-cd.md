@@ -40,7 +40,7 @@ git push -u origin master
 ## Step 3a: (gitlab) build image and push to gitlab registry 
 
 ```
-# modify gitlab-ci.yml with pipeline editor as follows
+# modify .gitlab-ci.yml with pipeline editor as follows
 stages:          # List of stages for jobs, and their order of execution
   - build
 
