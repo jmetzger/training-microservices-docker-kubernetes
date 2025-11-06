@@ -209,6 +209,7 @@
     
   1. gitlab ci/cd
      * [Einfaches Beispielscript](gitlab-ci-cd/01-show-content.md)
+     * [Docker image bauen mit fastapi (python) und kaniko]()
        
 ## Backlog
  
