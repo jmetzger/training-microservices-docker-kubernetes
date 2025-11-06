@@ -90,6 +90,7 @@ cd
 cd ms-flights
 mkdir -p lib/flights/controllers/
 cd lib/flights/controllers/
+rm actions.js 
 ```
 
 ```
