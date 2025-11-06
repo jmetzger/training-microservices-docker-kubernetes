@@ -25,9 +25,8 @@
     
   1. Grundwissen Microservices - Async Messaging
      * [EventBus Implementierungen/Überblick](/microservices/eventbus/overview.md)
+     * [Kafka Schaubild](/microservices/eventbus/kafka.md)
   
-
-
   1. Grundwissen Microservices - Tests (Teil 3)
       * [Tests](microservices/tests/overview.md) 
       * [Static Tests](microservices/tests/static.md)
