@@ -37,7 +37,7 @@ docker container ls
 
 ```
 # in browser of rdp
-http://192.168.56.102:3939
+http://<public-ip-of-server>:3939
 ```
 
 ## Step 3: Cleanup and restructure 
