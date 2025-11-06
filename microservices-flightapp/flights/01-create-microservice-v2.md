@@ -58,6 +58,6 @@ curl http://<public-ip>:5501/flights?flight_no=AA34&departure_date_time=2020-05-
 ```
 
 ```
-# Seat map
-curl --verbose http://<public-ip>:5501/flights/AA34/seat_map
+# Seat map (gibt nur o.k. zurück, nicht implementiert)
+curl http://<public-ip>:5501/flights/AA34/seat_map
 ```
