@@ -140,31 +140,13 @@ rm -fR sqls/*sql
 
 ```
 
-nano migrations/sqls/[date]-seat-maps-up.sql
-```
-
-```
 # migrations/sqls/[date]-seat-maps-up.sql with data of
-https://raw.githubusercontent.com/jmetzger/ms-flights/master/migrations/sqls/20200602055112-seat-maps-up.sql
-````
+wget https://raw.githubusercontent.com/jmetzger/ms-flights/master/migrations/sqls/20200602055112-seat-maps-up.sql
 
-
-```
-nano migrations/sql/[date]-flights-up.sql 
-```
-
-```
 # migrations/sqls/[date]-flights-up.sql with data of
-https://raw.githubusercontent.com/jmetzger/ms-flights/master/migrations/sqls/20200602055121-flights-up.sql
-```
+wget https://raw.githubusercontent.com/jmetzger/ms-flights/master/migrations/sqls/20200602055121-flights-up.sql
 
-```
-nano migrations/sqls/[date]-sample-data-up.sql
-```
-
-```
-# migrations/sqls/[date]-sample-data-up.sql with data of
-https://github.com/jmetzger/ms-flights/blob/master/migrations/sqls/20200602055127-sample-data-up.sql
+wget https://github.com/jmetzger/ms-flights/blob/master/migrations/sqls/20200602055127-sample-data-up.sql
 ```
 
 
