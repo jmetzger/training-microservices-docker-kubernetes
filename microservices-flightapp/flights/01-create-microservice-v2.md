@@ -18,14 +18,8 @@ git clone https://github.com/jmetzger/ms-flights ms-flights
 ## Step 2: Create documentation 
 
 ```
-cd ms-flights/docs
-```
-
-```
-# Replace content in api.yml
-# with our own definition from
-rm ap.yml
-wget https://raw.githubusercontent.com/jmetzger/ms-flights/master/docs/api.yml
+cd
+cd ms-flights
 ```
 
 ```
