@@ -16,7 +16,7 @@
   * Tests können alle (bis auf End-to-End (E2E) können sehr gut in gitlab ci/cd pipeline integriert werden
   * Empfehlung von E2E - Tests (möglichst nachts, da sie länger dauern können)
 
-## Contract 
+## Contract (= gehört in den Bereich der Integration-Tests) 
 
 ```  
 Schnittstelle wird geprüft, ob sie alle Verträge erfüllt
