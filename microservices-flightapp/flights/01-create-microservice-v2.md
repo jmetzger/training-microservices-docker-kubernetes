@@ -1,6 +1,6 @@
 # Create flights microservice (use ready repo) with changes already
 
-## Step 1: Use bootstrap github template 
+## Step 1: Use ready project 
 
   * https://github.com/jmetzger/ms-flights
 
