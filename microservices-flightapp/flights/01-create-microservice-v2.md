@@ -40,6 +40,12 @@ docker container ls
 http://<public-ip-of-server>:3939
 ```
 
+### Step 2: Build 
+
+```
+docker compose up -d
+```
+
 ### Step 2 Testing 
 
 ```
