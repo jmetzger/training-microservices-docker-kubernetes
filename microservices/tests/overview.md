@@ -11,6 +11,15 @@
   * Integrationstests stehen imn Vordergrund, dazu zählen auch "Contract Tests"
   * Ein sehr wichtiges Kernelement 
 
+## Static Tests
+
+  * Code braucht dazu nicht ausgeführt zu werden. 
+  * siehe [Statische Tests](/microservices/tests/static.md)
+
+### gitlab ci/cd 
+
+  * Kann gut z.B. über den Schritt Linting in die CI/CD Pipeline integriert werden.
+
 ## Integration CI/CD - Pipeline 
 
   * Tests können alle (bis auf End-to-End (E2E) können sehr gut in gitlab ci/cd pipeline integriert werden
