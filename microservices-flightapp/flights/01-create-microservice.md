@@ -166,12 +166,7 @@ make restart
 ```
 cd
 cd ms-flights
-make stop
-# Change all entries that appear here to ms-flights
-grep -r ms-nodebootstrap-example .
-```
-
-```
+grep -rl "ms-nodebootstrap-example" . | xargs sed -i 's/ms-nodebootstrap-example/ms-flights/g'
 # when adjusted all entries doublecheck
 grep -r ms-nodebootstrap-example
 make restart
