@@ -133,12 +133,14 @@ sudo chown -R 11trainingdo:11trainingdo migrations
 ```
 
 ```
-rm -fR sqls/*sql
+rm -fR migrations/sqls/*sql
 ```
 
 #### Step 3.6.3 Populate files 
 
 ```
+cd
+cd ms-flights/migrations/sqls 
 
 # migrations/sqls/[date]-seat-maps-up.sql with data of
 wget https://raw.githubusercontent.com/jmetzger/ms-flights/master/migrations/sqls/20200602055112-seat-maps-up.sql
