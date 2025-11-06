@@ -24,7 +24,8 @@ cd ms-flights/docs
 ```
 # Replace content in api.yml
 # with our own definition from
-https://raw.githubusercontent.com/jmetzger/ms-flights/master/docs/api.yml
+rm ap.yml
+wget https://raw.githubusercontent.com/jmetzger/ms-flights/master/docs/api.yml
 ```
 
 ```
@@ -43,6 +44,8 @@ http://<public-ip-of-server>:3939
 ### Step 2: Build 
 
 ```
+cd
+cd ms-flights
 docker compose up -d
 docker compose logs 
 ```
