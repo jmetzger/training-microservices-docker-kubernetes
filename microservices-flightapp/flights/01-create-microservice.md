@@ -164,6 +164,7 @@ make restart
 ### Step 3.7 Renaming from ms-nodebootstrap-example to ms-flights 
 
 ```
+cd
 cd ms-flights
 make stop
 # Change all entries that appear here to ms-flights
