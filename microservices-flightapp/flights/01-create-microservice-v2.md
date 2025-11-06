@@ -48,7 +48,7 @@ docker compose logs
 
 ```
 # Flight 
-curl http://<public-ip>:5501/flights?flight_no=AA34&departure_date_time=2020-05-17T13:20
+curl http://<public-ip>:5501/flights?flight_no=AA34\&departure_date_time=2020-05-17T13:20
 ```
 
 ```
