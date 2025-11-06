@@ -22,9 +22,13 @@
      * [Strategische Patterns](microservices/strategic-patterns.md)
      * [Tests](microservices/tests/overview.md)
      * [Monolith schneiden microservices](microservices/monolith-schneiden.md)
+    
+  1. Grundwissen Microservices - Async Messaging
      * [EventBus Implementierungen/Überblick](/microservices/eventbus/overview.md)
+  
 
-  1. Grundwissen Microsercies (Teil 3)
+
+  1. Grundwissen Microservices - Tests (Teil 3)
       * [Tests](microservices/tests/overview.md) 
       * [Static Tests](microservices/tests/static.md)
 
