@@ -155,6 +155,8 @@ wget https://github.com/jmetzger/ms-flights/blob/master/migrations/sqls/20200602
 #### Step 3.6.4 Do the migration 
 
 ```
+cd
+cd ms-flights 
 # Doing make restart instead of make migrate, because new data needs to be in docker container
 make restart
 ```
