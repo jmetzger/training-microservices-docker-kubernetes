@@ -11,6 +11,12 @@ cd ms-reservations
 ## Step 1.5: Set identity 
 
 ```
+# Ist sie gesetzt
+git config user.name
+git config user.email 
+git config --list 
+
+# Wenn nein 
 git config --global user.name "Max Mustermann"
 git config --global user.email "tn1@t3company.de"
 ```
