@@ -132,6 +132,10 @@ cd ms-flights
 sudo chown -R 11trainingdo:11trainingdo migrations
 ```
 
+```
+rm -fR sqls/*sql
+```
+
 #### Step 3.6.3 Populate files 
 
 ```
