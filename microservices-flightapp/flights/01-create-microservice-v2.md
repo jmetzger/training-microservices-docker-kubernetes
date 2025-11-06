@@ -54,10 +54,10 @@ docker compose logs
 
 ```
 # Flight 
-curl http://192.168.56.102:5501/flights?flight_no=AA34&departure_date_time=2020-05-17T13:20
+curl http://<public-ip>:5501/flights?flight_no=AA34&departure_date_time=2020-05-17T13:20
 ```
 
 ```
 # Seat map
-curl --verbose http://192.168.56.102:5501/flights/AA34/seat_map
+curl --verbose http://<public-ip>:5501/flights/AA34/seat_map
 ```
