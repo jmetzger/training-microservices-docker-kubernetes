@@ -10,6 +10,3 @@
 
   * Flights 
 
-### Refs (Specifically for microservices)
-
-  * https://nodebootstrap.com
