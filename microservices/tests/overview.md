@@ -6,6 +6,8 @@
 
 <img width="581" height="569" alt="image" src="https://github.com/user-attachments/assets/b68534e2-2608-4ad7-81ca-fc7104a06b86" />
 
+  * Reference: https://kentcdodds.com/blog/the-testing-trophy-and-testing-classifications 
+
 ## Vorgehen 
 
   * Integrationstests stehen imn Vordergrund, dazu zählen auch "Contract Tests"
