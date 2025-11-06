@@ -113,7 +113,7 @@ exit
 
 ```
 # only works when project name is: msupandrunning
-make ps 
+docker compose ps 
 ```
 
 ```
