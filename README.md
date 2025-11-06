@@ -97,6 +97,7 @@
   1. Microservice - flightapp - flights
      * [Template for microservice flights with node bootstrap](microservices-flightapp/00-microservice-template-node-bootstrap.md)
      * [Build flight app](microservices-flightapp/flights/01-create-microservice.md)
+     * [Use premade version of flight app - with fixes already](/microservices-flightapp/flights/01-create-microservice-v2.md)
      * [Upload image flight app](microservices-flightapp/flights/02-uploadimage-microservice.md)
 
   1. Microservice - flightapp - Deployment Kubernetes
