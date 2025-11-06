@@ -44,9 +44,10 @@ http://<public-ip-of-server>:3939
 
 ```
 docker compose up -d
+docker compose logs 
 ```
 
-### Step 2 Testing 
+### Step 3 Testing 
 
 ```
 # Flight 
