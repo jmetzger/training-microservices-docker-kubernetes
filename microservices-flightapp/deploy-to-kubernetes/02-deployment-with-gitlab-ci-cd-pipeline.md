@@ -78,11 +78,11 @@ deploy:
     name: alpine/k8s:1.31.13
     entrypoint: ['']
   script:
-    - cat "$KUBECONFIG_SECRET" > ~/.kube/config
+    - mkdir ~/.kube && cat "$KUBECONFIG_SECRET" > ~/.kube/config
     - kubectl cluster-info
-    # - ls -la
-    - cd flight-app
-    - kubectl apply -Rf .
+    - pwd
+    - ls -la
+    - cd manifests && kubectl apply -Rf .
 ```
 
 ## Schritt 5: version des images ändern in ...
