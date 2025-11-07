@@ -1,5 +1,11 @@
 # Project flight-app  
 
+
+## Überblick 
+
+<img width="857" height="698" alt="image" src="https://github.com/user-attachments/assets/a2010075-30d1-4c77-a6e5-a2b07ae48bb6" />
+
+
 ## Schritt 1: configmap - flights
 
 ```
