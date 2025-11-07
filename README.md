@@ -10,7 +10,6 @@
      * [Monolith vs. Microservices](microservices/monolith-vs-microservice.md)
      * [Praxisbeispiele](/microservices/praxisbeispiele.md) 
      * [Was ist devops](/microservices/what-is-devops.md)
-     * [API-Abfrage über REST-API](microservices/rest-api.md)
      * [Asynchrones Messaging](microservices/asynchronous-messaging.md)
      * [Microservice and Database](microservices/basics/database.md)
 
@@ -24,6 +23,10 @@
      * [Strategische Patterns](microservices/strategic-patterns.md)
      * [Tests](microservices/tests/overview.md)
      * [Monolith schneiden microservices](microservices/monolith-schneiden.md)
+
+  1. Grundwissen Microservices - Synchrones Messaging
+     * [gRPC vs. REST API](microservices/grpc-vs-rest-api.md)
+     * [API-Abfrage über REST-API](microservices/rest-api.md)
     
   1. Grundwissen Microservices - Async Messaging
      * [EventBus Implementierungen/Überblick](/microservices/eventbus/overview.md)
