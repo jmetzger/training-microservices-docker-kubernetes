@@ -180,10 +180,6 @@ spec:
         image: dockertrainereu/flights-jm:v11
         command: [ "/bin/sh", "-c", "--" ]
         args: [ "while true; do sleep 30; done;" ]
-          #volumeMounts:
-          #-  mountPath: "/var/lib/mysql"
-          # name: do-volume
-
         env:
         - name: NODE_ENV
           value: dev
@@ -193,13 +189,6 @@ spec:
               #value: "1"
         - name: NODE_CONFIG_DISABLE_FILE_WATCH
           value: "Y"
-
-              #volumes:
-              #- name: do-volume
-              #persistentVolumeClaim:
-              #claimName: pvc-do
-
-
 ```
 
 ```
@@ -208,34 +197,7 @@ cd manifests/flight-app/
 kubectl apply -Rf .
 ```
 
-
-## Schritt 4: Lokal kompose installieren 
-
-  * als root
-
-[Kompose installieren](tools/kompose.md)
-
-```
-# alle weiteren Schritte als kurs 
-su - kurs 
-```
-
-## Schritt 5: ms-reservations clonen (zur Hilfe bzgl. der manifests)
-
-```
-cd 
-git clone https://github.com/jmetzger/ms-reservations
-cd ms-reservations
-
-# create a dummy folder
-mkdir dummy
-cp -a docker-compose.yml dummy
-cp -a database-dev.env dummy
-cd dummy
-kompose --file=docker-compose.yml convert
-```
-
-## Schritt 6: config für redis anlegen 
+## Schritt 4: config für redis anlegen 
 
 ```
 cd
@@ -264,7 +226,7 @@ data:
 kubectl apply -f .
 ```
 
-## Schritt 7: Redis ausrollen 
+## Schritt 5: Redis ausrollen 
 
 ```
 nano 02-redis-deploy.yml 
@@ -424,4 +386,32 @@ spec:
 
 ```
 kubectl apply -f .
+```
+
+## Hinweis: kompose als Hilfestellung nutzen 
+
+## Hinweis: Lokal kompose installieren 
+
+  * als root
+
+[Kompose installieren](tools/kompose.md)
+
+```
+# alle weiteren Schritte als kurs 
+su - kurs 
+```
+
+##  ms-reservations clonen (zur Hilfe bzgl. der manifests)
+
+```
+cd 
+git clone https://github.com/jmetzger/ms-reservations
+cd ms-reservations
+
+# create a dummy folder
+mkdir dummy
+cp -a docker-compose.yml dummy
+cp -a database-dev.env dummy
+cd dummy
+kompose --file=docker-compose.yml convert
 ```
