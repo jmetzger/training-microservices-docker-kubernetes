@@ -2,7 +2,7 @@
 
 
 
-## Confluence Schema Registry 
+## Confluence Schema Registry (Kafka-Lösungen) 
 
   * Versions every single schema (versioning) 
   * data validation
