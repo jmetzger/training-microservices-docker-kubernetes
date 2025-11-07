@@ -5,12 +5,15 @@
   1. Grundlagen
      * [Was sind Microservices ?](#was-sind-microservices-)
      * [Grundkonzepte von Microservices](#grundkonzepte-von-microservices)
+     * [Architektur von Microservices (Schichten/Layers)](#architektur-von-microservices-schichtenlayers)
+     * [12 factor app](#12-factor-app)
      * [Monolith vs. Microservices](#monolith-vs-microservices)
      * [Praxisbeispiele](#praxisbeispiele)
      * [Was ist devops](#was-ist-devops)
-     * [API-Abfrage über REST-API](#api-abfrage-über-rest-api)
-     * [Asynchrones Messaging](#asynchrones-messaging)
      * [Microservice and Database](#microservice-and-database)
+
+  1. Analyse Monolith / Microservice
+     * [Indikatoren für Microservices (Wechsel von Monolith)](#indikatoren-für-microservices-wechsel-von-monolith)
 
   1. Grundwissen Microservices (Teil 2)
      * [Brainstorming Domäne](#brainstorming-domäne)
@@ -19,7 +22,29 @@
      * [Strategische Patterns](#strategische-patterns)
      * [Tests](#tests)
      * [Monolith schneiden microservices](#monolith-schneiden-microservices)
+
+  1. Grundwissen Microservices - Synchrones Messaging
+     * [gRPC vs. REST API](#grpc-vs-rest-api)
+     * [API-Abfrage über REST-API](#api-abfrage-über-rest-api)
+    
+  1. Grundwissen Microservices - Async Messaging
+     * [Asynchrones Messaging](#asynchrones-messaging)
      * [EventBus Implementierungen/Überblick](#eventbus-implementierungenüberblick)
+     * [Kafka Schaubild](#kafka-schaubild)
+     * [Schema Registry (confluent)](#schema-registry-confluent)
+     * [Topic/Queue ohne Downtime migrieren](#topicqueue-ohne-downtime-migrieren)
+     * [Disruptive Änderungen im Schema migrieren](#disruptive-änderungen-im-schema-migrieren)
+
+  1. Grundwissen Microservices - Fehlertolaranz
+     * [Circuit-Breaker und Fehlertoleranz](#circuit-breaker-und-fehlertoleranz)
+  
+  1. Grundwissen Microservices - Tests (Teil 3)
+      * [Tests](microservices/tests/overview.md) 
+      * [Static Tests](microservices/tests/static.md)
+      * [Unit-Tests](microservices/tests/unit_testing.md)
+      * [Integration Testing](microservices/tests/integration_testing_gitlab_ci_cd.md)
+      * [Contract Testing](microservices/tests/contract-test.md)
+      * [End-to-End - e2e - Tests](microservices/tests/e2e-end-to-end.md)
 
   1. Linux Tipps & Tricks
      * [In den Root-Benutzer wechseln](#in-den-root-benutzer-wechseln)
@@ -63,12 +88,8 @@
   1. Microservices - Daten
      * [Überblick shared database / database-per-service](#überblick-shared-database--database-per-service)
      * [Umgang mit Joins bei database-per-service](#umgang-mit-joins-bei-database-per-service)
-     * [Umgang mit Transaktionen bei database-per-service](#umgang-mit-transaktionen-bei-database-per-service)
+     * [Umgang mit Transaktionen bei database-per-service (SAGA)](#umgang-mit-transaktionen-bei-database-per-service-saga)
      * [Event Sourcing](#event-sourcing)
-
-  1. Microservices (async messaging)
-     * [Topic/Queue ohne Downtime migrieren](#topicqueue-ohne-downtime-migrieren)
-     * [Disruptive Änderungen im Schema migrieren](#disruptive-änderungen-im-schema-migrieren)
     
   1. Microservice - flightapp - concepts
      * [Vorgehensweise nach dem SEED-Verfahren](#vorgehensweise-nach-dem-seed-verfahren)
@@ -83,6 +104,7 @@
   1. Microservice - flightapp - flights
      * [Template for microservice flights with node bootstrap](#template-for-microservice-flights-with-node-bootstrap)
      * [Build flight app](#build-flight-app)
+     * [Use premade version of flight app - with fixes already](#use-premade-version-of-flight-app---with-fixes-already)
      * [Upload image flight app](#upload-image-flight-app)
 
   1. Microservice - flightapp - Deployment Kubernetes
@@ -119,6 +141,7 @@
      * [Das Tool kubectl (Devs/Ops) - Spickzettel](#das-tool-kubectl-devsops---spickzettel)
      * [kubectl example with run](#kubectl-example-with-run)
      * [Bauen einer Applikation mit Resource Objekten](#bauen-einer-applikation-mit-resource-objekten)
+     * [Anatomie einer Webanwendung](#anatomie-einer-webanwendung)
      * [kubectl/manifest/pod](#kubectlmanifestpod)
      * ReplicaSets (Theorie) - (Devs/Ops)
      * [kubectl/manifest/replicaset](#kubectlmanifestreplicaset)
@@ -192,9 +215,13 @@
      * [Microservices.io Patterns](https://microservices.io)
      * [BFF](https://blog.bitsrc.io/bff-pattern-backend-for-frontend-an-introduction-e4fa965128bf)
      * [Microservices Up and Running](https://www.amazon.de/Kubernetes-Running-Dive-Future-Infrastructure/dp/109811020X/ref=sr_1_1)
+
+  1. FAQ
+     * [Verschlüsselung mit Thales docker-container](#verschlüsselung-mit-thales-docker-container)
     
   1. gitlab ci/cd
      * [Einfaches Beispielscript](#einfaches-beispielscript)
+     * [Docker image bauen mit fastapi (python) und kaniko](#docker-image-bauen-mit-fastapi-python-und-kaniko)
        
 ## Backlog
  
@@ -455,6 +482,36 @@ in einer Komponenten zu verstecken
 
 
 
+### Architektur von Microservices (Schichten/Layers)
+
+### 12 factor app
+
+
+  * Ursprünglich entwickelt von heroku 2011
+  * Ursprünglich gedacht für cloud-native apps
+  * Auch gut für microservices anwendbar
+
+### Anwendung 
+
+  * Checkliste: Gilt das für meinen Service ? 
+
+Hier ist die Tabelle der Twelve-Factor App Principles:
+
+| # | Prinzip | Beschreibung |
+|---|---------|--------------|
+| 1 | Codebase | Versionsverwaltetes Code-Repository |
+| 2 | Dependencies | Abhängigkeiten sollten extern verwaltet werden |
+| 3 | Config | Konfiguration als Umgebungsvariablen |
+| 4 | Backing Services | Datenbanken, Messaging etc. als externe Ressourcen |
+| 5 | Build, Release, Run | Drei unabhängige Deployment-Schritte |
+| 6 | Stateless Processes | Zustandslose, unabhängige Prozesse zum guten Skalieren |
+| 7 | Port Binding | App bindet direkt an Port |
+| 8 | Concurrency | Apps sollten in Module aufgeteillt werden zur einfachen Skalierung |
+| 9 | Disposability | Schneller Start und einfaches Herunterfahren |
+| 10 | DEV/PROD Parity | Entwicklungumgebung und Produktion möglichst ähnlich |
+| 11 | Logs | Logs als Event-Streams behandeln (wie bei docker / kubernetes) |
+| 12 | Admin Processes | Admin-Aufgaben als One-off-Prozesse |
+
 ### Monolith vs. Microservices
 
 
@@ -578,62 +635,62 @@ II. Im Rahmen eines DevOps-Modells sind Entwicklungs- und Operations-Teams nicht
 
 ```
 
-### API-Abfrage über REST-API
-
-
-### Grundlagen 
-
-  * synchrone Kommunikation -> bspw. REST-API (zu 95%)
-
-### Idee dahinter (microservice) 
-
- *  Nie direkt auf Daten zuzugreifen (immer nur immer API)  
-
-### Damit auch die Möglichkeit haben, Informationen zu verstecken
-
-  * Prinzip von Hide Information, nur das wirklich gebraucht wird, kann abgefragt werden und der Rest ist nur im Hintergrund innerhalb des MicroServices zugänglich
-  * API (klarer Vertrag, wo festgelegt, welche Parameter an die API übergeben werden können/müssen) und welche Information zurückkommt 
-
-### Beispiel
-
-```
-## GET - Abfrage 
-https://api.bitpanda.com/v1/trades
-## i.d.R. kriegen wir die Information als json zurück 
-
-```
-
-```
-PUT /shop/products/11 HTTP/1.1
-Host: api.predic8.de
-Content-Type: application/json
-
-{
-  "name": "Red Grapes",
-  "price": 1.79,
-  "category_url": "/shop/categories/Fruits",
-  "vendor_url": "/shop/vendors/501"
-}
-
-curl -X PUT --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{
-      "name": "Red Grapes",
-      "price": 1.79,
-      "category_url": "/shop/categories/Fruits",
-      "vendor_url": "/shop/vendors/501"
-}' 'https://api.predic8.de/shop/products/140'
-```
-
-### Asynchrones Messaging
-
-
-![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/cd531b61-4856-4528-ba19-fd9761390c64)
-
-
 ### Microservice and Database
 
 
   * Der MicroService sollte immer die Hoheit über seine Daten haben (Eine eigene Datenbank), das meint NICHT einen eigenen Datenbankserver 
-  * Und sollte diese verändern (auch Struktur) und nutzen können, ohne sich mit anderen abzusprechen.  .  
+  * Und sollte diese verändern und nutzen können (auch Struktur), ohne sich mit anderen abzusprechen.  .  
+
+## Analyse Monolith / Microservice
+
+### Indikatoren für Microservices (Wechsel von Monolith)
+
+
+### Harte Faktoren (messbar)
+- **Deployment-Frequenz**: Deployments dauern >1h oder nur wenige Male pro Monat möglich
+- **Build-Zeit**: >30 Minuten für vollständigen Build
+- **Team-Größe**: >15 Entwickler arbeiten am gleichen Codebase
+- **Codebase-Größe**: >100k LOC oder >50 Module
+- **Ausfallrate**: Einzelne Bugs führen zu Totalausfall
+- **Skalierungskosten**: Gesamte Anwendung muss skaliert werden, obwohl nur Teile Last haben
+- **Time-to-Market**: Neue Features brauchen Wochen/Monate statt Tage
+
+### Weiche Faktoren
+- **Entwickler-Produktivität**: Änderungen benötigen umfangreiche Regressionstests
+- **Technologie-Lock-in**: Neue Technologien nicht einsetzbar
+- **Team-Autonomie**: Teams blockieren sich gegenseitig
+- **Onboarding**: Neue Entwickler brauchen Wochen zum Verständnis
+- **Code-Ownership**: Unklare Verantwortlichkeiten
+
+---
+
+### Prompt für Migrationsanalyse
+
+```
+Analysiere unsere Anwendung auf Eignung für Microservices-Migration:
+
+### Kontext
+- Beschreibung: [Anwendungstyp und Domäne]
+- Team-Größe: [Anzahl Entwickler]
+- Deployment-Frequenz: [Wie oft?]
+- Build/Deploy-Dauer: [Zeit in Minuten]
+
+### Probleme
+- Aktuelle Schmerzpunkte: [Liste der Probleme]
+- Business-Anforderungen: [Skalierung, TTM, etc.]
+
+### Infrastruktur
+- Aktueller Stack: [Technologien]
+- DevOps-Reifegrad: [CI/CD, Monitoring, etc.]
+- Cloud/On-Premise: [Infrastruktur]
+
+Bewerte:
+1. Dringlichkeit der Migration (1-10)
+2. Risiken und Voraussetzungen
+3. Empfohlene Strategie (Big Bang vs. Strangler Pattern)
+4. Erste Kandidaten für Extraktion
+5. Geschätzte Kosten vs. Nutzen
+```
 
 ## Grundwissen Microservices (Teil 2)
 
@@ -702,7 +759,7 @@ Command -> Bewerber auf Button im Webfrontend geklickt
   * Manchmal müssen Clients eine Datenbank nur abfragen
   * z.B. eine dedizierte Datenbank, als Read-Only-Endpunkt 
     * gefüllt wird diese wenn sich Daten in der zugrundeliegenden Datenbank ändern
-  * Wir sollten die Datenbank, die wird nach draussen anbieten, von der Datenbank 
+  * Wir sollten die Datenbank, die wir nach draussen anbieten, von der Datenbank 
     * getrennt halten, die wir innerhalb unserer Service-Grenzen einsetzen
 
 #### Wie ?
@@ -931,36 +988,34 @@ Abstraktion anpassen, dass sie unsere neue Implementierung verwendet
 ### Tests
 
 
-### Pyramidenkonzept
+### Pyramidenkonzept vs. Testing Trophy 
 
-  * s. Referenz
- 
-### Testkategorien 
+  * Meine Empfehlung: Testing Trophy ist mehr optimiert für Microservices. (Quick Deployment)
 
-```
-Klassisch (automatisiertes Testen):
-   Unit tests
-   Integration tests
-   End-to-end tests.
-```
+<img width="581" height="569" alt="image" src="https://github.com/user-attachments/assets/b68534e2-2608-4ad7-81ca-fc7104a06b86" />
 
-```   
- 
-Bei microservices kommen noch 2 tests dazu: 
-  Components Tests
-  Contract Tests
+  * Reference: https://kentcdodds.com/blog/the-testing-trophy-and-testing-classifications 
 
-so dass es dann so aussieht:
-         
-                      End-To-End Tests
-                  Components Tests 
-              Integration Tests 
-           Contract Tests 
-         Unit Tests 
+### Vorgehen 
 
-```
+  * Integrationstests stehen imn Vordergrund, dazu zählen auch "Contract Tests"
+  * Ein sehr wichtiges Kernelement 
 
-### Contract 
+### Static Tests
+
+  * Code braucht dazu nicht ausgeführt zu werden. 
+  * siehe [Statische Tests](/microservices/tests/static.md)
+
+#### gitlab ci/cd 
+
+  * Kann gut z.B. über den Schritt Linting in die CI/CD Pipeline integriert werden.
+
+### Integration CI/CD - Pipeline 
+
+  * Tests können alle (bis auf End-to-End (E2E) können sehr gut in gitlab ci/cd pipeline integriert werden
+  * Empfehlung von E2E - Tests (möglichst nachts, da sie länger dauern können)
+
+### Contract (= gehört in den Bereich der Integration-Tests) 
 
 ```  
 Schnittstelle wird geprüft, ob sie alle Verträge erfüllt
@@ -969,17 +1024,23 @@ The contract specifies all the possible inputs and outputs with their data struc
 The consumer and producer of the service must follow the rules stated in the contract for communication to be possible.
 ```
 
-#### Components 
- 
+### E2E (End-to-End-Testing)
+
+#### Be Careful - E2E - Testing ! 
+
 ```
-Components Test:
-A component is a microservice or set of microservices that accomplishes a role within the larger system.
-Component testing is a type of acceptance testing in which we examine the component’s behavior in isolation by substituting services with simulated resources or mocking.
+Aim for a pyramid where a small number of critical user journeys are covered by E2E tests (e.g. 5-10% of total tests), and the rest by faster tests
 ```
 
-#### References 
+##### Design Tests for Resilience (E2E - Tests)
 
- * https://semaphoreci.com/blog/test-microservices
+```
+Design Tests for Resilience: Write your E2E test scripts to be resilient to minor delays and asynchronous behavior. This means adding appropriate retries, waits, and timeouts around steps that involve eventual consistency. For instance, if a user action triggers an email service, your test shouldn’t immediately fail if the email isn’t instant – instead poll an API or database until a reasonable timeout. However, avoid simply increasing waits to mask race conditions; whenever you add a wait, understand why it’s needed and whether the system provides a way to know when the state is ready (e.g., a webhook or a status poll). Use idempotency where possible: tests should be able to rerun without side effects. If your E2E tests occasionally hit external APIs or services, build in fallbacks or simulate those interactions to reduce flakiness from outside variability.
+```
+
+  * Ref: https://www.bunnyshell.com/blog/end-to-end-testing-for-microservices-a-2025-guide/
+
+
 
 
 
@@ -991,7 +1052,7 @@ Component testing is a type of acceptance testing in which we examine the compon
 
   * Code-Größe 
   * Technische Schnitt 
-  * Amazon: 2 Pizzas, wieviele können sich davon, wei gross kann man team 
+  * Amazon: 2 Pizzas, wieviele können sich davon, wie gross kann man team 
   * Microserver wegschmeissen und er müsste in wenigen Tagen oder mehreren Wochen wieder herstellen
 
 ### Wie kann ich schneiden (GUT) ? 
@@ -1016,14 +1077,14 @@ Component testing is a type of acceptance testing in which we examine the compon
   
   1. Er muss funktionieren, auch wenn ein anderes Service nicht läuft (keine Abhängigkeit) 
   2. Er darf nicht DIREKT auf die Daten eines anderen Services zugreifen (maximal über Schnittstelle)
-  3. Jeder hat Service, ist völlig autark und seine eigene BusinessLogik und seine eigene Datenbank 
+  3. Jeder Service ist völlig autark und hat seine eigene BusinessLogik und seine eigene Datenbank 
 
 ### Regeln für das Design von Services 
 
 #### Regel 1:
 
 ```
-Es sollte eine große Kohäsion innerhalb des Services sein.
+Es sollte eine große Kohäsion innerhalb des Services geben.
 (Bindung). Alles sollte möglichst benötigt werden.
 
 (Ist eine schwache Kohäsion innerhalb des Services, sind Funktionen 
@@ -1122,6 +1183,258 @@ Bibliothek
 
 
 
+## Grundwissen Microservices - Synchrones Messaging
+
+### gRPC vs. REST API
+
+
+### 1. Kernvergleich gRPC vs REST
+
+| Kriterium | gRPC | REST |
+|-----------|------|------|
+| **Protokoll/Format** | HTTP/2 + Protocol Buffers (binär) | HTTP/1.1 + JSON (text) |
+| **Performance** | ~7-10x schneller, kleinere Payloads | Langsamer, größere Payloads |
+| **Streaming** | Unidirektional, bidirektional, Server/Client | Nicht nativ (Workarounds möglich) |
+| **Browser-Support** | Eingeschränkt (gRPC-Web nötig) | Nativ unterstützt |
+| **Typsicherheit** | Stark typisiert durch .proto | Schwach, manuelle Validierung |
+| **Code-Generierung** | Automatisch für Client/Server | Manuell oder über OpenAPI |
+
+### 2. Praxisbeispiel: User-Service ↔ Order-Service
+
+#### Proto-Definition (`user.proto`)
+```protobuf
+syntax = "proto3";
+
+package user;
+
+service UserService {
+  // Einfacher Request
+  rpc GetUser(UserRequest) returns (UserResponse);
+  
+  // Server-Streaming: Live-Updates zu User-Aktivitäten
+  rpc StreamUserActivity(UserRequest) returns (stream ActivityEvent);
+}
+
+message UserRequest {
+  string user_id = 1;
+}
+
+message UserResponse {
+  string user_id = 1;
+  string name = 2;
+  string email = 3;
+  int32 credit_score = 4;
+}
+
+message ActivityEvent {
+  string user_id = 1;
+  string event_type = 2;
+  int64 timestamp = 3;
+}
+```
+
+#### Server-Implementierung (Python)
+```python
+import grpc
+from concurrent import futures
+import user_pb2
+import user_pb2_grpc
+import time
+
+class UserService(user_pb2_grpc.UserServiceServicer):
+    
+    def GetUser(self, request, context):
+        # Simuliere DB-Zugriff
+        return user_pb2.UserResponse(
+            user_id=request.user_id,
+            name="Max Mustermann",
+            email="max@example.com",
+            credit_score=750
+        )
+    
+    def StreamUserActivity(self, request, context):
+        # Server-Streaming: Sende Live-Events
+        events = ['login', 'purchase', 'logout']
+        for event in events:
+            yield user_pb2.ActivityEvent(
+                user_id=request.user_id,
+                event_type=event,
+                timestamp=int(time.time())
+            )
+            time.sleep(2)  # Simuliere Events über Zeit
+
+def serve():
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    user_pb2_grpc.add_UserServiceServicer_to_server(UserService(), server)
+    server.add_insecure_port('[::]:50051')
+    server.start()
+    print("User-Service läuft auf Port 50051")
+    server.wait_for_termination()
+
+if __name__ == '__main__':
+    serve()
+```
+
+#### Client-Implementierung im Order-Service (Python)
+```python
+import grpc
+import user_pb2
+import user_pb2_grpc
+
+class OrderService:
+    
+    def __init__(self):
+        # Verbindung zum User-Service
+        self.channel = grpc.insecure_channel('user-service:50051')
+        self.user_stub = user_pb2_grpc.UserServiceStub(self.channel)
+    
+    def create_order(self, user_id, items):
+        # 1. User-Daten abrufen
+        user = self.user_stub.GetUser(user_pb2.UserRequest(user_id=user_id))
+        
+        # 2. Credit-Check
+        if user.credit_score < 600:
+            return {"error": "Insufficient credit score"}
+        
+        # 3. Order erstellen
+        order = {
+            "user_id": user.user_id,
+            "user_name": user.name,
+            "items": items,
+            "status": "confirmed"
+        }
+        return order
+    
+    def monitor_user_activity(self, user_id):
+        # Server-Streaming: Empfange Live-Events
+        print(f"Überwache Aktivität von User {user_id}...")
+        
+        for activity in self.user_stub.StreamUserActivity(
+            user_pb2.UserRequest(user_id=user_id)
+        ):
+            print(f"Event: {activity.event_type} um {activity.timestamp}")
+            
+            # Reagiere auf Events
+            if activity.event_type == 'purchase':
+                print("→ Triggere Empfehlungs-Engine")
+
+## Verwendung
+order_service = OrderService()
+order = order_service.create_order("user123", ["item1", "item2"])
+print(order)
+
+## Live-Monitoring
+order_service.monitor_user_activity("user123")
+```
+
+#### Code generieren
+```bash
+## Proto-Dateien kompilieren
+python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. user.proto
+```
+
+### 3. Wann was verwenden?
+
+#### Nutze gRPC wenn:
+- **Interne Microservices** (Service-to-Service)
+- **Performance kritisch** (High-Throughput, Low-Latency)
+- **Streaming benötigt** (Real-time Updates, Logs)
+- **Polyglotte Umgebung** (automatische Code-Generierung für viele Sprachen)
+
+#### Nutze REST wenn:
+- **Public APIs** (externe Partner, Entwickler)
+- **Browser-Clients** (Web-Apps ohne gRPC-Web)
+- **Einfachheit bevorzugt** (schnelles Prototyping, Debugging)
+- **HTTP/1.1-Infrastruktur** (Legacy-Systeme, bestimmte Proxies)
+
+### Was wird generiert:
+
+Aus `user.proto` generiert der Compiler:
+
+```bash
+python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. user.proto
+```
+
+**Erzeugt automatisch:**
+- `user_pb2.py` - Message-Klassen (UserRequest, UserResponse, etc.)
+- `user_pb2_grpc.py` - Stub-Klassen und Service-Basis
+
+```python
+## user_pb2_grpc.py (generiert)
+class UserServiceServicer(object):  # ← Basis für Server
+    def GetUser(self, request, context):
+        raise NotImplementedError()
+    
+    def StreamUserActivity(self, request, context):
+        raise NotImplementedError()
+
+class UserServiceStub(object):  # ← Für Client
+    def __init__(self, channel):
+        self.GetUser = channel.unary_unary(...)
+        self.StreamUserActivity = channel.unary_stream(...)
+```
+
+### Was du selbst schreibst:
+
+✍️ **Server:** Business-Logik in `UserService(UserServiceServicer)` - erbt nur von generierter Basis
+
+✍️ **Client:** `OrderService` - nutzt generierten `UserServiceStub`, aber Logik ist manuell
+
+**Zusammenfassung:** Der Compiler gibt dir typsichere Schnittstellen, die Implementierung schreibst du.
+
+### API-Abfrage über REST-API
+
+
+### Grundlagen 
+
+  * synchrone Kommunikation -> bspw. REST-API (zu 95%)
+
+### Idee dahinter (microservice) 
+
+ *  Nie direkt auf Daten zuzugreifen (immer nur immer API)  
+
+### Damit auch die Möglichkeit haben, Informationen zu verstecken
+
+  * Prinzip von Hide Information, nur das wirklich gebraucht wird, kann abgefragt werden und der Rest ist nur im Hintergrund innerhalb des MicroServices zugänglich
+  * API (klarer Vertrag, wo festgelegt, welche Parameter an die API übergeben werden können/müssen) und welche Information zurückkommt 
+
+### Beispiel
+
+```
+## GET - Abfrage 
+https://api.bitpanda.com/v1/trades
+## i.d.R. kriegen wir die Information als json zurück 
+
+```
+
+```
+PUT /shop/products/11 HTTP/1.1
+Host: api.predic8.de
+Content-Type: application/json
+
+{
+  "name": "Red Grapes",
+  "price": 1.79,
+  "category_url": "/shop/categories/Fruits",
+  "vendor_url": "/shop/vendors/501"
+}
+
+curl -X PUT --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{
+      "name": "Red Grapes",
+      "price": 1.79,
+      "category_url": "/shop/categories/Fruits",
+      "vendor_url": "/shop/vendors/501"
+}' 'https://api.predic8.de/shop/products/140'
+```
+
+## Grundwissen Microservices - Async Messaging
+
+### Asynchrones Messaging
+
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/cd531b61-4856-4528-ba19-fd9761390c64)
+
+
 ### EventBus Implementierungen/Überblick
 
 
@@ -1149,6 +1462,183 @@ Bibliothek
 ### Was sind Listener ?
 
   * Listener sind Services, die von anderen Events von anderen Services erfahren wollen 
+
+### Kafka Schaubild
+
+
+<img width="731" height="531" alt="image" src="https://github.com/user-attachments/assets/ac4f1078-bde2-4ea0-a281-c7bfcc08aeaa" />
+
+
+### Schema Registry (confluent)
+
+
+### Confluent Schema Registry (Kafka-Lösungen) 
+
+  * Versions every single schema (versioning) 
+  * data validation
+  * compatibility checking
+  * versioning
+  * evolution
+
+### Software (Implementation) 
+
+  * Confluence Schema Registry
+
+### Topic/Queue ohne Downtime migrieren
+
+
+### How can you be sure, that consumer goes not get data from the old topic 
+
+  * Producer should only (!) write to one topic (the newest)
+
+### How to switch to a new version ? (Part 1: producer) 
+
+  1. Every topics has a version
+  1. New Version :: myTopic.v0 -> myTopic.v1
+  1. Whenever a new version is there, we will write it into topics: _meta_version
+  1. Producer will be consumer for the _meta_version and wil get to know about the topic
+  1. Producer will immediately write to the new topic, BUT ONLY to the new topic
+
+### How to switch to a new version ? (Part 2: consumer) 
+
+  1. consumer has to drain the old topic before switching to the new one
+  1. how to know it is drained ? Ask for "watermark" offset (gives back the last offset)
+  1. When you have the last message with the watermark offset -> switch to new topic
+
+### Watermark - Background 
+
+  1. The offset of the last message in topic, can be retrieved with "watermark"
+  1. Example Code: https://github.com/confluentinc/confluent-kafka-python/blob/master/examples/get_watermark_offsets.py
+
+### Reference:
+
+  * https://gauravsarma1992.medium.com/migrating-kafka-topic-without-downtime-f863819cfb3d
+
+### Disruptive Änderungen im Schema migrieren
+
+
+### Step 1: Status Quo 
+
+  1. Producer P1 is producing Message to Topic T1
+  1. Consumer C1 and C2 are consuming this topic
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/25a964ce-ca64-4403-8685-70e53346e6b4)
+
+### Step 2: New Topic T2 with breaking Schema S2 
+
+   1. Topic is currently empty 
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/baef7656-386d-42e7-916b-693b6ced0bb5)
+
+### Step 3: Maintaining history order with migration component (Mode 1 -> 2)
+
+  * reproducing all existing records from topic T1 on topic T2
+    * by transforming them into messages following schema S2 and producing them on topic T2.
+  * Same keys are to be used (so it will be in the same partitions)
+  * reproduced messages are to retain the original timestamp
+    * in order to preserve the semantics of the message
+  * No Downtime: producer P1 can meanwhile still produce new messages that may get consumed by existing consumer
+  * Every message from P1 will be picked up by the migration component and reproduced in T2
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/2c220ecc-2f4d-4590-b6ab-7fceb5e4e3f7)
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/2eb44846-96ee-4523-99a7-0dc396b65aa0)
+
+### Step 4: New Version P1 (will not send to T1) any more 
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/61344c81-d2da-4d6f-9c9a-f94c072ae691)
+
+### Step 5: P1 sends messages to T2 (after migration component has reproduced ...)
+
+  1. Migration component has reproduced all messages from T1 -> T2
+  1. AFTER THAT ! P1 will start to send messages to T2
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/c752284e-fb77-4b31-9bac-1fd50c532cca)
+
+### Step 6: Switching operation mode of migration component (mode: 2->1)
+
+  1. Migration component will from now on consume messages from topic T2 and reproduce them on topic T1.
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/131fa36c-3b52-49fb-9fa0-5d3c5ebb4d2f)
+
+### Step 7: Ready for consumers 
+
+  1. It is now possible for the consumers C1 and C2 to switch to T2 at any time
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/2606dc14-e2b1-48fd-ad6e-a2aa6a6088d7)
+
+### Step 8: All consumers have migrated 
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/4269a17e-f9ef-44af-8889-7a8a214b406d)
+
+### Step 9: Cleanup, when all have migrated 
+
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/1c4ed6c5-3d6d-4cc5-aea3-b0a9595df957)
+
+
+### Reference
+
+  * https://cymo.eu/blog/a-strategy-for-dealing-with-breaking-schema
+
+## Grundwissen Microservices - Fehlertolaranz
+
+### Circuit-Breaker und Fehlertoleranz
+
+
+## Circuit Breaker & Retry-Strategien in Python
+
+### Was ist das?
+
+**Retry**: Wiederhole fehlgeschlagene Requests automatisch (z.B. bei temporären Netzwerkfehlern)
+
+**Circuit Breaker**: Stoppt Requests zu einem Service, der wiederholt fehlschlägt → verhindert Kaskadeneffekte
+
+### Wann was nutzen?
+
+- **Retry**: Transiente Fehler (Timeout, 503, Netzwerkstörung)
+- **Circuit Breaker**: Anhaltende Ausfälle, Schutz vor Überlastung
+- **Kombination**: Oft zusammen eingesetzt
+
+### States im Circuit Breaker
+1. **Closed**: Normal, Requests gehen durch
+2. **Open**: Service ausgefallen, Requests werden sofort abgelehnt
+3. **Half-Open**: Test, ob Service wieder verfügbar
+
+### Python-Implementierung
+
+```python
+from tenacity import retry, stop_after_attempt, wait_exponential
+from pybreaker import CircuitBreaker
+
+## RETRY mit tenacity
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, min=1, max=10)
+)
+def call_api():
+    response = requests.get("https://api.example.com")
+    response.raise_for_status()
+    return response.json()
+
+## CIRCUIT BREAKER mit pybreaker
+breaker = CircuitBreaker(
+    fail_max=5,        # Nach 5 Fehlern → Open
+    reset_timeout=60   # Nach 60s → Half-Open
+)
+
+@breaker
+def protected_call():
+    return requests.get("https://api.example.com").json()
+```
+
+### Best Practices
+
+- Circuit Breaker für externe Services
+- Monitoring & Logging der Failures
+- Fallback-Strategien definieren
+
+**Bibliotheken**: `tenacity`, `pybreaker`, `resilience4py`
+
+## Grundwissen Microservices - Tests (Teil 3)
 
 ## Linux Tipps & Tricks
 
@@ -1289,7 +1779,21 @@ docker compose version
 
 ```
 docker run -d --name my_nginx nginx:1.23
-docker container ls 
+docker container ls
+## oder 
+docker ps
+
+## Ip-Adresse rausfinden 
+docker inspect my_nginx | grep -i -A 20 networksettings
+## ip ist: 172.17.0.2
+## Webseite von nginx anzeigen 
+curl http://172.17.0.2
+```
+
+### Erkundung 
+
+```
+docker images
 ```
 
 ```
@@ -1297,8 +1801,10 @@ docker container ls
 sudo su -
 ## wo sind die overlays
 cd /var/lib/docker
+cd overlay2
 ## now find out
 ls -la
+exit
 ```
 
 
@@ -1413,8 +1919,11 @@ docker run --name test-nginx -d -p 8080:80 nginx
 ```
 
 ```
+## auf host machine ip des hosts ausfindig machen
+ip a  show eth0 
+
 docker container ls
-lsof -i
+sudo lsof -i
 cat /etc/services | grep 8080
 curl http://localhost:8080
 docker container ls
@@ -1430,6 +1939,8 @@ curl http://localhost:8080
 ### Ubuntu mit ping
 
 
+### Image erstellen 
+
 ```
 mkdir myubuntu 
 cd myubuntu/
@@ -1440,7 +1951,7 @@ nano Dockerfile
 ```
 
 ```
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 RUN apt-get update; apt-get install -y inetutils-ping
 ## CMD ["/bin/bash"]
 ```
@@ -1453,7 +1964,7 @@ docker images
 ```
 ## Variante 2
 ## nano Dockerfile
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 RUN apt-get update && \
     apt-get install -y inetutils-ping && \
     rm -rf /var/lib/apt/lists/*
@@ -1465,11 +1976,13 @@ docker build -t myubuntu:1.0 .
 docker images
 ```
 
+### Image (ping) testen  
+
 ```
 ## -t wird benötigt, damit bash WEITER im Hintergrund im läuft.
 ## auch mit -d (ohne -t) wird die bash ausgeführt, aber "das Terminal" dann direkt beendet 
 ## -> container läuft dann nicht mehr 
-docker run -d -t --name container-ubuntu myubuntu:1.0
+docker run -d -t --name container-ubuntu fullubuntu:1.0
 docker container ls
 
 ## docker inspect to find out ip of other container 
@@ -1479,7 +1992,7 @@ docker inspect container-ubuntu | grep -i ipaddress
 
 ```
 ## Zweiten Container starten um 1. anzupingen 
-docker run -d -t --name container-ubuntu2 myubuntu:1.0 
+docker run -d -t --name container-ubuntu2 fullubuntu:1.0 
 
 ## Ersten Container -> 2. anpingen 
 docker exec -it container-ubuntu2 bash 
@@ -1491,6 +2004,14 @@ ping 172.17.0.3
 
 ### Slim multistage-build
 
+
+### Why ? 
+
+ * Ziel: Wir wollen ein möglichst kleine Image als Endprodukt haben
+ * Um das zu erreichen, können mit einem speziellen Image, was alles bauen das image bauen
+   * Dann, nehmen wir aber nur den Teil, den wir brauchen aus diesem Schritt 1: in unserem Fall /app/app.jar 
+   * Und verwenden es mit einem wesentlichen kleineren Image
+ * Ergebnis: Das fertige image ist wesentlich kleiner 
 
 ### Overview
 
@@ -1521,6 +2042,11 @@ docker run --name app -d -t multi-stage-binary:v1 sh
 docker exec -it app sh 
 ```
 
+```
+cd /app
+ls -la
+```
+
 ## Docker Security 
 
 ### Docker Security
@@ -1529,16 +2055,16 @@ docker exec -it app sh
 ### Generic 
 
   * Kann ich dem Image vertrauen (nur Images verwenden, denen ich vertrauen kann)
-    * Im Zweifel eigene Images oder nur images von Docker Official Image / Verified Publisher (Suche auf Docker Hub)
+    * Im Zweifel eigene Images oder nur images von Docker Official Image / ~Verified Publisher~ (Suche auf Docker Hub)
   * Container möglichst nicht als Root laufen lassen (bzw. nicht solche Images verwenden)
   * Das nur das drinnen ist, was wirklich gebraucht wird (Produktion)
     * Im Idealfall sogar nur das Executable (siehe auch hashicorp/http-echo -> kein sh, keine bash)
   * Alle container einer applikation in einem eigenen Netzwerk  
-  * Images to scannen / security scans. 
+  * Images scannen inkl. security scans. 
 
 ### Images die nicht als root lauen 
 
-  * bitnami
+  * ~bitnami~ 
   * nginx unprivileged
 
 ```
@@ -1655,7 +2181,7 @@ docker scan --json --accept-license dockertrainereu/jm-hello-docker  > result.js
 ## Installiert man docker in der neuesten 20.10.21 
 ## existiert docker als plugin und wird anders aufgerufen
 ## Je nach distribution als Zusatzplugin von docker 
-docker compose 
+docker compose version 
 ```
 
 ### Ist docker-compose installiert (alte Version, nicht in docker integriert) 
@@ -2006,7 +2532,7 @@ Development time coupling - a developer working on, for example, the OrderServic
 
   * https://microservices.io/patterns/data/cqrs.html
 
-### Umgang mit Transaktionen bei database-per-service
+### Umgang mit Transaktionen bei database-per-service (SAGA)
 
 
 ### Problem 
@@ -2096,103 +2622,6 @@ x because of this: application cannot simply use a local ACID transaction.
 
   * https://microservices.io/patterns/data/event-sourcing.html
 
-## Microservices (async messaging)
-
-### Topic/Queue ohne Downtime migrieren
-
-
-### How can you be sure, that consumer goes not get data from the old topic 
-
-  * Producer should only (!) write to one topic (the newest)
-
-### How to switch to a new version ? (Part 1: producer) 
-
-  1. Every topics has a version
-  1. New Version :: myTopic.v0 -> myTopic.v1
-  1. Whenever a new version is there, we will write it into topics: _meta_version
-  1. Producer will be consumer for the _meta_version and wil get to know about the topic
-  1. Producer will immediately write to the new topic, BUT ONLY to the new topic
-
-### How to switch to a new version ? (Part 2: consumer) 
-
-  1. consumer has to drain the old topic before switching to the new one
-  1. how to know it is drained ? Ask for "watermark" offset (gives back the last offset)
-  1. When you have the last message with the watermark offset -> switch to new topic
-
-### Watermark - Background 
-
-  1. The offset of the last message in topic, can be retrieved with "watermark"
-  1. Example Code: https://github.com/confluentinc/confluent-kafka-python/blob/master/examples/get_watermark_offsets.py
-
-### Reference:
-
-  * https://gauravsarma1992.medium.com/migrating-kafka-topic-without-downtime-f863819cfb3d
-
-### Disruptive Änderungen im Schema migrieren
-
-
-### Step 1: Status Quo 
-
-  1. Producer P1 is producing Message to Topic T1
-  1. Consumer C1 and C2 are consuming this topic
-
-![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/25a964ce-ca64-4403-8685-70e53346e6b4)
-
-### Step 2: New Topic T2 with breaking Schema S2 
-
-   1. Topic is currently empty 
-
-![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/baef7656-386d-42e7-916b-693b6ced0bb5)
-
-### Step 3: Maintaining history order with migration component (Mode 1 -> 2)
-
-  * reproducing all existing records from topic T1 on topic T2
-    * by transforming them into messages following schema S2 and producing them on topic T2.
-  * Same keys are to be used (so it will be in the same partitions)
-  * reproduced messages are to retain the original timestamp
-    * in order to preserve the semantics of the message
-  * No Downtime: producer P1 can meanwhile still produce new messages that may get consumed by existing consumer
-  * Every message from P1 will be picked up by the migration component and reproduced in T2
-
-![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/2c220ecc-2f4d-4590-b6ab-7fceb5e4e3f7)
-![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/2eb44846-96ee-4523-99a7-0dc396b65aa0)
-
-### Step 4: New Version P1 (will not send to T1) any more 
-
-![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/61344c81-d2da-4d6f-9c9a-f94c072ae691)
-
-### Step 5: P1 sends messages to T2 (after migration component has reproduced ...)
-
-  1. Migration component has reproduced all messages from T1 -> T2
-  1. AFTER THAT ! P1 will start to send messages to T2
-
-![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/c752284e-fb77-4b31-9bac-1fd50c532cca)
-
-### Step 6: Switching operation mode of migration component (mode: 2->1)
-
-  1. Migration component will from now on consume messages from topic T2 and reproduce them on topic T1.
-
-![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/131fa36c-3b52-49fb-9fa0-5d3c5ebb4d2f)
-
-### Step 7: Ready for consumers 
-
-  1. It is now possible for the consumers C1 and C2 to switch to T2 at any time
-
-![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/2606dc14-e2b1-48fd-ad6e-a2aa6a6088d7)
-
-### Step 8: All consumers have migrated 
-
-![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/4269a17e-f9ef-44af-8889-7a8a214b406d)
-
-### Step 9: Cleanup, when all have migrated 
-
-![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/1c4ed6c5-3d6d-4cc5-aea3-b0a9595df957)
-
-
-### Reference
-
-  * https://cymo.eu/blog/a-strategy-for-dealing-with-breaking-schema
-
 ## Microservice - flightapp - concepts
 
 ### Vorgehensweise nach dem SEED-Verfahren
@@ -2200,13 +2629,13 @@ x because of this: application cannot simply use a local ACID transaction.
 
 ### 7 Steps 
 
-  * 1. Akteure identifzieren 
-  * 2. Jobs identifizieren, die durch Akteure getätigt werden müssen
-  * 3. Entdecken/Entwickeln von Interaktionsschritte mit Ablaufdiagrammen 
-  * 4. High-Level Aktionen und Abfragen basierend auf den zu tätigenden Jobs (2) und den Interaktionsschritten ableiten 
-  * 5. Jede Abfrage und Aktion als Spezifikation beschreiben, mit einem offenen Standard (wie OpenAPI Spezifikation [OAS] or GraphQL schemata)
-  * 6. Feedback zur Api erhalten 
-  * 7. Implementieren
+1. Akteure identifzieren 
+1. Jobs identifizieren, die durch Akteure getätigt werden müssen
+1. Entdecken/Entwickeln von Interaktionsschritte mit Ablaufdiagrammen 
+1. High-Level Aktionen und Abfragen basierend auf den zu tätigenden Jobs (2) und den Interaktionsschritten ableiten
+1. Jede Abfrage und Aktion als Spezifikation beschreiben, mit einem offenen Standard (wie OpenAPI Spezifikation [OAS] or GraphQL schemata)
+1. Feedback zur Api erhalten 
+1. Implementieren
    
  ## Reference:
 
@@ -2249,12 +2678,14 @@ Fiktiv: Gesammelt von Kunden Interviews und Business Analyse Recherche
 Sitzen gibt)
 ```
 
-### Schritt 4: BFF-Api als Ver-Mittler (JTBD)
+### Schritt 4: BFF-API als Vermittler (JTBD)
+
+<img width="746" height="769" alt="image" src="https://github.com/user-attachments/assets/25f56865-f48f-4a51-ad0f-988c5608b039" />
 
 ```
 (Backend for frontend) 
 
-Empfehlung: Eine BFF-Api, die nur eine ganze schlanke Schicht hat ohne business
+Empfehlung: Eine BFF-API (pro Frontend), die nur eine ganze schlanke Schicht hat ohne business
 Logik Implementierung. 
 
 Sie "orchestriert" nur die microservices 
@@ -2405,14 +2836,15 @@ https://raw.githubusercontent.com/jmetzger/ms-reservations/master/docs/api.yml
 cd
 git clone https://github.com/jmetzger/ms-reservations.git msupandrunning
 cd msupandrunning
-sudo apt install -y make
-make
+## sudo apt install -y make
+## make
+## Alternativ
+docker compose up -d 
+
 ```
 
 ```
-## it then shows the logs
-CTRL + C
-## app will still be running as it is daemonized (see start in Makefile)
+docker compose logs 
 ```
 
 #### Block 3: Open Client on redis-server to test 
@@ -2420,7 +2852,9 @@ CTRL + C
 ##### Start redis-cli within redis-server 
 
 ```
-make redis
+## make redis
+## Alternative:
+docker compose exec ms-reservations-redis redis-cli -a 4n_ins3cure_P4ss
 ```
 
 ##### These are direct calls to redis trough the redis cli
@@ -2491,21 +2925,26 @@ exit
 
 ```
 ## only works when project name is: msupandrunning
-make ps 
+docker compose ps 
 ```
 
 ```
-curl --verbose --header "Content-Type: application/json" --request PUT --data '{"seat_num":"12C","flight_id":"werty", "customer_id": "dfgh"}' http://192.168.56.102:7701/reservations
+curl --verbose --header "Content-Type: application/json" --request PUT --data '{"seat_num":"12C","flight_id":"werty", "customer_id": "dfgh"}' http://165.22.18.90:7701/reservations
 ```
 
 ```
-curl --verbose --header "Content-Type: application/json" --request PUT --data '{"seat_num":"12D","flight_id":"werty", "customer_id": "dfgh"}' http://192.168.56.102:7701/reservations
+curl --verbose --header "Content-Type: application/json" --request PUT --data '{"seat_num":"12D","flight_id":"werty", "customer_id": "dfgh"}' http://165.22.18.90:7701/reservations
 ```
 
 ```
 ## Try once again
 ## --verbose also shows the headers 
-curl --verbose --header "Content-Type: application/json" --request PUT --data '{"seat_num":"12D","flight_id":"werty", "customer_id": "dfgh"}' http://192.168.56.102:7701/reservations
+curl --verbose --header "Content-Type: application/json" --request PUT --data '{"seat_num":"12D","flight_id":"werty", "customer_id": "dfgh"}' http://165.22.18.90:7701/reservations
+```
+
+```
+## Try to get the data
+curl --verbose --header "Content-Type: application/json" http://165.22.18.90:7701/reservations?flight_id=werty
 ```
 
 ### Reference 
@@ -2562,6 +3001,12 @@ cd ms-reservations
 ### Step 1.5: Set identity 
 
 ```
+## Ist sie gesetzt
+git config user.name
+git config user.email 
+git config --list 
+
+## Wenn nein 
 git config --global user.name "Max Mustermann"
 git config --global user.email "tn1@t3company.de"
 ```
@@ -2580,10 +3025,12 @@ git branch
 git push -u origin master 
 ```
 
-### Step 3a: build image and push to gitlab registry 
+
+
+### Step 3a: (gitlab) build image and push to gitlab registry 
 
 ```
-## modify gitlab-ci.yml with pipeline editor as follows
+## modify .gitlab-ci.yml with pipeline editor as follows
 stages:          # List of stages for jobs, and their order of execution
   - build
 
@@ -2623,25 +3070,25 @@ in Settings -> CI/CD -> Variables (in your repo)
 
 #### 3b) Ministep 2
 ```
-stages:          # List of stages for jobs, and their order of execution
+stages:
   - build
 
-build-image:       # This job runs in the build stage, which runs first.
+build-image:
   stage: build
-  image: docker:20.10.10
-  services:
-     - docker:20.10.10-dind
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
   script:
     - echo "user:"$DOCKER_USER
-    - echo "pass:"$DOCKER_PASS
     - echo "project:"$DOCKER_PROJECT
-    - echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-    - docker build -t $DOCKER_USER/$DOCKER_PROJECT:$CI_COMMIT_TAG .
-    - docker images
-    - docker push $DOCKER_USER/$DOCKER_PROJECT:$CI_COMMIT_TAG
-    - echo "BUILD for "$DOCKER_USER/$DOCKER_PROJECT:$CI_COMMIT_TAG" done"
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$(printf "%s:%s" "${DOCKER_USER}" "${DOCKER_PASS}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${DOCKER_USER}/${DOCKER_PROJECT}:${CI_COMMIT_TAG}"
+    - echo "BUILD for "${DOCKER_USER}/${DOCKER_PROJECT}:${CI_COMMIT_TAG}" done"
   rules:
-      # Man muss einen Tag setzen, damit die Pipeline triggered.
     - if: $CI_COMMIT_TAG
 ```
 
@@ -2667,9 +3114,6 @@ CODE -> Tags -> New Tag -> (z.B.) v3
 
   * Flights 
 
-#### Refs (Specifically for microservices)
-
-  * https://nodebootstrap.com
 
 ### Build flight app
 
@@ -2703,13 +3147,15 @@ https://raw.githubusercontent.com/jmetzger/ms-flights/master/docs/api.yml
 
 ```
 ## now render the docs and open 3939 port with container running
-make start
+## make start
+docker run -d --rm --name ms-nb-docs -p 3939:80 -v ${PWD}/api.yml:/usr/share/nginx/html/swagger.yaml -e SPEC_URL=swagger.yaml redocly/redoc:v2.0.0-rc.8-1
+
 docker container ls 
 ```
 
 ```
 ## in browser of rdp
-http://192.168.56.102:3939
+http://<public-ip-of-server>:3939
 ```
 
 ### Step 3: Cleanup and restructure 
@@ -2762,6 +3208,7 @@ cd
 cd ms-flights
 mkdir -p lib/flights/controllers/
 cd lib/flights/controllers/
+rm actions.js 
 ```
 
 ```
@@ -2803,41 +3250,31 @@ cd ms-flights
 sudo chown -R 11trainingdo:11trainingdo migrations
 ```
 
+```
+
+```
+
 ##### Step 3.6.3 Populate files 
 
 ```
+cd
+cd ms-flights/migrations/sqls 
 
-nano migrations/sqls/[date]-seat-maps-up.sql
-```
-
-```
 ## migrations/sqls/[date]-seat-maps-up.sql with data of
-https://raw.githubusercontent.com/jmetzger/ms-flights/master/migrations/sqls/20200602055112-seat-maps-up.sql
-````
+wget https://raw.githubusercontent.com/jmetzger/ms-flights/master/migrations/sqls/20200602055112-seat-maps-up.sql
 
-
-```
-nano migrations/sql/[date]-flights-up.sql 
-```
-
-```
 ## migrations/sqls/[date]-flights-up.sql with data of
-https://raw.githubusercontent.com/jmetzger/ms-flights/master/migrations/sqls/20200602055121-flights-up.sql
-```
+wget https://raw.githubusercontent.com/jmetzger/ms-flights/master/migrations/sqls/20200602055121-flights-up.sql
 
-```
-nano migrations/sqls/[date]-sample-data-up.sql
-```
-
-```
-## migrations/sqls/[date]-sample-data-up.sql with data of
-https://github.com/jmetzger/ms-flights/blob/master/migrations/sqls/20200602055127-sample-data-up.sql
+wget https://github.com/jmetzger/ms-flights/blob/master/migrations/sqls/20200602055127-sample-data-up.sql
 ```
 
 
 ##### Step 3.6.4 Do the migration 
 
 ```
+cd
+cd ms-flights 
 ## Doing make restart instead of make migrate, because new data needs to be in docker container
 make restart
 ```
@@ -2845,13 +3282,9 @@ make restart
 #### Step 3.7 Renaming from ms-nodebootstrap-example to ms-flights 
 
 ```
+cd
 cd ms-flights
-make stop
-## Change all entries that appear here to ms-flights
-grep -r ms-nodebootstrap-example .
-```
-
-```
+grep -rl "ms-nodebootstrap-example" . | xargs sed -i 's/ms-nodebootstrap-example/ms-flights/g'
 ## when adjusted all entries doublecheck
 grep -r ms-nodebootstrap-example
 make restart
@@ -2867,6 +3300,65 @@ curl http://192.168.56.102:5501/flights?flight_no=AA34&departure_date_time=2020-
 ```
 ## Seat map
 curl --verbose http://192.168.56.102:5501/flights/AA34/seat_map
+```
+
+### Use premade version of flight app - with fixes already
+
+
+### Step 1: Use ready project 
+
+  * https://github.com/jmetzger/ms-flights
+
+```
+## as unpriviliged user / root
+cd
+```
+
+```
+## either usetemplate
+## but we will just clone it locally
+git clone https://github.com/jmetzger/ms-flights ms-flights
+```
+
+### Step 2: Create documentation 
+
+```
+cd
+cd ms-flights
+```
+
+```
+## now render the docs and open 3939 port with container running
+## make start
+docker run -d --rm --name ms-nb-docs -p 3939:80 -v ${PWD}/api.yml:/usr/share/nginx/html/swagger.yaml -e SPEC_URL=swagger.yaml redocly/redoc:v2.0.0-rc.8-1
+
+docker container ls 
+```
+
+```
+## in browser of rdp
+http://<public-ip-of-server>:3939
+```
+
+#### Step 2: Build 
+
+```
+cd
+cd ms-flights
+docker compose up -d
+docker compose logs 
+```
+
+#### Step 3 Testing 
+
+```
+## Flight 
+curl http://<public-ip>:5501/flights?flight_no=AA34\&departure_date_time=2020-05-17T13:20
+```
+
+```
+## Seat map (gibt nur o.k. zurück, nicht implementiert)
+curl http://<public-ip>:5501/flights/AA34/seat_map
 ```
 
 ### Upload image flight app
@@ -2895,6 +3387,12 @@ docker push dockertrainereu/flights-jm:v11
 ## Microservice - flightapp - Deployment Kubernetes
 
 ### Manual deployment
+
+
+
+### Überblick 
+
+<img width="857" height="698" alt="image" src="https://github.com/user-attachments/assets/a2010075-30d1-4c77-a6e5-a2b07ae48bb6" />
 
 
 ### Schritt 1: configmap - flights
@@ -3077,10 +3575,6 @@ spec:
         image: dockertrainereu/flights-jm:v11
         command: [ "/bin/sh", "-c", "--" ]
         args: [ "while true; do sleep 30; done;" ]
-          #volumeMounts:
-          #-  mountPath: "/var/lib/mysql"
-          # name: do-volume
-
         env:
         - name: NODE_ENV
           value: dev
@@ -3090,13 +3584,6 @@ spec:
               #value: "1"
         - name: NODE_CONFIG_DISABLE_FILE_WATCH
           value: "Y"
-
-              #volumes:
-              #- name: do-volume
-              #persistentVolumeClaim:
-              #claimName: pvc-do
-
-
 ```
 
 ```
@@ -3105,34 +3592,7 @@ cd manifests/flight-app/
 kubectl apply -Rf .
 ```
 
-
-### Schritt 4: Lokal kompose installieren 
-
-  * als root
-
-[Kompose installieren](#tool-zum-konvertion-von-docker-composeyaml-file-manifesten)
-
-```
-## alle weiteren Schritte als kurs 
-su - kurs 
-```
-
-### Schritt 5: ms-reservations clonen (zur Hilfe bzgl. der manifests)
-
-```
-cd 
-git clone https://github.com/jmetzger/ms-reservations
-cd ms-reservations
-
-## create a dummy folder
-mkdir dummy
-cp -a docker-compose.yml dummy
-cp -a database-dev.env dummy
-cd dummy
-kompose --file=docker-compose.yml convert
-```
-
-### Schritt 6: config für redis anlegen 
+### Schritt 4: config für redis anlegen 
 
 ```
 cd
@@ -3161,9 +3621,11 @@ data:
 kubectl apply -f .
 ```
 
-### Schritt 7: Redis ausrollen 
+### Schritt 5: Redis ausrollen 
 
 ```
+cd
+cd manifests/flight-app/reservations
 nano 02-redis-deploy.yml 
 ```
 
@@ -3221,7 +3683,7 @@ kubectl apply -f .
 ```
 
 
-### Schritt 8: service für redis 
+### Schritt 6: service für redis 
 
 ```
 nano 03-redis-service.yml
@@ -3244,7 +3706,7 @@ spec:
 kubectl apply -f .
 ```
 
-### Schritt 9: deployment for reservations 
+### Schritt 7: deployment for reservations 
 
 ```
 nano 04-reservations-deploy.yml
@@ -3320,7 +3782,37 @@ spec:
 ```
 
 ```
-kubectl apply -f .
+cd
+cd manifests/flight-app
+kubectl apply -R -f .
+```
+
+### Hinweis: kompose als Hilfestellung nutzen 
+
+#### Hinweis: Lokal kompose installieren 
+
+  * als root
+
+[Kompose installieren](#tool-zum-konvertion-von-docker-composeyaml-file-manifesten)
+
+```
+## alle weiteren Schritte als kurs 
+su - kurs 
+```
+
+####  ms-reservations clonen (zur Hilfe bzgl. der manifests)
+
+```
+cd 
+git clone https://github.com/jmetzger/ms-reservations
+cd ms-reservations
+
+## create a dummy folder
+mkdir dummy
+cp -a docker-compose.yml dummy
+cp -a database-dev.env dummy
+cd dummy
+kompose --file=docker-compose.yml convert
 ```
 
 ### gitlab Deployment
@@ -3340,14 +3832,27 @@ z.B.
 https://gitlab.com/training.tn1/ms-jochen-k8sdeploy
 ```
 
+### Option Schritt 1: umbenennen 
+
 ```
 cd
 cd manifests/
 mkdir project-flight-app
 mv flight-app project-flight-app
 cd project-flight-app
+```
+
+### Schritt 2: 
+
+```
+cd
+cd manifests
+cd flight-app
+```
+
+```
 git init
-git add .
+git add -A
 git status
 git config --global user.email "you@email.com"
 git config --global user.name "Phantomas"
@@ -3361,9 +3866,9 @@ git push -u origin master
 ```
 
 
-### Schritt 2: KUBECONFIG_SECRET einrichten 
+### Schritt 3: KUBECONFIG_SECRET einrichten 
 
-  * in Settings->CI/CD -> Variables -> KUBECONFIG_SECRET
+  * in Settings->CI/CD -> Variables -> KUBECONFIG_SECRET (als File)
 
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/ce299745-c478-409d-8416-0bb8261e8133)
 
@@ -3374,7 +3879,7 @@ cat .kube/config
 ```
 
 
-### Schritt 3: pipeline mit kubectl einrichten 
+### Schritt 4: pipeline mit kubectl einrichten 
 
   * Ich brauche ein image, das kubectl kann 
 
@@ -3388,17 +3893,17 @@ cat .kube/config
 ## use the following content 
 deploy:
   image:
-    name: bitnami/kubectl:latest
+    name: alpine/k8s:1.31.13
     entrypoint: ['']
   script:
-    - echo "$KUBECONFIG_SECRET" > ~/.kube/config
+    - mkdir ~/.kube && cat "$KUBECONFIG_SECRET" > ~/.kube/config
     - kubectl cluster-info
-    # - ls -la
-    - cd flight-app
-    - kubectl apply -Rf .
+    - pwd
+    - ls -la
+    - cd manifests && kubectl apply -Rf .
 ```
 
-### Schritt 4: version des images ändern in ...
+### Schritt 5: version des images ändern in ...
 
 ```
 ## image-version muss in docker hub vorhanden sein
@@ -3797,7 +4302,7 @@ jobs:
 
   * Virtualisierung von Hardware - xfache bessere Auslastung
   * Ist in Google entstanden 
-  * Software 2014 als OpenSource zur Verfügung gestellt (Nachfolger von: Borg)
+  * Software 2014 als OpenSource zur Verfügung gestellt (Angelegt an Borg)
   * Optimale Ausnutzung der Hardware, hunderte bis tausende Dienste können auf einigen Maschinen laufen (Cluster)  
   * Immutable - System
   * Selbstheilend
@@ -3812,7 +4317,7 @@ jobs:
 
 ### Schaubild 
 
-![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/0c915cb1-5e5a-4ef1-a978-f3c16633be69)
+![image](https://github.com/user-attachments/assets/f4de7c54-33a8-46e5-916c-1119575b1aed)
 
 ### Komponenten / Grundbegriffe
 
@@ -4134,7 +4639,6 @@ sudo snap install microk8s --classic
 microk8s status
 
 ## Sobald Kubernetes zur Verfügung steht aktivieren wir noch das plugin dns
-microk8s enable dns 
 microk8s status
 ```
 
@@ -4177,6 +4681,18 @@ microk8s add-node
 microk8s join 10.128.63.86:25000/567a21bdfc9a64738ef4b3286b2b8a69
 
 ```
+
+### Testing 
+
+```
+## auf dem master z.B variante 1
+microk8s status
+
+## Variante
+microk8s kubectl get nodes
+```
+
+
 
 ### Auf einem Node addon aktivieren z.B. ingress
 
@@ -4494,6 +5010,11 @@ kubectl describe pods meinfalscherpod
 
 ![Bauen einer Webanwendung](images/WebApp.drawio.png)
 
+### Anatomie einer Webanwendung
+
+
+![image](https://github.com/user-attachments/assets/0a0c519e-fad3-4aac-b945-2e0a7fc2999c)
+
 ### kubectl/manifest/pod
 
 
@@ -4664,6 +5185,10 @@ kubectl get all
 ```
 
 ```
+nano deploy.yml
+```
+
+```
 ## image ändern in deploy.yml
 ## vorher: image: nginx:1.21
 ## jetzt
@@ -4672,7 +5197,11 @@ image: nginx:1.23
 
 ```
 ## Anwenden und watchen 
-kubectl apply -f . ; kubectl get all; kubectl get pods -w
+## kubectl apply -f . ; kubectl get all; kubectl get pods -w
+## Nicer:
+## Ändern des images von nginx:1.22 in nginx:1.23
+## danach 
+kubectl apply -f . && watch kubectl get pods 
 ```
 
 ### Services - Aufbau
@@ -4824,12 +5353,6 @@ spec:
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 ```
 
-```
-mkdir -p manifests
-cd manifests
-mkdir ingress
-cd ingress
-```
 ```
 helm install nginx-ingress ingress-nginx/ingress-nginx --namespace ingress --create-namespace  
 ```
@@ -5085,6 +5608,7 @@ apiVersion: v1
 metadata:
   name: apple-service
 spec:
+  type: ClusterIP
   selector:
     app: apple
   ports:
@@ -5131,6 +5655,7 @@ apiVersion: v1
 metadata:
   name: banana-service
 spec:
+  type: ClusterIP
   selector:
     app: banana
   ports:
@@ -5153,7 +5678,7 @@ nano ingress.yml
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: example-ingress
+  name: ingress-abi
 spec:
   ingressClassName: nginx
   rules:
@@ -5220,7 +5745,7 @@ apiVersion: networking.k8s.io/v1
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: example-ingress
+  name: ingress-abi
   annotations:
     ingress.kubernetes.io/rewrite-target: /
     # with the ingress controller from helm, you need to set an annotation 
@@ -5535,6 +6060,38 @@ spec:
               name: banana-service
               port:
                 number: 80                
+```
+
+### Analyse nach Erfolg 
+
+```
+kubectl get ing
+kubectl describe ing ingress-abi
+```
+
+```
+## Löschen eines Deployment testweise (zum Kennenlernen)
+kubectl delete -f apple.yml
+kubectl describe ing ingress-abi
+kubectl apply -f apple.yml
+kubectl describe ing ingress-abi
+```
+
+<img width="927" height="88" alt="image" src="https://github.com/user-attachments/assets/e30140d3-fa30-4833-b55b-902e661dee80" />
+
+
+```
+## Testweise löschen eines Service
+kubectl delete -f apple-service.yml
+kubectl describe ing ingress-abi
+```
+
+
+
+
+```
+kubectl apply -f apple-service.yml
+kubectl describe ing ingress-abi
 ```
 
 ### Achtung: Ingress mit Helm - annotations
@@ -6391,48 +6948,34 @@ kubectl run podtest --rm -ti --image busybox
 ### DNS - Resolution - Services
 
 
-### Generic 
-
-  * DNS - Names for Services are automatically created from the Service -> Name
-  * + the namespace the service is in
-  * + fixed subdomain svc.cluster.local 
-
-### Example:
-
-```
-## Service Name: myservice
-## Being in Namespace: app
-## Results in
-
-myservice
-myservice.app
-myservice.app.svc.cluster.local 
-
-```
-
-### Walkthrough 
+### Exercise 
 
 ```
 kubectl run podtest --rm -ti --image busybox
-If you don't see a command prompt, try pressing enter.
-/ # wget -O - http://apple-service.jochen
-Connecting to apple-service.jochen (10.245.39.214:80)
-writing to stdout
-apple-tln1
--                    100% |**************************************************************************************************************|    11  0:00:00 ETA
-written to stdout
-/ # wget -O - http://apple-service.jochen.svc.cluster.local
-Connecting to apple-service.jochen.svc.cluster.local (10.245.39.214:80)
-writing to stdout
-apple-tln1
--                    100% |**************************************************************************************************************|    11  0:00:00 ETA
-written to stdout
-/ # wget -O - http://apple-service
-Connecting to apple-service (10.245.39.214:80)
-writing to stdout
-apple-tln1
--                    100% |**************************************************************************************************************|    11  0:00:00 ETA
-written to stdout
+```
+
+### Example with svc-nginx 
+
+```
+## in sh
+wget -O - http://svc-nginx
+wget -O - http://svc-nginx.jochen
+wget -O - http://svc-nginx.jochen.svc
+wget -O - http://svc-nginx.jochen.svc.cluster.local
+```
+
+### How to find the FQDN (Full qualified domain name) 
+
+```
+## in busybox (clusterIP)
+#### Schritt 1: Service-IP ausfindig machen
+wget -O - http://svc-nginx
+## z.B. 10.109.24.227 
+
+#### Schritt 2: nslookup mit dieser Service-IP
+nslookup 10.109.24.227
+## Ausgabe 
+## name = svc-nginx.jochen.svc.cluster.local
 ```
 
 ## Kubernetes Scaling / Resource Management 
@@ -7209,6 +7752,53 @@ kubectl apply -f apple.yml # (deployment)
 
   * https://www.amazon.de/Kubernetes-Running-Dive-Future-Infrastructure/dp/109811020X/ref=sr_1_1
 
+## FAQ
+
+### Verschlüsselung mit Thales docker-container
+
+
+### Background 
+
+  * Thales verwendet transparente Encryption (funktioniert über den Kernel)
+
+<img width="928" height="187" alt="image" src="https://github.com/user-attachments/assets/336d3a1e-5dd1-4c81-a24d-f8c1a566854a" />
+
+### Was macht ein GuardPoint ? 
+
+  * Verschlüsselung: Alle neuen Dateien werden verschlüsselt gespeichert
+  * Entschlüsselung: Autorisierte Prozesse können transparent lesen
+  * Zugriffskontrolle: Policy definiert wer Zugriff hat
+  * Audit: Alle Zugriffe werden geloggt
+
+### Beispiel für mariadb (wenn kein uid_mapping) 
+
+<img width="539" height="683" alt="image" src="https://github.com/user-attachments/assets/c060df8b-42fc-4ee0-b2b4-05f9f5bf754c" />
+
+### Wie hänge ich ein mount ein, der nicht unter volumes liegt in docker ? 
+
+  * Achtung, Rechte müssen richtig gesetzt sein
+  * chown 10001:10001 /data/mariadb # wenn der mariadb - container unter diesem User läuft / Achtung uid_mapping, da ist es anders 
+
+```
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:11.2
+    container_name: mariadb-encrypted
+    user: "10001:10001"
+    environment:
+      MYSQL_ROOT_PASSWORD: SuperSecret123
+      MYSQL_DATABASE: appdb
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: AppPass456
+    volumes:
+      - /data/mariadb:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+````
+
 ## gitlab ci/cd
 
 ### Einfaches Beispielscript
@@ -7230,6 +7820,32 @@ build-job:       # This job runs in the build stage, which runs first.
     - pwd
 ```
 
+
+
+### Docker image bauen mit fastapi (python) und kaniko
+
+
+### Schritt 1: Einloggen in gitlab
+
+### Schritt 2: Import Project (für neues Projekt/Repo anlegen) 
+
+https://gitlab.com/projects/new#import_project
+
+```
+und zwar für folgende URL
+https://gitlab.com/jmetzger/training-gitlab-cicd-php-with-hello-world.git
+```
+
+```
+und als projekt namen einen beliebigen verwenden
+```
+
+```
+als visibility
+-> public
+```
+
+### Schritt 3: Pipeline ausführen 
 
 
 ## Praxis Microservices ohne Docker und Kubernetes 
@@ -7652,8 +8268,11 @@ docker run --name test-nginx -d -p 8080:80 nginx
 ```
 
 ```
+## auf host machine ip des hosts ausfindig machen
+ip a  show eth0 
+
 docker container ls
-lsof -i
+sudo lsof -i
 cat /etc/services | grep 8080
 curl http://localhost:8080
 docker container ls
@@ -7781,6 +8400,8 @@ docker push dockertrainereu/jm-hello-docker
 ### Ubuntu mit ping
 
 
+### Image erstellen 
+
 ```
 mkdir myubuntu 
 cd myubuntu/
@@ -7791,7 +8412,7 @@ nano Dockerfile
 ```
 
 ```
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 RUN apt-get update; apt-get install -y inetutils-ping
 ## CMD ["/bin/bash"]
 ```
@@ -7804,7 +8425,7 @@ docker images
 ```
 ## Variante 2
 ## nano Dockerfile
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 RUN apt-get update && \
     apt-get install -y inetutils-ping && \
     rm -rf /var/lib/apt/lists/*
@@ -7816,11 +8437,13 @@ docker build -t myubuntu:1.0 .
 docker images
 ```
 
+### Image (ping) testen  
+
 ```
 ## -t wird benötigt, damit bash WEITER im Hintergrund im läuft.
 ## auch mit -d (ohne -t) wird die bash ausgeführt, aber "das Terminal" dann direkt beendet 
 ## -> container läuft dann nicht mehr 
-docker run -d -t --name container-ubuntu myubuntu:1.0
+docker run -d -t --name container-ubuntu fullubuntu:1.0
 docker container ls
 
 ## docker inspect to find out ip of other container 
@@ -7830,7 +8453,7 @@ docker inspect container-ubuntu | grep -i ipaddress
 
 ```
 ## Zweiten Container starten um 1. anzupingen 
-docker run -d -t --name container-ubuntu2 myubuntu:1.0 
+docker run -d -t --name container-ubuntu2 fullubuntu:1.0 
 
 ## Ersten Container -> 2. anpingen 
 docker exec -it container-ubuntu2 bash 
