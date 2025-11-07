@@ -311,7 +311,7 @@ spec:
 kubectl apply -f .
 ```
 
-## Schritt 9: deployment for reservations 
+## Schritt 7: deployment for reservations 
 
 ```
 nano 04-reservations-deploy.yml
