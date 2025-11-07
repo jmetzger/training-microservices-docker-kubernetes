@@ -158,3 +158,37 @@ python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. user.proto
 - **Browser-Clients** (Web-Apps ohne gRPC-Web)
 - **Einfachheit bevorzugt** (schnelles Prototyping, Debugging)
 - **HTTP/1.1-Infrastruktur** (Legacy-Systeme, bestimmte Proxies)
+
+## Was wird generiert:
+
+Aus `user.proto` generiert der Compiler:
+
+```bash
+python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. user.proto
+```
+
+**Erzeugt automatisch:**
+- `user_pb2.py` - Message-Klassen (UserRequest, UserResponse, etc.)
+- `user_pb2_grpc.py` - Stub-Klassen und Service-Basis
+
+```python
+# user_pb2_grpc.py (generiert)
+class UserServiceServicer(object):  # ← Basis für Server
+    def GetUser(self, request, context):
+        raise NotImplementedError()
+    
+    def StreamUserActivity(self, request, context):
+        raise NotImplementedError()
+
+class UserServiceStub(object):  # ← Für Client
+    def __init__(self, channel):
+        self.GetUser = channel.unary_unary(...)
+        self.StreamUserActivity = channel.unary_stream(...)
+```
+
+## Was du selbst schreibst:
+
+✍️ **Server:** Business-Logik in `UserService(UserServiceServicer)` - erbt nur von generierter Basis
+✍️ **Client:** `OrderService` - nutzt generierten `UserServiceStub`, aber Logik ist manuell
+
+**Zusammenfassung:** Der Compiler gibt dir typsichere Schnittstellen, die Implementierung schreibst du.
