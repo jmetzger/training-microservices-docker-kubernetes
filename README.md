@@ -5,6 +5,7 @@
   1. Grundlagen
      * [Was sind Microservices ?](microservices/what-are.md)
      * [Grundkonzepte von Microservices](microservices/basics.md)
+     * [Architektur von Microservices (Schichten/Layers)](microservices/layers.md)
      * [Monolith vs. Microservices](microservices/monolith-vs-microservice.md)
      * [Praxisbeispiele](/microservices/praxisbeispiele.md) 
      * [Was ist devops](/microservices/what-is-devops.md)
