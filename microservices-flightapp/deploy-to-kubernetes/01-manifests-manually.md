@@ -387,12 +387,14 @@ spec:
 ```
 
 ```
-kubectl apply -f .
+cd
+cd manifests/flight-app
+kubectl apply -R -f .
 ```
 
 ## Hinweis: kompose als Hilfestellung nutzen 
 
-## Hinweis: Lokal kompose installieren 
+### Hinweis: Lokal kompose installieren 
 
   * als root
 
@@ -403,7 +405,7 @@ kubectl apply -f .
 su - kurs 
 ```
 
-##  ms-reservations clonen (zur Hilfe bzgl. der manifests)
+###  ms-reservations clonen (zur Hilfe bzgl. der manifests)
 
 ```
 cd 
