@@ -50,7 +50,7 @@ git push -u origin master
 
 ## Schritt 3: KUBECONFIG_SECRET einrichten 
 
-  * in Settings->CI/CD -> Variables -> KUBECONFIG_SECRET
+  * in Settings->CI/CD -> Variables -> KUBECONFIG_SECRET (als File)
 
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/ce299745-c478-409d-8416-0bb8261e8133)
 
@@ -78,7 +78,7 @@ deploy:
     name: bitnami/kubectl:latest
     entrypoint: ['']
   script:
-    - echo "$KUBECONFIG_SECRET" > ~/.kube/config
+    - cat "$KUBECONFIG_SECRET" > ~/.kube/config
     - kubectl cluster-info
     # - ls -la
     - cd flight-app
