@@ -229,6 +229,8 @@ kubectl apply -f .
 ## Schritt 5: Redis ausrollen 
 
 ```
+cd
+cd manifests/flight-app/reservations
 nano 02-redis-deploy.yml 
 ```
 
@@ -286,7 +288,7 @@ kubectl apply -f .
 ```
 
 
-## Schritt 8: service für redis 
+## Schritt 6: service für redis 
 
 ```
 nano 03-redis-service.yml
