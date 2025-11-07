@@ -26,6 +26,8 @@
   1. Grundwissen Microservices - Async Messaging
      * [EventBus Implementierungen/Überblick](/microservices/eventbus/overview.md)
      * [Kafka Schaubild](/microservices/eventbus/kafka.md)
+     * [Topic/Queue ohne Downtime migrieren](/async-messaging/01-migrate-topic-without-downtime.md)
+     * [Disruptive Änderungen im Schema migrieren](/async-messaging/02-change-schema-breaking-change.md) 
   
   1. Grundwissen Microservices - Tests (Teil 3)
       * [Tests](microservices/tests/overview.md) 
@@ -79,10 +81,6 @@
      * [Umgang mit Joins bei database-per-service](microservices/databases/patterns/database-per-service/handling-of-joins.md)
      * [Umgang mit Transaktionen bei database-per-service (SAGA)](microservices/databases/patterns/database-per-service/handling-of-transactions.md)
      * [Event Sourcing](microservices/databases/patterns/database-per-service/event-sourcing.md)
-
-  1. Microservices (async messaging)
-     * [Topic/Queue ohne Downtime migrieren](/async-messaging/01-migrate-topic-without-downtime.md)
-     * [Disruptive Änderungen im Schema migrieren](/async-messaging/02-change-schema-breaking-change.md) 
     
   1. Microservice - flightapp - concepts
      * [Vorgehensweise nach dem SEED-Verfahren](microservices-flightapp/concept/00-design-with-seed-method.md)
