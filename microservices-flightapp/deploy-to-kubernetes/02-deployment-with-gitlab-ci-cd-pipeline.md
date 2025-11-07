@@ -75,7 +75,7 @@ cat .kube/config
 # use the following content 
 deploy:
   image:
-    name: bitnami/kubectl:latest
+    name: alpine/k8s:1.31.13
     entrypoint: ['']
   script:
     - cat "$KUBECONFIG_SECRET" > ~/.kube/config
