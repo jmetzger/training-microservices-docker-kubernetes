@@ -22,5 +22,5 @@ Hier ist die Tabelle der Twelve-Factor App Principles:
 | 8 | Concurrency | Apps sollten in Module aufgeteillt werden zur einfachen Skalierung |
 | 9 | Disposability | Schneller Start und einfaches Herunterfahren |
 | 10 | DEV/PROD Parity | Entwicklungumgebung und Produktion möglichst ähnlich |
-| 11 | Logs | Logs als Event-Streams behandeln (wie bei docker / kubernetes |
+| 11 | Logs | Logs als Event-Streams behandeln (wie bei docker / kubernetes) |
 | 12 | Admin Processes | Admin-Aufgaben als One-off-Prozesse |
