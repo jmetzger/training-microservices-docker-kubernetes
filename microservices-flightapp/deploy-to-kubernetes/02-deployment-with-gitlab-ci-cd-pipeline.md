@@ -14,14 +14,27 @@ z.B.
 https://gitlab.com/training.tn1/ms-jochen-k8sdeploy
 ```
 
+## Option Schritt 1: umbenennen 
+
 ```
 cd
 cd manifests/
 mkdir project-flight-app
 mv flight-app project-flight-app
 cd project-flight-app
+```
+
+## Schritt 2: 
+
+```
+cd
+cd manifests
+cd flight-app
+```
+
+```
 git init
-git add .
+git add -A
 git status
 git config --global user.email "you@email.com"
 git config --global user.name "Phantomas"
@@ -35,7 +48,7 @@ git push -u origin master
 ```
 
 
-## Schritt 2: KUBECONFIG_SECRET einrichten 
+## Schritt 3: KUBECONFIG_SECRET einrichten 
 
   * in Settings->CI/CD -> Variables -> KUBECONFIG_SECRET
 
@@ -48,7 +61,7 @@ cat .kube/config
 ```
 
 
-## Schritt 3: pipeline mit kubectl einrichten 
+## Schritt 4: pipeline mit kubectl einrichten 
 
   * Ich brauche ein image, das kubectl kann 
 
@@ -72,7 +85,7 @@ deploy:
     - kubectl apply -Rf .
 ```
 
-## Schritt 4: version des images ändern in ...
+## Schritt 5: version des images ändern in ...
 
 ```
 # image-version muss in docker hub vorhanden sein
