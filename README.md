@@ -10,7 +10,6 @@
      * [Monolith vs. Microservices](microservices/monolith-vs-microservice.md)
      * [Praxisbeispiele](/microservices/praxisbeispiele.md) 
      * [Was ist devops](/microservices/what-is-devops.md)
-     * [Asynchrones Messaging](microservices/asynchronous-messaging.md)
      * [Microservice and Database](microservices/basics/database.md)
 
   1. Analyse Monolith / Microservice
@@ -29,6 +28,7 @@
      * [API-Abfrage über REST-API](microservices/rest-api.md)
     
   1. Grundwissen Microservices - Async Messaging
+     * [Asynchrones Messaging](microservices/asynchronous-messaging.md)
      * [EventBus Implementierungen/Überblick](/microservices/eventbus/overview.md)
      * [Kafka Schaubild](/microservices/eventbus/kafka.md)
      * [Topic/Queue ohne Downtime migrieren](/async-messaging/01-migrate-topic-without-downtime.md)
