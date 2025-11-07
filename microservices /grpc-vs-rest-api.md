@@ -189,6 +189,7 @@ class UserServiceStub(object):  # ← Für Client
 ## Was du selbst schreibst:
 
 ✍️ **Server:** Business-Logik in `UserService(UserServiceServicer)` - erbt nur von generierter Basis
+
 ✍️ **Client:** `OrderService` - nutzt generierten `UserServiceStub`, aber Logik ist manuell
 
 **Zusammenfassung:** Der Compiler gibt dir typsichere Schnittstellen, die Implementierung schreibst du.
