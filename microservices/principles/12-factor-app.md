@@ -1,5 +1,14 @@
 # 12-factor-app Prinzipien 
 
+  * Das sind best-practices 
+
+```
+Die 12-Factors stammen von Heroku 
+und beschreiben, wie eine App aussehen muss, 
+damit sie sich problemlos in einer Cloud-Plattform betreiben lässt 
+— also genau das, was Kubernetes heute von einem Workload erwartet.
+```
+
   * Ursprünglich entwickelt von heroku 2011
   * Ursprünglich gedacht für cloud-native apps
   * Auch gut für microservices anwendbar
