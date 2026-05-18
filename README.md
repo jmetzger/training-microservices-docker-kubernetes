@@ -76,7 +76,7 @@
      * [Scanning docker image with docker scan/snyx(Deprecated)](docker/security/docker-scan-snyk.md) 
     
   1. Docker Compose
-     * [Ist docker-compose installiert?](docker-compose-installed.md) 
+     * [Ist docker compose installiert?](docker-compose-installed.md) 
      * [Example with Wordpress / MySQL](example-wordpress-mysql.md)
      * [Example with Ubuntu and Dockerfile](example-docker-compose-ubuntu-build.md)
      * [Logs in docker - compose](docker-compose-logs.md)
