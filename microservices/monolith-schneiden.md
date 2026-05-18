@@ -9,6 +9,7 @@
 
 ## Wie kann ich schneiden (GUT) ? 
 
+  * Fachlich 
   * DDD (Domain Driven Design) - Welche Aufgaben gibt es innerhalb des sogenannten Bounded Context in meiner Domäne 
   * Domäne: Bibliothek 
   * In der Bibliothek 
