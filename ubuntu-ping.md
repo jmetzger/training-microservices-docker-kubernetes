@@ -38,7 +38,7 @@ docker build -t myubuntu:1.0 .
 docker images
 ```
 
-## Image (ping) testen  
+## Image (ping) testen  (mit image fullubuntu:1.0)
 
 ```
 # -t wird benötigt, damit bash WEITER im Hintergrund im läuft.
@@ -63,3 +63,31 @@ ping 172.17.0.3
 
  
 ```
+
+
+## Image (ping) testen  (mit image myubuntu:1.0)
+
+```
+# -t wird benötigt, damit bash WEITER im Hintergrund im läuft.
+# auch mit -d (ohne -t) wird die bash ausgeführt, aber "das Terminal" dann direkt beendet 
+# -> container läuft dann nicht mehr 
+docker run -d -t --name container-ubuntu myubuntu:1.0
+docker container ls
+
+# docker inspect to find out ip of other container 
+# 172.17.0.3 
+docker inspect container-ubuntu | grep -i ipaddress
+```
+
+```
+# Zweiten Container starten um 1. anzupingen 
+docker run -d -t --name container-ubuntu2 myubuntu:1.0 
+
+# Ersten Container -> 2. anpingen 
+docker exec -it container-ubuntu2 bash 
+# Jeder container hat eine eigene IP 
+ping 172.17.0.3
+
+ 
+```
+
