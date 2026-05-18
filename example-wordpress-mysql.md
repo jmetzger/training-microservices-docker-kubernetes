@@ -76,5 +76,8 @@ exit
 ## Schritt 4: Alles wieder beenden 
 
 ```
+# Achtung, damit werden auch die Container gelöscht 
 docker compose down
+# nur stoppen
+docker compose stop 
 ```
