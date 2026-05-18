@@ -45,7 +45,7 @@ deploybare Einheit. Das Team klagt ueber:
       Frontend
 ```
 
-**Alles in einem Prozess. Ein Fehler kann alles reissen.**
+**Alles in einem Prozess. Ein Fehler kann alles "breaken".**
 
 ---
 
