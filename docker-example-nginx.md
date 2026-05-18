@@ -22,5 +22,6 @@ curl http://localhost:8080
 
 
 ```
+docker start test-nginx 
 curl <ip-der-maschine>:8080
 ```
