@@ -11,7 +11,8 @@ docker container ls -a
 docker ps
 docker ps -a
 
-# Ip-Adresse rausfinden 
+# Ip-Adresse rausfinden
+docker inspect my_nginx
 docker inspect my_nginx | grep -i -A 20 networksettings
 # ip ist: 172.17.0.2
 # Webseite von nginx anzeigen 
