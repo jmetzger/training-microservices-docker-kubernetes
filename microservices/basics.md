@@ -5,7 +5,7 @@
 ### Was ? 
 
   * Microservices leben das Konzept, so viel wie möglich Informationen
-in einer Komponenten zu verstecken 
+in einer Komponente zu verstecken 
   * Der Microservice gibt so wenig Informationen wie "nötig" preis. 
 
 ### Warum ? 
