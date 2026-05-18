@@ -7,7 +7,7 @@
 ### Wie umleitung, z.B.
 
   * http proxy 
-  * oder s.u. branch by extraction
+  * oder s.u. branch by abstraction
   * An- und Abschalten mit Feature Toggle 
   * Über message broker 
 
