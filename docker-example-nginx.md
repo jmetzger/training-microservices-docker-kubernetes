@@ -19,3 +19,8 @@ curl http://localhost:8080
 
 
 ```
+
+
+```
+curl <ip-der-maschine>:8080
+```
