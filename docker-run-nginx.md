@@ -5,8 +5,11 @@
 ```
 docker run -d --name my_nginx nginx:1.23
 docker container ls
+# wenn er nicht läuft dann sehen wir ihn nur mit
+docker container ls -a
 # oder 
 docker ps
+docker ps -a
 
 # Ip-Adresse rausfinden 
 docker inspect my_nginx | grep -i -A 20 networksettings
