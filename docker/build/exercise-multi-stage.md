@@ -4,12 +4,6 @@
 
   * Oberfläche klein für Angriffe 
 
-## Hash-Tag 
-
-```
-#minimal-installation
-```
-
 ## Beispiel - Übung 
 
 
