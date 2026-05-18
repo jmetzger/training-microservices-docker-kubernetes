@@ -3,6 +3,7 @@
 ## Image erstellen 
 
 ```
+cd
 mkdir myubuntu 
 cd myubuntu/
 ```
