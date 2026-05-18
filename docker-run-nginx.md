@@ -28,9 +28,11 @@ docker images
 ```
 # falls nicht root
 sudo su -
+```
+
+```
 # wo sind die overlays
-cd /var/lib/docker
-cd overlay2
+cd /var/lib/docker/rootfs/overlayfs 
 # now find out
 ls -la
 exit
