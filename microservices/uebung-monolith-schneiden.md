@@ -171,12 +171,6 @@ Zeichnet die Abhaengigkeiten zwischen den Contexts:
 +-------------------+
 ```
 
-> **Was bedeutet "publiziert"?**
-> Ein Service sendet ein Domain Event auf einen Event Bus (z.B. Kafka).
-> Er interessiert sich nicht dafuer, wer zuhoert — er publiziert einfach.
-> Andere Services *subscriben* selbst auf Events, die sie brauchen.
-> Vorteil: Der Sender hat keine Abhaengigkeit zum Empfaenger.
-
 ### Integration-Patterns markieren
 
 Tragt fuer jede Verbindung ein, wie die Kommunikation stattfindet:
