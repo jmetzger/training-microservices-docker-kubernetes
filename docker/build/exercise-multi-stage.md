@@ -34,7 +34,7 @@ nano Dockerfile
 
 
 ```
-FROM golang:1.25 as binary
+FROM golang:1.25 AS binary
 WORKDIR /src
 COPY main.go .
 RUN go build -o /bin/hello ./main.go
