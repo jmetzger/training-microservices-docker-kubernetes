@@ -156,20 +156,26 @@ Zeichnet die Abhaengigkeiten zwischen den Contexts:
 |   Bestellprozess  |                  |  Lagerbestand     |
 +-------------------+                  +-------------------+
      ^         |
-     |         | publiziert
+     |         | ---publiziert--->
      |         | BestellungAufgegeben
      |         v
 +-------------------+    +-------------------+
 |      Zahlung      |    |  Benachrichtigung |
 +-------------------+    +-------------------+
           |                      ^
-          | publiziert           |
+          | ---publiziert------> |
           | ZahlungErfolgt ------+
           v
 +-------------------+
 |  Versand/Logistik |
 +-------------------+
 ```
+
+> **Was bedeutet "publiziert"?**
+> Ein Service sendet ein Domain Event auf einen Event Bus (z.B. Kafka).
+> Er interessiert sich nicht dafuer, wer zuhoert — er publiziert einfach.
+> Andere Services *subscriben* selbst auf Events, die sie brauchen.
+> Vorteil: Der Sender hat keine Abhaengigkeit zum Empfaenger.
 
 ### Integration-Patterns markieren
 
