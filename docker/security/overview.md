@@ -10,7 +10,7 @@
   * Alle container einer applikation in einem eigenen Netzwerk  
   * Images scannen inkl. security scans. 
 
-## Images die nicht als root lauen 
+## Images die nicht als root laufen 
 
   * ~bitnami~ 
   * nginx unprivileged
