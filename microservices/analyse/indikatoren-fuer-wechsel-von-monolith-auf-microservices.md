@@ -11,7 +11,7 @@
 
 ## Weiche Faktoren
 - **Entwickler-Produktivität**: Änderungen benötigen umfangreiche Regressionstests
-- **Technologie-Lock-in**: Neue Technologien nicht einsetzbar
+- **Technologie-Lock-in**: Neue Technologien nicht bzw. schwer einsetzbar 
 - **Team-Autonomie**: Teams blockieren sich gegenseitig
 - **Onboarding**: Neue Entwickler brauchen Wochen zum Verständnis
 - **Code-Ownership**: Unklare Verantwortlichkeiten
