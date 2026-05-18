@@ -22,6 +22,7 @@
      * [Strategische Patterns](microservices/strategic-patterns.md)
      * [Tests](microservices/tests/overview.md)
      * [Monolith schneiden microservices](microservices/monolith-schneiden.md)
+     * [Uebung: Monolith schneiden — DDD, Bounded Contexts und Strangler Fig](microservices/uebung-monolith-schneiden.md)
 
   1. Grundwissen Microservices - Synchrones Messaging
      * [gRPC vs. REST API](microservices/grpc-vs-rest-api.md)
