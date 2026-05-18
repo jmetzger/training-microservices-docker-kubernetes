@@ -32,6 +32,7 @@
      * [EventBus Implementierungen/Überblick](/microservices/eventbus/overview.md)
      * [Kafka Schaubild](/microservices/eventbus/kafka.md)
      * [Schema Registry (confluent)](async-messaging/03-schema-registry.md)
+     * [Uebung: Kafka Schema Registry — Avro und Schema-Evolution](async-messaging/kafka-schema-registry.md)
      * [Topic/Queue ohne Downtime migrieren](/async-messaging/01-migrate-topic-without-downtime.md)
      * [Disruptive Änderungen im Schema migrieren](/async-messaging/02-change-schema-breaking-change.md) 
 
