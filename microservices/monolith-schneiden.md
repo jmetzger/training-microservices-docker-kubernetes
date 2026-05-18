@@ -85,7 +85,7 @@ Axiom: Eine eigenständige Datenbank pro Service. Warum ?
 #### Punkt 1 : Jeder Service soll unabhängig laufen können 
 
 ```
-We want earch service to run independently of other services 
+Jeder Service soll unabhängig vom anderen Service sein 
 
 o no DB for everything (If DB goes down our service goes down)
 o it easier to scale (if one service needs more capacity)
