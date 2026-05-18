@@ -19,6 +19,6 @@ in einer Komponente zu verstecken
 
    * Teams unabhängig Änderung in Microservices machen und dieses redeployen und zwar ohne alle anderen
      * zu redeployen 
-   * This is the most important thing and also the (Die wichtigste Sache, der Tipp Nr. 1)
+   * (Das ist die wichtigste Sache bei microservices, der Tipp Nr. 1)
 
 
