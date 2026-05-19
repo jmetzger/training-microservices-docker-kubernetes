@@ -223,7 +223,7 @@ Phase 0 (heute):    [Kompletter Monolith]
 
 Phase 1 (Monat 1):  [Monolith ohne Notification] + [Notification Service]
                          Strangler Proxy leitet Notification-Calls um
-                         Dual-Write waehrend DB-Migration
+
 
 Phase 2 (Monat 3):  [Monolith ohne Notification, Produkt, Lager]
                     + [Product Service] + [Inventory Service] + [Notification Service]
