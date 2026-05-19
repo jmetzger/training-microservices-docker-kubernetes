@@ -82,44 +82,6 @@ Kompensation zu Schritt 2: Customer-Service stellt Kreditlimit wieder her
 Kompensation zu Schritt 1: Order-Service storniert die Bestellung
 ```
 
-### Konkrete SQL-Beispiele
-
-**Schritt 2 — Original (Kreditlimit reduzieren):**
-
-```sql
--- Customer-DB
-UPDATE customers
-SET credit_limit = credit_limit - 150.00
-WHERE id = 42;
-```
-
-**Kompensation zu Schritt 2 — Kreditlimit wiederherstellen:**
-
-```sql
--- Customer-DB
-UPDATE customers
-SET credit_limit = credit_limit + 150.00
-WHERE id = 42;
-```
-
-**Schritt 1 — Original (Bestellung anlegen):**
-
-```sql
--- Order-DB
-INSERT INTO orders (id, customer_id, amount, status)
-VALUES ('ord-99', 42, 150.00, 'PENDING');
-```
-
-**Kompensation zu Schritt 1 — Bestellung stornieren:**
-
-```sql
--- Order-DB
-UPDATE orders
-SET status = 'CANCELLED'
-WHERE id = 'ord-99';
--- kein DELETE: Bestellung bleibt fuer Audit-Trail erhalten
-```
-
 ### Wichtige Eigenschaften einer Kompensationstransaktion
 
 - **Kein technisches Rollback** — sie ist eine neue, eigenstaendige Datenbankoperation
