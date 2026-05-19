@@ -41,27 +41,18 @@ Versand               Retoure (leer)
 
 ## Diskussionspunkte
 
-### Kundenverwaltung und NutzerVerwaltung — ein Context, nicht zwei
+### Kundenverwaltung und NutzerVerwaltung — eine gute Trennung, unglueckliche Benennung
 
-Die Trennung ist schwer fachlich zu begruenden:
-Wer sich registriert, meldet sich auch an und aendert sein Passwort.
-Dieselbe Ubiquitous Language, dasselbe Team, dieselbe Datenbank.
+Die Trennung ist fachlich begruendet:
+- **NutzerVerwaltung** = Identity Management (Login, Passwort, Authentifizierung) — technisches Team, eigene Datenbank, eigene Sicherheitsanforderungen
+- **Kundenverwaltung** = Kundenstammdaten (Adresse, Praeferenzen, Bestellhistorie) — fachliches Team, Shoplogik
 
-```
-Zusammenfuehren zu:
+Das ist ein bekanntes DDD-Muster: ein Nutzer (technische Identitaet) ist nicht dasselbe
+wie ein Kunde (Geschaeftsentitaet). Ein Nutzer koennte mehrere Kundenprofile haben,
+ein Kunde koennte angelegt werden bevor er einen Login hat.
 
-+-------------------+
-| Kundenverwaltung  |
-|                   |
-| KundeRegistriert  |
-| EmailVerifiziert  |
-| NutzerAngemeldet  |
-| PasswortGeaendert |
-+-------------------+
-```
-
-Faustregel: Wenn man keinen Grund nennen kann, warum zwei Teams diese
-Contexts getrennt betreiben wuerden — ist es ein Context.
+Die Bezeichnung "NutzerVerwaltung" war ungluecklich — besser waere **IdentityManagement**
+oder **Authentifizierung** gewesen, dann waere die Trennung sofort klar gewesen.
 
 ### ProduktGesucht im Warenkorb — falscher Context
 

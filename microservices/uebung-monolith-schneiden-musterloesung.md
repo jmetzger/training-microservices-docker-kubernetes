@@ -86,6 +86,27 @@ Der Warenkorb ist ein kurzlebiger Zustand im Bestellprozess — keine eigene Fac
 kein eigenes Team, keine eigene DB sinnvoll. Bei sehr grossem Traffic (z.B. Amazon)
 koennte er eigener Context werden.
 
+*Woran erkennt man einen zu gross geschnittenen Context?*
+Beispiel: Jemand fasst Bestellung, Zahlung und Versand in einem "Bestellprozess"-Context zusammen:
+
+```
+Zu gross:
++-----------------------------------------------+
+|               Bestellprozess                  |
+|                                               |
+| BestellungAufgegeben  ZahlungErfolgt          |
+| ZahlungFehlgeschlagen LieferungVersendet      |
++-----------------------------------------------+
+```
+
+Erkennungszeichen:
+- Das Zahlung-Team und das Logistik-Team muessen denselben Context aendern
+- Ein Bugfix in der Zahlungslogik blockiert ein Deployment des Versand-Teams
+- Die Fachbegriffe kommen aus verschiedenen Abteilungen mit verschiedener Sprache
+
+Korrekt geschnitten: Bestellung, Zahlung und Versand sind drei separate Contexts,
+die ueber Events miteinander kommunizieren.
+
 ---
 
 ## Schritt 3: Context Map (Musterloesung)
