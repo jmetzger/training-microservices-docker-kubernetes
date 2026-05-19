@@ -91,40 +91,43 @@ koennte er eigener Context werden.
 ## Schritt 3: Context Map (Musterloesung)
 
 ```
-                    +-------------------+
-                    |   Produktkatalog  |
-                    +-------------------+
-                         ^         ^
-                         |         |
-          +--------------+         +--------+
-          |                                 |
-+-------------------+             +-------------------+
-|   Bestellprozess  |             |   Lagerbestand    |
-+-------------------+             +-------------------+
-     ^         |
-     |         | ---publiziert--->
-     |         | BestellungAufgegeben
-     |         v
-+-------------------+    +-------------------+
-|      Zahlung      |    |  Benachrichtigung |
-+-------------------+    +-------------------+
-          |                      ^
-          | ---publiziert------> |
-          | ZahlungErfolgt ------+
-          v
-+-------------------+
-|  Versand/Logistik |
-+-------------------+
+                         +-------------------+
+                         |   Produktkatalog  |
+                         +-------------------+
+                              ^         ^
+                              |         |
+               +--------------+         +-----------+
+               |                                    |
+    +-------------------+                +-------------------+
+    |   Bestellprozess  |                |   Lagerbestand    |
+    +-------------------+                +-------------------+
+       |        |    |                            ^
+       |        |    +----BestellungAufgegeben--->+
+       |        |
+       |        +--------BestellungAufgegeben---> +-------------------+
+       |                                          |  Benachrichtigung |
+       | BestellungAufgegeben                     +-------------------+
+       v                                                   ^
+    +-------------------+                                  |
+    |      Zahlung      |--------ZahlungErfolgt----------->+
+    +-------------------+
+               |
+               | ZahlungErfolgt
+               v
+    +-------------------+
+    |  Versand/Logistik |
+    +-------------------+
 ```
 
 ### Integration-Patterns
 
 | Von | Nach | Aktuell (Monolith) | Ziel (Microservices) |
 |---|---|---|---|
-| Bestellprozess | Zahlung | direkter Methodenaufruf | sync REST / async Event |
+| Bestellprozess | Zahlung | direkter Methodenaufruf | async Event (BestellungAufgegeben) |
+| Bestellprozess | Lagerbestand | direkter DB-Zugriff | async Event (BestellungAufgegeben) |
+| Bestellprozess | Benachrichtigung | direkter Methodenaufruf | async Event (BestellungAufgegeben) |
 | Zahlung | Versand | direkter Methodenaufruf | async Event (ZahlungErfolgt) |
-| Zahlung | Benachrichtigung | direkter Methodenaufruf | async Event |
-| Bestellprozess | Lagerbestand | direkter DB-Zugriff | async Event / sync REST |
+| Zahlung | Benachrichtigung | direkter Methodenaufruf | async Event (ZahlungErfolgt) |
 | Bestellprozess | Produktkatalog | direkter DB-Zugriff | sync REST (Preisabfrage) |
 
 ---
