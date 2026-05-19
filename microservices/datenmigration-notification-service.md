@@ -351,21 +351,32 @@ LIMIT 100;
 INSERT INTO notification_svc_db.notifications (...)
 VALUES (...);  -- aus payload deserialisiert
 
--- Schritt 3: Eintrag als erledigt markieren (oder loeschen)
-
--- Option A: Status setzen (Eintrag bleibt fuer Debugging/Audit)
+-- Schritt 3: Eintrag als erledigt markieren (Empfehlung: UPDATE)
 UPDATE notification_outbox
 SET relayed_at = NOW()
-WHERE id = 42;
-
--- Option B: Eintrag loeschen (spart Speicher, kein Audit-Trail)
-DELETE FROM notification_outbox
 WHERE id = 42;
 ```
 
 Schritt 2 und 3 laufen in einer Transaktion — faellt die Notification-Service-DB aus,
 wird auch der Status-Update nicht committed. Der Eintrag bleibt offen und wird
 beim naechsten Polling-Durchlauf erneut verarbeitet.
+
+**Warum UPDATE statt DELETE?**
+Gerade waehrend einer Migration will man den Audit-Trail behalten:
+- Bei Problemen sieht man *wann* welcher Eintrag uebertragen wurde
+- Doppelt verarbeitete Eintraege sind erkennbar (`relayed_at` bereits gesetzt)
+
+Die Tabellengroesse wird nicht im Relay-Prozess geloest, sondern durch einen
+separaten Cleanup-Job:
+
+```sql
+-- Separater CronJob (z.B. taeglich)
+-- 7 Tage Aufbewahrung fuer Fehleranalyse, danach loeschen
+DELETE FROM notification_outbox
+WHERE relayed_at < NOW() - INTERVAL '7 days';
+```
+
+Die 7 Tage sind ein Richtwert — je nach SLA und Debugging-Beduerfnis anpassen.
 
 Verzoegerung: typisch < 1 Sekunde. Einfach umzusetzen, aber erzeugt staendige
 DB-Abfragen auch wenn nichts zu tun ist.
