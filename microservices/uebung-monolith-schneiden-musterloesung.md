@@ -107,6 +107,16 @@ Erkennungszeichen:
 Korrekt geschnitten: Bestellung, Zahlung und Versand sind drei separate Contexts,
 die ueber Events miteinander kommunizieren.
 
+*Woran erkennt man, dass ein Event im falschen Bounded Context ist?*
+
+| Zeichen | Beispiel aus ShopMax |
+|---|---|
+| **Falsches Team ist verantwortlich** | `VersandEmailVersendet` im Versand-Context — die Email schickt das Benachrichtigungs-Team, nicht die Logistik |
+| **Falsche Ubiquitous Language** | `ProduktGesucht` im Warenkorb — im Warenkorb gibt es keine "Suche", der Begriff gehoert zum Produktkatalog |
+| **Context reagiert nie auf dieses Event** | `RetoureErhalten` im Versand — Versand versendet, er empfaengt keine Retouren |
+| **Event enthaelt Daten aus einem anderen Context** | `BestellungAufgegeben` mit `zahlungsMethode`-Feld im Bestellprozess — Zahlungsmethode gehoert in den Zahlungs-Context |
+| **Andere Contexts muessen hineinsehen um zu reagieren** | Wenn Zahlung auf ein Event im Bestellprozess zugreifen muss, um eigene Events auszuloesen — ist die Grenze falsch gezogen |
+
 ---
 
 ## Schritt 3: Context Map (Musterloesung)
