@@ -31,7 +31,10 @@
 
 ## Pattern: Decorating Collaborator
 
-  * Ansteuerung als nachgelagerten Prozess über einen Proxy 
+  * Ansteuerung als nachgelagerten Prozess über einen Proxy
+  * Example: Decorating Collaborator
+
+
 
 ## Pattern Branch by Abstraction 
 
