@@ -79,6 +79,25 @@ KundeRegistriert -> ProduktGesucht -> ArtikelInWarenkorbGelegt
   -> LieferungVersendet -> EmailVersendet -> RechnungErstellt
 ```
 
+### Orientierungshilfe: Wieviele Events sind richtig?
+
+Als Daumenregel gilt: **3-5 Events pro Bounded Context**.
+Wieviele Contexts ShopMax hat, erarbeitet ihr in Schritt 2.
+
+| Anzahl Events | Bewertung | Typisches Problem |
+|---|---|---|
+| **< 10** | Zu wenig | Zu abstrakt — Contexts werden nicht sichtbar, Grenzen bleiben unklar |
+| **10-17** | Eher zu wenig | Einige Prozesse fehlen, z.B. Fehlerszenarien (ZahlungFehlgeschlagen) |
+| **18-30** | Gut | Deckt Hauptprozesse und wichtige Ausnahmen ab |
+| **31-40** | Grenzwertig | Zu technisch, z.B. "EmailAdresseGeaendert" statt "KundeAktualisiert" |
+| **> 40** | Zu viel | CRUD-Niveau statt Business-Events — Events sind Implementierungsdetails, keine Geschaeftsereignisse |
+
+**Qualitaetscheck fuer eure Events:**
+- Wuerden Business-Analysten (nicht Entwickler) den Begriff verstehen? ✓
+- Ist das Event in der Vergangenheitsform formuliert? ✓
+- Loest das Event eine Reaktion in mindestens einem anderen Bereich aus? ✓
+- Wenn Nein zu allen drei: wahrscheinlich kein Domain Event, sondern ein technisches Detail ✗
+
 ### Beobachtung
 
 Markiert Events, die **thematisch zusammengehoeren** mit einer Farbe.
@@ -99,25 +118,29 @@ das sind Hinweise auf **Bounded Contexts**.
 > - Ein Context = eine Deployeinheit (spaeter)
 > - Die Grenzen folgen der **Ubiquitous Language** (gemeinsamer Fachbegriffe)
 
-### Kandidaten fuer ShopMax
+### Aufgabe
 
-Analysiert die Events und gruppiert sie:
+Analysiert eure Events aus Schritt 1 und gruppiert sie in Bounded Contexts:
+
+- Wie viele Contexts findet ihr?
+- Gebt jedem Context einen praegnanten Namen aus der Fachsprache des Business
+- Welche Events gehoeren dazu?
+
+Nutzt das folgende Raster (ihr braucht moeglicherweise mehr oder weniger Felder):
 
 ```
 +-------------------+    +-------------------+    +-------------------+
-|   Kundenverwaltung |    |    Produktkatalog  |    |  Bestellprozess   |
 |                   |    |                   |    |                   |
-| KundeRegistriert  |    | ProduktGespeichert |    | BestellungAufgeg. |
-| ProfilAktualisiert|    | PreisGeaendert     |    | BestellungStorn.  |
-| KundeGeloescht    |    | LagerbestandAktual.|    | RechnungErstellt  |
+|                   |    |                   |    |                   |
+|                   |    |                   |    |                   |
+|                   |    |                   |    |                   |
 +-------------------+    +-------------------+    +-------------------+
 
 +-------------------+    +-------------------+    +-------------------+
-|      Zahlung      |    |    Versand/Logistik|    |  Benachrichtigung |
 |                   |    |                   |    |                   |
-| ZahlungErfolgt    |    | LieferungVersendet |    | EmailVersendet    |
-| ZahlungFehler     |    | LieferungZugestellt|    | SMSVersendet      |
-| RueckzahlungInit. |    | RetourneEingeleitet|    | PushNotification  |
+|                   |    |                   |    |                   |
+|                   |    |                   |    |                   |
+|                   |    |                   |    |                   |
 +-------------------+    +-------------------+    +-------------------+
 ```
 
@@ -142,34 +165,9 @@ Analysiert die Events und gruppiert sie:
 
 ### Aufgabe
 
-Zeichnet die Abhaengigkeiten zwischen den Contexts:
+Zeichnet die Abhaengigkeiten zwischen euren Contexts aus Schritt 2.
 
-```
-                    +-------------------+
-                    |   Produktkatalog  |
-                    +-------------------+
-                         ^         ^
-                         |         |
-          +--------------+         +-------------+
-          |                                      |
-+-------------------+                  +-------------------+
-|   Bestellprozess  |                  |  Lagerbestand     |
-+-------------------+                  +-------------------+
-     ^         |
-     |         | ---publiziert--->
-     |         | BestellungAufgegeben
-     |         v
-+-------------------+    +-------------------+
-|      Zahlung      |    |  Benachrichtigung |
-+-------------------+    +-------------------+
-          |                      ^
-          | ---publiziert------> |
-          | ZahlungErfolgt ------+
-          v
-+-------------------+
-|  Versand/Logistik |
-+-------------------+
-```
+Fuer jede Verbindung: Wer braucht Daten von wem? Wer publiziert Events, wer abonniert sie?
 
 > **Was bedeutet "publiziert"?**
 > Ein Service sendet ein Domain Event auf einen Event Bus (z.B. Kafka).
@@ -183,10 +181,10 @@ Tragt fuer jede Verbindung ein, wie die Kommunikation stattfindet:
 
 | Von | Nach | Aktuell (Monolith) | Ziel (Microservices) |
 |---|---|---|---|
-| Bestellprozess | Zahlung | direkter Methodenaufruf | sync REST / async Event |
-| Zahlung | Versand | direkter Methodenaufruf | async Event (ZahlungErfolgt) |
-| Zahlung | Benachrichtigung | direkter Methodenaufruf | async Event |
-| Bestellprozess | Lagerbestand | direkter DB-Zugriff | async Event / sync REST |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
 
 > **Schluesserkenntnis:** Ueberall wo heute ein *direkter Methodenaufruf* steht,
 > haben wir eine **enge Kopplung**. Diese muss vor dem Schneiden entkoppelt werden.
@@ -208,40 +206,33 @@ Tragt fuer jede Verbindung ein, wie die Kommunikation stattfindet:
 
 ### Bewertungsmatrix
 
-Bewertet jeden Context von 1 (schlecht) bis 5 (gut) fuer den ersten Schnitt:
+Tragt eure Contexts aus Schritt 2 ein und bewertet jeden von 1 (schlecht) bis 5 (gut):
 
 | Context | Wenige Abhaeng. | Business-Wert | Klare Verantwort. | Isolierte DB | **Score** |
 |---|---|---|---|---|---|
-| Benachrichtigung | 5 | 2 | 5 | 4 | **16** |
-| Produktkatalog | 3 | 4 | 4 | 3 | **14** |
-| Versand/Logistik | 3 | 3 | 4 | 4 | **14** |
-| Zahlung | 2 | 5 | 3 | 3 | **13** |
-| Bestellprozess | 1 | 5 | 2 | 2 | **10** |
-| Kundenverwaltung | 3 | 3 | 3 | 3 | **12** |
+| | | | | | |
+| | | | | | |
+| | | | | | |
+| | | | | | |
+| | | | | | |
+| | | | | | |
 
-**Ergebnis:** Wir starten mit **Benachrichtigung**, dann **Produktkatalog**.
-
-> **Warum Benachrichtigung zuerst?**
-> - Keine anderen Services haengen davon ab (nur eingehende Events)
-> - Kein kritischer Pfad (Ausfall = keine Email, kein Bestellungsfehler)
-> - Einfach isolierbar: eigene DB-Tabellen, kein DB-Join mit anderen
-> - Team kann lernen, ohne Risiko fuer den Checkout
+**Welcher Context hat den hoechsten Score? Das ist euer Startkandidat.**
 
 ### Migrationsphasen
 
+Plant anhand eures Startkandiaten, wie der Monolith schrittweise abgeloest wird:
+
 ```
-Phase 0 (heute):    [Kompletter Monolith]
+Phase 0 (heute):  [Kompletter Monolith]
 
-Phase 1 (Monat 1):  [Monolith ohne Notification] + [Notification Service]
-                         Strangler Proxy leitet Notification-Calls um
+Phase 1:          [Monolith ohne Context A] + [Service A]
+                       Strangler Proxy leitet Calls um
 
-Phase 2 (Monat 3):  [Monolith ohne Notification, ohne Produkt] + [Product Service]
-                                                               + [Notification Service]
+Phase 2:          [Monolith ohne A, ohne B] + [Service A] + [Service B]
 
-Phase 3 (Monat 6):  [Monolith-Kern: Bestellung+Zahlung] + [weitere Services]
-
-Phase N:            [Bestellprozess Service] + [Zahlungs Service] + ...
-                         Monolith ist "stranguliert" = leer = abgeschaltet
+Phase N:          [letzte Contexts als Services]
+                       Monolith ist "stranguliert" = leer = abgeschaltet
 ```
 
 ---
