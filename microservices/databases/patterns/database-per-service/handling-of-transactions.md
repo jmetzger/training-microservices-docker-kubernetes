@@ -1,71 +1,71 @@
-# Handling of transactions 
+# Umgang mit Transaktionen
 
-## Problem 
+## Problem
 
-  * When we move to a database per service pattern, we cannot use transactions
+  * Wenn wir auf das Database-per-Service-Pattern wechseln, koennen wir keine klassischen Datenbanktransaktionen mehr verwenden
 
-## Example Problem 
+## Beispiel-Problem
 
-  * You are using database-per-service-pattern
+  * Das Database-per-Service-Pattern ist im Einsatz
 
 ```
-x e-commerce store
-x customers have a credit limit.
-x The application must ensure that a new order will not exceed the customer’s credit limit.
-x Orders and Customers are in different databases owned by different services
-x because of this: application cannot simply use a local ACID transaction.
+x Ein Online-Shop
+x Kunden haben ein Kreditlimit
+x Die Anwendung muss sicherstellen, dass eine neue Bestellung das Kreditlimit des Kunden nicht ueberschreitet
+x Bestellungen und Kunden liegen in verschiedenen Datenbanken, die von verschiedenen Services verwaltet werden
+x Deshalb: Die Anwendung kann keine einfache lokale ACID-Transaktion verwenden
 ```
 
-## Schaubild (Wie funktioniert es ?) 
+## Schaubild (Wie funktioniert es?)
 
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/f4615f49-5937-476e-bff7-d32e7de870c9)
 
-## Saga Execution Coordinator (SEC) as central component 
+## Saga Execution Coordinator (SEC) als zentrale Komponente
 
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/a33eb0a1-0e04-48a7-983c-9b6741202afe)
 
-  * contains a Saga log that captures the sequence of events of a distributed transaction.
-  * ON FAILURE:  the SEC component inspects the Saga log to identify the impacted components and the sequence in which the compensating transactions should run.
-  * It can then identify transactions successfully rolled back, which ones are pending, and can take appropriate actions
+  * Enthaelt ein Saga-Log, das die Abfolge der Ereignisse einer verteilten Transaktion aufzeichnet
+  * BEI FEHLER: Die SEC-Komponente prueft das Saga-Log, um die betroffenen Komponenten und die Reihenfolge der Kompensationstransaktionen zu ermitteln
+  * Sie kann erkennen, welche Transaktionen erfolgreich zurueckgerollt wurden, welche noch ausstehen, und entsprechende Massnahmen einleiten
 
-## Implementation as Saga Choreography Pattern
+## Implementierung als Saga-Choreography-Pattern
 
-### When ?
+### Wann?
 
-  * Greenfield (starting from scratch) microservices development 
+  * Greenfield (Entwicklung von Grund auf neu)
 
-### How ?
+### Wie?
 
-  * each microservice that is part of the transaction publishes an event that is processed by the next microservice.
+  * Jeder Microservice, der Teil der Transaktion ist, veroeffentlicht ein Event, das vom naechsten Microservice verarbeitet wird
 
-### Schaubild (Success)
+### Schaubild (Erfolgsfall)
 
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/9261961c-41f7-4d96-b260-c64f332b6d14)
 
-### Schaubild (Failure) 
+### Schaubild (Fehlerfall)
 
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/0118fe17-6e95-4281-b305-1e33c868062c)
 
-## Implementation as Saga Orchestration Pattern 
+## Implementierung als Saga-Orchestration-Pattern
 
-### When ?
+### Wann?
 
-  * Brownfield (we already have a set of microservices)
+  * Brownfield (es existieren bereits Microservices)
 
-### How ? 
+### Wie?
 
-  * Orchestrator will be in charge of the whole transactions process
+  * Ein Orchestrator uebernimmt die Steuerung des gesamten Transaktionsprozesses
 
 ### Schaubild
 
-![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/d71df512-af4d-4eae-a3ab-23d4b3f369e3)
+![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/d71df512-af4d-4eef-a3ab-23d4b3f369e3)
 
-## Products 
+## Produkte
 
-  * Camunda (framework)
-  * Apache Camel 
+  * Camunda (Framework)
+  * Apache Camel
 
-## Reference:
+## Referenzen
 
   * https://www.baeldung.com/cs/saga-pattern-microservices#introduction-to-saga
   * https://microservices.io/patterns/data/saga.html
