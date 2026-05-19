@@ -63,7 +63,7 @@ passieren. Format: **Vergangenheitsform**, orange Post-it.
 Beispiele als Einstieg:
 
 ```
-ZahlungErfolgt         ZahlungFehlgeschlagen
+KundeRegistriert       ProduktGesucht         ZahlungFehlgeschlagen
 ```
 
 **Ordnet die Events auf einer Zeitlinie an:**
