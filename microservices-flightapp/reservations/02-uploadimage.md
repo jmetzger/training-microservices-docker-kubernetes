@@ -3,7 +3,8 @@
 ## Step 1: Upload image to docker hub 
 
 ```
-# eventually 
+# eventually
+cd
 cd msupandrunning
 # show all images build through this docker compose 
 docker compose images
