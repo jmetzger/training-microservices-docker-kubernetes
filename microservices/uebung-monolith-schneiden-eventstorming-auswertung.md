@@ -83,63 +83,37 @@ und vergisst die Kundenperspektive ("Paket ist angekommen").
 
 ## Vergessene Events
 
-### Kundenverwaltung
-
 | Fehlendes Event | Warum wichtig |
 |---|---|
 | KundeAngemeldet | Login ist ein Geschaeftsereignis — relevant fuer Security, Session, Fraud-Detection |
 | ProfilAktualisiert | "Profil pflegen" steht im Funktionsumfang — hat eigene Fachlogik (z.B. Adresse fuer Versand) |
 | PasswortGeaendert | Eigener Sicherheits-Flow (Bestaetigung, Invalidierung von Sessions) |
-
-### Produktkatalog
-
-| Fehlendes Event | Warum wichtig |
-|---|---|
 | ProduktAngelegt | Wer legt Produkte an? Eigenes Team, eigene Fachlogik |
 | PreisGeaendert | Preisaenderungen haben Downstream-Effekte (Warenkorb, laufende Bestellungen) |
+| WarenkorbGeleert / WarenkorbAbgebrochen | Session laeuft ab — relevant fuer Analytics und Remarketing |
+| BestellungBestaetigt | Zwischenzustand zwischen AufgegebenAndVersendet — loest oft Lagerreservierung aus |
+| LagerbestandKritisch | Schwellenwert unterschritten — loest Einkaufsprozess aus, bevor Bestand auf 0 faellt |
+| ArtikelAusverkauft | Bestand = 0 ist ein eigenes Event mit eigenen Reaktionen (Produktseite, Bestellsperre) |
+| BestellbestaetigunsEmailVersendet | Benachrichtigungen sind eigene Events — sie koennen fehlschlagen und muessen nachverfolgt werden |
+| VersandEmailVersendet | Gleicher Grund — der Versand der Email ist ein eigenes verfolgbares Ereignis |
 
-### Zahlung
+### ZahlungErfolgt — groesste inhaltliche Luecke
 
-`ZahlungErfolgt` fehlt vollstaendig — das ist die groesste inhaltliche Luecke.
+`ZahlungErfolgt` fehlt vollstaendig.
 Die Gruppe hat `ZahlungFehlgeschlagen` und `ZahlungErstattet` gefunden, aber nicht den Normalfall.
 
-`ZahlungErfolgt` ist das zentrale Event im Bestellprozess: Es loest mehr Downstream-Reaktionen
-aus als jedes andere Event:
+`ZahlungErfolgt` loest mehr Downstream-Reaktionen aus als jedes andere Event:
 
 ```
 ZahlungErfolgt
-    → LagerbestandAktualisiert  (Reservierung wird fest)
-    → LieferungVorbereitet      (Versand wird angestossen)
+    → LagerbestandAktualisiert         (Reservierung wird fest)
+    → LieferungVorbereitet             (Versand wird angestossen)
     → RechnungErstellt
     → BestellbestaetigunsEmailVersendet
 ```
 
-Ohne dieses Event hat der Zahlungs-Context keine klare Ausgabe —
-er kann von anderen Contexts nicht abonniert werden.
-
 Typische Ursache: Man denkt zuerst an Fehler ("was kann schiefgehen?")
-und vergisst dann, den Erfolgsfall explizit als Event zu benennen.
-
-### Warenkorb / Bestellung
-
-| Fehlendes Event | Warum wichtig |
-|---|---|
-| WarenkorbGeleert / WarenkorbAbgebrochen | Session laeuft ab — relevant fuer Analytics und Remarketing |
-| BestellungBestaetigt | Zwischenzustand zwischen AufgegebenAndVersendet — loest oft Lagerreservierung aus |
-
-### Lagerbestand
-
-| Fehlendes Event | Warum wichtig |
-|---|---|
-| LagerbestandKritisch | Schwellenwert unterschritten — loest Einkaufsprozess aus, bevor Bestand auf 0 faellt |
-| ArtikelAusverkauft | Bestand = 0 ist ein eigenes Event mit eigenen Reaktionen (Produktseite, Bestellsperre) |
-
-### Benachrichtigung
-
-| Fehlendes Event | Warum wichtig |
-|---|---|
-| BestellbestaetigunsEmailVersendet | Benachrichtigungen sind eigene Events — sie koennen fehlschlagen und muessen nachverfolgt werden |
-| VersandEmailVersendet | Gleicher Grund — Notification Service braucht eigene Events |
+und vergisst den Erfolgsfall explizit als Event zu benennen.
 
 ---
 
@@ -154,7 +128,7 @@ und vergisst dann, den Erfolgsfall explizit als Event zu benennen.
 | Technische Events | BestandAbgefragt und ProduktGesucht hinterfragen |
 | Groesste Luecke | Kundenverwaltung (Login, Profil) und ZahlungErfolgt fehlen |
 
-> **Wichtigste Erkenntnis fuer Schritt 2:**
+> **Wichtigste Erkenntnis:**
 > Die gefundenen Events decken vor allem den Bestellprozess gut ab.
-> Kundenverwaltung und Produktkatalog sind unterrepraesentiert —
-> das wird sich in Schritt 2 zeigen, wenn die Bounded Contexts gebildet werden.
+> Kundenverwaltung und Produktpflege sind unterrepraesentiert —
+> das wird sich in der naechsten Aufgabe zeigen.
