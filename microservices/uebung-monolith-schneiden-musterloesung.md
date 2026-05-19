@@ -107,6 +107,28 @@ Erkennungszeichen:
 Korrekt geschnitten: Bestellung, Zahlung und Versand sind drei separate Contexts,
 die ueber Events miteinander kommunizieren.
 
+*Ist Benachrichtigung wirklich ein fachlicher Bounded Context?*
+
+Das ist eine berechtigte Frage — und die Antwort haengt vom Unternehmen ab.
+
+Argumente dagegen (eher technischer Service):
+- Keine eigene Fachlogik aus der Domaene — "EmailVersendet" ist ein technisches Resultat, kein Geschaeftsereignis
+- Kein eigenes Domänenmodell
+- Aehnlich wie Logging oder Monitoring: ein Querschnittsservice
+
+Argumente dafuer (eigener fachlicher Context):
+- Eigene Geschaeftsregeln: Wer bekommt welche Nachricht ueber welchen Kanal? (SMS deaktiviert, Opt-out, Praeferenzen)
+- Eigenes Team: Communications-Team mit Templates, Branding, Versanddienstleister-Anbindung
+- Eigene Fehlerbehandlung: Retry-Logik bei fehlgeschlagener Email, Bounce-Management
+
+Fazit fuer ShopMax:
+- Kleiner Shop → technischer Infrastruktur-Service, kein eigener Context
+- Grosser Shop (Zalando, Amazon) → eigenes Communications-Team mit Personalisierung, A/B-Tests, rechtlichen Anforderungen → eigener fachlicher Context
+
+In der Uebung wurde Benachrichtigung als eigener Context gewaehlt, weil er sich gut
+als **erster Schnitt** eignet (keine Abhaengigkeiten, kein kritischer Pfad) —
+nicht weil er fachlich zwingend ein eigener Context sein muss.
+
 *Woran erkennt man, dass ein Event im falschen Bounded Context ist?*
 
 | Zeichen | Beispiel aus ShopMax |
