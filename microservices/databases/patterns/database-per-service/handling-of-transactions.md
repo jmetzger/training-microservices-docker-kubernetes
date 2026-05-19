@@ -60,6 +60,79 @@ x Deshalb: Die Anwendung kann keine einfache lokale ACID-Transaktion verwenden
 
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/d71df512-af4d-4eef-a3ab-23d4b3f369e3)
 
+## Kompensationstransaktionen
+
+Eine Kompensationstransaktion macht den fachlichen Effekt eines bereits committeten
+Schritts rueckgaengig — weil ein `ROLLBACK` ueber Service-Grenzen hinweg nicht moeglich ist.
+
+### Beispiel: Bestellung schlaegt in Schritt 3 fehl
+
+```
+Schritt 1: Order-Service legt Bestellung an        → in Order-DB committed ✓
+Schritt 2: Customer-Service reduziert Kreditlimit  → in Customer-DB committed ✓
+Schritt 3: Payment-Service bucht Zahlung           → FEHLER ✗
+```
+
+Da Schritt 1 und 2 bereits in ihren jeweiligen Datenbanken committed sind,
+kann kein technisches `ROLLBACK` mehr helfen. Der Saga Execution Coordinator
+startet stattdessen Kompensationstransaktionen in umgekehrter Reihenfolge:
+
+```
+Kompensation zu Schritt 2: Customer-Service stellt Kreditlimit wieder her
+Kompensation zu Schritt 1: Order-Service storniert die Bestellung
+```
+
+### Konkrete SQL-Beispiele
+
+**Schritt 2 — Original (Kreditlimit reduzieren):**
+
+```sql
+-- Customer-DB
+UPDATE customers
+SET credit_limit = credit_limit - 150.00
+WHERE id = 42;
+```
+
+**Kompensation zu Schritt 2 — Kreditlimit wiederherstellen:**
+
+```sql
+-- Customer-DB
+UPDATE customers
+SET credit_limit = credit_limit + 150.00
+WHERE id = 42;
+```
+
+**Schritt 1 — Original (Bestellung anlegen):**
+
+```sql
+-- Order-DB
+INSERT INTO orders (id, customer_id, amount, status)
+VALUES ('ord-99', 42, 150.00, 'PENDING');
+```
+
+**Kompensation zu Schritt 1 — Bestellung stornieren:**
+
+```sql
+-- Order-DB
+UPDATE orders
+SET status = 'CANCELLED'
+WHERE id = 'ord-99';
+-- kein DELETE: Bestellung bleibt fuer Audit-Trail erhalten
+```
+
+### Wichtige Eigenschaften einer Kompensationstransaktion
+
+- **Kein technisches Rollback** — sie ist eine neue, eigenstaendige Datenbankoperation
+- **Idempotent** — sie muss mehrfach ausfuehrbar sein ohne zusaetzlichen Schaden
+  (der SEC kann sie bei Fehler erneut aufrufen)
+- **Kann selbst fehlschlagen** — der SEC muss auch das abfangen und wiederholen
+- **Kein exakter Rueckgaengig-Effekt** — zwischen Original und Kompensation koennen
+  andere Transaktionen gelaufen sein (z.B. hat der Kunde inzwischen etwas anderes bestellt)
+
+> **Faustregel:** Kompensationstransaktionen implementieren "Business Undo",
+> nicht "Technical Rollback". Der Zustand wird fachlich korrigiert,
+> nicht technisch zurueckgesetzt.
+
 ## Produkte
 
   * Camunda (Framework)
