@@ -68,12 +68,13 @@ KundeRegistriert       ProduktGesucht         ZahlungFehlgeschlagen
 
 **Ordnet die Events auf einer Zeitlinie an:**
 
-```
-[frueh]                                                     [spaet]
+Warum? Events die zeitlich nahe zusammen passieren, gehoeren oft zum selben Bounded Context.
+Luecken in der Zeitlinie zeigen, wo noch Events fehlen.
 
-KundeRegistriert -> ProduktGesucht -> ArtikelInWarenkorbGelegt
-  -> BestellungAufgegeben -> ZahlungErfolgt -> LagerbestandAktualisiert
-  -> LieferungVersendet -> EmailVersendet -> RechnungErstellt
+```
+[frueh]                                          [spaet]
+
+KundeRegistriert -> ... -> ProduktGesucht -> ... -> ZahlungFehlgeschlagen -> ...
 ```
 
 ### Orientierungshilfe: Wieviele Events sind richtig?

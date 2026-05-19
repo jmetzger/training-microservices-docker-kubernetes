@@ -20,6 +20,24 @@ LieferungVersendet      LieferungZugestellt     RetourneEingeleitet
 EmailVersendet          SMSVersendet            PushNotificationVersendet
 ```
 
+**Zeitlinie (Musterloesung):**
+
+```
+[frueh]                                                              [spaet]
+
+KundeRegistriert -> ProduktGesucht -> ArtikelInWarenkorbGelegt
+  -> BestellungAufgegeben -> ZahlungErfolgt -> LagerbestandAktualisiert
+  -> LieferungVersendet -> LieferungZugestellt -> EmailVersendet -> RechnungErstellt
+
+Fehlerfall:
+  -> ZahlungFehlgeschlagen -> (Wiederholung oder BestellungStorniert)
+  -> RueckzahlungInitiiert -> EmailVersendet
+```
+
+Events die im Normalfall zeitlich eng zusammen liegen, deuten auf denselben Context hin
+(z.B. ZahlungErfolgt + LagerbestandAktualisiert + LieferungVersendet passieren alle kurz
+nach BestellungAufgegeben — moeglicher Hinweis auf engen Bestellprozess-Kern).
+
 **Haeufige Fehler:**
 - Nur Erfolgsfaelle (ZahlungErfolgt ohne ZahlungFehlgeschlagen)
 - Technische Events statt Business-Events (z.B. "DatenbankEintragErstellt")
