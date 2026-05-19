@@ -56,10 +56,6 @@ x Deshalb: Die Anwendung kann keine einfache lokale ACID-Transaktion verwenden
 
   * Ein Orchestrator uebernimmt die Steuerung des gesamten Transaktionsprozesses
 
-### Schaubild
-
-![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/d71df512-af4d-4eef-a3ab-23d4b3f369e3)
-
 ## Kompensationstransaktionen
 
 Eine Kompensationstransaktion macht den fachlichen Effekt eines bereits committeten
