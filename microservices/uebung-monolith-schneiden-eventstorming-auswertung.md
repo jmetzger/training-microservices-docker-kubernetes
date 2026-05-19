@@ -62,12 +62,22 @@ Streng genommen ist eine Suche kein Domain Event (kein Zustandswechsel, keine Re
 Im Kontext von Analytics oder Recommendation Engines koennte es eines sein.
 Fuer ShopMax: eher raus.
 
-### PaketVersendet ≠ LieferungZugestellt
+### PaketVersendet — richtig, aber LieferungZugestellt fehlt
 
-`PaketVersendet` beschreibt den Moment, wo das Paket das Lager verlaesst.
-`LieferungZugestellt` beschreibt den Moment beim Kunden.
-Das sind zwei verschiedene Geschaeftsereignisse mit verschiedenen Auswirkungen
-(z.B. loest Zustellung die Rechnung aus, nicht der Versand).
+`PaketVersendet` ist korrekt und war gut gefunden.
+Es fehlt jedoch `LieferungZugestellt` als **zusaetzliches** Event.
+Beide beschreiben verschiedene Zeitpunkte mit verschiedenen fachlichen Konsequenzen:
+
+```
+[PaketVersendet]                      [LieferungZugestellt]
+ Paket verlaesst das Lager             Zusteller scannt beim Kunden
+ → VersandEmail wird ausgeloest        → Rueckgabefrist beginnt
+ → Tracking-Nummer wird aktiv          → Rechnungsziel beginnt (Zahlung auf Rechnung)
+                                       → Bestellprozess formal abgeschlossen
+```
+
+Typische Ursache: Man denkt aus Shop-Perspektive ("wir haben versendet")
+und vergisst die Kundenperspektive ("Paket ist angekommen").
 
 ---
 
