@@ -22,6 +22,13 @@ git config --global user.email "tn1@t3company.de"
 ```
 
 
+## Step 1.7 gitlab repository erstellen 
+
+  * Darauf achten, dass keine README.md angelegt, d.h. Haken rausnehmen für README.md
+  * Und public haken setzen 
+
+
+
 ## Step 2: Change origin (target where push data) and push 
 
 ```
