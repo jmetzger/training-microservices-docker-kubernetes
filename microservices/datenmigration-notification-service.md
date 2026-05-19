@@ -98,118 +98,33 @@ diese Werte werden beim Schreiben mitgegeben, nicht nachtraeglich per JOIN gehol
 
 ## Migrationspfad (Schritt fuer Schritt)
 
-### Phase 1 — Strangler Fig auf Code-Ebene
-
-**Pattern: Strangler Fig**
-
-Bevor wir die DB anfassen, entkoppeln wir den Code — aber in zwei Teilschritten.
-
-**Phase 1a: Beide Pfade parallel betreiben**
-
-Der direkte Aufruf bleibt zunaechst erhalten. Zusaetzlich wird das Event publiziert.
-Der neue Notification Service abonniert das Event und schreibt in seine eigene DB.
-
-```java
-// Uebergangsphase: alter Aufruf bleibt, neuer Event-Pfad kommt dazu
-public Order placeOrder(Cart cart, Customer customer) {
-    Order order = createOrder(cart);
-    paymentService.charge(customer, order.total());
-
-    // Alter Pfad: laeuft weiter (Sicherheitsnetz)
-    notificationService.sendOrderConfirmation(customer.email(), order);
-
-    // Neuer Pfad: Event fuer den kuenftigen Notification Service
-    eventBus.publish(new OrderPlacedEvent(
-        order.id(),
-        customer.email(),
-        customer.phone(),
-        order.total()
-    ));
-
-    return order;
-}
-```
-
-```
-[Monolith]
-    |
-    |-- direkter Aufruf --> [Notification-Code im Monolith] --> [Monolith-DB]
-    |
-    +-- Event -----------> [Neuer Notification Service]     --> [Notification-Svc-DB]
-```
-
-Beide Pfade laufen gleichzeitig. Waehrend dieser Phase werden Notifications
-doppelt verarbeitet — das ist gewollt und dient der Verifikation.
-
-**Phase 1b: Neuen Pfad verifizieren**
-
-Bevor der alte Pfad gekappt wird, muss sichergestellt sein:
-- Kommen alle Events im neuen Notification Service an?
-- Stimmen die Daten in der neuen DB mit denen in der Monolith-DB ueberein?
-
-```sql
--- Vergleich: gleiche Anzahl Notifications seit Aktivierung des neuen Pfads?
-SELECT COUNT(*) FROM monolith_db.notifications  WHERE sent_at > '2024-01-15';
-SELECT COUNT(*) FROM notification_svc_db.notifications WHERE sent_at > '2024-01-15';
-```
-
-**Phase 1c: Alten Pfad entfernen**
-
-Erst wenn der neue Pfad bestaetigt ist, wird der direkte Aufruf entfernt:
-
-```java
-// Nach erfolgreicher Verifikation: nur noch Event
-public Order placeOrder(Cart cart, Customer customer) {
-    Order order = createOrder(cart);
-    paymentService.charge(customer, order.total());
-
-    eventBus.publish(new OrderPlacedEvent(
-        order.id(),
-        customer.email(),
-        customer.phone(),
-        order.total()
-    ));
-
-    return order;
-}
-```
-
-**Warum parallel und nicht direkt umschalten?**
-Ein sofortiger Switch vom direkten Aufruf zum Event-Pfad ist ein Big-Bang-Cut.
-Faellt der neue Service aus oder verarbeitet er Events nicht korrekt,
-gehen Notifications verloren — ohne Fallback.
-Beim parallelen Betrieb laeuft der Monolith weiter als Sicherheitsnetz,
-bis der neue Pfad bewiesen ist.
-
----
-
-### Phase 2 — Neue Datenbank aufsetzen
+### Phase 1 — Neue Datenbank aufsetzen
 
 **Pattern: Database-per-Service**
 
-Eine eigene PostgreSQL-Instanz fuer den Notification Service wird bereitgestellt.
-Das neue Schema (ohne Foreign Keys, mit `recipient_email` statt `user_id`) wird angelegt.
-Der Notification Service liest und schreibt ab sofort in diese neue DB.
+Als erstes wird nur die Infrastruktur bereitgestellt: eine eigene PostgreSQL-Instanz
+fuer den Notification Service mit dem neuen Schema (ohne Foreign Keys).
+Der neue Service laeuft noch nicht — die DB ist leer und wird noch nicht befuellt.
 
 ```
-[Event Bus]
-    |
-    | OrderPlacedEvent { orderId, email, phone, total }
-    v
-[Notification Service]
-    |
-    v
-[Notification-Service-DB]   <-- neue, isolierte DB
+[Monolith-DB]                    [Notification-Service-DB]
+  notifications (alt)              notifications (neu, leer)
+  users
+  orders
 ```
+
+**Warum zuerst die DB, noch vor dem Code?**
+Ohne DB kann der neue Service keine Daten speichern.
+Der Backfill (Phase 2) braucht eine fertige Zieldatenbank.
 
 ---
 
-### Phase 3 — Historische Daten migrieren
+### Phase 2 — Historische Daten migrieren
 
 **Pattern: Backfill**
 
-Die neue DB ist leer. Bevor wir die Reads umstellen, muessen die historischen
-Notifications aus der Monolith-DB uebertragen werden.
+Die neue DB wird mit allen historischen Daten aus der Monolith-DB befuellt —
+bevor der neue Service auch nur eine einzige neue Notification empfaengt.
 
 ```sql
 -- Einmalige Backfill-Migration (laeuft gegen Monolith-DB)
@@ -233,10 +148,11 @@ JOIN users  u ON u.id = n.user_id
 JOIN orders o ON o.id = n.order_id;
 ```
 
-**Warum Backfill vor dem Switch?**
-Wuerde man erst nach dem Switch migrieren, haette der Notification Service eine
-unvollstaendige DB — Reports, Retry-Logik und Kundenanfragen wuerden fehlschlagen.
-Die neue DB muss vollstaendig sein, bevor sie produktiv genutzt wird.
+**Warum Backfill vor dem Code-Switch?**
+Wuerde man den neuen Service zuerst aktivieren und erst danach den Backfill laufen lassen,
+wuerde die neue DB neue Notifications empfangen, aber der historische Stand fehlt.
+Reports, Retry-Logik und Kundenanfragen wuerden fehlschlagen.
+Die neue DB muss vollstaendig sein, bevor der neue Service aktiv wird.
 
 **Kontrolle nach dem Backfill:**
 
@@ -249,6 +165,83 @@ SELECT COUNT(*) FROM notification_service_db.notifications;
 SELECT * FROM notification_service_db.notifications
 ORDER BY sent_at DESC LIMIT 100;
 ```
+
+---
+
+### Phase 3 — Strangler Fig auf Code-Ebene
+
+**Pattern: Strangler Fig**
+
+Erst jetzt — nachdem die neue DB vollstaendig befuellt ist — wird der Code umgeschaltet.
+Der direkte Aufruf bleibt als Sicherheitsnetz erhalten, der neue Event-Pfad kommt dazu.
+
+**Phase 3a: Beide Pfade parallel betreiben**
+
+```java
+// Uebergangsphase: alter Aufruf bleibt, neuer Event-Pfad kommt dazu
+public Order placeOrder(Cart cart, Customer customer) {
+    Order order = createOrder(cart);
+    paymentService.charge(customer, order.total());
+
+    // Alter Pfad: laeuft weiter (Sicherheitsnetz)
+    notificationService.sendOrderConfirmation(customer.email(), order);
+
+    // Neuer Pfad: Event fuer den Notification Service
+    eventBus.publish(new OrderPlacedEvent(
+        order.id(),
+        customer.email(),
+        customer.phone(),
+        order.total()
+    ));
+
+    return order;
+}
+```
+
+```
+[Monolith]
+    |
+    |-- direkter Aufruf --> [Notification-Code im Monolith] --> [Monolith-DB]
+    |
+    +-- Event -----------> [Neuer Notification Service]     --> [Notification-Svc-DB]
+```
+
+Beide Pfade laufen gleichzeitig. Neue Notifications landen in beiden DBs —
+die neue DB hat nun historische Daten (aus Phase 2) und neue Daten (aus Events).
+
+**Phase 3b: Neuen Pfad verifizieren**
+
+```sql
+-- Vergleich: gleiche Anzahl neuer Notifications seit Aktivierung des neuen Pfads?
+SELECT COUNT(*) FROM monolith_db.notifications        WHERE sent_at > '2024-01-15';
+SELECT COUNT(*) FROM notification_svc_db.notifications WHERE sent_at > '2024-01-15';
+```
+
+**Phase 3c: Alten Pfad entfernen**
+
+Erst wenn der neue Pfad bestaetigt ist:
+
+```java
+// Nur noch Event — direkter Aufruf entfernt
+public Order placeOrder(Cart cart, Customer customer) {
+    Order order = createOrder(cart);
+    paymentService.charge(customer, order.total());
+
+    eventBus.publish(new OrderPlacedEvent(
+        order.id(),
+        customer.email(),
+        customer.phone(),
+        order.total()
+    ));
+
+    return order;
+}
+```
+
+**Warum parallel und nicht direkt umschalten?**
+Ein sofortiger Switch ist ein Big-Bang-Cut ohne Fallback.
+Beim parallelen Betrieb laeuft der Monolith weiter als Sicherheitsnetz,
+bis der neue Pfad bewiesen ist.
 
 ---
 
@@ -471,16 +464,20 @@ Vorher:                          Nachher:
 ## Zusammenfassung: Warum diese Reihenfolge?
 
 ```
-Phase 1: Code entkoppeln        (Strangler Fig)   -- kein DB-Risiko
-Phase 2: Neue DB aufsetzen      (Database-per-Service)
-Phase 3: Backfill               -- neue DB vollstaendig machen
+Phase 1: Neue DB aufsetzen      (Database-per-Service) -- nur Infrastruktur, noch keine Daten
+Phase 2: Backfill               -- neue DB vollstaendig befuellen, bevor neuer Service startet
+Phase 3: Code entkoppeln        (Strangler Fig)        -- erst jetzt umschalten, DB ist bereit
 Phase 4: (Dual Write)           -- nur zur Erklaerung, in der Praxis ueberspringen
-Phase 5: Outbox                 -- direkt hier einsteigen, loest Konsistenzproblem
+Phase 5: Outbox                 -- zuverlaessiger Relay fuer laufende Writes
 Phase 6: Reads umstellen        -- neuer Service uebernimmt
 Phase 7: Alte Tabelle loeschen  -- Monolith vollstaendig entkoppelt
 ```
 
-Jede Phase ist einzeln rueckrollbar. Geht Phase 4 schief, laeuft der
+**Die entscheidende Reihenfolge:** DB aufsetzen → Backfill → Code umschalten.
+Wer den Code zuerst umschaltet, hat einen aktiven Service mit einer leeren oder
+unvollstaendigen DB — das fuehrt zu inkonsistenten Daten, die schwer rueckzusetzen sind.
+
+Jede Phase ist einzeln rueckrollbar. Laeuft etwas schief, laeuft der
 Monolith weiter auf der alten DB — kein Datenverlust, kein Ausfall.
 
 > **Faustregel:** Die Datenmigration ist fertig, wenn kein Code mehr
