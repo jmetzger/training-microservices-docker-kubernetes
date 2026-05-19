@@ -1,0 +1,129 @@
+# Auswertung EventStorming — ShopMax
+
+Auswertung der Teilnehmer-Ergebnisse aus Schritt 1 der Uebung
+"Monolith schneiden mit DDD und Strangler Fig Pattern".
+
+---
+
+## Gefundene Events (Gruppe)
+
+```
+KundeRegistriert        EmailVerifiziert        ProduktGesucht
+ArtikelInWarenkorbHinzugefuegt
+BestellungDurchgefuehrt BestellungStorniert     KundenBestaetigung(Verschickt)
+ZahlungFehlgeschlagen   ZahlungErstattet        RechnungErstellt
+BestandAbgefragt        BestandGeaendert        NachbestellungAusgeloest
+VersandLabelErstellt    PaketVersendet          VersandBestaetigung(Erhalten)
+RetoureRegistriert      RetoureLabelErstellt    RetoureErhalten
+RabattCode
+```
+
+**Anzahl: ~20 Events — das liegt im guten Bereich (Ziel: 18-30).**
+
+---
+
+## Positiv aufgefallen
+
+- **EmailVerifiziert** — wird oft vergessen, hier gefunden ✓
+- **ZahlungFehlgeschlagen** — Fehlerfall explizit beruecksichtigt ✓
+- **NachbestellungAusgeloest** — zeigt Denken ueber Lagerbestand hinaus ✓
+- **RetoureRegistriert / RetoureLabelErstellt / RetoureErhalten** — dreiteiliger Retoure-Prozess vollstaendig ✓
+- **VersandLabelErstellt** — guter Zwischenschritt vor dem Versand ✓
+
+---
+
+## Anmerkungen und Korrekturen
+
+### RabattCode — kein Domain Event
+
+`RabattCode` ist ein **Objekt**, kein Ereignis.
+Domain Events stehen in der Vergangenheitsform und beschreiben etwas, das passiert ist.
+
+```
+Falsch:  RabattCode
+Richtig: RabattcodeEingeloest
+         RabattcodeErstellt
+         RabattcodeAbgelaufen
+```
+
+### BestandAbgefragt — eher technisches Event
+
+Eine Abfrage (Query) ist kein Geschaeftsereignis — sie veraendert keinen Zustand
+und loest keine Reaktion in anderen Contexts aus.
+
+```
+Raus:    BestandAbgefragt
+Behalten: BestandGeaendert, NachbestellungAusgeloest
+```
+
+### ProduktGesucht — Grenzfall
+
+Streng genommen ist eine Suche kein Domain Event (kein Zustandswechsel, keine Reaktion).
+Im Kontext von Analytics oder Recommendation Engines koennte es eines sein.
+Fuer ShopMax: eher raus.
+
+### PaketVersendet ≠ LieferungZugestellt
+
+`PaketVersendet` beschreibt den Moment, wo das Paket das Lager verlaesst.
+`LieferungZugestellt` beschreibt den Moment beim Kunden.
+Das sind zwei verschiedene Geschaeftsereignisse mit verschiedenen Auswirkungen
+(z.B. loest Zustellung die Rechnung aus, nicht der Versand).
+
+---
+
+## Vergessene Events
+
+### Kundenverwaltung
+
+| Fehlendes Event | Warum wichtig |
+|---|---|
+| KundeAngemeldet | Login ist ein Geschaeftsereignis — relevant fuer Security, Session, Fraud-Detection |
+| ProfilAktualisiert | "Profil pflegen" steht im Funktionsumfang — hat eigene Fachlogik (z.B. Adresse fuer Versand) |
+| PasswortGeaendert | Eigener Sicherheits-Flow (Bestaetigung, Invalidierung von Sessions) |
+
+### Produktkatalog
+
+| Fehlendes Event | Warum wichtig |
+|---|---|
+| ProduktAngelegt | Wer legt Produkte an? Eigenes Team, eigene Fachlogik |
+| PreisGeaendert | Preisaenderungen haben Downstream-Effekte (Warenkorb, laufende Bestellungen) |
+
+### Warenkorb / Bestellung
+
+| Fehlendes Event | Warum wichtig |
+|---|---|
+| WarenkorbGeleert / WarenkorbAbgebrochen | Session laeuft ab — relevant fuer Analytics und Remarketing |
+| ZahlungErfolgt | Erfolgsfall der Zahlung fehlt (nur Fehlerfall und Erstattung gefunden) |
+| BestellungBestaetigt | Zwischenzustand zwischen AufgegebenAndVersendet — loest oft Lagerreservierung aus |
+
+### Lagerbestand
+
+| Fehlendes Event | Warum wichtig |
+|---|---|
+| LagerbestandKritisch | Schwellenwert unterschritten — loest Einkaufsprozess aus, bevor Bestand auf 0 faellt |
+| ArtikelAusverkauft | Bestand = 0 ist ein eigenes Event mit eigenen Reaktionen (Produktseite, Bestellsperre) |
+
+### Benachrichtigung
+
+| Fehlendes Event | Warum wichtig |
+|---|---|
+| BestellbestaetigunsEmailVersendet | Benachrichtigungen sind eigene Events — sie koennen fehlschlagen und muessen nachverfolgt werden |
+| VersandEmailVersendet | Gleicher Grund — Notification Service braucht eigene Events |
+
+---
+
+## Zusammenfassung fuer die Gruppe
+
+| Kategorie | Bewertung |
+|---|---|
+| Anzahl Events | Gut (ca. 20) |
+| Fehlerfaelle | Gut — ZahlungFehlgeschlagen explizit genannt |
+| Retoure-Prozess | Sehr gut — alle drei Schritte gefunden |
+| Format | Ein Fehler: RabattCode ist kein Event |
+| Technische Events | BestandAbgefragt und ProduktGesucht hinterfragen |
+| Groesste Luecke | Kundenverwaltung (Login, Profil) und ZahlungErfolgt fehlen |
+
+> **Wichtigste Erkenntnis fuer Schritt 2:**
+> Die gefundenen Events decken vor allem den Bestellprozess gut ab.
+> Kundenverwaltung und Produktkatalog sind unterrepraesentiert —
+> das wird sich in Schritt 2 zeigen, wenn die Bounded Contexts gebildet werden.
