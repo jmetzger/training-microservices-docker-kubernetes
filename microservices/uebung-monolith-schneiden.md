@@ -66,7 +66,7 @@ Beispiele als Einstieg:
 KundeRegistriert       ProduktGesucht         ZahlungFehlgeschlagen
 ```
 
-**Ordnet die Events auf einer Zeitlinie an:**
+**Optional (falls ihr das Gefühl habt, Euch fehlen Events): Ordnet die Events auf einer Zeitlinie an:**
 
 Warum? Events die zeitlich nahe zusammen passieren, gehoeren oft zum selben Bounded Context.
 Luecken in der Zeitlinie zeigen, wo noch Events fehlen.
@@ -128,7 +128,7 @@ Nutzt das folgende Raster (ihr braucht moeglicherweise mehr oder weniger Felder)
 
 ```
 +-------------------+    +-------------------+    +-------------------+
-|                   |    |                   |    |                   |
+|    Zahlung        |    |                   |    |                   |
 |                   |    |                   |    |                   |
 |                   |    |                   |    |                   |
 |                   |    |                   |    |                   |
