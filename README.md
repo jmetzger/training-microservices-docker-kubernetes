@@ -28,6 +28,7 @@
   1. Grundwissen Microservices - Synchrones Messaging
      * [gRPC vs. REST API](microservices/grpc-vs-rest-api.md)
      * [API-Abfrage über REST-API](microservices/rest-api.md)
+     * [OpenAPI-Spec aus Code generieren (Go, Python, Java, TS, Rust, C#, PHP)](microservices/openapi-spec-aus-code-generieren.md)
     
   1. Grundwissen Microservices - Async Messaging
      * [Asynchrones Messaging](microservices/asynchronous-messaging.md)
