@@ -97,7 +97,7 @@ und vergisst die Kundenperspektive ("Paket ist angekommen").
 | BestellbestaetigunsEmailVersendet | Benachrichtigungen sind eigene Events — sie koennen fehlschlagen und muessen nachverfolgt werden |
 | VersandEmailVersendet | Gleicher Grund — der Versand der Email ist ein eigenes verfolgbares Ereignis |
 
-### ZahlungErfolgt — groesste inhaltliche Luecke
+**ZahlungErfolgt — groesste inhaltliche Luecke**
 
 `ZahlungErfolgt` fehlt vollstaendig.
 Die Gruppe hat `ZahlungFehlgeschlagen` und `ZahlungErstattet` gefunden, aber nicht den Normalfall.
