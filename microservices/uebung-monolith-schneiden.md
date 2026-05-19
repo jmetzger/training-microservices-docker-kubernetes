@@ -18,7 +18,21 @@ Diese Uebung verwendet zwei aufeinander aufbauende Techniken:
 ## Ausgangslage: Der Monolith "ShopMax"
 
 ShopMax ist ein 8 Jahre alter Online-Shop, entwickelt in Java/Spring Boot als einzelne
-deploybare Einheit. Das Team klagt ueber:
+deploybare Einheit.
+
+**Funktionsumfang (was der Shop kann):**
+
+- Kunden koennen sich registrieren, einloggen, Profil pflegen
+- Produkte werden gepflegt (Beschreibung, Preis, Bilder, Kategorien)
+- Lagerbestaende werden gefuehrt
+- Kunden legen Artikel in den Warenkorb
+- Bestellungen werden aufgegeben und koennen storniert werden
+- Zahlungen via Kreditkarte, PayPal, Rechnung
+- Versand inkl. Tracking und Retouren
+- E-Mail- und SMS-Benachrichtigungen (Bestellbestaetigung, Versand, Rechnung)
+- Rechnungen werden erstellt und archiviert
+
+Das Team klagt ueber:
 
 - **Lange Deployments** (40 Min. Test + Build fuer jede Aenderung)
 - **Angst vor Releases** (Bugfix in Zahlung bricht Produktsuche)
