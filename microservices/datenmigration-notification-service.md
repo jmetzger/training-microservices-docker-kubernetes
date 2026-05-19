@@ -312,8 +312,35 @@ public void sendNotification(Notification n) {
     outboxDb.insert(toJson(n));   // atomar mit obigem INSERT
     // kein direkter Write in Notification-Service-DB mehr
 }
+```
 
-// Separater Relay-Prozess (laeuft alle paar Sekunden)
+**Ja — die Aktualisierung der Service-DB ist asynchron.**
+
+Der Monolith kehrt sofort zurueck, nachdem er in seine eigene DB geschrieben hat.
+Die Notification-Service-DB wird erst danach aktualisiert — durch einen
+separaten Relay-Prozess, der unabhaengig laeuft:
+
+```
+[Monolith] --Transaktion--> [Monolith-DB]
+    |                           |
+    | (kehrt sofort zurueck)    | notification_outbox: neuer Eintrag
+    v                           |
+[Response an Client]            |
+                                | (asynchron, Millisekunden bis Sekunden spaeter)
+                                v
+                       [Relay-Prozess]
+                                |
+                                v
+                   [Notification-Service-DB]
+```
+
+**Variante A — Polling (einfacher):**
+
+Ein Hintergrund-Thread fragt die Outbox-Tabelle regelmaessig ab:
+
+```java
+// Laeuft alle 500ms als Hintergrund-Job
+@Scheduled(fixedDelay = 500)
 public void relay() {
     List<OutboxEntry> pending = outboxDb.findUnrelayed();
     for (OutboxEntry entry : pending) {
@@ -323,14 +350,43 @@ public void relay() {
 }
 ```
 
+Verzoegerung: typisch < 1 Sekunde. Einfach umzusetzen, aber erzeugt staendige
+DB-Abfragen auch wenn nichts zu tun ist.
+
+**Variante B — CDC / Change Data Capture (robuster):**
+
+Statt zu pollen, lauscht ein Tool wie **Debezium** auf den PostgreSQL Write-Ahead-Log (WAL).
+Jeder neue Eintrag in `notification_outbox` loest sofort ein Event aus — ohne Polling.
+
 ```
-[Monolith] --Transaktion--> [Monolith-DB: notifications + notification_outbox]
-                                              |
-                                    [Relay-Prozess] (asynchron)
-                                              |
-                                              v
-                                   [Notification-Service-DB]
+[Monolith-DB: notification_outbox]
+    |
+    | WAL (Write-Ahead-Log) -- PostgreSQL schreibt jeden Commit ins Log
+    v
+[Debezium] (liest WAL, produziert Events)
+    |
+    v
+[Kafka Topic: notification-outbox]
+    |
+    v
+[Notification Service] -- konsumiert und schreibt in eigene DB
 ```
+
+Verzoegerung: typisch < 100ms. Kein Polling, hohe Zuverlaessigkeit, aber
+mehr Infrastruktur (Debezium, Kafka).
+
+**Was passiert bei einem Fehler im Relay?**
+
+Der Outbox-Eintrag bleibt in der Tabelle (`relayed_at` bleibt NULL).
+Beim naechsten Durchlauf wird er erneut verarbeitet.
+Die Notification-Service-DB ist damit **eventually consistent** —
+sie wird garantiert aktualisiert, aber nicht zwingend sofort.
+
+> **Konsequenz fuer den Notification Service:**
+> Er darf keine Annahme treffen, dass ein Eintrag sofort da ist.
+> Lese-Anfragen kurz nach einem Write koennen noch den alten Stand zeigen.
+> Das ist in diesem Fall akzeptabel — eine E-Mail-Bestaetigung darf
+> mit wenigen Sekunden Verzoegerung ankommen.
 
 **Warum Outbox statt Dual Write?**
 Dual Write ist nicht atomar — bei einem Fehler zwischen den beiden Writes
