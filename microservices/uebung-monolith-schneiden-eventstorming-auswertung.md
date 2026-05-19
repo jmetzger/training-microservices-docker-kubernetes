@@ -98,12 +98,33 @@ und vergisst die Kundenperspektive ("Paket ist angekommen").
 | ProduktAngelegt | Wer legt Produkte an? Eigenes Team, eigene Fachlogik |
 | PreisGeaendert | Preisaenderungen haben Downstream-Effekte (Warenkorb, laufende Bestellungen) |
 
+### Zahlung
+
+`ZahlungErfolgt` fehlt vollstaendig — das ist die groesste inhaltliche Luecke.
+Die Gruppe hat `ZahlungFehlgeschlagen` und `ZahlungErstattet` gefunden, aber nicht den Normalfall.
+
+`ZahlungErfolgt` ist das zentrale Event im Bestellprozess: Es loest mehr Downstream-Reaktionen
+aus als jedes andere Event:
+
+```
+ZahlungErfolgt
+    → LagerbestandAktualisiert  (Reservierung wird fest)
+    → LieferungVorbereitet      (Versand wird angestossen)
+    → RechnungErstellt
+    → BestellbestaetigunsEmailVersendet
+```
+
+Ohne dieses Event hat der Zahlungs-Context keine klare Ausgabe —
+er kann von anderen Contexts nicht abonniert werden.
+
+Typische Ursache: Man denkt zuerst an Fehler ("was kann schiefgehen?")
+und vergisst dann, den Erfolgsfall explizit als Event zu benennen.
+
 ### Warenkorb / Bestellung
 
 | Fehlendes Event | Warum wichtig |
 |---|---|
 | WarenkorbGeleert / WarenkorbAbgebrochen | Session laeuft ab — relevant fuer Analytics und Remarketing |
-| ZahlungErfolgt | Erfolgsfall der Zahlung fehlt (nur Fehlerfall und Erstattung gefunden) |
 | BestellungBestaetigt | Zwischenzustand zwischen AufgegebenAndVersendet — loest oft Lagerreservierung aus |
 
 ### Lagerbestand
