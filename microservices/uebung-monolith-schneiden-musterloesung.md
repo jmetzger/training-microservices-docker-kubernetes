@@ -157,6 +157,10 @@ die ueber Events miteinander kommunizieren.
 
 ### Bewertungsmatrix
 
+> **Skala:** 5 = ideal fuer den ersten Schnitt, 1 = ungeeignet.
+> Bei "Wenige Abhaeng.": 5 = kaum andere Contexts haengen daran (leicht herausloesbar),
+> 1 = viele Contexts haengen daran (hohes Risiko).
+
 | Context | Wenige Abhaeng. | Business-Wert | Klare Verantwort. | Isolierte DB | **Score** |
 |---|---|---|---|---|---|
 | Benachrichtigung | 5 | 2 | 5 | 4 | **16** |
