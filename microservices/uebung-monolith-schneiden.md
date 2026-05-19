@@ -142,7 +142,7 @@ Nutzt das folgende Raster (ihr braucht moeglicherweise mehr oder weniger Felder)
 
 ```
 +-------------------+    +-------------------+    +-------------------+
-|    Zahlung        |    |                   |    |                   |
+|    Zahlung        |    |   Bestellprozess  |    |                   |
 |                   |    |                   |    |                   |
 |                   |    |                   |    |                   |
 |                   |    |                   |    |                   |
