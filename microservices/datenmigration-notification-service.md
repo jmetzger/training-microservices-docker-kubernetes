@@ -336,19 +336,36 @@ separaten Relay-Prozess, der unabhaengig laeuft:
 
 **Variante A — Polling (einfacher):**
 
-Ein Hintergrund-Thread fragt die Outbox-Tabelle regelmaessig ab:
+Ein Hintergrund-Thread fragt die Outbox-Tabelle direkt per SQL ab,
+schreibt in die neue DB und markiert den Eintrag als verarbeitet:
 
-```java
-// Laeuft alle 500ms als Hintergrund-Job
-@Scheduled(fixedDelay = 500)
-public void relay() {
-    List<OutboxEntry> pending = outboxDb.findUnrelayed();
-    for (OutboxEntry entry : pending) {
-        notificationServiceDb.insert(entry.payload());
-        outboxDb.markRelayed(entry.id());
-    }
-}
+```sql
+-- Schritt 1: Offene Eintraege holen (Relay-Prozess liest Monolith-DB)
+SELECT id, payload
+FROM notification_outbox
+WHERE relayed_at IS NULL
+ORDER BY created_at
+LIMIT 100;
+
+-- Schritt 2: Eintrag in Notification-Service-DB schreiben
+INSERT INTO notification_svc_db.notifications (...)
+VALUES (...);  -- aus payload deserialisiert
+
+-- Schritt 3: Eintrag als erledigt markieren (oder loeschen)
+
+-- Option A: Status setzen (Eintrag bleibt fuer Debugging/Audit)
+UPDATE notification_outbox
+SET relayed_at = NOW()
+WHERE id = 42;
+
+-- Option B: Eintrag loeschen (spart Speicher, kein Audit-Trail)
+DELETE FROM notification_outbox
+WHERE id = 42;
 ```
+
+Schritt 2 und 3 laufen in einer Transaktion — faellt die Notification-Service-DB aus,
+wird auch der Status-Update nicht committed. Der Eintrag bleibt offen und wird
+beim naechsten Polling-Durchlauf erneut verarbeitet.
 
 Verzoegerung: typisch < 1 Sekunde. Einfach umzusetzen, aber erzeugt staendige
 DB-Abfragen auch wenn nichts zu tun ist.
