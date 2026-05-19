@@ -252,32 +252,37 @@ ORDER BY sent_at DESC LIMIT 100;
 
 ---
 
-### Phase 4 — Dual Write aktivieren
+### Phase 4 — Dual Write (nur zur Erklaerung — in der Praxis ueberspringen)
 
 **Pattern: Dual Write**
 
-Der Monolith schreibt nun in beide Datenbanken gleichzeitig,
-damit die neue DB waehrend des Uebergangszeitraums aktuell bleibt.
+> **Hinweis:** Phase 4 ist kein empfohlener Implementierungsschritt.
+> Sie erklaert, was Teams ohne Outbox Pattern tun — und warum es ein Problem ist.
+> In der Praxis direkt zu Phase 5 (Outbox) wechseln.
+
+Ohne Outbox Pattern wuerde man versucht sein, einfach in beide DBs zu schreiben:
 
 ```java
-// Im Monolith (Uebergangsphase)
+// Im Monolith (naiver Ansatz)
 public void sendNotification(Notification n) {
-    monolithDb.insert(n);           // alte Tabelle (bleibt noch)
-    notificationServiceDb.insert(n); // neue DB (parallel)
+    monolithDb.insert(n);            // alte Tabelle
+    notificationServiceDb.insert(n); // neue DB
 }
 ```
 
 ```
 [Monolith]
     |
-    |-- INSERT --> [Monolith-DB: notifications]     (alt, noch aktiv)
+    |-- INSERT --> [Monolith-DB: notifications]     (1. Write)
     |
-    +-- INSERT --> [Notification-Service-DB]        (neu, parallel)
+    +-- INSERT --> [Notification-Service-DB]        (2. Write)
 ```
 
-**Das Problem mit Dual Write:**
-Wenn der erste INSERT erfolgreich ist, der zweite aber fehlschlaegt,
-sind die beiden Datenbanken inkonsistent. Das behebt Phase 5.
+**Warum das nicht funktioniert:**
+Die beiden INSERTs laufen nicht in einer Transaktion.
+Schlaegt der zweite fehl (Netzwerkfehler, DB-Ausfall), ist die neue DB inkonsistent —
+ohne Moeglichkeit zur automatischen Wiederholung. Datenverlust ist die Folge.
+Deshalb: direkt zu Phase 5.
 
 ---
 
@@ -385,8 +390,8 @@ Vorher:                          Nachher:
 Phase 1: Code entkoppeln        (Strangler Fig)   -- kein DB-Risiko
 Phase 2: Neue DB aufsetzen      (Database-per-Service)
 Phase 3: Backfill               -- neue DB vollstaendig machen
-Phase 4: Dual Write             -- neue DB aktuell halten
-Phase 5: Outbox                 -- Konsistenz sichern
+Phase 4: (Dual Write)           -- nur zur Erklaerung, in der Praxis ueberspringen
+Phase 5: Outbox                 -- direkt hier einsteigen, loest Konsistenzproblem
 Phase 6: Reads umstellen        -- neuer Service uebernimmt
 Phase 7: Alte Tabelle loeschen  -- Monolith vollstaendig entkoppelt
 ```
