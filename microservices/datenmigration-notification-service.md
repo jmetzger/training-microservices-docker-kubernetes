@@ -102,28 +102,84 @@ diese Werte werden beim Schreiben mitgegeben, nicht nachtraeglich per JOIN gehol
 
 **Pattern: Strangler Fig**
 
-Bevor wir die DB anfassen, entkoppeln wir den Code.
-Der Monolith ruft `notificationService.send(...)` heute direkt auf.
-Diesen Aufruf ersetzen wir durch ein Domain Event:
+Bevor wir die DB anfassen, entkoppeln wir den Code — aber in zwei Teilschritten.
+
+**Phase 1a: Beide Pfade parallel betreiben**
+
+Der direkte Aufruf bleibt zunaechst erhalten. Zusaetzlich wird das Event publiziert.
+Der neue Notification Service abonniert das Event und schreibt in seine eigene DB.
 
 ```java
-// Vorher (enge Kopplung)
-notificationService.sendOrderConfirmation(user.email(), order);
+// Uebergangsphase: alter Aufruf bleibt, neuer Event-Pfad kommt dazu
+public Order placeOrder(Cart cart, Customer customer) {
+    Order order = createOrder(cart);
+    paymentService.charge(customer, order.total());
 
-// Nachher (entkoppelt ueber Event Bus)
-eventBus.publish(new OrderPlacedEvent(
-    order.id(),
-    user.email(),
-    user.phone(),
-    order.total()
-));
+    // Alter Pfad: laeuft weiter (Sicherheitsnetz)
+    notificationService.sendOrderConfirmation(customer.email(), order);
+
+    // Neuer Pfad: Event fuer den kuenftigen Notification Service
+    eventBus.publish(new OrderPlacedEvent(
+        order.id(),
+        customer.email(),
+        customer.phone(),
+        order.total()
+    ));
+
+    return order;
+}
 ```
 
-Der Notification Service abonniert dieses Event und schreibt in seine eigene DB.
+```
+[Monolith]
+    |
+    |-- direkter Aufruf --> [Notification-Code im Monolith] --> [Monolith-DB]
+    |
+    +-- Event -----------> [Neuer Notification Service]     --> [Notification-Svc-DB]
+```
 
-**Warum zuerst?**
-Ohne Code-Entkopplung schreibt der Monolith weiterhin direkt in die `notifications`-Tabelle.
-Die DB-Migration wuerde ins Leere laufen.
+Beide Pfade laufen gleichzeitig. Waehrend dieser Phase werden Notifications
+doppelt verarbeitet — das ist gewollt und dient der Verifikation.
+
+**Phase 1b: Neuen Pfad verifizieren**
+
+Bevor der alte Pfad gekappt wird, muss sichergestellt sein:
+- Kommen alle Events im neuen Notification Service an?
+- Stimmen die Daten in der neuen DB mit denen in der Monolith-DB ueberein?
+
+```sql
+-- Vergleich: gleiche Anzahl Notifications seit Aktivierung des neuen Pfads?
+SELECT COUNT(*) FROM monolith_db.notifications  WHERE sent_at > '2024-01-15';
+SELECT COUNT(*) FROM notification_svc_db.notifications WHERE sent_at > '2024-01-15';
+```
+
+**Phase 1c: Alten Pfad entfernen**
+
+Erst wenn der neue Pfad bestaetigt ist, wird der direkte Aufruf entfernt:
+
+```java
+// Nach erfolgreicher Verifikation: nur noch Event
+public Order placeOrder(Cart cart, Customer customer) {
+    Order order = createOrder(cart);
+    paymentService.charge(customer, order.total());
+
+    eventBus.publish(new OrderPlacedEvent(
+        order.id(),
+        customer.email(),
+        customer.phone(),
+        order.total()
+    ));
+
+    return order;
+}
+```
+
+**Warum parallel und nicht direkt umschalten?**
+Ein sofortiger Switch vom direkten Aufruf zum Event-Pfad ist ein Big-Bang-Cut.
+Faellt der neue Service aus oder verarbeitet er Events nicht korrekt,
+gehen Notifications verloren — ohne Fallback.
+Beim parallelen Betrieb laeuft der Monolith weiter als Sicherheitsnetz,
+bis der neue Pfad bewiesen ist.
 
 ---
 
