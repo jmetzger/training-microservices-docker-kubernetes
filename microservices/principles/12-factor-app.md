@@ -22,7 +22,8 @@ Hier ist die Tabelle der Twelve-Factor App Principles:
 | # | Prinzip | Beschreibung |
 |---|---------|--------------|
 | 1 | Codebase | Versionsverwaltetes Code-Repository |
-| 2 | Dependencies | Abhängigkeiten sollten extern verwaltet werden (spielte zur Zeit von heroku eine Rolle, weil Software auf dem Host ausgeführt wurde. Man soll sich also nicht darauf verlassen, was auf dem Host existiert. Bei Docker/Kubernetes ist das bereits im Container-Image selbst geregelt. Man könnte also sagen, die Regel ist bei Docker-Images ohnehin erfüllt.|
+| 2 | Dependencies | Abhängigkeiten sollten extern verwaltet werden 
+(spielte zur Zeit von heroku eine Rolle, weil Software auf dem Host ausgeführt wurde. Man soll sich also nicht darauf verlassen, was auf dem Host existiert. Bei Docker/Kubernetes ist das bereits im Container-Image selbst geregelt. Man könnte also sagen, die Regel ist bei Docker-Images ohnehin erfüllt.|
 | 3 | Config | Konfiguration als Umgebungsvariablen |
 | 4 | Backing Services | Datenbanken, Messaging etc. als externe Ressourcen |
 | 5 | Build, Release, Run | Drei unabhängige Deployment-Schritte |
