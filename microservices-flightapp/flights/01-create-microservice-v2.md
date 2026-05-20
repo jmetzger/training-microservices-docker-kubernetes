@@ -35,7 +35,7 @@ docker container ls
 http://<public-ip-of-server>:3939
 ```
 
-### Step 2: Build 
+## Step 3: Build 
 
 ```
 cd
@@ -44,7 +44,7 @@ docker compose up -d
 docker compose logs 
 ```
 
-### Step 3 Testing 
+## Step 4: Testing 
 
 ```
 # Flight 
