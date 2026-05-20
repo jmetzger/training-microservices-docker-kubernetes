@@ -60,6 +60,47 @@ Beispiel: Reisebuchung (Hotel → Flug → Zahlung),
           bei Fehler alles in umgekehrter Reihenfolge stornieren.
 ```
 
+**Apache Camel fuer SAGA nehmen, wenn:**
+- Camel bereits fuer Integration im Einsatz ist
+- Die Saga kurzlebig ist (Sekunden bis Minuten)
+- Kompensationslogik einfach und flach ist
+- Kein persistierter State ueber Crashes hinweg benoetigt wird
+
+Camel hat seit Version 2.21 einen eigenen **Saga EIP** eingebaut:
+
+```java
+// Saga-Route: Schritte definieren
+from("direct:bookTrip")
+    .saga()
+        .to("direct:bookHotel")
+        .to("direct:bookFlight")
+        .to("direct:chargePayment")
+    .end();
+
+// Hotel buchen — mit Kompensation
+from("direct:bookHotel")
+    .saga()
+    .compensation("direct:cancelHotel")
+    .log("Hotel gebucht")
+    .to("http://hotel-service/book");
+
+// Kompensation: Hotel stornieren
+from("direct:cancelHotel")
+    .log("Hotel storniert (Kompensation)")
+    .to("http://hotel-service/cancel");
+```
+
+Schlaegt ein Schritt fehl, ruft Camel automatisch die registrierten
+Kompensations-Routen in umgekehrter Reihenfolge auf — gleiches Prinzip wie bei Temporal,
+aber ohne persistierten State. Faellt der Prozess zwischen zwei Schritten aus,
+gibt es keine automatische Wiederherstellung.
+
+**Temporal fuer SAGA nehmen, wenn:**
+- Die Saga Stunden oder Tage dauern kann
+- Crash-Recovery ohne Datenverlust Pflicht ist
+- Komplexe oder verschachtelte Kompensationslogik benoetigt wird
+- Observability ueber Web-UI wichtig ist
+
 **Beide zusammen, wenn:**
 - Camel uebernimmt die Integration (Nachrichten empfangen, transformieren, weiterleiten)
 - Temporal uebernimmt die Orchestrierung (was passiert in welcher Reihenfolge, was bei Fehler)
