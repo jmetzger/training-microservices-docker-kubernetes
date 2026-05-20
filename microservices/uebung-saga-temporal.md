@@ -75,6 +75,69 @@ src/main/java/de/t3isp/saga/
 
 ---
 
+## Wie funktioniert das Zusammenspiel?
+
+### Worker und Starter — zwei Rollen, ein Image
+
+Beide Container werden aus demselben Dockerfile gebaut, uebernehmen aber verschiedene Aufgaben:
+
+**`saga-worker`** — der Ausfuehrer (laeuft dauerhaft)
+- Registriert `BookingWorkflowImpl` und `BookingActivitiesImpl` bei Temporal
+- Wartet auf Aufgaben von der Task Queue `booking-saga`
+- `restart: on-failure` — startet neu falls Temporal kurz nicht erreichbar ist
+
+**`saga-starter`** — der Ausloser (laeuft einmalig)
+- Loest zwei Workflows bei Temporal aus: 500 EUR (Erfolg) und 2000 EUR (Fehler)
+- Beendet sich danach — `restart: "no"`
+- Er fuehrt die Workflows nicht selbst aus, er beauftragt nur Temporal
+
+```
+saga-starter  -->  Temporal Server  -->  saga-worker
+  (ausloesen)      (koordinieren,         (ausfuehren,
+                    persistieren)          Activities laufen hier)
+```
+
+Temporal haelt den Workflow-State persistent. Faellt der Worker aus und kommt zurueck,
+weiss Temporal genau wo der Workflow aufgehoert hat — und der Worker macht einfach weiter.
+
+### Wie wird der Workflow definiert?
+
+Der Kern der Uebung liegt in `BookingWorkflowImpl.java`:
+
+```java
+public String bookTrip(String bookingId, double amount) {
+    Saga saga = new Saga(
+        new Saga.Options.Builder()
+            .setParallelCompensation(false)  // C2 vor C1, nicht gleichzeitig
+            .build());
+
+    try {
+        activities.bookHotel(bookingId);
+        saga.addCompensation(activities::cancelHotel, bookingId);  // C1
+
+        activities.bookFlight(bookingId);
+        saga.addCompensation(activities::cancelFlight, bookingId); // C2
+
+        activities.chargePayment(bookingId, amount);               // Pivot (kein Cancel)
+
+        return "Buchung " + bookingId + " erfolgreich";
+
+    } catch (Exception e) {
+        saga.compensate();        // ruft C2, dann C1 — umgekehrte Reihenfolge
+        throw Workflow.wrap(e);   // Fehler an Temporal weiterleiten
+    }
+}
+```
+
+**Warum steht `addCompensation` immer NACH der jeweiligen Activity?**
+
+Schlaegt `bookHotel` selbst fehl, gibt es nichts zu stornieren.
+Stuende die Registrierung davor, wuerde `cancelHotel` fuer eine Buchung aufgerufen,
+die nie stattgefunden hat. Durch die Reihenfolge "erst buchen, dann registrieren"
+kompensiert die Saga nur, was tatsaechlich erfolgreich war.
+
+---
+
 ## Schritt 3: Worker und Starter ausfuehren
 
 **Worker starten** (laeuft dauerhaft im Hintergrund):
