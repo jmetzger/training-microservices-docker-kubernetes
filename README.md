@@ -109,6 +109,7 @@
   1. Microservice - flightapp - concepts
      * [Vorgehensweise nach dem SEED-Verfahren](microservices-flightapp/concept/00-design-with-seed-method.md)
      * [Vorgehensweise nach SEED on Detail](microservices-flightapp/concept/00-design-with-seed-method-in-details.md)
+     * [SEED vs. DDD mit EventStorming — Wann nehme ich was?](microservices/seed-vs-ddd-eventstorming.md)
 
   1. Microservice - flightapp - reservations 
      * [Template for microservice with python flask ](microservices-flightapp/00-microservice-python-flask-template.md)
