@@ -101,11 +101,3 @@ gibt es keine automatische Wiederherstellung.
 - Komplexe oder verschachtelte Kompensationslogik benoetigt wird
 - Observability ueber Web-UI wichtig ist
 
-**Beide zusammen, wenn:**
-- Camel uebernimmt die Integration (Nachrichten empfangen, transformieren, weiterleiten)
-- Temporal uebernimmt die Orchestrierung (was passiert in welcher Reihenfolge, was bei Fehler)
-
-```
-Camel:    Kafka-Event empfangen → transformieren → an Temporal uebergeben
-Temporal: Buchungs-Workflow starten → Hotel → Flug → Zahlung → Kompensation
-```
