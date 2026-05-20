@@ -94,6 +94,7 @@
      * [Umgang mit Joins bei database-per-service](microservices/databases/patterns/database-per-service/handling-of-joins.md)
      * [Umgang mit Transaktionen bei database-per-service (SAGA)](microservices/databases/patterns/database-per-service/handling-of-transactions.md)
      * [Uebung: SAGA-Pattern mit Temporal (Docker Compose, Java)](microservices/uebung-saga-temporal.md)
+     * [Apache Camel (EIP) vs. Temporal — Vergleich und Entscheidungshilfe](microservices/apache-camel-vs-temporal.md)
      * [Event Sourcing](microservices/databases/patterns/database-per-service/event-sourcing.md)
     
   1. Microservice - flightapp - concepts
