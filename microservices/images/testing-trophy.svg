@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 430" width="580" height="430" font-family="Arial, sans-serif">
+
+  <!-- Title -->
+  <text x="270" y="38" text-anchor="middle" font-size="18" font-weight="bold" fill="#2c3e50">Testing Trophy — Microservices</text>
+
+  <!-- E2E (top, schmalste Schicht) -->
+  <polygon points="200,75 340,75 400,112 140,112" fill="#e74c3c"/>
+  <text x="270" y="99" text-anchor="middle" font-size="13" fill="white" font-weight="bold">E2E  ~10%</text>
+
+  <!-- Contract -->
+  <polygon points="140,115 400,115 480,175 60,175" fill="#e67e22"/>
+  <text x="270" y="151" text-anchor="middle" font-size="13" fill="white" font-weight="bold">Contract  ~20%</text>
+
+  <!-- Integration (breiteste Schicht) -->
+  <polygon points="60,178 480,178 455,328 85,328" fill="#27ae60"/>
+  <text x="270" y="260" text-anchor="middle" font-size="15" fill="white" font-weight="bold">Integration  ~50%</text>
+  <text x="270" y="280" text-anchor="middle" font-size="11" fill="#d5f5e3">(Testcontainers, Contract Tests)</text>
+
+  <!-- Unit -->
+  <polygon points="85,331 455,331 425,374 115,374" fill="#3498db"/>
+  <text x="270" y="358" text-anchor="middle" font-size="13" fill="white" font-weight="bold">Unit  ~15%</text>
+
+  <!-- Static (unterste Schicht) -->
+  <polygon points="115,377 425,377 400,394 140,394" fill="#7f8c8d"/>
+  <text x="270" y="390" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Static  ~5%</text>
+
+  <!-- Geschwindigkeitsachse rechts -->
+  <text x="508" y="82" font-size="11" fill="#95a5a6">langsam</text>
+  <line x1="518" y1="92" x2="518" y2="384" stroke="#bdc3c7" stroke-width="1.5"/>
+  <polygon points="514,92 522,92 518,80" fill="#bdc3c7"/>
+  <polygon points="514,384 522,384 518,396" fill="#bdc3c7"/>
+  <text x="508" y="408" font-size="11" fill="#95a5a6">schnell</text>
+
+  <!-- Legende: wann laufen die Tests -->
+  <text x="12" y="82"  font-size="10" fill="#95a5a6">Nightly</text>
+  <text x="12" y="151" font-size="10" fill="#95a5a6">CI / PR</text>
+  <text x="12" y="260" font-size="10" fill="#95a5a6">CI / PR</text>
+  <text x="12" y="358" font-size="10" fill="#95a5a6">Pre-Commit</text>
+  <text x="12" y="390" font-size="10" fill="#95a5a6">Pre-Commit</text>
+
+  <!-- Quelle -->
+  <text x="270" y="420" text-anchor="middle" font-size="10" fill="#bdc3c7">nach Kent C. Dodds — Testing Trophy</text>
+
+</svg>

@@ -4,18 +4,7 @@
 
 Empfohlene Verteilung nach der **Testing Trophy** (optimiert fuer Microservices):
 
-```
-        /\
-       /  \   E2E              ~10%   wenige, kritische User Journeys
-      /----\
-     /      \ Contract         ~20%   Pact, OpenAPI — jede Service-Grenze
-    /--------\
-   /          \ Integration    ~50%   Testcontainers — Service + echte DB/Kafka
-  /------------\
- /              \ Unit         ~15%   reine Geschaeftslogik, ohne I/O
-/----------------\
-       Static      ~5%   Linting, Formatierung, Security-Scan
-```
+![Testing Trophy](images/testing-trophy.svg)
 
 > **Warum so viele Integration Tests?**
 > In Microservices stecken die meisten Fehler an den Grenzen zwischen Service und
