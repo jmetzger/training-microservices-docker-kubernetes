@@ -177,7 +177,10 @@ Starter                    Temporal Server              Worker
 
 **Drei wichtige Punkte:**
 
-- `newWorkflowStub()` erzeugt nur ein lokales Proxy-Objekt — noch kein Netzwerkaufruf
+- `newWorkflowStub()` erzeugt nur ein lokales Proxy-Objekt — noch kein Netzwerkaufruf.
+  Einfach gesagt: es ist wie das Schreiben einer Adresse auf einen Briefumschlag —
+  du weisst schon wohin der Brief soll, aber abgeschickt hast du noch nichts.
+  Erst `bookTrip()` schickt den Brief ab.
 - `bookTrip()` sendet den Start-Request an Temporal per gRPC — Temporal persistiert den Auftrag sofort in PostgreSQL, bevor der Worker ihn abarbeitet
 - Der Aufruf **blockiert** bis der Workflow fertig ist. Will man nicht warten, gibt es stattdessen `WorkflowClient.start(workflow, ...)` — dann laeuft der Workflow asynchron weiter
 
