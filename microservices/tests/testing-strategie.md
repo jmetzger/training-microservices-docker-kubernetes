@@ -4,7 +4,7 @@
 
 Empfohlene Verteilung nach der **Testing Trophy** (optimiert fuer Microservices):
 
-![Testing Trophy](images/testing-trophy.svg)
+![Testing Trophy](/images/testing-trophy.svg)
 
 > **Warum so viele Integration Tests?**
 > In Microservices stecken die meisten Fehler an den Grenzen zwischen Service und
