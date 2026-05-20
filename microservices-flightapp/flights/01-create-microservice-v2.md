@@ -167,3 +167,53 @@ ms-flights     | [INFO] No migrations to run
 ms-flights     | [INFO] Done
 ms-flights     | Express server instance listening on port 5501
 ```
+
+---
+
+### Gegenüberstellung: Alt vs. Neu (die entscheidenden Teile)
+
+**Alt:**
+
+```yaml
+services:
+  ms-flights:
+    links:
+      - ms-flights-db
+    # kein depends_on
+    command: ./shell/wait-for.sh ms-flights-db:3306 -- ./shell/start-dev.sh
+
+  ms-flights-db:
+    image: mysql:5.7
+    restart: always
+    # kein healthcheck
+```
+
+**Neu:**
+
+```yaml
+services:
+  ms-flights:
+    links:
+      - ms-flights-db
+    depends_on:
+      ms-flights-db:
+        condition: service_healthy
+    command: ./shell/start-dev.sh
+
+  ms-flights-db:
+    image: mysql:5.7
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pverysecretsomething"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+```
+
+Die zwei entscheidenden Unterschiede:
+
+1. **`ms-flights-db`** bekommt einen `healthcheck` — Docker weiß jetzt wann MySQL wirklich bereit ist
+2. **`ms-flights`** bekommt `depends_on` mit `condition: service_healthy` — startet erst wenn die DB `healthy` ist
+
+`wait-for.sh` wird nicht mehr gebraucht und fällt weg.
