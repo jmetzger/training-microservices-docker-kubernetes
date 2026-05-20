@@ -43,7 +43,8 @@
      * [Circuit-Breaker und Fehlertoleranz](microservices/retry-circuit-breaker-fehlerhandling.md)
   
   1. Grundwissen Microservices - Tests (Teil 3)
-      * [Tests](microservices/tests/overview.md) 
+      * [Tests](microservices/tests/overview.md)
+      * [Testing-Strategie: Was, wieviel, wann?](microservices/tests/testing-strategie.md)
       * [Static Tests](microservices/tests/static.md)
       * [Unit-Tests](microservices/tests/unit_testing.md)
       * [Integration Testing](microservices/tests/integration_testing_gitlab_ci_cd.md)
