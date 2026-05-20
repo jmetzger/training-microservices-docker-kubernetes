@@ -37,29 +37,6 @@ Die zentralen EIP-Bausteine in Camel:
 
 ## Wann welches Tool?
 
-**Apache Camel nehmen, wenn:**
-- Systeme mit verschiedenen Protokollen verbunden werden muessen
-  (HTTP, Kafka, FTP, SFTP, JDBC, S3, ...)
-- Nachrichten transformiert oder geroutet werden sollen
-- ETL-Pipelines gebaut werden
-- Die Logik in Routing-Regeln ausgedrueckt werden kann
-
-```
-Beispiel: Bestellungen aus einer REST-API lesen,
-          in XML umwandeln und per SFTP an ein ERP schicken.
-```
-
-**Temporal nehmen, wenn:**
-- Geschaeftsprozesse mit mehreren Schritten orchestriert werden
-- Kompensationen (Saga) benoetigt werden
-- Workflows Tage oder Wochen laufen koennen
-- Crash-Recovery ohne Datenverlust wichtig ist
-
-```
-Beispiel: Reisebuchung (Hotel → Flug → Zahlung),
-          bei Fehler alles in umgekehrter Reihenfolge stornieren.
-```
-
 **Apache Camel fuer SAGA nehmen, wenn:**
 - Camel bereits fuer Integration im Einsatz ist
 - Die Saga kurzlebig ist (Sekunden bis Minuten)
