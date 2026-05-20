@@ -47,7 +47,9 @@
       * [Static Tests](microservices/tests/static.md)
       * [Unit-Tests](microservices/tests/unit_testing.md)
       * [Integration Testing](microservices/tests/integration_testing_gitlab_ci_cd.md)
-      * [Contract Testing](microservices/tests/contract-test.md)
+      * [Contract Testing mit OpenAPI](microservices/tests/contract-test.md)
+      * [Consumer-Driven Contract Testing mit Pact](microservices/tests/consumer-driven-contract-pact.md)
+      * [Integration Testing mit Testcontainers](microservices/tests/testcontainers.md)
       * [End-to-End - e2e - Tests](microservices/tests/e2e-end-to-end.md)
 
   1. Linux Tipps & Tricks
