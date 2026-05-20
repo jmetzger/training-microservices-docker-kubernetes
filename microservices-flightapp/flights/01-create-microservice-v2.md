@@ -24,7 +24,10 @@ cd ms-flights/docs
 
 ```
 # now render the docs and open 3939 port with container running
-# make start
+# WICHTIG: Befehl muss aus dem docs/-Verzeichnis ausgeführt werden,
+# damit ${PWD}/api.yml korrekt auf docs/api.yml zeigt.
+# Wird der Befehl aus ms-flights/ ausgeführt, legt Docker ein leeres
+# Verzeichnis api.yml an und die Seite zeigt einen Fehler.
 docker run -d --rm --name ms-nb-docs -p 3939:80 -v ${PWD}/api.yml:/usr/share/nginx/html/swagger.yaml -e SPEC_URL=swagger.yaml redocly/redoc:v2.0.0-rc.8-1
 
 docker container ls 
