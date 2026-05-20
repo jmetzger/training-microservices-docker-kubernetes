@@ -136,6 +136,58 @@ Stuende die Registrierung davor, wuerde `cancelHotel` fuer eine Buchung aufgeruf
 die nie stattgefunden hat. Durch die Reihenfolge "erst buchen, dann registrieren"
 kompensiert die Saga nur, was tatsaechlich erfolgreich war.
 
+### Was steckt hinter bookTrip?
+
+Das Interface `BookingWorkflow.java` legt nur die Signatur fest:
+
+```java
+@WorkflowInterface
+public interface BookingWorkflow {
+    @WorkflowMethod
+    String bookTrip(String bookingId, double amount);
+}
+```
+
+Den tatsaechlichen Ablauf definiert `BookingWorkflowImpl.java`:
+
+```java
+public String bookTrip(String bookingId, double amount) {
+    Saga saga = new Saga(...);
+    try {
+        activities.bookHotel(bookingId);            // T1
+        saga.addCompensation(...cancelHotel);        // C1 registrieren
+
+        activities.bookFlight(bookingId);            // T2
+        saga.addCompensation(...cancelFlight);        // C2 registrieren
+
+        activities.chargePayment(bookingId, amount); // T3 — Pivot, kein Cancel
+
+        return "erfolgreich";
+    } catch (Exception e) {
+        saga.compensate();   // C2, dann C1 — umgekehrte Reihenfolge
+        throw Workflow.wrap(e);
+    }
+}
+```
+
+Die Verbindung zwischen Interface und Implementierung stellt der **Worker** her —
+er registriert beides beim Start bei Temporal:
+
+```java
+worker.registerWorkflowImplementationTypes(BookingWorkflowImpl.class);
+```
+
+Wenn der Starter `workflow.bookTrip()` aufruft, weiss Temporal:
+"Diese Methode wird von `BookingWorkflowImpl.bookTrip()` ausgefuehrt —
+durch den Worker auf der Queue `booking-saga`."
+
+```
+BookingWorkflow          BookingWorkflowImpl       BookingActivitiesImpl
+(Interface/Vertrag)  --> (Ablauf/Reihenfolge)  --> (eigentliche Arbeit)
+```
+
+---
+
 ### Wie loest der Starter einen Workflow aus?
 
 ```java
