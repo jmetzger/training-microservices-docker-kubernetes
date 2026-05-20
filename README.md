@@ -23,6 +23,7 @@
      * [Tests](microservices/tests/overview.md)
      * [Monolith schneiden microservices](microservices/monolith-schneiden.md)
      * [Uebung: Monolith schneiden — DDD, Bounded Contexts und Strangler Fig](microservices/uebung-monolith-schneiden.md)
+     * [IAM als Bounded Context — fachlich oder technisch?](microservices/iam-als-bounded-context.md)
      * [Datenmigration: Notification Service (Dual Write, Outbox, Backfill)](microservices/datenmigration-notification-service.md)
 
   1. Grundwissen Microservices - Synchrones Messaging
