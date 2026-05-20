@@ -186,6 +186,36 @@ BookingWorkflow          BookingWorkflowImpl       BookingActivitiesImpl
 (Interface/Vertrag)  --> (Ablauf/Reihenfolge)  --> (eigentliche Arbeit)
 ```
 
+`BookingActivitiesImpl` enthaelt die eigentliche Arbeit — in der Uebung bewusst
+einfach gehalten (nur Logging + gezielter Fehler):
+
+```java
+@Override
+public String bookHotel(String bookingId) {
+    log.info("[{}] ✓ Hotel gebucht", bookingId);
+    return "hotel-" + bookingId;
+}
+
+@Override
+public void cancelHotel(String bookingId) {
+    log.info("[{}] ↩ Hotel STORNIERT (Kompensation C1)", bookingId);
+}
+
+@Override
+public void chargePayment(String bookingId, double amount) {
+    if (amount > 1000) {
+        log.warn("[{}] ✗ Zahlung abgelehnt: {} EUR > Limit", bookingId, amount);
+        throw new RuntimeException("Zahlung abgelehnt: " + amount + " EUR");
+    }
+    log.info("[{}] ✓ Zahlung von {} EUR erfolgreich", bookingId, amount);
+}
+```
+
+In einem echten System wuerde hier stehen:
+- `bookHotel` → HTTP-Call an ein Hotel-API
+- `cancelHotel` → HTTP-Call mit der Buchungs-ID um zu stornieren
+- `chargePayment` → Aufruf an Stripe, PayPal o.ae.
+
 ---
 
 ### Wie loest der Starter einen Workflow aus?
