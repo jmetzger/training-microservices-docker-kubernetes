@@ -22,9 +22,15 @@
      * [Strategische Patterns](microservices/strategic-patterns.md)
      * [Tests](microservices/tests/overview.md)
      * [Monolith schneiden microservices](microservices/monolith-schneiden.md)
-     * [Uebung: Monolith schneiden — DDD, Bounded Contexts und Strangler Fig](microservices/uebung-monolith-schneiden.md)
      * [IAM als Bounded Context — fachlich oder technisch?](microservices/iam-als-bounded-context.md)
      * [Datenmigration: Notification Service (Dual Write, Outbox, Backfill)](microservices/datenmigration-notification-service.md)
+
+  1. Übungen: Monolith schneiden
+     * [Uebung: Monolith schneiden — DDD, Bounded Contexts und Strangler Fig](microservices/uebung-monolith-schneiden.md)
+     * [Auswertung: EventStorming — ShopMax](microservices/uebung-monolith-schneiden-eventstorming-auswertung.md)
+     * [Auswertung: Bounded Contexts — ShopMax](microservices/uebung-monolith-schneiden-boundedcontexts-auswertung.md)
+     * [Weiterfuehrende Schritte: Monolith schneiden (Schritt 3–7)](microservices/uebung-monolith-schneiden-weiterfuehrend.md)
+     * [Musterloesung: Monolith schneiden mit DDD und Strangler Fig (Trainer)](microservices/uebung-monolith-schneiden-musterloesung.md)
 
   1. Grundwissen Microservices - Synchrones Messaging
      * [gRPC vs. REST API](microservices/grpc-vs-rest-api.md)
