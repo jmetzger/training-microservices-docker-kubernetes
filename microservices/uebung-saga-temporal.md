@@ -136,6 +136,51 @@ Stuende die Registrierung davor, wuerde `cancelHotel` fuer eine Buchung aufgeruf
 die nie stattgefunden hat. Durch die Reihenfolge "erst buchen, dann registrieren"
 kompensiert die Saga nur, was tatsaechlich erfolgreich war.
 
+### Wie loest der Starter einen Workflow aus?
+
+```java
+// 1. Verbindung zu Temporal aufbauen (gRPC, Port 7233)
+WorkflowClient client = WorkflowClient.newInstance(
+    WorkflowServiceStubs.newServiceStubs(
+        WorkflowServiceStubsOptions.newBuilder()
+            .setTarget("temporal:7233")
+            .build()));
+
+// 2. Workflow-Stub anlegen — nur lokales Proxy-Objekt, noch kein Netzwerkaufruf
+BookingWorkflow workflow = client.newWorkflowStub(
+    BookingWorkflow.class,
+    WorkflowOptions.newBuilder()
+        .setTaskQueue("booking-saga")   // welche Queue?
+        .setWorkflowId("booking-001")   // eindeutige ID (fuer Deduplizierung)
+        .build());
+
+// 3. Workflow ausloesen — blockiert bis Workflow abgeschlossen ist
+workflow.bookTrip("booking-001", 500.0);
+```
+
+Was dabei passiert:
+
+```
+Starter                    Temporal Server              Worker
+   |                            |                          |
+   |-- newWorkflowStub() -----> |                          |
+   |   (nur lokal, kein Call)   |                          |
+   |                            |                          |
+   |-- bookTrip() ------------> |                          |
+   |   (gRPC zu :7233)          | persistiert in PostgreSQL|
+   |                            | <-- polling ------------ |
+   |   (wartet...)              | -- Aufgabe ausgeben ----> |
+   |                            |    Activities ausfuehren  |
+   |                            | <-- Ergebnis ------------ |
+   | <-- return / Exception --- |                          |
+```
+
+**Drei wichtige Punkte:**
+
+- `newWorkflowStub()` erzeugt nur ein lokales Proxy-Objekt — noch kein Netzwerkaufruf
+- `bookTrip()` sendet den Start-Request an Temporal per gRPC — Temporal persistiert den Auftrag sofort in PostgreSQL, bevor der Worker ihn abarbeitet
+- Der Aufruf **blockiert** bis der Workflow fertig ist. Will man nicht warten, gibt es stattdessen `WorkflowClient.start(workflow, ...)` — dann laeuft der Workflow asynchron weiter
+
 ---
 
 ## Schritt 3: Worker und Starter ausfuehren
