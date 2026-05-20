@@ -6,7 +6,7 @@
 ein Katalog von Loesungen fuer typische Integrationsprobleme aus dem gleichnamigen Buch
 von Gregor Hohpe & Bobby Woolf (2003).
 
-![EIP-Grafik: Routing, Splitter, Translator, Aggregator](images/eip-grafik.svg)
+![EIP-Grafik: Routing, Splitter, Translator, Aggregator](/images/eip-grafik.svg)
 
 Die zentralen EIP-Bausteine in Camel:
 
