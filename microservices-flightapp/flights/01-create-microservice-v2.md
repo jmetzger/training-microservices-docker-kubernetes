@@ -19,7 +19,7 @@ git clone https://github.com/jmetzger/ms-flights ms-flights
 
 ```
 cd
-cd ms-flights
+cd ms-flights/docs
 ```
 
 ```
