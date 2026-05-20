@@ -4,8 +4,7 @@
 
 ### Why ?
 
-  * Way shorter implementation time for new microservice based on python
-
+  * Way shorter implementation time for new microservice based on node js 
 ### What do we use it for ? 
 
   * Flights 
