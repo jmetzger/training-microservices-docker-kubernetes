@@ -84,14 +84,16 @@ ms-flights startet  →  wait-for.sh sieht Port 3306 offen  →  db-migrate läu
 
 ### Vorher (fehlerhaft)
 
-`docker-compose.yml` — ms-flights hatte nur `links`, kein `depends_on`:
+`docker-compose.yml` — ms-flights hatte `links` statt `depends_on`, kein `healthcheck`, kein `restart`:
 
 ```yaml
 services:
   ms-flights:
     ...
     links:
-      - ms-flights-db
+      - ms-flights-db        # veraltet, stellt nur Netzwerk-Alias bereit
+    # kein depends_on
+    # kein restart: always
     command: ./shell/wait-for.sh ms-flights-db:3306 -- ./shell/start-dev.sh
 
   ms-flights-db:
@@ -120,17 +122,17 @@ wait_for() {
 
 ### Nachher (funktioniert)
 
-`docker-compose.yml` — mit `healthcheck` auf der DB und `depends_on` mit Health-Bedingung:
+`docker-compose.yml` — `links` entfernt, `healthcheck` + `depends_on` + `restart: always` ergänzt:
 
 ```yaml
 services:
   ms-flights:
     ...
-    links:
-      - ms-flights-db
+    # kein links mehr — Services erreichen sich bereits per Service-Name
     depends_on:
       ms-flights-db:
         condition: service_healthy    # wartet bis DB wirklich bereit
+    restart: always                   # startet nach Server-Reboot wieder
     command: ./shell/start-dev.sh    # wait-for.sh nicht mehr nötig
 
   ms-flights-db:
