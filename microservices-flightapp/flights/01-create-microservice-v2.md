@@ -50,6 +50,14 @@ docker compose logs
 ## Step 4: Testing 
 
 ```
+# öffentliche / public ip rausfinden
+# auf dem Server
+ip a show eth0
+```
+
+
+
+```
 # Flight 
 curl http://<public-ip>:5501/flights?flight_no=AA34\&departure_date_time=2020-05-17T13:20
 ```
