@@ -218,6 +218,7 @@ sondern **vertikal durch alle Schichten**, entlang der Geschaeftsdomaene.
 
 ## Weiterfuehrende Themen
 
+- [MFE-Kommunikation — Custom Events, Shell, Backend-Zustand](micro-frontends-kommunikation.md)
 - [Was sind Microservices?](what-are.md)
 - [Bounded Contexts und Domainschnitt](../microservices/monolith-schneiden.md)
 - [IAM als Bounded Context](iam-als-bounded-context.md)

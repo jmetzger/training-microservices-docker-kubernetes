@@ -1,0 +1,180 @@
+<svg viewBox="0 0 940 560" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Micro-Frontend Kommunikationsmuster</title>
+<desc>Drei Muster zur Kommunikation zwischen Micro-Frontends: Custom Events, Shell als Vermittler, Backend als gemeinsamer Zustand.</desc>
+<defs>
+  <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#2980b9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#27ae60" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#e67e22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <style>
+    .tt  { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; font-weight: 700; }
+    .tp  { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 13px; font-weight: 700; }
+    .tl  { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 12px; font-weight: 600; }
+    .ts  { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 11px; }
+    .tc  { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 10px; font-style: italic; }
+    .code{ font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; font-size: 10px; }
+  </style>
+</defs>
+
+<!-- Titel -->
+<text class="tt" x="470" y="30" text-anchor="middle" fill="#2c3e50">MFE-Kommunikation: Drei Muster im Vergleich</text>
+<text class="tc" x="470" y="48" text-anchor="middle" fill="#7f8c8d">Beispiel: "In den Warenkorb" Button im Katalog-MFE → Warenkorb-MFE aktualisieren</text>
+
+<!-- ============================================================ -->
+<!-- MUSTER 1: Custom Events                                       -->
+<!-- ============================================================ -->
+<rect x="10" y="58" width="295" height="490" rx="10" fill="#EBF5FB" stroke="#2980b9" stroke-width="1.5"/>
+<text class="tp" x="157" y="80" text-anchor="middle" fill="#1a5276">1 · Custom Events</text>
+<text class="tc" x="157" y="96" text-anchor="middle" fill="#2980b9">Browser-nativ · lose Kopplung</text>
+
+<!-- Katalog MFE Box -->
+<rect x="28" y="108" width="120" height="50" rx="7" fill="#ffffff" stroke="#2980b9" stroke-width="1.5"/>
+<text class="tl" x="88" y="128" text-anchor="middle" fill="#1a5276">MFE: Katalog</text>
+<text class="ts" x="88" y="144" text-anchor="middle" fill="#2980b9">Button: "Kaufen"</text>
+
+<!-- Pfeil nach unten: dispatchEvent -->
+<line x1="88" y1="158" x2="88" y2="208" stroke="#2980b9" stroke-width="1.5" marker-end="url(#ab)"/>
+<rect x="30" y="168" width="116" height="22" rx="4" fill="#d6eaf8" stroke="#2980b9" stroke-width="0.5"/>
+<text class="code" x="88" y="183" text-anchor="middle" fill="#1a5276">dispatchEvent()</text>
+
+<!-- window.CustomEvent Box -->
+<rect x="28" y="210" width="260" height="50" rx="7" fill="#e8f8f5" stroke="#1abc9c" stroke-width="1.5"/>
+<text class="tl" x="158" y="229" text-anchor="middle" fill="#0e6655">window  (Browser)</text>
+<text class="code" x="158" y="247" text-anchor="middle" fill="#148f77">CustomEvent('cart:item-added', {detail})</text>
+
+<!-- Pfeil nach unten: addEventListener -->
+<line x1="180" y1="260" x2="180" y2="310" stroke="#2980b9" stroke-width="1.5" marker-end="url(#ab)"/>
+<rect x="122" y="268" width="116" height="22" rx="4" fill="#d6eaf8" stroke="#2980b9" stroke-width="0.5"/>
+<text class="code" x="180" y="283" text-anchor="middle" fill="#1a5276">addEventListener()</text>
+
+<!-- Warenkorb MFE Box -->
+<rect x="150" y="312" width="130" height="50" rx="7" fill="#ffffff" stroke="#2980b9" stroke-width="1.5"/>
+<text class="tl" x="215" y="332" text-anchor="middle" fill="#1a5276">MFE: Warenkorb</text>
+<text class="ts" x="215" y="348" text-anchor="middle" fill="#2980b9">reagiert, zeigt Korb</text>
+
+<!-- Code-Beispiel -->
+<rect x="20" y="380" width="270" height="120" rx="6" fill="#1e2a38" stroke="#2980b9" stroke-width="0.5"/>
+<text class="code" x="30" y="398" fill="#a8d8ea">// Katalog MFE</text>
+<text class="code" x="30" y="413" fill="#ffd700">window.dispatchEvent(</text>
+<text class="code" x="30" y="428" fill="#ffd700">  new CustomEvent(</text>
+<text class="code" x="30" y="443" fill="#98fb98">    'cart:item-added',</text>
+<text class="code" x="30" y="458" fill="#98fb98">    { detail: {id, qty} }</text>
+<text class="code" x="30" y="473" fill="#ffd700">  )</text>
+<text class="code" x="30" y="488" fill="#ffd700">)</text>
+
+<!-- Bewertung -->
+<text class="ts" x="157" y="518" text-anchor="middle" fill="#1e8449">✓ Kein gemeinsamer Code noetig</text>
+<text class="ts" x="157" y="534" text-anchor="middle" fill="#1e8449">✓ Framework-agnostisch</text>
+
+
+<!-- ============================================================ -->
+<!-- MUSTER 2: Shell als Vermittler                                -->
+<!-- ============================================================ -->
+<rect x="325" y="58" width="295" height="490" rx="10" fill="#E9F7EF" stroke="#27ae60" stroke-width="1.5"/>
+<text class="tp" x="472" y="80" text-anchor="middle" fill="#1e5235">2 · Shell als Vermittler</text>
+<text class="tc" x="472" y="96" text-anchor="middle" fill="#27ae60">Callback-Props · zentraler Zustand</text>
+
+<!-- Shell App Box (oben, gross) -->
+<rect x="340" y="108" width="265" height="60" rx="7" fill="#ffffff" stroke="#27ae60" stroke-width="1.5"/>
+<text class="tl" x="472" y="130" text-anchor="middle" fill="#1e5235">Shell-App</text>
+<text class="ts" x="472" y="146" text-anchor="middle" fill="#27ae60">haelt cartItems-State  ·  handleAddToCart()</text>
+
+<!-- Pfeil nach unten links: onAddToCart Prop -->
+<line x1="400" y1="168" x2="370" y2="218" stroke="#27ae60" stroke-width="1.5" marker-end="url(#ag)"/>
+<text class="code" x="345" y="200" fill="#1e5235">onAddToCart</text>
+<text class="code" x="345" y="213" fill="#1e5235">(callback)</text>
+
+<!-- Pfeil nach unten rechts: cartItems Prop -->
+<line x1="540" y1="168" x2="570" y2="218" stroke="#27ae60" stroke-width="1.5" marker-end="url(#ag)"/>
+<text class="code" x="545" y="200" fill="#1e5235">cartItems</text>
+<text class="code" x="545" y="213" fill="#1e5235">(prop)</text>
+
+<!-- Katalog MFE Box -->
+<rect x="335" y="220" width="120" height="50" rx="7" fill="#ffffff" stroke="#27ae60" stroke-width="1.5"/>
+<text class="tl" x="395" y="240" text-anchor="middle" fill="#1e5235">MFE: Katalog</text>
+<text class="ts" x="395" y="256" text-anchor="middle" fill="#27ae60">ruft Callback auf</text>
+
+<!-- Warenkorb MFE Box -->
+<rect x="475" y="220" width="130" height="50" rx="7" fill="#ffffff" stroke="#27ae60" stroke-width="1.5"/>
+<text class="tl" x="540" y="240" text-anchor="middle" fill="#1e5235">MFE: Warenkorb</text>
+<text class="ts" x="540" y="256" text-anchor="middle" fill="#27ae60">empfaengt neue Items</text>
+
+<!-- Aufwärts-Pfeil vom Katalog zur Shell -->
+<line x1="390" y1="220" x2="415" y2="170" stroke="#27ae60" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#ag)"/>
+<text class="code" x="340" y="208" fill="#1e5235">1. aufrufen</text>
+
+<!-- Code-Beispiel Shell -->
+<rect x="335" y="288" width="270" height="152" rx="6" fill="#1e2a38" stroke="#27ae60" stroke-width="0.5"/>
+<text class="code" x="345" y="306" fill="#a8d8ea">// Shell-App</text>
+<text class="code" x="345" y="321" fill="#ffd700">const [items, setItems] = useState([])</text>
+<text class="code" x="345" y="336" fill="#e0e0e0"> </text>
+<text class="code" x="345" y="351" fill="#ffd700">function handleAdd(product) {</text>
+<text class="code" x="345" y="366" fill="#98fb98">  setItems([...items, product])</text>
+<text class="code" x="345" y="381" fill="#ffd700">}</text>
+<text class="code" x="345" y="396" fill="#e0e0e0"> </text>
+<text class="code" x="345" y="411" fill="#ffd700">&lt;CatalogApp onAddToCart={handleAdd}/&gt;</text>
+<text class="code" x="345" y="426" fill="#ffd700">&lt;CartApp cartItems={items}/&gt;</text>
+
+<!-- Bewertung -->
+<text class="ts" x="472" y="460" text-anchor="middle" fill="#1e8449">✓ Typsicher, einfach zu testen</text>
+<text class="ts" x="472" y="476" text-anchor="middle" fill="#1e8449">✓ Shell kontrolliert den Zustand</text>
+<text class="ts" x="472" y="492" text-anchor="middle" fill="#c0392b">✗ Shell kennt Interna der MFEs</text>
+<text class="ts" x="472" y="508" text-anchor="middle" fill="#c0392b">✗ Bei vielen MFEs: Shell wird komplex</text>
+
+
+<!-- ============================================================ -->
+<!-- MUSTER 3: Backend als gemeinsamer Zustand                     -->
+<!-- ============================================================ -->
+<rect x="640" y="58" width="292" height="490" rx="10" fill="#FEF9E7" stroke="#e67e22" stroke-width="1.5"/>
+<text class="tp" x="786" y="80" text-anchor="middle" fill="#784212">3 · Backend-Zustand</text>
+<text class="tc" x="786" y="96" text-anchor="middle" fill="#e67e22">REST + Polling / WebSocket / SSE</text>
+
+<!-- Katalog MFE Box -->
+<rect x="656" y="108" width="120" height="50" rx="7" fill="#ffffff" stroke="#e67e22" stroke-width="1.5"/>
+<text class="tl" x="716" y="128" text-anchor="middle" fill="#784212">MFE: Katalog</text>
+<text class="ts" x="716" y="144" text-anchor="middle" fill="#e67e22">POST /cart/items</text>
+
+<!-- Pfeil nach unten: API-Call -->
+<line x1="716" y1="158" x2="716" y2="208" stroke="#e67e22" stroke-width="1.5" marker-end="url(#ao)"/>
+<rect x="656" y="166" width="120" height="22" rx="4" fill="#fdebd0" stroke="#e67e22" stroke-width="0.5"/>
+<text class="code" x="716" y="181" text-anchor="middle" fill="#784212">HTTP POST</text>
+
+<!-- Cart-Service Box -->
+<rect x="656" y="210" width="260" height="50" rx="7" fill="#fff3cd" stroke="#e67e22" stroke-width="1.5"/>
+<text class="tl" x="786" y="230" text-anchor="middle" fill="#784212">Cart-Service  (Backend)</text>
+<text class="ts" x="786" y="246" text-anchor="middle" fill="#e67e22">speichert Item · publiziert Event</text>
+
+<!-- Pfeil rechts nach unten -->
+<line x1="850" y1="260" x2="850" y2="310" stroke="#e67e22" stroke-width="1.5" marker-end="url(#ao)"/>
+<rect x="800" y="268" width="100" height="22" rx="4" fill="#fdebd0" stroke="#e67e22" stroke-width="0.5"/>
+<text class="code" x="850" y="283" text-anchor="middle" fill="#784212">SSE / Polling</text>
+
+<!-- Warenkorb MFE Box -->
+<rect x="786" y="312" width="130" height="50" rx="7" fill="#ffffff" stroke="#e67e22" stroke-width="1.5"/>
+<text class="tl" x="851" y="332" text-anchor="middle" fill="#784212">MFE: Warenkorb</text>
+<text class="ts" x="851" y="348" text-anchor="middle" fill="#e67e22">laedt Korb neu</text>
+
+<!-- Code-Beispiel -->
+<rect x="650" y="380" width="270" height="108" rx="6" fill="#1e2a38" stroke="#e67e22" stroke-width="0.5"/>
+<text class="code" x="660" y="398" fill="#a8d8ea">// Warenkorb MFE</text>
+<text class="code" x="660" y="413" fill="#ffd700">const es = new EventSource(</text>
+<text class="code" x="660" y="428" fill="#98fb98">  '/api/cart/stream'</text>
+<text class="code" x="660" y="443" fill="#ffd700">)</text>
+<text class="code" x="660" y="458" fill="#ffd700">es.onmessage = (e) =&gt; {</text>
+<text class="code" x="660" y="473" fill="#98fb98">  refreshCart()</text>
+<text class="code" x="660" y="488" fill="#ffd700">}</text>
+
+<!-- Bewertung -->
+<text class="ts" x="786" y="508" text-anchor="middle" fill="#1e8449">✓ Maximale Entkopplung</text>
+<text class="ts" x="786" y="524" text-anchor="middle" fill="#1e8449">✓ Zustand ueberlebt Browser-Reload</text>
+<text class="ts" x="786" y="540" text-anchor="middle" fill="#c0392b">✗ Mehr Infrastruktur (SSE/WS)</text>
+
+</svg>
