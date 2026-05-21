@@ -130,6 +130,7 @@
 
   1. Microservice - flightapp - Deployment Kubernetes
      * [Manual deployment](microservices-flightapp/deploy-to-kubernetes/01-manifests-manually.md)
+     * [Manuelles Deployment ms-reservations](microservices-flightapp/deploy-to-kubernetes/03-reservations-manual.md)
      * [gitlab Deployment](microservices-flightapp/deploy-to-kubernetes/02-deployment-with-gitlab-ci-cd-pipeline.md)
      * [github Deployment](github-actions/deploy-manifests.md)
      * [github Deployment-with-secret-not-working](github-actions/deploy-manifests-using-secret-not-working.md)
