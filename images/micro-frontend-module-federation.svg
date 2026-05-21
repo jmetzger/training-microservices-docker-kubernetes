@@ -1,0 +1,125 @@
+<svg viewBox="0 0 860 520" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Webpack Module Federation: Build-Zeit vs. Laufzeit</title>
+<desc>Links: Drei separate Webpack-Builds, jeder erzeugt eine remoteEntry.js. Rechts: Shell laedt remoteEntry.js Dateien zur Laufzeit aus verschiedenen Deployments.</desc>
+<defs>
+  <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#2980b9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#27ae60" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#e67e22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="ap" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#8e44ad" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <style>
+    .tt  { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 15px; font-weight: 700; }
+    .tp  { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 13px; font-weight: 700; }
+    .tl  { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 12px; font-weight: 600; }
+    .ts  { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 11px; }
+    .tc  { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 10px; font-style: italic; }
+    .code{ font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; font-size: 10px; }
+  </style>
+</defs>
+
+<!-- Titel -->
+<text class="tt" x="430" y="28" text-anchor="middle" fill="#2c3e50">Webpack Module Federation</text>
+
+<!-- ===== LINKE SEITE: Build-Zeit ===== -->
+<rect x="10" y="40" width="390" height="470" rx="10" fill="#f0f4f8" stroke="#8e9aaf" stroke-width="1.5"/>
+<text class="tp" x="205" y="62" text-anchor="middle" fill="#2c3e50">Build-Zeit  (3 separate Builds)</text>
+<text class="tc" x="205" y="78" text-anchor="middle" fill="#5d6d7e">Jedes Team baut und deployt unabhaengig</text>
+
+<!-- Build 1: Katalog -->
+<rect x="25" y="88" width="360" height="90" rx="8" fill="#EBF5FB" stroke="#2980b9" stroke-width="1.5"/>
+<text class="tl" x="45" y="108" fill="#1a5276">Team Katalog  —  webpack build</text>
+<text class="code" x="45" y="126" fill="#1a5276">name: "catalog"</text>
+<text class="code" x="45" y="141" fill="#1a5276">exposes: { "./CatalogApp": "./src/App" }</text>
+<rect x="270" y="100" width="100" height="24" rx="4" fill="#2980b9"/>
+<text class="code" x="320" y="116" text-anchor="middle" fill="#fff">remoteEntry.js</text>
+<text class="tc" x="320" y="138" text-anchor="middle" fill="#2980b9">catalog.shop.de/</text>
+<text class="tc" x="320" y="150" text-anchor="middle" fill="#2980b9">remoteEntry.js</text>
+
+<!-- Build 2: Warenkorb -->
+<rect x="25" y="192" width="360" height="90" rx="8" fill="#E9F7EF" stroke="#27ae60" stroke-width="1.5"/>
+<text class="tl" x="45" y="212" fill="#1e5235">Team Warenkorb  —  webpack build</text>
+<text class="code" x="45" y="230" fill="#1e5235">name: "cart"</text>
+<text class="code" x="45" y="245" fill="#1e5235">exposes: { "./CartApp": "./src/App" }</text>
+<rect x="270" y="204" width="100" height="24" rx="4" fill="#27ae60"/>
+<text class="code" x="320" y="220" text-anchor="middle" fill="#fff">remoteEntry.js</text>
+<text class="tc" x="320" y="242" text-anchor="middle" fill="#27ae60">cart.shop.de/</text>
+<text class="tc" x="320" y="254" text-anchor="middle" fill="#27ae60">remoteEntry.js</text>
+
+<!-- Build 3: Shell -->
+<rect x="25" y="296" width="360" height="90" rx="8" fill="#fdf0ff" stroke="#8e44ad" stroke-width="1.5"/>
+<text class="tl" x="45" y="316" fill="#4a235a">Team Shell  —  webpack build</text>
+<text class="code" x="45" y="334" fill="#4a235a">name: "shell"</text>
+<text class="code" x="45" y="349" fill="#4a235a">remotes: { catalog: "...", cart: "..." }</text>
+<rect x="270" y="308" width="100" height="24" rx="4" fill="#8e44ad"/>
+<text class="code" x="320" y="324" text-anchor="middle" fill="#fff">main.js</text>
+<text class="tc" x="320" y="345" text-anchor="middle" fill="#8e44ad">shop.de/</text>
+<text class="tc" x="320" y="357" text-anchor="middle" fill="#8e44ad">main.js</text>
+
+<!-- Shared: React -->
+<rect x="25" y="402" width="360" height="50" rx="8" fill="#fef9e7" stroke="#f39c12" stroke-width="1"/>
+<text class="tl" x="205" y="422" text-anchor="middle" fill="#784212">shared:  react · react-dom</text>
+<text class="ts" x="205" y="440" text-anchor="middle" fill="#784212">singleton: true  —  wird nur einmal geladen, obwohl 3 Repos es nutzen</text>
+
+<!-- Verbindungspfeil Mitte -->
+<line x1="400" y1="255" x2="460" y2="255" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+<text class="tc" x="430" y="248" text-anchor="middle" fill="#555">Laufzeit</text>
+
+<!-- ===== RECHTE SEITE: Laufzeit ===== -->
+<rect x="465" y="40" width="385" height="470" rx="10" fill="#f8fff8" stroke="#27ae60" stroke-width="1.5"/>
+<text class="tp" x="657" y="62" text-anchor="middle" fill="#2c3e50">Laufzeit im Browser</text>
+<text class="tc" x="657" y="78" text-anchor="middle" fill="#5d6d7e">Shell laedt MFEs dynamisch nach</text>
+
+<!-- Browser oeffnet shop.de -->
+<rect x="480" y="88" width="355" height="40" rx="8" fill="#ffffff" stroke="#8e44ad" stroke-width="1.5"/>
+<text class="tl" x="657" y="110" text-anchor="middle" fill="#4a235a">Nutzer oeffnet  shop.de  →  Shell laedt</text>
+
+<!-- Pfeil nach unten -->
+<line x1="657" y1="128" x2="657" y2="158" stroke="#8e44ad" stroke-width="1.5" marker-end="url(#ap)"/>
+
+<!-- Shell fetcht remoteEntry.js Dateien -->
+<rect x="480" y="160" width="355" height="60" rx="8" fill="#fdf0ff" stroke="#8e44ad" stroke-width="1.5"/>
+<text class="tl" x="657" y="180" text-anchor="middle" fill="#4a235a">Shell laedt remoteEntry.js</text>
+<text class="code" x="657" y="196" text-anchor="middle" fill="#4a235a">catalog.shop.de/remoteEntry.js</text>
+<text class="code" x="657" y="210" text-anchor="middle" fill="#4a235a">cart.shop.de/remoteEntry.js</text>
+
+<!-- Pfeil nach unten -->
+<line x1="657" y1="220" x2="657" y2="250" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+<text class="tc" x="657" y="243" text-anchor="middle" fill="#888">React.lazy() + Suspense</text>
+
+<!-- Zwei MFE Boxen -->
+<rect x="480" y="255" width="165" height="60" rx="8" fill="#EBF5FB" stroke="#2980b9" stroke-width="1.5"/>
+<text class="tl" x="562" y="278" text-anchor="middle" fill="#1a5276">MFE: Katalog</text>
+<text class="ts" x="562" y="296" text-anchor="middle" fill="#2980b9">lazy-loaded</text>
+<text class="tc" x="562" y="311" text-anchor="middle" fill="#2980b9">catalog/CatalogApp</text>
+
+<rect x="655" y="255" width="175" height="60" rx="8" fill="#E9F7EF" stroke="#27ae60" stroke-width="1.5"/>
+<text class="tl" x="742" y="278" text-anchor="middle" fill="#1e5235">MFE: Warenkorb</text>
+<text class="ts" x="742" y="296" text-anchor="middle" fill="#27ae60">lazy-loaded</text>
+<text class="tc" x="742" y="311" text-anchor="middle" fill="#27ae60">cart/CartApp</text>
+
+<!-- Pfeil nach unten -->
+<line x1="657" y1="315" x2="657" y2="348" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+
+<!-- React nur einmal -->
+<rect x="480" y="350" width="355" height="40" rx="8" fill="#fef9e7" stroke="#f39c12" stroke-width="1.5"/>
+<text class="tl" x="657" y="366" text-anchor="middle" fill="#784212">React (shared singleton)</text>
+<text class="ts" x="657" y="382" text-anchor="middle" fill="#784212">nur einmal im Browser geladen — alle MFEs teilen dieselbe Instanz</text>
+
+<!-- Vorteil Box -->
+<rect x="480" y="408" width="355" height="90" rx="8" fill="#eafaf1" stroke="#27ae60" stroke-width="1"/>
+<text class="tl" x="657" y="428" text-anchor="middle" fill="#1e5235">Was das ermoeglicht</text>
+<text class="ts" x="495" y="448" fill="#1e5235">→ Team Katalog deployt — Shell merkt es automatisch</text>
+<text class="ts" x="495" y="465" fill="#1e5235">→ Kein neuer Build der Shell noetig</text>
+<text class="ts" x="495" y="482" fill="#1e5235">→ Verschiedene Versionen pro MFE moeglich</text>
+
+</svg>

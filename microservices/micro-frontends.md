@@ -216,9 +216,31 @@ sondern **vertikal durch alle Schichten**, entlang der Geschaeftsdomaene.
 
 ---
 
+## Praxisbeispiele aus Deutschland und DACH
+
+Diese Unternehmen setzen Micro-Frontends produktiv ein und haben darueber
+oeffentlich geschrieben — gut geeignet als Diskussionsgrundlage im Training.
+
+| Unternehmen | Ansatz | Besonderheit |
+|---|---|---|
+| **Zalando** | Server-Side Composition (Project Mosaic) | Eigenes Oekosystem: Tailor (Layout-Service), Skipper (Router). Pionier des Konzepts in Europa. |
+| **OTTO** | Web Components (`@otto-ec/elements`) | Framework-agnostische Komponenten-Library als gemeinsames Design System fuer alle MFEs. |
+| **SAP** | SAP Fiori Launchpad | Shell laedt Fiori-Apps als eigenstaendige MFEs, basierend auf UI5-Framework. Enterprise-Massstab. |
+| **Siemens** | MindSphere IoT-Plattform | Partner-Teams liefern eigene MFEs in die Plattform — klassischer Multi-Vendor-Ansatz. |
+| **ING Deutschland** | Banking-Portal | Erfahrungsbericht: Migration von Monolith auf MFEs im laufenden Betrieb. |
+
+### Was diese Beispiele gemeinsam haben
+
+Alle haben den gleichen Ausgangspunkt: ein wachsendes Frontend-Team,
+das sich gegenseitig blockiert hat. Die Loesung war immer der vertikale Schnitt —
+nicht nach Technologie, sondern nach Geschaeftsdomaene.
+
+---
+
 ## Weiterfuehrende Themen
 
 - [MFE-Kommunikation — Custom Events, Shell, Backend-Zustand](micro-frontends-kommunikation.md)
+- [Module Federation — Webpack-Konfiguration und Codebeispiele](micro-frontends-module-federation.md)
 - [Was sind Microservices?](what-are.md)
 - [Bounded Contexts und Domainschnitt](../microservices/monolith-schneiden.md)
 - [IAM als Bounded Context](iam-als-bounded-context.md)
