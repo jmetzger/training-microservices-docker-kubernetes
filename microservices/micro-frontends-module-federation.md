@@ -1,120 +1,23 @@
 # Module Federation — Micro-Frontends zur Laufzeit laden
 
-## Was ist Webpack?
+## Was ist Module Federation?
 
-Browser verstehen kein TypeScript, kein JSX, keine relativen Imports.
-Sie verstehen nur plain JavaScript und HTML.
+Module Federation ist ein Feature von **Webpack 5** (seit 2020), das es erlaubt,
+JavaScript-Module aus einem anderen laufenden Deployment zu laden —
+zur Laufzeit, nicht beim Build.
 
-**Webpack** ist ein Build-Tool: Es laeuft einmalig beim Entwickler oder in der CI/CD-Pipeline,
-liest den Quellcode und erzeugt daraus fertige `.js`-Dateien, die der Browser direkt laden kann.
+Das ist der technische Kern hinter Laufzeit-Micro-Frontends:
+Jedes Team deployt sein MFE eigenstaendig, die Shell-App laedt es dynamisch nach.
 
-### Vom Code zum Kunden — Schritt fuer Schritt
-
-**Schritt 1: Entwickler schreibt Code (TypeScript / React)**
-
-```
-catalog-mfe/src/
-├── App.tsx            React-Komponente mit JSX
-├── ProductList.tsx
-└── api/products.ts    fetch-Aufrufe zum Backend
-```
-
-**Schritt 2: Webpack laeuft (lokal oder in CI/CD)**
-
-```
-npx webpack --config webpack.config.js
-```
-
-Webpack liest alle Dateien, uebersetzt TypeScript → JavaScript,
-loest alle Imports auf und schreibt das Ergebnis nach `dist/`:
-
-```
-catalog-mfe/dist/
-├── remoteEntry.js     Einstiegspunkt fuer Module Federation
-├── 42.chunk.js        der eigentliche App-Code
-└── 891.chunk.js       vendor-Code (z.B. React)
-```
-
-**Schritt 3: CI/CD laedt die dist/-Dateien auf einen Webserver / CDN**
-
-```
-dist/*.js  ──►  https://catalog.shop.de/
-```
-
-Ab hier ist Webpack aus dem Spiel. Auf dem Server liegen nur noch
-fertige `.js`-Dateien — kein TypeScript, kein Node.js noetig.
-
-**Schritt 4: Kunde oeffnet https://shop.meinefirma.de**
-
-```
-Browser                         Server: shop.meinefirma.de
-  │                                       │
-  │── GET / ──────────────────────────►  │
-  │◄── index.html ─────────────────────  │
-  │                                       │
-  │── GET /main.js ────────────────────► │  (Shell-App)
-  │◄── main.js ────────────────────────  │
-```
-
-Der Browser laedt `index.html` und darin referenziert `main.js` — das ist die Shell-App.
-
-**Schritt 5: Shell-App startet im Browser und laedt die MFEs nach**
-
-Die Shell-App enthaelt durch Module Federation Laufzeit-Code, der die MFEs nachzieht:
-
-```
-Browser                         catalog.shop.de     cart.shop.de
-  │                                    │                  │
-  │── GET /remoteEntry.js ──────────► │                  │
-  │◄── remoteEntry.js ──────────────  │                  │
-  │                                    │                  │
-  │── GET /42.chunk.js  ────────────► │                  │
-  │◄── 42.chunk.js (CatalogApp) ────  │                  │
-  │                                    │                  │
-  │── GET /remoteEntry.js ──────────────────────────────►│
-  │◄── remoteEntry.js ─────────────────────────────────  │
-  │                                    │                  │
-  │── GET /77.chunk.js  ────────────────────────────────►│
-  │◄── 77.chunk.js (CartApp) ──────────────────────────  │
-```
-
-**Schritt 6: Fertig — der Nutzer sieht die komplette Anwendung**
-
-Alle drei MFEs laufen jetzt im gleichen Browser-Tab, obwohl sie von
-drei verschiedenen Servern geladen wurden und von drei verschiedenen Teams
-gebaut und deployt wurden.
-
-React wurde dabei **nur einmal geladen** — Module Federation sorgt dafuer,
-dass alle MFEs dieselbe Instanz teilen (`singleton: true`).
+![Module Federation: Build-Zeit vs. Laufzeit](/images/micro-frontend-module-federation.svg)
 
 ---
 
-## Was ist die Shell-App — und laeuft sie auf dem Server?
+## Was ist die Shell-App?
 
-**Nein — die Shell-App laeuft vollstaendig im Browser des Nutzers.**
-
-Der Server macht genau eine Sache: er liefert die statischen Dateien aus
-(`index.html`, `main.js`). Danach ist der Server nicht mehr beteiligt.
-Alles weitere — MFEs laden, Router, Rendering — passiert im Browser.
-
-```
-Server                          Browser des Nutzers
-─────────────────               ──────────────────────────────────────
-Gibt Dateien aus:               Fuehrt aus:
-  index.html          ──────►     laedt main.js
-  main.js             ──────►     Shell-App startet
-                                  Shell laedt MFEs nach
-                                  Nutzer sieht die Seite
-```
-
-### Warum heisst es Shell-App?
-
-**Nichts mit Linux.** Der Name kommt vom Bild einer Huelle oder eines Gehaeueses —
-wie eine Nussschale, die den Inhalt zusammenhaelt.
-
-Die Shell-App ist der aeussere Rahmen der Anwendung:
-Sie selbst enthaelt kaum eigene Funktionalitaet —
-sie stellt nur den Rahmen bereit, in den die MFEs eingesetzt werden.
+Die Shell-App ist der **aeussere Rahmen** der gesamten Anwendung.
+Sie selbst enthaelt kaum eigene Fachlogik — sie stellt den Rahmen bereit,
+in den die MFEs zur Laufzeit eingesetzt werden.
 
 ```
 ┌──────────────────────────────────────────────────────┐
@@ -130,28 +33,92 @@ sie stellt nur den Rahmen bereit, in den die MFEs eingesetzt werden.
 └──────────────────────────────────────────────────────┘
 ```
 
-In der Webpack-Dokumentation heisst dieselbe Sache **Host** —
-beides meint das Gleiche. Weitere Bezeichnungen die man antrifft:
+**Laeuft die Shell-App auf dem Server?** Nein — sie laeuft vollstaendig im Browser.
+Der Server liefert nur die statischen Dateien aus (`index.html`, `main.js`).
+Danach ist der Server nicht mehr beteiligt.
 
-| Name | Bedeutung |
+```
+Server                       Browser des Nutzers
+─────────────────            ─────────────────────────────
+Gibt Dateien aus:            Fuehrt aus:
+  index.html      ──────►     laedt main.js
+  main.js         ──────►     Shell-App startet
+                              Shell laedt MFEs nach
+                              Nutzer sieht die Seite
+```
+
+**Warum heisst es Shell-App?** Nichts mit Linux — der Name kommt vom Bild
+einer Huelle (Nussschale), die den Inhalt zusammenhaelt.
+In der Webpack-Dokumentation heisst dieselbe Rolle **Host**.
+
+| Name | Kontext |
 |---|---|
 | Shell-App | Branchenbezeichnung fuer MFE-Architektur |
 | Host | Webpack-Terminologie |
 | Container-App | aeltere Bezeichnung, gleiche Idee |
-| App Shell | Google/PWA-Umfeld (leicht andere Bedeutung) |
 
 ---
 
-## Was ist Module Federation?
+## Vom Code zum Kunden — Schritt fuer Schritt
 
-Module Federation ist ein Feature von **Webpack 5** (seit 2020), das es erlaubt,
-JavaScript-Module aus einem anderen laufenden Deployment zu laden —
-zur Laufzeit, nicht beim Build.
+**Schritt 1: Entwickler schreibt Code (TypeScript / React)**
 
-Das ist der technische Kern hinter Laufzeit-Micro-Frontends:
-Jedes Team deployt sein MFE eigenstaendig, die Shell-App laedt es dynamisch nach.
+```
+catalog-mfe/src/
+├── App.tsx            React-Komponente mit JSX
+├── ProductList.tsx
+└── api/products.ts    fetch-Aufrufe zum Backend
+```
 
-![Module Federation: Build-Zeit vs. Laufzeit](/images/micro-frontend-module-federation.svg)
+**Schritt 2: Webpack laeuft (lokal oder in CI/CD)**
+
+Webpack liest alle Dateien, uebersetzt TypeScript → JavaScript,
+loest alle Imports auf und schreibt das Ergebnis nach `dist/`:
+
+```
+catalog-mfe/dist/
+├── remoteEntry.js     Einstiegspunkt fuer Module Federation
+├── 42.chunk.js        der eigentliche App-Code
+└── 891.chunk.js       vendor-Code (z.B. React)
+```
+
+**Schritt 3: CI/CD deployt die dist/-Dateien auf einen Webserver / CDN**
+
+```
+dist/*.js  ──►  https://catalog.shop.de/
+```
+
+Ab hier ist Webpack fertig. Auf dem Server liegen nur fertige `.js`-Dateien.
+
+**Schritt 4: Kunde oeffnet https://shop.meinefirma.de**
+
+```
+Browser                         Server: shop.meinefirma.de
+  │── GET / ──────────────────────────────────────────► │
+  │◄── index.html ────────────────────────────────────  │
+  │── GET /main.js ────────────────────────────────────►│
+  │◄── main.js (Shell-App) ───────────────────────────  │
+```
+
+**Schritt 5: Shell-App startet im Browser und laedt die MFEs nach**
+
+```
+Browser                         catalog.shop.de     cart.shop.de
+  │── GET /remoteEntry.js ──────────────────────►  │
+  │◄── remoteEntry.js ─────────────────────────    │
+  │── GET /42.chunk.js (CatalogApp) ─────────────► │
+  │◄── 42.chunk.js ────────────────────────────    │
+  │                                                     │── GET /remoteEntry.js ──────────────────────────►  │
+  │◄── remoteEntry.js ─────────────────────────────── │
+  │── GET /77.chunk.js (CartApp) ──────────────────────►│
+  │◄── 77.chunk.js ────────────────────────────────── │
+```
+
+**Schritt 6: Fertig — der Nutzer sieht die komplette Anwendung**
+
+Alle drei MFEs laufen im gleichen Browser-Tab, obwohl sie von drei verschiedenen
+Servern geladen wurden und von drei verschiedenen Teams deployt wurden.
+React wurde dabei **nur einmal geladen** (`singleton: true`).
 
 ---
 
@@ -227,18 +194,16 @@ module.exports = {
 
   plugins: [
     new ModuleFederationPlugin({
-      name: 'catalog',           // eindeutiger Name des Remote
+      name: 'catalog',            // eindeutiger Name des Remote
       filename: 'remoteEntry.js', // Einstiegspunkt fuer den Host
 
       exposes: {
-        // Schluessel: wie der Host das Modul importiert
-        // Wert:       lokaler Pfad zur Datei
-        './CatalogApp':    './src/App',
-        './ProductCard':   './src/components/ProductCard',
+        './CatalogApp':  './src/App',
+        './ProductCard': './src/components/ProductCard',
       },
 
       shared: {
-        react:     { singleton: true, requiredVersion: deps.react },
+        react:       { singleton: true, requiredVersion: deps.react },
         'react-dom': { singleton: true, requiredVersion: deps['react-dom'] },
       },
     }),
@@ -259,7 +224,12 @@ export default function CatalogApp() {
 ```
 
 ```tsx
-// catalog-mfe/src/bootstrap.tsx  (wichtig — siehe Hinweis unten)
+// catalog-mfe/src/index.ts
+import('./bootstrap'); // dynamischer Import — Pflicht bei Module Federation
+```
+
+```tsx
+// catalog-mfe/src/bootstrap.tsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
@@ -267,23 +237,14 @@ import App from './App';
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
-```tsx
-// catalog-mfe/src/index.ts
-import('./bootstrap'); // dynamischer Import — Pflicht bei Module Federation
-```
-
 **Warum `bootstrap.tsx`?**
 Ohne den dynamischen Import wuerde Webpack React "eager" laden — bevor
 der Host die shared-Konfiguration aushandeln kann. Das fuehrt zu zwei
-React-Instanzen im Browser und zu Fehlern. Der Umweg ueber `bootstrap`
-gibt Webpack die noetige Zeit.
+React-Instanzen im Browser. Der Umweg ueber `bootstrap` gibt Webpack die noetige Zeit.
 
 ---
 
 ### Host konfigurieren: Shell-App
-
-Die Shell-App weiss zur Build-Zeit, welche Remotes es gibt.
-Die URL kann aber auch zur Laufzeit gesetzt werden (Dynamic Remotes, s.u.).
 
 ```javascript
 // shell-app/webpack.config.js
@@ -300,12 +261,12 @@ module.exports = {
 
       remotes: {
         // Format: "<name>@<url>/remoteEntry.js"
-        catalog:  'catalog@http://localhost:3001/remoteEntry.js',
-        cart:     'cart@http://localhost:3002/remoteEntry.js',
+        catalog: 'catalog@http://localhost:3001/remoteEntry.js',
+        cart:    'cart@http://localhost:3002/remoteEntry.js',
       },
 
       shared: {
-        react:     { singleton: true, requiredVersion: deps.react },
+        react:       { singleton: true, requiredVersion: deps.react },
         'react-dom': { singleton: true, requiredVersion: deps['react-dom'] },
       },
     }),
@@ -317,7 +278,6 @@ module.exports = {
 // shell-app/src/App.tsx
 import React, { Suspense } from 'react';
 
-// Lazy import aus dem Remote — wird erst beim Rendern geladen
 const CatalogApp = React.lazy(() => import('catalog/CatalogApp'));
 const CartApp    = React.lazy(() => import('cart/CartApp'));
 
@@ -338,11 +298,6 @@ export default function App() {
 }
 ```
 
-```tsx
-// shell-app/src/index.ts
-import('./bootstrap'); // gleicher Trick wie im Remote
-```
-
 ---
 
 ### TypeScript: Typen fuer Remote-Module deklarieren
@@ -357,12 +312,6 @@ declare module 'catalog/CatalogApp' {
   export default CatalogApp;
 }
 
-declare module 'catalog/ProductCard' {
-  interface Props { productId: string; }
-  const ProductCard: React.ComponentType<Props>;
-  export default ProductCard;
-}
-
 declare module 'cart/CartApp' {
   const CartApp: React.ComponentType;
   export default CartApp;
@@ -374,18 +323,15 @@ declare module 'cart/CartApp' {
 ### Starten (lokale Entwicklung)
 
 ```
-# Terminal 1: Katalog-MFE starten
+# Terminal 1
 cd catalog-mfe && npm start   # http://localhost:3001
 
-# Terminal 2: Warenkorb-MFE starten
+# Terminal 2
 cd cart-mfe && npm start      # http://localhost:3002
 
-# Terminal 3: Shell starten
+# Terminal 3
 cd shell-app && npm start     # http://localhost:3000
 ```
-
-Die Shell unter `localhost:3000` laedt automatisch die MFEs von
-`localhost:3001` und `localhost:3002`.
 
 ---
 
@@ -394,49 +340,22 @@ Die Shell unter `localhost:3000` laedt automatisch die MFEs von
 In Produktion sind die URLs Umgebungsvariablen, keine hartkodierten Strings.
 
 ```javascript
-// shell-app/webpack.config.js — dynamisch
+// shell-app/webpack.config.js
 new ModuleFederationPlugin({
   name: 'shell',
   remotes: {
     catalog: `catalog@${process.env.CATALOG_URL}/remoteEntry.js`,
     cart:    `cart@${process.env.CART_URL}/remoteEntry.js`,
   },
-  // ...
 })
-```
-
-Oder zur echten Laufzeit (URL aus API/Config-Endpoint):
-
-```typescript
-// shell-app/src/loadRemote.ts
-async function loadRemote(url: string, scope: string, module: string) {
-  // Webpack __webpack_init_sharing__ / __webpack_share_scopes__
-  await __webpack_init_sharing__('default');
-
-  const container = window[scope as any] as any;
-  await container.init(__webpack_share_scopes__.default);
-
-  const factory = await container.get(module);
-  return factory();
-}
-
-// Verwendung
-const { default: CatalogApp } = await loadRemote(
-  'https://catalog.shop.de/remoteEntry.js',
-  'catalog',
-  './CatalogApp'
-);
 ```
 
 ---
 
 ## Vite-Alternative: `@originjs/vite-plugin-federation`
 
-Fuer neuere Projekte mit Vite funktioniert das Plugin analog zu Webpack:
-
 ```javascript
 // catalog-mfe/vite.config.ts
-import { defineConfig } from 'vite';
 import federation from '@originjs/vite-plugin-federation';
 
 export default defineConfig({
@@ -444,9 +363,7 @@ export default defineConfig({
     federation({
       name: 'catalog',
       filename: 'remoteEntry.js',
-      exposes: {
-        './CatalogApp': './src/App.tsx',
-      },
+      exposes: { './CatalogApp': './src/App.tsx' },
       shared: ['react', 'react-dom'],
     }),
   ],
@@ -462,9 +379,7 @@ export default defineConfig({
   plugins: [
     federation({
       name: 'shell',
-      remotes: {
-        catalog: 'http://localhost:3001/assets/remoteEntry.js',
-      },
+      remotes: { catalog: 'http://localhost:3001/assets/remoteEntry.js' },
       shared: ['react', 'react-dom'],
     }),
   ],
@@ -479,10 +394,29 @@ export default defineConfig({
 | Problem | Ursache | Loesung |
 |---|---|---|
 | `Shared module is not available` | React zweimal geladen | `singleton: true` in beiden Configs setzen |
-| TypeScript-Fehler `Cannot find module 'catalog/...'` | Fehlende Typdeklaration | `declarations.d.ts` anlegen |
+| TypeScript-Fehler `Cannot find module` | Fehlende Typdeklaration | `declarations.d.ts` anlegen |
 | MFE laedt nicht in Produktion | URL stimmt nicht | `remoteEntry.js`-URL pruefen, CORS-Header setzen |
 | Weisser Bildschirm ohne Fehlermeldung | `eager` Consumption | `index.ts` nur `import('./bootstrap')` — nichts anderes |
 | Verschiedene React-Versionen | Inkompatible `shared`-Config | `requiredVersion` in allen MFEs gleich setzen |
+
+---
+
+## Hintergrund: Was ist Webpack?
+
+Browser verstehen kein TypeScript, kein JSX, keine relativen Imports.
+Sie verstehen nur plain JavaScript und HTML.
+
+**Webpack** ist ein Build-Tool: Es laeuft einmalig beim Entwickler oder in der CI/CD-Pipeline,
+liest den Quellcode und erzeugt daraus fertige `.js`-Dateien, die der Browser direkt laden kann.
+
+```
+src/
+├── App.tsx        ──┐
+├── components/    ──┤  webpack  ──►  dist/main.js  (Browser versteht das)
+└── styles.css     ──┘
+```
+
+Webpack laeuft ausschliesslich zur Build-Zeit — nie im Browser des Nutzers.
 
 ---
 
