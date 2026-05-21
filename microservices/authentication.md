@@ -262,6 +262,94 @@ class TokenManager {
 
 ---
 
+## Login-Button in einer Web-App
+
+Du baust **kein eigenes Login-Formular**. Keycloak stellt die Login-Seite bereit.
+Deine App hat nur einen Button – Klick darauf startet den Redirect zu Keycloak.
+
+![Login-Button Flow mit Keycloak](/images/auth-login-button-flow.svg)
+
+Der entscheidende Punkt: **Ab Schritt ⑪ kontaktiert deine App Keycloak nicht mehr.**
+Das JWT wird vom Istio Gateway lokal geprüft (Public Key wurde einmalig geholt und gecacht).
+
+### React-Beispiel mit keycloak-js
+
+```bash
+npm install keycloak-js
+```
+
+```javascript
+// keycloak.js – einmalig initialisieren
+import Keycloak from 'keycloak-js';
+
+const keycloak = new Keycloak({
+  url:      'https://keycloak.example.com',
+  realm:    'myrealm',
+  clientId: 'my-webapp',
+});
+
+export default keycloak;
+```
+
+```jsx
+// App.jsx
+import { useEffect, useState } from 'react';
+import keycloak from './keycloak';
+
+export default function App() {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    keycloak
+      .init({ onLoad: 'check-sso', pkceMethod: 'S256' })
+      .then(() => setReady(true));
+
+    // Token automatisch erneuern bevor es abläuft
+    setInterval(() => keycloak.updateToken(60), 30000);
+  }, []);
+
+  if (!ready) return <p>Laden...</p>;
+
+  if (!keycloak.authenticated) {
+    return <button onClick={() => keycloak.login()}>Login</button>;
+  }
+
+  return (
+    <div>
+      <p>Eingeloggt als {keycloak.tokenParsed.email}</p>
+      <button onClick={() => keycloak.logout()}>Logout</button>
+      <Orders />
+    </div>
+  );
+}
+```
+
+```javascript
+// api.js – Token zu jedem API-Call hinzufügen
+import keycloak from './keycloak';
+
+export async function fetchOrders() {
+  const response = await fetch('/api/orders', {
+    headers: {
+      Authorization: `Bearer ${keycloak.token}`,
+    },
+  });
+  return response.json();
+}
+```
+
+```yaml
+# Keycloak Client-Konfiguration (Public Client für SPA)
+# In Keycloak Admin Console:
+# Client ID:        my-webapp
+# Client Protocol: openid-connect
+# Access Type:     public          ← kein Client-Secret nötig
+# Valid Redirect:  https://app.example.com/*
+# Web Origins:     https://app.example.com
+```
+
+---
+
 ## Weiterführendes
 
 - [Keycloak – Mobile App PKCE](https://www.keycloak.org/docs/latest/securing_apps/#_mobile_apps)
