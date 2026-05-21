@@ -134,7 +134,7 @@
      * [github Deployment](github-actions/deploy-manifests.md)
      * [github Deployment-with-secret-not-working](github-actions/deploy-manifests-using-secret-not-working.md)
 
-  1. Microservice - flightapp - Uebungen
+  1. Microservice - flightapp - Uebungen: Manuell in Kubernetes deployen
      * [Uebung: ms-reservations manuell deployen und Service erstellen](microservices-flightapp/deploy-to-kubernetes/03-reservations-manual.md)
      * [Loesung: Service fuer ms-reservations](microservices-flightapp/deploy-to-kubernetes/03-reservations-manual-loesung.md)
 
