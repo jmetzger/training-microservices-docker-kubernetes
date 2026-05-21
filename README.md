@@ -24,6 +24,7 @@
      * [Monolith schneiden microservices](microservices/monolith-schneiden.md)
      * [IAM als Bounded Context — fachlich oder technisch?](microservices/iam-als-bounded-context.md)
      * [Datenmigration: Notification Service (Dual Write, Outbox, Backfill)](microservices/datenmigration-notification-service.md)
+     * [Micro-Frontends — Teams am Frontend ohne Kollisionen](microservices/micro-frontends.md)
 
   1. Übungen: Monolith schneiden
      * [Uebung: Monolith schneiden — DDD, Bounded Contexts und Strangler Fig](microservices/uebung-monolith-schneiden.md)

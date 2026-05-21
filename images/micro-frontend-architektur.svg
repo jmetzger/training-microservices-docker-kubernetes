@@ -1,0 +1,144 @@
+<svg viewBox="0 0 820 560" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Micro-Frontend Laufzeit-Architektur mit Module Federation</title>
+<desc>Shell-App laedt Micro-Frontends zur Laufzeit. Jedes MFE kommuniziert mit seinen eigenen Backend-Services.</desc>
+<defs>
+  <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#2980b9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#27ae60" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#e67e22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <style>
+    .tt  { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 15px; font-weight: 700; }
+    .tl  { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 12px; font-weight: 600; }
+    .ts  { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 11px; }
+    .tc  { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 10px; font-style: italic; }
+    .tag { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 10px; font-weight: 600; }
+  </style>
+</defs>
+
+<!-- Titel -->
+<text class="tt" x="410" y="30" text-anchor="middle" fill="#2c3e50">Micro-Frontend: Laufzeit-Integration</text>
+
+<!-- ======= BROWSER ======= -->
+<rect x="30" y="45" width="760" height="480" rx="14" fill="#f0f4f8" stroke="#8e9aaf" stroke-width="1.5"/>
+<text class="tl" x="50" y="68" fill="#4a5568">Browser</text>
+
+<!-- ======= SHELL-APP (HOST) ======= -->
+<rect x="50" y="78" width="720" height="140" rx="10" fill="#ffffff" stroke="#5d7a9e" stroke-width="1.5"/>
+<text class="tl" x="80" y="100" fill="#2c3e50">Shell-App  (Host)</text>
+<text class="ts" x="80" y="118" fill="#4a5568">Navigation · Routing · Shared Design System · Auth-Kontext</text>
+
+<!-- Shell laedt MFEs: Pfeile nach unten -->
+<!-- Arrow to MFE 1 -->
+<line x1="190" y1="218" x2="190" y2="248" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+<!-- Arrow to MFE 2 -->
+<line x1="410" y1="218" x2="410" y2="248" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+<!-- Arrow to MFE 3 -->
+<line x1="630" y1="218" x2="630" y2="248" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- Label: Module Federation -->
+<rect x="292" y="128" width="236" height="34" rx="6" fill="#e8eaf6" stroke="#7986cb" stroke-width="1"/>
+<text class="tag" x="410" y="144" text-anchor="middle" fill="#3949ab">Webpack Module Federation</text>
+<text class="tc" x="410" y="157" text-anchor="middle" fill="#3949ab">laedt MFEs zur Laufzeit aus separaten Deployments</text>
+
+<!-- ======= MFE BOXES ======= -->
+
+<!-- MFE 1: Katalog -->
+<rect x="70" y="250" width="240" height="80" rx="8" fill="#EBF5FB" stroke="#2980b9" stroke-width="2"/>
+<text class="tl" x="190" y="275" text-anchor="middle" fill="#1a5276">MFE: Katalog</text>
+<text class="ts" x="190" y="292" text-anchor="middle" fill="#2980b9">Team Katalog  ·  eigenes Repo</text>
+<text class="ts" x="190" y="308" text-anchor="middle" fill="#1a5276">Produktliste · Suche · Detailseite</text>
+
+<!-- MFE 2: Warenkorb -->
+<rect x="290" y="250" width="240" height="80" rx="8" fill="#E9F7EF" stroke="#27ae60" stroke-width="2"/>
+<text class="tl" x="410" y="275" text-anchor="middle" fill="#1e5235">MFE: Warenkorb</text>
+<text class="ts" x="410" y="292" text-anchor="middle" fill="#27ae60">Team Warenkorb  ·  eigenes Repo</text>
+<text class="ts" x="410" y="308" text-anchor="middle" fill="#1e5235">Korb-Ansicht · Artikel hinzufuegen</text>
+
+<!-- MFE 3: Checkout -->
+<rect x="510" y="250" width="240" height="80" rx="8" fill="#FEF9E7" stroke="#e67e22" stroke-width="2"/>
+<text class="tl" x="630" y="275" text-anchor="middle" fill="#784212">MFE: Checkout</text>
+<text class="ts" x="630" y="292" text-anchor="middle" fill="#e67e22">Team Checkout  ·  eigenes Repo</text>
+<text class="ts" x="630" y="308" text-anchor="middle" fill="#784212">Bestellung · Zahlung · Bestaetigung</text>
+
+<!-- Trennlinie -->
+<line x1="50" y1="365" x2="770" y2="365" stroke="#ccd" stroke-width="1" stroke-dasharray="5,3"/>
+<text class="tc" x="410" y="360" text-anchor="middle" fill="#888">REST / GraphQL API-Aufrufe</text>
+
+<!-- ======= BACKEND SERVICES ======= -->
+
+<!-- Services fuer Katalog -->
+<line x1="145" y1="330" x2="115" y2="388" stroke="#2980b9" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+<line x1="230" y1="330" x2="250" y2="388" stroke="#2980b9" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+
+<rect x="68" y="390" width="110" height="40" rx="6" fill="#d6eaf8" stroke="#2980b9" stroke-width="1"/>
+<text class="ts" x="123" y="406" text-anchor="middle" fill="#1a5276">Produkt-Service</text>
+<text class="tc" x="123" y="420" text-anchor="middle" fill="#2980b9">:8081</text>
+
+<rect x="190" y="390" width="110" height="40" rx="6" fill="#d6eaf8" stroke="#2980b9" stroke-width="1"/>
+<text class="ts" x="245" y="406" text-anchor="middle" fill="#1a5276">Such-Service</text>
+<text class="tc" x="245" y="420" text-anchor="middle" fill="#2980b9">:8082</text>
+
+<!-- Services fuer Warenkorb -->
+<line x1="370" y1="330" x2="355" y2="388" stroke="#27ae60" stroke-width="1.5" marker-end="url(#arr-green)"/>
+<line x1="450" y1="330" x2="465" y2="388" stroke="#27ae60" stroke-width="1.5" marker-end="url(#arr-green)"/>
+
+<rect x="308" y="390" width="110" height="40" rx="6" fill="#d5f5e3" stroke="#27ae60" stroke-width="1"/>
+<text class="ts" x="363" y="406" text-anchor="middle" fill="#1e5235">Korb-Service</text>
+<text class="tc" x="363" y="420" text-anchor="middle" fill="#27ae60">:8083</text>
+
+<rect x="430" y="390" width="110" height="40" rx="6" fill="#d5f5e3" stroke="#27ae60" stroke-width="1"/>
+<text class="ts" x="485" y="406" text-anchor="middle" fill="#1e5235">Preis-Service</text>
+<text class="tc" x="485" y="420" text-anchor="middle" fill="#27ae60">:8084</text>
+
+<!-- Services fuer Checkout -->
+<line x1="590" y1="330" x2="575" y2="388" stroke="#e67e22" stroke-width="1.5" marker-end="url(#arr-orange)"/>
+<line x1="670" y1="330" x2="685" y2="388" stroke="#e67e22" stroke-width="1.5" marker-end="url(#arr-orange)"/>
+
+<rect x="548" y="390" width="110" height="40" rx="6" fill="#fdebd0" stroke="#e67e22" stroke-width="1"/>
+<text class="ts" x="603" y="406" text-anchor="middle" fill="#784212">Bestell-Service</text>
+<text class="tc" x="603" y="420" text-anchor="middle" fill="#e67e22">:8085</text>
+
+<rect x="670" y="390" width="110" height="40" rx="6" fill="#fdebd0" stroke="#e67e22" stroke-width="1"/>
+<text class="ts" x="725" y="406" text-anchor="middle" fill="#784212">Zahlung-Service</text>
+<text class="tc" x="725" y="420" text-anchor="middle" fill="#e67e22">:8086</text>
+
+<!-- ======= DATENBANKEN ======= -->
+<line x1="123" y1="430" x2="123" y2="458" stroke="#2980b9" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+<rect x="73" y="460" width="100" height="32" rx="16" fill="#a9cce3" stroke="#2980b9" stroke-width="1"/>
+<text class="tc" x="123" y="481" text-anchor="middle" fill="#1a5276">Produkt-DB</text>
+
+<line x1="245" y1="430" x2="245" y2="458" stroke="#2980b9" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+<rect x="195" y="460" width="100" height="32" rx="16" fill="#a9cce3" stroke="#2980b9" stroke-width="1"/>
+<text class="tc" x="245" y="481" text-anchor="middle" fill="#1a5276">Elasticsearch</text>
+
+<line x1="363" y1="430" x2="363" y2="458" stroke="#27ae60" stroke-width="1.5" marker-end="url(#arr-green)"/>
+<rect x="313" y="460" width="100" height="32" rx="16" fill="#a9dfbf" stroke="#27ae60" stroke-width="1"/>
+<text class="tc" x="363" y="481" text-anchor="middle" fill="#1e5235">Korb-Redis</text>
+
+<line x1="485" y1="430" x2="485" y2="458" stroke="#27ae60" stroke-width="1.5" marker-end="url(#arr-green)"/>
+<rect x="435" y="460" width="100" height="32" rx="16" fill="#a9dfbf" stroke="#27ae60" stroke-width="1"/>
+<text class="tc" x="485" y="481" text-anchor="middle" fill="#1e5235">Preis-DB</text>
+
+<line x1="603" y1="430" x2="603" y2="458" stroke="#e67e22" stroke-width="1.5" marker-end="url(#arr-orange)"/>
+<rect x="553" y="460" width="100" height="32" rx="16" fill="#f5cba7" stroke="#e67e22" stroke-width="1"/>
+<text class="tc" x="603" y="481" text-anchor="middle" fill="#784212">Bestell-DB</text>
+
+<line x1="725" y1="430" x2="725" y2="458" stroke="#e67e22" stroke-width="1.5" marker-end="url(#arr-orange)"/>
+<rect x="675" y="460" width="100" height="32" rx="16" fill="#f5cba7" stroke="#e67e22" stroke-width="1"/>
+<text class="tc" x="725" y="481" text-anchor="middle" fill="#784212">Payment-DB</text>
+
+<!-- Hinweis: geteilte Komponenten -->
+<rect x="70" y="128" width="210" height="52" rx="6" fill="#fdf0ff" stroke="#9b59b6" stroke-width="1"/>
+<text class="tag" x="175" y="147" text-anchor="middle" fill="#6c3483">Shared Design System</text>
+<text class="tc" x="175" y="162" text-anchor="middle" fill="#9b59b6">Button · Form · Header · Icons</text>
+<text class="tc" x="175" y="174" text-anchor="middle" fill="#9b59b6">geteilte npm-Library</text>
+
+</svg>

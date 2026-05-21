@@ -1,0 +1,125 @@
+<svg viewBox="0 0 920 510" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Micro-Frontend: Technischer Schnitt vs. Domaenen-Schnitt</title>
+<desc>Links: Teams nach technischer Schicht (problematisch). Rechts: Teams nach Geschaeftsdomaene (empfohlen).</desc>
+<defs>
+  <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#c0392b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <style>
+    .tt { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; font-weight: 700; }
+    .tl { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 13px; font-weight: 600; }
+    .ts { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 11px; }
+    .tc { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 11px; font-style: italic; }
+  </style>
+</defs>
+
+<!-- ======= LINKE SEITE: Technischer Schnitt (schlecht) ======= -->
+<rect x="10" y="10" width="420" height="490" rx="12" fill="#fef9f9" stroke="#e74c3c" stroke-width="2"/>
+<text class="tt" x="220" y="44" text-anchor="middle" fill="#c0392b">Technischer Schnitt  ✗</text>
+<text class="tc" x="220" y="63" text-anchor="middle" fill="#e74c3c">Teams nach technischer Schicht</text>
+
+<!-- Band 1: UI-Team -->
+<rect x="30" y="78" width="380" height="100" rx="8" fill="#EBF5FB" stroke="#2980b9" stroke-width="1"/>
+<text class="tl" x="120" y="120" text-anchor="middle" fill="#1a5276">Team UI</text>
+<text class="ts" x="120" y="138" text-anchor="middle" fill="#1a5276">Alle Seiten · Alle Komponenten</text>
+<text class="ts" x="120" y="154" text-anchor="middle" fill="#2980b9">React / Vue / Angular</text>
+
+<!-- Band 2: BFF-Team -->
+<rect x="30" y="190" width="380" height="100" rx="8" fill="#E9F7EF" stroke="#27ae60" stroke-width="1"/>
+<text class="tl" x="130" y="232" text-anchor="middle" fill="#1e5235">Team Plattform / BFF</text>
+<text class="ts" x="130" y="250" text-anchor="middle" fill="#1e5235">Backend-for-Frontend · API-Gateway</text>
+<text class="ts" x="130" y="266" text-anchor="middle" fill="#27ae60">zentraler Flaschenhals</text>
+
+<!-- Band 3: Services-Teams -->
+<rect x="30" y="302" width="380" height="100" rx="8" fill="#FEF9E7" stroke="#e67e22" stroke-width="1"/>
+<text class="tl" x="130" y="344" text-anchor="middle" fill="#784212">Team Backend (A, B, C …)</text>
+<text class="ts" x="130" y="362" text-anchor="middle" fill="#784212">Produkt-Svc · Korb-Svc · Bestell-Svc</text>
+<text class="ts" x="130" y="378" text-anchor="middle" fill="#e67e22">viele separate Teams</text>
+
+<!-- Feature-Pfeil schneidet alle Schichten -->
+<line x1="320" y1="78" x2="320" y2="402" stroke="#c0392b" stroke-width="2.5" stroke-dasharray="7,4" marker-end="url(#arr-red)"/>
+<rect x="330" y="198" width="68" height="64" rx="6" fill="#FADBD8" stroke="#c0392b" stroke-width="1"/>
+<text class="ts" x="364" y="221" text-anchor="middle" fill="#c0392b" font-weight="700">Feature</text>
+<text class="ts" x="364" y="237" text-anchor="middle" fill="#c0392b" font-weight="700">braucht</text>
+<text class="ts" x="364" y="253" text-anchor="middle" fill="#c0392b" font-weight="700">3 Teams!</text>
+
+<!-- Problem-Beschreibung -->
+<text class="tc" x="220" y="428" text-anchor="middle" fill="#c0392b">→ Koordinationsaufwand bei jedem Feature</text>
+<text class="tc" x="220" y="446" text-anchor="middle" fill="#c0392b">→ Gegenseitige Warteschlangen &amp; Abhaengigkeiten</text>
+<text class="tc" x="220" y="464" text-anchor="middle" fill="#c0392b">→ Deployments muessen synchronisiert werden</text>
+<text class="tc" x="220" y="482" text-anchor="middle" fill="#c0392b">→ Kein klares Ownership</text>
+
+
+<!-- ======= RECHTE SEITE: Domaenen-Schnitt (gut) ======= -->
+<rect x="490" y="10" width="420" height="490" rx="12" fill="#f9fef9" stroke="#27ae60" stroke-width="2"/>
+<text class="tt" x="700" y="44" text-anchor="middle" fill="#1e8449">Domaenen-Schnitt  ✓</text>
+<text class="tc" x="700" y="63" text-anchor="middle" fill="#27ae60">Teams nach Geschaeftsdomaene</text>
+
+<!-- Zeilen-Labels -->
+<text class="ts" x="500" y="120" fill="#888">UI</text>
+<text class="ts" x="500" y="225" fill="#888">BFF</text>
+<text class="ts" x="500" y="320" fill="#888">Svc</text>
+<text class="ts" x="500" y="405" fill="#888">DB</text>
+
+<!-- Spalte 1: Team Katalog -->
+<rect x="520" y="78" width="118" height="370" rx="8" fill="#EBF5FB" stroke="#2980b9" stroke-width="1.5"/>
+<text class="tl" x="579" y="100" text-anchor="middle" fill="#1a5276">Team</text>
+<text class="tl" x="579" y="117" text-anchor="middle" fill="#1a5276">Katalog</text>
+<line x1="520" y1="145" x2="638" y2="145" stroke="#b0c8e0" stroke-width="1" stroke-dasharray="3,2"/>
+<text class="ts" x="579" y="165" text-anchor="middle" fill="#2980b9">Produktliste</text>
+<text class="ts" x="579" y="181" text-anchor="middle" fill="#2980b9">Suche · Filter</text>
+<text class="ts" x="579" y="197" text-anchor="middle" fill="#1a5276" font-style="italic">MFE: catalog</text>
+<line x1="520" y1="208" x2="638" y2="208" stroke="#b0c8e0" stroke-width="1" stroke-dasharray="3,2"/>
+<text class="ts" x="579" y="230" text-anchor="middle" fill="#2980b9">Produkt-API</text>
+<text class="ts" x="579" y="246" text-anchor="middle" fill="#1a5276" font-style="italic">BFF</text>
+<line x1="520" y1="258" x2="638" y2="258" stroke="#b0c8e0" stroke-width="1" stroke-dasharray="3,2"/>
+<text class="ts" x="579" y="280" text-anchor="middle" fill="#2980b9">Produkt-Svc</text>
+<text class="ts" x="579" y="296" text-anchor="middle" fill="#2980b9">Such-Svc</text>
+<line x1="520" y1="358" x2="638" y2="358" stroke="#b0c8e0" stroke-width="1" stroke-dasharray="3,2"/>
+<text class="ts" x="579" y="380" text-anchor="middle" fill="#2980b9">Produkt-DB</text>
+<text class="ts" x="579" y="396" text-anchor="middle" fill="#2980b9">Such-Index</text>
+<rect x="540" y="432" width="78" height="6" rx="3" fill="#2980b9" opacity="0.5"/>
+
+<!-- Spalte 2: Team Warenkorb -->
+<rect x="648" y="78" width="118" height="370" rx="8" fill="#E9F7EF" stroke="#27ae60" stroke-width="1.5"/>
+<text class="tl" x="707" y="100" text-anchor="middle" fill="#1e5235">Team</text>
+<text class="tl" x="707" y="117" text-anchor="middle" fill="#1e5235">Warenkorb</text>
+<line x1="648" y1="145" x2="766" y2="145" stroke="#a0d8b0" stroke-width="1" stroke-dasharray="3,2"/>
+<text class="ts" x="707" y="165" text-anchor="middle" fill="#27ae60">Artikel-Ansicht</text>
+<text class="ts" x="707" y="181" text-anchor="middle" fill="#27ae60">Warenkorb-UI</text>
+<text class="ts" x="707" y="197" text-anchor="middle" fill="#1e5235" font-style="italic">MFE: cart</text>
+<line x1="648" y1="208" x2="766" y2="208" stroke="#a0d8b0" stroke-width="1" stroke-dasharray="3,2"/>
+<text class="ts" x="707" y="230" text-anchor="middle" fill="#27ae60">Cart-API</text>
+<text class="ts" x="707" y="246" text-anchor="middle" fill="#1e5235" font-style="italic">BFF</text>
+<line x1="648" y1="258" x2="766" y2="258" stroke="#a0d8b0" stroke-width="1" stroke-dasharray="3,2"/>
+<text class="ts" x="707" y="280" text-anchor="middle" fill="#27ae60">Korb-Svc</text>
+<text class="ts" x="707" y="296" text-anchor="middle" fill="#27ae60">Preis-Svc</text>
+<line x1="648" y1="358" x2="766" y2="358" stroke="#a0d8b0" stroke-width="1" stroke-dasharray="3,2"/>
+<text class="ts" x="707" y="380" text-anchor="middle" fill="#27ae60">Korb-DB</text>
+<text class="ts" x="707" y="396" text-anchor="middle" fill="#27ae60">Preis-DB</text>
+<rect x="668" y="432" width="78" height="6" rx="3" fill="#27ae60" opacity="0.5"/>
+
+<!-- Spalte 3: Team Checkout -->
+<rect x="776" y="78" width="118" height="370" rx="8" fill="#FEF9E7" stroke="#e67e22" stroke-width="1.5"/>
+<text class="tl" x="835" y="100" text-anchor="middle" fill="#784212">Team</text>
+<text class="tl" x="835" y="117" text-anchor="middle" fill="#784212">Checkout</text>
+<line x1="776" y1="145" x2="894" y2="145" stroke="#e0c090" stroke-width="1" stroke-dasharray="3,2"/>
+<text class="ts" x="835" y="165" text-anchor="middle" fill="#e67e22">Bestell-Formular</text>
+<text class="ts" x="835" y="181" text-anchor="middle" fill="#e67e22">Bestaetigungs-Seite</text>
+<text class="ts" x="835" y="197" text-anchor="middle" fill="#784212" font-style="italic">MFE: checkout</text>
+<line x1="776" y1="208" x2="894" y2="208" stroke="#e0c090" stroke-width="1" stroke-dasharray="3,2"/>
+<text class="ts" x="835" y="230" text-anchor="middle" fill="#e67e22">Order-API</text>
+<text class="ts" x="835" y="246" text-anchor="middle" fill="#784212" font-style="italic">BFF</text>
+<line x1="776" y1="258" x2="894" y2="258" stroke="#e0c090" stroke-width="1" stroke-dasharray="3,2"/>
+<text class="ts" x="835" y="280" text-anchor="middle" fill="#e67e22">Bestell-Svc</text>
+<text class="ts" x="835" y="296" text-anchor="middle" fill="#e67e22">Zahlung-Svc</text>
+<line x1="776" y1="358" x2="894" y2="358" stroke="#e0c090" stroke-width="1" stroke-dasharray="3,2"/>
+<text class="ts" x="835" y="380" text-anchor="middle" fill="#e67e22">Bestell-DB</text>
+<text class="ts" x="835" y="396" text-anchor="middle" fill="#e67e22">Zahlung-DB</text>
+<rect x="796" y="432" width="78" height="6" rx="3" fill="#e67e22" opacity="0.5"/>
+
+<!-- Gut-Beschreibung -->
+<text class="tc" x="700" y="472" text-anchor="middle" fill="#1e8449">→ Ein Feature bleibt im Team</text>
+<text class="tc" x="700" y="489" text-anchor="middle" fill="#1e8449">→ Unabhaengige Deployments · Klares Ownership</text>
+
+</svg>
