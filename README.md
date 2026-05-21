@@ -23,6 +23,7 @@
      * [Tests - Uebersicht](microservices/tests/00-testing-uebersicht.md)
      * [Monolith schneiden microservices](microservices/monolith-schneiden.md)
      * [IAM als Bounded Context — fachlich oder technisch?](microservices/iam-als-bounded-context.md)
+     * [Authentication in Kubernetes (Kunde / Mobile App)](microservices/authentication.md)
      * [Datenmigration: Notification Service (Dual Write, Outbox, Backfill)](microservices/datenmigration-notification-service.md)
 
   1. Micro-Frontends
