@@ -2,23 +2,90 @@
 
 ## Was ist Webpack?
 
-Browser verstehen kein `import './components/Button'` mit relativen Pfaden,
-kein TypeScript, kein JSX. Sie verstehen nur plain JavaScript und HTML.
+Browser verstehen kein TypeScript, kein JSX, keine relativen Imports.
+Sie verstehen nur plain JavaScript und HTML.
 
-**Webpack** ist ein Build-Tool, das dieses Problem loest:
-Es nimmt alle Quelldateien (TypeScript, JSX, CSS, Bilder) und buendelt sie
-zu einer oder wenigen `.js`-Dateien, die der Browser direkt laden kann.
+**Webpack** ist ein Build-Tool: Es laeuft einmalig beim Entwickler oder in der CI/CD-Pipeline,
+liest den Quellcode und erzeugt daraus fertige `.js`-Dateien, die der Browser direkt laden kann.
+
+### Vom Code zum Kunden — Schritt fuer Schritt
+
+**Schritt 1: Entwickler schreibt Code (TypeScript / React)**
 
 ```
-src/
-├── App.tsx          ──┐
-├── components/      ──┤  webpack  ──►  dist/main.js  (Browser versteht das)
-├── styles.css       ──┘
-└── utils/
+catalog-mfe/src/
+├── App.tsx            React-Komponente mit JSX
+├── ProductList.tsx
+└── api/products.ts    fetch-Aufrufe zum Backend
 ```
 
-Webpack laeuft **nur auf dem Entwicklerrechner / CI-Server** — nicht im Browser.
-Das Ergebnis (die gebundelten Dateien) ist das, was am Ende ausgeliefert wird.
+**Schritt 2: Webpack laeuft (lokal oder in CI/CD)**
+
+```
+npx webpack --config webpack.config.js
+```
+
+Webpack liest alle Dateien, uebersetzt TypeScript → JavaScript,
+loest alle Imports auf und schreibt das Ergebnis nach `dist/`:
+
+```
+catalog-mfe/dist/
+├── remoteEntry.js     Einstiegspunkt fuer Module Federation
+├── 42.chunk.js        der eigentliche App-Code
+└── 891.chunk.js       vendor-Code (z.B. React)
+```
+
+**Schritt 3: CI/CD laedt die dist/-Dateien auf einen Webserver / CDN**
+
+```
+dist/*.js  ──►  https://catalog.shop.de/
+```
+
+Ab hier ist Webpack aus dem Spiel. Auf dem Server liegen nur noch
+fertige `.js`-Dateien — kein TypeScript, kein Node.js noetig.
+
+**Schritt 4: Kunde oeffnet https://shop.meinefirma.de**
+
+```
+Browser                         Server: shop.meinefirma.de
+  │                                       │
+  │── GET / ──────────────────────────►  │
+  │◄── index.html ─────────────────────  │
+  │                                       │
+  │── GET /main.js ────────────────────► │  (Shell-App)
+  │◄── main.js ────────────────────────  │
+```
+
+Der Browser laedt `index.html` und darin referenziert `main.js` — das ist die Shell-App.
+
+**Schritt 5: Shell-App startet im Browser und laedt die MFEs nach**
+
+Die Shell-App enthaelt durch Module Federation Laufzeit-Code, der die MFEs nachzieht:
+
+```
+Browser                         catalog.shop.de     cart.shop.de
+  │                                    │                  │
+  │── GET /remoteEntry.js ──────────► │                  │
+  │◄── remoteEntry.js ──────────────  │                  │
+  │                                    │                  │
+  │── GET /42.chunk.js  ────────────► │                  │
+  │◄── 42.chunk.js (CatalogApp) ────  │                  │
+  │                                    │                  │
+  │── GET /remoteEntry.js ──────────────────────────────►│
+  │◄── remoteEntry.js ─────────────────────────────────  │
+  │                                    │                  │
+  │── GET /77.chunk.js  ────────────────────────────────►│
+  │◄── 77.chunk.js (CartApp) ──────────────────────────  │
+```
+
+**Schritt 6: Fertig — der Nutzer sieht die komplette Anwendung**
+
+Alle drei MFEs laufen jetzt im gleichen Browser-Tab, obwohl sie von
+drei verschiedenen Servern geladen wurden und von drei verschiedenen Teams
+gebaut und deployt wurden.
+
+React wurde dabei **nur einmal geladen** — Module Federation sorgt dafuer,
+dass alle MFEs dieselbe Instanz teilen (`singleton: true`).
 
 ---
 
