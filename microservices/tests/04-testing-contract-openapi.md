@@ -1,3 +1,27 @@
+# Contract Testing mit OpenAPI
+
+## Was ist ein Contract?
+
+Ein **Contract** (Vertrag) definiert, welche Daten ein Service liefert und welche er erwartet.
+Provider und Consumer muessen sich an diesen Vertrag halten — aendert sich die API,
+bricht der Contract-Test sofort, bevor irgendwas deployed wird.
+
+**Ansatz hier:** Die OpenAPI-Spec ist der Vertrag — sie beschreibt alle Endpunkte,
+Parameter und Antwort-Strukturen. Sowohl Provider als auch Consumer testen dagegen.
+
+```
+OpenAPI-Spec (inventory-api.yaml)
+         |
+         +---> Provider-Test: "Liefere ich was versprochen?"
+         |
+         +---> Consumer-Test: Mock-Server aus Spec, Consumer testet dagegen
+```
+
+> Naechster Schritt: [Consumer-Driven Contract Testing mit Pact](05-testing-contract-pact.md)
+> — wenn der Consumer den Vertrag selbst definieren soll (nicht der Provider).
+
+---
+
 ## OpenAPI-Spec als Contract-Basis
 
 ### 1. OpenAPI Definition (Inventory Service)

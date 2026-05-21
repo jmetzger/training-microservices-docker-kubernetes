@@ -1,4 +1,19 @@
-# Unit Testing 
+# Unit Testing
+
+## Was testen Unit Tests?
+
+Unit Tests pruefen eine einzelne Klasse oder Funktion **isoliert** — ohne Datenbank,
+ohne Netzwerk, ohne andere Services. Sie sind schnell (Millisekunden) und stabil.
+
+**Wann Unit Tests schreiben:**
+- Komplexe Geschaeftslogik (Berechnungen, Validierungen, Entscheidungen)
+- Edge Cases (Was passiert bei leerem Input? Bei negativen Zahlen?)
+- Code ohne externe Abhaengigkeiten
+
+**Wann NICHT:** Wenn der Code nur eine Datenbank aufruft oder HTTP macht —
+das gehoert in einen Integration Test mit Testcontainers.
+
+---
 
 ## Solitaire vs Sociable Unit Tests
 
