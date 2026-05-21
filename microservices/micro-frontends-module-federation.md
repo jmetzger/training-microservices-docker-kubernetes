@@ -124,12 +124,12 @@ React wurde dabei **nur einmal geladen** (`singleton: true`).
 
 ## Sprache und Tooling
 
-| Tool | Unterstuetzung | Hinweis |
+| Tool | Module Federation verfuegbar als | Hinweis |
 |---|---|---|
-| **Webpack 5** | nativ eingebaut | Standard fuer React/Angular-Projekte |
+| **Webpack 5** | direkt eingebaut — kein Plugin noetig | Standard fuer React/Angular-Projekte |
 | **Vite** | Plugin `@originjs/vite-plugin-federation` | Neuere Projekte, schnellerer Dev-Server |
-| **TypeScript** | vollstaendig unterstuetzt | Empfohlen — Typen fuer Remote-Module deklarierbar |
-| **Framework** | React, Vue, Angular, Svelte, Vanilla JS | Module Federation ist framework-agnostisch |
+| **TypeScript** | vollstaendig unterstuetzt | Typen fuer Remote-Module per `declarations.d.ts` |
+| **Framework** | framework-agnostisch | funktioniert mit React, Vue, Angular, Svelte, Vanilla JS |
 
 ---
 
