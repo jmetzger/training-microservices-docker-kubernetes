@@ -1,61 +1,68 @@
-<svg viewBox="0 0 740 280" xmlns="http://www.w3.org/2000/svg" font-family="monospace" font-size="12">
+<svg viewBox="0 0 740 300" xmlns="http://www.w3.org/2000/svg" font-family="monospace" font-size="12">
   <!-- Header -->
   <rect x="10" y="10" width="720" height="35" rx="5" fill="#2C3E50"/>
   <text x="370" y="33" text-anchor="middle" fill="white" font-size="13" font-weight="bold">API Gateway vs. Istio Service Mesh – Wann was?</text>
 
   <!-- Column headers -->
-  <rect x="10" y="45" width="240" height="30" rx="3" fill="#E67E22"/>
-  <text x="130" y="65" text-anchor="middle" fill="white" font-weight="bold">Kriterium</text>
+  <rect x="10" y="45" width="230" height="30" rx="3" fill="#1a252f"/>
+  <text x="125" y="65" text-anchor="middle" fill="white" font-weight="bold">Kriterium</text>
 
-  <rect x="255" y="45" width="225" height="30" rx="3" fill="#4A90D9"/>
-  <text x="367" y="65" text-anchor="middle" fill="white" font-weight="bold">API Gateway</text>
+  <rect x="245" y="45" width="230" height="30" rx="3" fill="#16a085"/>
+  <text x="360" y="65" text-anchor="middle" fill="white" font-weight="bold">API Gateway (Kong/APISIX)</text>
 
-  <rect x="485" y="45" width="245" height="30" rx="3" fill="#264653"/>
-  <text x="607" y="65" text-anchor="middle" fill="white" font-weight="bold">Istio Service Mesh</text>
+  <rect x="480" y="45" width="250" height="30" rx="3" fill="#264653"/>
+  <text x="605" y="65" text-anchor="middle" fill="white" font-weight="bold">Istio Service Mesh</text>
 
   <!-- Row 1 -->
-  <rect x="10" y="75" width="240" height="35" fill="#f8f9fa" stroke="#dee2e6"/>
-  <text x="130" y="97" text-anchor="middle" fill="#333">Schicht</text>
-  <rect x="255" y="75" width="225" height="35" fill="#fff" stroke="#dee2e6"/>
-  <text x="367" y="97" text-anchor="middle" fill="#555">L7 – Nord-Sued (eingehend)</text>
-  <rect x="485" y="75" width="245" height="35" fill="#fff" stroke="#dee2e6"/>
-  <text x="607" y="97" text-anchor="middle" fill="#555">L4+L7 – Nord-Sued + Ost-West</text>
+  <rect x="10"  y="75" width="230" height="35" fill="#f8f9fa" stroke="#dee2e6"/>
+  <text x="125" y="97" text-anchor="middle" fill="#333">Zweck</text>
+  <rect x="245" y="75" width="230" height="35" fill="#fff" stroke="#dee2e6"/>
+  <text x="360" y="90" text-anchor="middle" fill="#555">API-Management:</text>
+  <text x="360" y="105" text-anchor="middle" fill="#555">Auth, Rate Limit, Routing</text>
+  <rect x="480" y="75" width="250" height="35" fill="#fff" stroke="#dee2e6"/>
+  <text x="605" y="90" text-anchor="middle" fill="#555">Zero Trust Netzwerk:</text>
+  <text x="605" y="105" text-anchor="middle" fill="#555">mTLS, Service-Identitaet</text>
 
   <!-- Row 2 -->
-  <rect x="10" y="110" width="240" height="35" fill="#f0f0f0" stroke="#dee2e6"/>
-  <text x="130" y="132" text-anchor="middle" fill="#333">Schutzt wen?</text>
-  <rect x="255" y="110" width="225" height="35" fill="#f0f0f0" stroke="#dee2e6"/>
-  <text x="367" y="132" text-anchor="middle" fill="#555">Eingang vom Internet</text>
-  <rect x="485" y="110" width="245" height="35" fill="#f0f0f0" stroke="#dee2e6"/>
-  <text x="607" y="132" text-anchor="middle" fill="#555">Jeden Service-zu-Service Call</text>
+  <rect x="10"  y="110" width="230" height="35" fill="#f0f0f0" stroke="#dee2e6"/>
+  <text x="125" y="132" text-anchor="middle" fill="#333">Traffic-Richtung</text>
+  <rect x="245" y="110" width="230" height="35" fill="#f0f0f0" stroke="#dee2e6"/>
+  <text x="360" y="132" text-anchor="middle" fill="#555">Nord-Sued (extern → intern)</text>
+  <rect x="480" y="110" width="250" height="35" fill="#f0f0f0" stroke="#dee2e6"/>
+  <text x="605" y="132" text-anchor="middle" fill="#555">Ost-West (intern → intern)</text>
 
   <!-- Row 3 -->
-  <rect x="10" y="145" width="240" height="35" fill="#f8f9fa" stroke="#dee2e6"/>
-  <text x="130" y="167" text-anchor="middle" fill="#333">Auth-Methode</text>
-  <rect x="255" y="145" width="225" height="35" fill="#fff" stroke="#dee2e6"/>
-  <text x="367" y="160" text-anchor="middle" fill="#555">JWT, API-Key, OAuth2-Proxy</text>
-  <text x="367" y="175" text-anchor="middle" fill="#555">Cookie-Session</text>
-  <rect x="485" y="145" width="245" height="35" fill="#fff" stroke="#dee2e6"/>
-  <text x="607" y="160" text-anchor="middle" fill="#555">mTLS (Peer) + JWT (Request)</text>
-  <text x="607" y="175" text-anchor="middle" fill="#555">SPIFFE/SVID Identitaet</text>
+  <rect x="10"  y="145" width="230" height="35" fill="#f8f9fa" stroke="#dee2e6"/>
+  <text x="125" y="167" text-anchor="middle" fill="#333">Typische Tools</text>
+  <rect x="245" y="145" width="230" height="35" fill="#fff" stroke="#dee2e6"/>
+  <text x="360" y="160" text-anchor="middle" fill="#555">Kong, Apache APISIX</text>
+  <text x="360" y="175" text-anchor="middle" fill="#555">Tyk, AWS API Gateway</text>
+  <rect x="480" y="145" width="250" height="35" fill="#fff" stroke="#dee2e6"/>
+  <text x="605" y="160" text-anchor="middle" fill="#555">Istio, Linkerd</text>
+  <text x="605" y="175" text-anchor="middle" fill="#555">Consul Connect</text>
 
   <!-- Row 4 -->
-  <rect x="10" y="180" width="240" height="35" fill="#f0f0f0" stroke="#dee2e6"/>
-  <text x="130" y="202" text-anchor="middle" fill="#333">Code im Service?</text>
-  <rect x="255" y="180" width="225" height="35" fill="#f0f0f0" stroke="#dee2e6"/>
-  <text x="367" y="202" text-anchor="middle" fill="#27ae60">Nein – Header lesen reicht</text>
-  <rect x="485" y="180" width="245" height="35" fill="#f0f0f0" stroke="#dee2e6"/>
-  <text x="607" y="202" text-anchor="middle" fill="#27ae60">Nein – Envoy macht alles</text>
+  <rect x="10"  y="180" width="230" height="35" fill="#f0f0f0" stroke="#dee2e6"/>
+  <text x="125" y="202" text-anchor="middle" fill="#333">Auth-Methode</text>
+  <rect x="245" y="180" width="230" height="35" fill="#f0f0f0" stroke="#dee2e6"/>
+  <text x="360" y="195" text-anchor="middle" fill="#555">JWT Plugin, Key-Auth</text>
+  <text x="360" y="210" text-anchor="middle" fill="#555">OIDC Plugin, Consumer</text>
+  <rect x="480" y="180" width="250" height="35" fill="#f0f0f0" stroke="#dee2e6"/>
+  <text x="605" y="195" text-anchor="middle" fill="#555">mTLS (PeerAuthentication)</text>
+  <text x="605" y="210" text-anchor="middle" fill="#555">JWT (RequestAuthentication)</text>
 
   <!-- Row 5 -->
-  <rect x="10" y="215" width="240" height="35" fill="#f8f9fa" stroke="#dee2e6"/>
-  <text x="130" y="237" text-anchor="middle" fill="#333">Komplexitaet</text>
-  <rect x="255" y="215" width="225" height="35" fill="#e8f5e9" stroke="#dee2e6"/>
-  <text x="367" y="237" text-anchor="middle" fill="#27ae60">★★★  Mittel</text>
-  <rect x="485" y="215" width="245" height="35" fill="#fdecea" stroke="#dee2e6"/>
-  <text x="607" y="237" text-anchor="middle" fill="#e74c3c">★★★★★  Hoch</text>
+  <rect x="10"  y="215" width="230" height="35" fill="#f8f9fa" stroke="#dee2e6"/>
+  <text x="125" y="237" text-anchor="middle" fill="#333">Zusatz-Features</text>
+  <rect x="245" y="215" width="230" height="35" fill="#e8f5e9" stroke="#dee2e6"/>
+  <text x="360" y="230" text-anchor="middle" fill="#27ae60">Developer Portal, Analytics</text>
+  <text x="360" y="245" text-anchor="middle" fill="#27ae60">Transformation, Plugins</text>
+  <rect x="480" y="215" width="250" height="35" fill="#e8f4fd" stroke="#dee2e6"/>
+  <text x="605" y="230" text-anchor="middle" fill="#2C5F8A">Traffic Observability</text>
+  <text x="605" y="245" text-anchor="middle" fill="#2C5F8A">Circuit Breaking, Retries</text>
 
   <!-- Bottom recommendation -->
-  <rect x="10" y="255" width="720" height="20" rx="4" fill="#e8f4fd" stroke="#4A90D9"/>
-  <text x="370" y="269" text-anchor="middle" fill="#2C5F8A" font-size="11">Empfehlung: Gateway fuer Nord-Sued + Istio fuer Ost-West → zusammen = Zero Trust</text>
+  <rect x="10" y="258" width="720" height="32" rx="4" fill="#e8f4fd" stroke="#4A90D9"/>
+  <text x="370" y="272" text-anchor="middle" fill="#2C5F8A" font-size="11" font-weight="bold">Zusammen einsetzen:</text>
+  <text x="370" y="286" text-anchor="middle" fill="#555" font-size="11">API Gateway (Nord-Sued: Auth, Rate Limit) + Istio (Ost-West: mTLS, Zero Trust)</text>
 </svg>

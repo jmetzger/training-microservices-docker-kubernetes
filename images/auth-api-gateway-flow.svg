@@ -1,4 +1,4 @@
-<svg viewBox="0 0 740 360" xmlns="http://www.w3.org/2000/svg" font-family="monospace" font-size="12">
+<svg viewBox="0 0 740 380" xmlns="http://www.w3.org/2000/svg" font-family="monospace" font-size="12">
   <defs>
     <marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#555"/>
@@ -6,88 +6,83 @@
     <marker id="ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0,10 3.5,0 7" fill="#27ae60"/>
     </marker>
-    <marker id="ar" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0,10 3.5,0 7" fill="#e74c3c"/>
-    </marker>
   </defs>
 
   <!-- Internet -->
-  <rect x="5" y="30" width="120" height="300" rx="8" fill="#fdecea" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <rect x="5" y="30" width="120" height="320" rx="8" fill="#fdecea" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
   <text x="65" y="50" text-anchor="middle" fill="#e74c3c" font-weight="bold">Internet</text>
 
-  <rect x="18" y="65" width="95" height="45" rx="6" fill="#4A90D9" stroke="#2C5F8A" stroke-width="2"/>
-  <text x="65" y="85" text-anchor="middle" fill="white" font-weight="bold">Mobile App</text>
-  <text x="65" y="100" text-anchor="middle" fill="#ddf" font-size="10">Bearer JWT</text>
+  <rect x="18" y="62" width="95" height="40" rx="6" fill="#4A90D9" stroke="#2C5F8A" stroke-width="2"/>
+  <text x="65" y="78" text-anchor="middle" fill="white" font-weight="bold">Mobile App</text>
+  <text x="65" y="93" text-anchor="middle" fill="#ddf" font-size="10">Bearer JWT</text>
 
-  <rect x="18" y="130" width="95" height="45" rx="6" fill="#4A90D9" stroke="#2C5F8A" stroke-width="2"/>
-  <text x="65" y="150" text-anchor="middle" fill="white" font-weight="bold">Browser</text>
-  <text x="65" y="165" text-anchor="middle" fill="#ddf" font-size="10">Cookie / JWT</text>
+  <rect x="18" y="117" width="95" height="40" rx="6" fill="#4A90D9" stroke="#2C5F8A" stroke-width="2"/>
+  <text x="65" y="133" text-anchor="middle" fill="white" font-weight="bold">Browser SPA</text>
+  <text x="65" y="148" text-anchor="middle" fill="#ddf" font-size="10">Bearer JWT</text>
 
-  <rect x="18" y="195" width="95" height="45" rx="6" fill="#4A90D9" stroke="#2C5F8A" stroke-width="2"/>
-  <text x="65" y="215" text-anchor="middle" fill="white" font-weight="bold">3rd-Party</text>
-  <text x="65" y="230" text-anchor="middle" fill="#ddf" font-size="10">API-Key / JWT</text>
+  <rect x="18" y="172" width="95" height="40" rx="6" fill="#4A90D9" stroke="#2C5F8A" stroke-width="2"/>
+  <text x="65" y="188" text-anchor="middle" fill="white" font-weight="bold">Partner API</text>
+  <text x="65" y="203" text-anchor="middle" fill="#ddf" font-size="10">API-Key</text>
 
   <!-- Kubernetes Cluster -->
-  <rect x="145" y="10" width="585" height="330" rx="10" fill="#f0f4f8" stroke="#4A90D9" stroke-width="2" stroke-dasharray="6,3"/>
+  <rect x="145" y="10" width="585" height="355" rx="10" fill="#f0f4f8" stroke="#4A90D9" stroke-width="2" stroke-dasharray="6,3"/>
   <text x="438" y="27" text-anchor="middle" fill="#4A90D9" font-weight="bold">Kubernetes Cluster</text>
 
-  <!-- API Gateway -->
-  <rect x="165" y="60" width="155" height="230" rx="8" fill="#E67E22" stroke="#9A5A0A" stroke-width="2"/>
-  <text x="242" y="83" text-anchor="middle" fill="white" font-size="13" font-weight="bold">API Gateway</text>
-  <text x="242" y="100" text-anchor="middle" fill="#ffe" font-size="10">Kong / NGINX / Traefik</text>
+  <!-- API Gateway box -->
+  <rect x="163" y="40" width="185" height="295" rx="8" fill="#1a252f" stroke="#0d1b24" stroke-width="2"/>
+  <text x="255" y="63" text-anchor="middle" fill="white" font-size="13" font-weight="bold">API Gateway</text>
+  <text x="255" y="80" text-anchor="middle" fill="#aad4e5" font-size="10">Kong / APISIX / Tyk</text>
 
-  <rect x="178" y="112" width="130" height="28" rx="4" fill="#c0582a"/>
-  <text x="243" y="130" text-anchor="middle" fill="white" font-size="11">① JWT validieren</text>
+  <!-- Plugin boxes inside gateway -->
+  <rect x="175" y="92" width="160" height="30" rx="4" fill="#16a085"/>
+  <text x="255" y="112" text-anchor="middle" fill="white" font-size="11">JWT / OIDC Plugin</text>
 
-  <rect x="178" y="147" width="130" height="28" rx="4" fill="#c0582a"/>
-  <text x="243" y="165" text-anchor="middle" fill="white" font-size="11">② Rate Limiting</text>
+  <rect x="175" y="128" width="160" height="30" rx="4" fill="#16a085"/>
+  <text x="255" y="148" text-anchor="middle" fill="white" font-size="11">Key-Auth Plugin</text>
 
-  <rect x="178" y="182" width="130" height="28" rx="4" fill="#c0582a"/>
-  <text x="243" y="200" text-anchor="middle" fill="white" font-size="11">③ Routing</text>
+  <rect x="175" y="164" width="160" height="30" rx="4" fill="#2980b9"/>
+  <text x="255" y="184" text-anchor="middle" fill="white" font-size="11">Rate Limiting</text>
 
-  <rect x="178" y="217" width="130" height="28" rx="4" fill="#c0582a"/>
-  <text x="243" y="235" text-anchor="middle" fill="white" font-size="11">④ Header setzen</text>
+  <rect x="175" y="200" width="160" height="30" rx="4" fill="#2980b9"/>
+  <text x="255" y="220" text-anchor="middle" fill="white" font-size="11">Request Transformation</text>
 
-  <rect x="178" y="252" width="130" height="28" rx="4" fill="#c0582a"/>
-  <text x="243" y="270" text-anchor="middle" fill="white" font-size="11">⑤ TLS terminieren</text>
+  <rect x="175" y="236" width="160" height="30" rx="4" fill="#2980b9"/>
+  <text x="255" y="256" text-anchor="middle" fill="white" font-size="11">Routing / Load Balancing</text>
 
-  <!-- JWKS -->
-  <rect x="165" y="310" width="155" height="25" rx="4" fill="#8E44AD" stroke="#5B2B72"/>
-  <text x="242" y="327" text-anchor="middle" fill="white" font-size="10">JWKS-Endpoint (Keycloak)</text>
+  <rect x="175" y="272" width="160" height="30" rx="4" fill="#8e44ad"/>
+  <text x="255" y="292" text-anchor="middle" fill="white" font-size="11">Consumer Management</text>
+
+  <rect x="175" y="308" width="160" height="20" rx="4" fill="#555"/>
+  <text x="255" y="322" text-anchor="middle" fill="#aaa" font-size="10">JWKS ← Keycloak/Auth0</text>
 
   <!-- Arrows from internet to gateway -->
-  <line x1="113" y1="87" x2="163" y2="130" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
-  <line x1="113" y1="152" x2="163" y2="175" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
-  <line x1="113" y1="217" x2="163" y2="220" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="113" y1="82" x2="161" y2="115" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="113" y1="137" x2="161" y2="143" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="113" y1="192" x2="161" y2="163" stroke="#555" stroke-width="1.5" marker-end="url(#a)"/>
 
   <!-- Services -->
-  <rect x="390" y="65" width="140" height="50" rx="6" fill="#27AE60" stroke="#1A6B3A" stroke-width="2"/>
-  <text x="460" y="88" text-anchor="middle" fill="white" font-weight="bold">Order Service</text>
-  <text x="460" y="104" text-anchor="middle" fill="#dff" font-size="10">liest X-User-Id Header</text>
+  <rect x="415" y="60" width="140" height="50" rx="6" fill="#27AE60" stroke="#1A6B3A" stroke-width="2"/>
+  <text x="485" y="83" text-anchor="middle" fill="white" font-weight="bold">Order Service</text>
+  <text x="485" y="99" text-anchor="middle" fill="#dff" font-size="10">kein Auth-Code noetig</text>
 
-  <rect x="390" y="140" width="140" height="50" rx="6" fill="#27AE60" stroke="#1A6B3A" stroke-width="2"/>
-  <text x="460" y="163" text-anchor="middle" fill="white" font-weight="bold">Payment Service</text>
-  <text x="460" y="179" text-anchor="middle" fill="#dff" font-size="10">liest X-User-Id Header</text>
+  <rect x="415" y="135" width="140" height="50" rx="6" fill="#27AE60" stroke="#1A6B3A" stroke-width="2"/>
+  <text x="485" y="158" text-anchor="middle" fill="white" font-weight="bold">Payment Service</text>
+  <text x="485" y="174" text-anchor="middle" fill="#dff" font-size="10">kein Auth-Code noetig</text>
 
-  <rect x="390" y="215" width="140" height="50" rx="6" fill="#27AE60" stroke="#1A6B3A" stroke-width="2"/>
-  <text x="460" y="238" text-anchor="middle" fill="white" font-weight="bold">Product Service</text>
-  <text x="460" y="254" text-anchor="middle" fill="#dff" font-size="10">liest X-User-Id Header</text>
+  <rect x="415" y="210" width="140" height="50" rx="6" fill="#27AE60" stroke="#1A6B3A" stroke-width="2"/>
+  <text x="485" y="233" text-anchor="middle" fill="white" font-weight="bold">Product Service</text>
+  <text x="485" y="249" text-anchor="middle" fill="#dff" font-size="10">kein Auth-Code noetig</text>
 
   <!-- Arrows gateway to services -->
-  <line x1="320" y1="150" x2="388" y2="100" stroke="#27ae60" stroke-width="2" marker-end="url(#ag)"/>
-  <line x1="320" y1="175" x2="388" y2="165" stroke="#27ae60" stroke-width="2" marker-end="url(#ag)"/>
-  <line x1="320" y1="200" x2="388" y2="238" stroke="#27ae60" stroke-width="2" marker-end="url(#ag)"/>
-  <text x="358" y="148" fill="#27ae60" font-size="10">X-User-Id</text>
-  <text x="358" y="160" fill="#27ae60" font-size="10">Header</text>
+  <line x1="348" y1="160" x2="413" y2="95" stroke="#27ae60" stroke-width="2" marker-end="url(#ag)"/>
+  <line x1="348" y1="185" x2="413" y2="165" stroke="#27ae60" stroke-width="2" marker-end="url(#ag)"/>
+  <line x1="348" y1="210" x2="413" y2="238" stroke="#27ae60" stroke-width="2" marker-end="url(#ag)"/>
 
-  <!-- Ost-West ungesichert -->
-  <line x1="530" y1="115" x2="530" y2="138" stroke="#e74c3c" stroke-width="2" stroke-dasharray="4,3"/>
-  <line x1="530" y1="190" x2="530" y2="213" stroke="#e74c3c" stroke-width="2" stroke-dasharray="4,3"/>
-  <text x="545" y="132" fill="#e74c3c" font-size="10">Plain HTTP</text>
-  <text x="545" y="207" fill="#e74c3c" font-size="10">ungesichert!</text>
+  <text x="385" y="148" text-anchor="middle" fill="#27ae60" font-size="10">X-Consumer-Id</text>
+  <text x="385" y="160" text-anchor="middle" fill="#27ae60" font-size="10">X-Consumer-Username</text>
 
-  <!-- Note -->
-  <rect x="148" y="295" width="570" height="35" rx="5" fill="#fffde7" stroke="#f9ca24" stroke-width="1.5"/>
-  <text x="433" y="311" text-anchor="middle" fill="#555" font-size="11" font-weight="bold">Gateway prueft nur Nord-Sued (eingehend). Ost-West bleibt ungeschuetzt → Istio noetig.</text>
-  <text x="433" y="326" text-anchor="middle" fill="#888" font-size="10">Typische Tools: Kong, NGINX Ingress + oauth2-proxy, Traefik ForwardAuth</text>
+  <!-- Ost-West ungesichert annotation -->
+  <rect x="415" y="285" width="295" height="35" rx="5" fill="#fffde7" stroke="#f9ca24" stroke-width="1.5"/>
+  <text x="563" y="302" text-anchor="middle" fill="#555" font-size="11" font-weight="bold">Ost-West bleibt ungeschuetzt!</text>
+  <text x="563" y="316" text-anchor="middle" fill="#888" font-size="10">Service A → B ohne Auth → Istio noetig</text>
 </svg>
