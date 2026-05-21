@@ -89,6 +89,59 @@ dass alle MFEs dieselbe Instanz teilen (`singleton: true`).
 
 ---
 
+## Was ist die Shell-App — und laeuft sie auf dem Server?
+
+**Nein — die Shell-App laeuft vollstaendig im Browser des Nutzers.**
+
+Der Server macht genau eine Sache: er liefert die statischen Dateien aus
+(`index.html`, `main.js`). Danach ist der Server nicht mehr beteiligt.
+Alles weitere — MFEs laden, Router, Rendering — passiert im Browser.
+
+```
+Server                          Browser des Nutzers
+─────────────────               ──────────────────────────────────────
+Gibt Dateien aus:               Fuehrt aus:
+  index.html          ──────►     laedt main.js
+  main.js             ──────►     Shell-App startet
+                                  Shell laedt MFEs nach
+                                  Nutzer sieht die Seite
+```
+
+### Warum heisst es Shell-App?
+
+**Nichts mit Linux.** Der Name kommt vom Bild einer Huelle oder eines Gehaeueses —
+wie eine Nussschale, die den Inhalt zusammenhaelt.
+
+Die Shell-App ist der aeussere Rahmen der Anwendung:
+Sie selbst enthaelt kaum eigene Funktionalitaet —
+sie stellt nur den Rahmen bereit, in den die MFEs eingesetzt werden.
+
+```
+┌──────────────────────────────────────────────────────┐
+│  Shell-App  (der Rahmen)                             │
+│  ┌────────────────────────────────────────────────┐  │
+│  │  Navigation · Auth-Kontext · Design System     │  │
+│  └────────────────────────────────────────────────┘  │
+│                                                      │
+│  ┌──────────────┐  ┌──────────────┐  ┌───────────┐  │
+│  │ MFE: Katalog │  │MFE: Warenkorb│  │MFE: Check-│  │
+│  │              │  │              │  │out        │  │
+│  └──────────────┘  └──────────────┘  └───────────┘  │
+└──────────────────────────────────────────────────────┘
+```
+
+In der Webpack-Dokumentation heisst dieselbe Sache **Host** —
+beides meint das Gleiche. Weitere Bezeichnungen die man antrifft:
+
+| Name | Bedeutung |
+|---|---|
+| Shell-App | Branchenbezeichnung fuer MFE-Architektur |
+| Host | Webpack-Terminologie |
+| Container-App | aeltere Bezeichnung, gleiche Idee |
+| App Shell | Google/PWA-Umfeld (leicht andere Bedeutung) |
+
+---
+
 ## Was ist Module Federation?
 
 Module Federation ist ein Feature von **Webpack 5** (seit 2020), das es erlaubt,
