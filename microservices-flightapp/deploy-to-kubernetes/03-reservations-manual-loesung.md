@@ -39,63 +39,49 @@ und der Service antwortet mit Connection refused.
 
 ## Loesung 2: Reservierung durchfuehren
 
-Das Tool in busybox ist `nc` (netcat) — es kann rohe TCP-Verbindungen oeffnen
-und damit beliebige HTTP-Methoden senden.
+Wir verwenden `curlimages/curl` — das Image hat `curl` mit Shell und unterstuetzt
+alle HTTP-Methoden (GET, PUT, POST, ...).
 
-### Schritt 1: busybox-Pod starten und Reservierung anlegen (PUT)
+### Schritt 1: Reservierung anlegen (PUT)
 
 ```
-kubectl run -it --rm busybox --image=busybox --restart=Never \
+kubectl run -it --rm curlpod --image=curlimages/curl --restart=Never \
   -n reservations-<dein-name> \
-  -- sh -c '
-BODY="{\"flight_id\":\"FL001\",\"seat_num\":\"12A\",\"customer_id\":\"max\"}"
-LEN=$(echo -n "$BODY" | wc -c)
-printf "PUT /reservations HTTP/1.0\r\nHost: ms-reservations\r\nContent-Type: application/json\r\nContent-Length: $LEN\r\n\r\n$BODY" \
-  | nc ms-reservations 8000
-'
+  -- curl -s -X PUT -H "Content-Type: application/json" \
+     -d '{"flight_id":"FL001","seat_num":"12A","customer_id":"max"}' \
+     http://ms-reservations:8000/reservations
 ```
 
 Erwartete Ausgabe:
 ```
-HTTP/1.0 200 OK
-...
-{
-  "status": "success"
-}
+{"status": "success"}
 ```
 
 ### Schritt 2: Reservierung abfragen (GET)
 
 ```
-kubectl run -it --rm busybox --image=busybox --restart=Never \
+kubectl run -it --rm curlpod --image=curlimages/curl --restart=Never \
   -n reservations-<dein-name> \
-  -- wget -O- "http://ms-reservations:8000/reservations?flight_id=FL001"
+  -- curl -s "http://ms-reservations:8000/reservations?flight_id=FL001"
 ```
 
 Erwartete Ausgabe:
 ```
-{
-  "12A": "max"
-}
+{"12A": "max"}
 ```
 
 ### Schritt 3: Doppelbuchung versuchen
 
 ```
-kubectl run -it --rm busybox --image=busybox --restart=Never \
+kubectl run -it --rm curlpod --image=curlimages/curl --restart=Never \
   -n reservations-<dein-name> \
-  -- sh -c '
-BODY="{\"flight_id\":\"FL001\",\"seat_num\":\"12A\",\"customer_id\":\"erika\"}"
-LEN=$(echo -n "$BODY" | wc -c)
-printf "PUT /reservations HTTP/1.0\r\nHost: ms-reservations\r\nContent-Type: application/json\r\nContent-Length: $LEN\r\n\r\n$BODY" \
-  | nc ms-reservations 8000
-'
+  -- curl -s -X PUT -H "Content-Type: application/json" \
+     -d '{"flight_id":"FL001","seat_num":"12A","customer_id":"erika"}' \
+     http://ms-reservations:8000/reservations
 ```
 
-Erwartete Ausgabe (HTTP 403):
+Erwartete Ausgabe:
 ```
-HTTP/1.0 403 FORBIDDEN
-...
 {"error": "Could not complete reservation for 12A", "description": "Seat already reserved. Cannot double-book"}
 ```
 

@@ -207,15 +207,19 @@ kubectl apply -f . -n reservations-<dein-name>
 kubectl get svc -n reservations-<dein-name>
 ```
 
-Teste zuerst mit einem einfachen GET ob der Service erreichbar ist:
+Teste zuerst ob der Service erreichbar ist. Wir verwenden das Image `curlimages/curl` —
+es hat `curl` mit Shell und unterstuetzt alle HTTP-Methoden (GET, PUT, POST, ...):
 
 ```
-kubectl run -it --rm busybox --image=busybox --restart=Never \
+kubectl run -it --rm curlpod --image=curlimages/curl --restart=Never \
   -n reservations-<dein-name> \
-  -- wget -O- http://ms-reservations:8000/ping
+  -- curl -s http://ms-reservations:8000/ping
 ```
 
-Ziel: Die Ausgabe zeigt `{"status": "pass"}` — der Service leitet den Request an den Pod weiter.
+Erwartete Ausgabe:
+```
+{"status": "pass"}
+```
 
 ## Aufgabe: Reservierung durchfuehren
 
@@ -236,43 +240,32 @@ Ziel: Die Ausgabe zeigt `{"status": "pass"}` — der Service leitet den Request 
 }
 ```
 
-### Schritt 1: Reservierung anlegen (PUT via nc)
-
-`wget` in busybox unterstuetzt kein PUT — wir nutzen `nc` (netcat):
+### Schritt 1: Reservierung anlegen (PUT)
 
 ```
-kubectl run -it --rm busybox --image=busybox --restart=Never \
+kubectl run -it --rm curlpod --image=curlimages/curl --restart=Never \
   -n reservations-<dein-name> \
-  -- sh -c '
-BODY="{\"flight_id\":\"FL001\",\"seat_num\":\"12A\",\"customer_id\":\"max\"}"
-LEN=$(echo -n "$BODY" | wc -c)
-printf "PUT /reservations HTTP/1.0\r\nHost: ms-reservations\r\nContent-Type: application/json\r\nContent-Length: $LEN\r\n\r\n$BODY" \
-  | nc ms-reservations 8000
-'
+  -- curl -s -X PUT -H "Content-Type: application/json" \
+     -d '{"flight_id":"FL001","seat_num":"12A","customer_id":"max"}' \
+     http://ms-reservations:8000/reservations
 ```
 
 Erwartete Ausgabe:
 ```
-HTTP/1.0 200 OK
-...
-{
-  "status": "success"
-}
+{"status": "success"}
 ```
 
-### Schritt 2: Reservierung abfragen (GET via wget)
+### Schritt 2: Reservierung abfragen (GET)
 
 ```
-kubectl run -it --rm busybox --image=busybox --restart=Never \
+kubectl run -it --rm curlpod --image=curlimages/curl --restart=Never \
   -n reservations-<dein-name> \
-  -- wget -O- "http://ms-reservations:8000/reservations?flight_id=FL001"
+  -- curl -s "http://ms-reservations:8000/reservations?flight_id=FL001"
 ```
 
 Erwartete Ausgabe:
 ```
-{
-  "12A": "max"
-}
+{"12A": "max"}
 ```
 
 ### Schritt 3: Doppelbuchung versuchen
@@ -280,20 +273,15 @@ Erwartete Ausgabe:
 Versuche denselben Sitz nochmal zu buchen — was passiert?
 
 ```
-kubectl run -it --rm busybox --image=busybox --restart=Never \
+kubectl run -it --rm curlpod --image=curlimages/curl --restart=Never \
   -n reservations-<dein-name> \
-  -- sh -c '
-BODY="{\"flight_id\":\"FL001\",\"seat_num\":\"12A\",\"customer_id\":\"erika\"}"
-LEN=$(echo -n "$BODY" | wc -c)
-printf "PUT /reservations HTTP/1.0\r\nHost: ms-reservations\r\nContent-Type: application/json\r\nContent-Length: $LEN\r\n\r\n$BODY" \
-  | nc ms-reservations 8000
-'
+  -- curl -s -X PUT -H "Content-Type: application/json" \
+     -d '{"flight_id":"FL001","seat_num":"12A","customer_id":"erika"}' \
+     http://ms-reservations:8000/reservations
 ```
 
 Erwartete Ausgabe:
 ```
-HTTP/1.0 403 FORBIDDEN
-...
 {"error": "Could not complete reservation for 12A", "description": "Seat already reserved. Cannot double-book"}
 ```
 
