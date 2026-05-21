@@ -1,5 +1,67 @@
 # Module Federation — Micro-Frontends zur Laufzeit laden
 
+## Was ist Webpack?
+
+Browser verstehen kein `import './components/Button'` mit relativen Pfaden,
+kein TypeScript, kein JSX. Sie verstehen nur plain JavaScript und HTML.
+
+**Webpack** ist ein Build-Tool, das dieses Problem loest:
+Es nimmt alle Quelldateien (TypeScript, JSX, CSS, Bilder) und buendelt sie
+zu einer oder wenigen `.js`-Dateien, die der Browser direkt laden kann.
+
+```
+src/
+├── App.tsx          ──┐
+├── components/      ──┤  webpack  ──►  dist/main.js  (Browser versteht das)
+├── styles.css       ──┘
+└── utils/
+```
+
+Webpack laeuft **nur auf dem Entwicklerrechner / CI-Server** — nicht im Browser.
+Das Ergebnis (die gebundelten Dateien) ist das, was am Ende ausgeliefert wird.
+
+---
+
+## Laeuft das nativ im Browser?
+
+**Nein** — Module Federation selbst ist kein Browser-Standard.
+Es ist eine Webpack-eigene Loesung, die zur Build-Zeit speziellen
+Laufzeit-Code einbettet.
+
+Was der Browser hingegen **nativ** kann:
+
+| Feature | Browser-nativ? | Erklaerung |
+|---|---|---|
+| ES Modules (`import`/`export`) | ja, seit 2018 | Jeder moderne Browser versteht `<script type="module">` |
+| Dynamic Import (`import()`) | ja | `import('https://example.com/foo.js')` funktioniert direkt |
+| Import Maps | ja, seit 2023 | Weist Modul-Namen auf URLs um — aehnliche Idee wie Module Federation |
+| Module Federation | nein | Braucht Webpack oder Vite als Build-Tool |
+
+### Import Maps als native Alternative
+
+```html
+<!-- index.html — kein Build-Tool noetig -->
+<script type="importmap">
+{
+  "imports": {
+    "catalog": "https://catalog.shop.de/catalog.js",
+    "cart":    "https://cart.shop.de/cart.js"
+  }
+}
+</script>
+
+<script type="module">
+  import CatalogApp from 'catalog';  // Browser laedt direkt von catalog.shop.de
+</script>
+```
+
+**Warum trotzdem Webpack / Module Federation?**
+Import Maps koennen keine geteilten Libraries koordinieren (kein `singleton: true` fuer React),
+keine Versionskonflikte aufloesen und sind in aelteren Browsern nicht verfuegbar.
+Fuer Produktions-MFEs ist Module Federation deshalb die robustere Wahl.
+
+---
+
 ## Was ist Module Federation?
 
 Module Federation ist ein Feature von **Webpack 5** (seit 2020), das es erlaubt,
