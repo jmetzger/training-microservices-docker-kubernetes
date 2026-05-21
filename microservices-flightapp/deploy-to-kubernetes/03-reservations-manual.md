@@ -194,7 +194,7 @@ ms-reservations-redis-xxxx              1/1     Running   0          2m
 ## Aufgabe: Service fuer ms-reservations erstellen
 
 Das Deployment laeuft — aber von aussen (auch innerhalb des Clusters) ist der Pod
-noch nicht erreichbar. Erstelle dafuer eine Datei `05-reservations-svc.yml`.
+noch nicht über ein Service erreichbar (Best Practice !). Erstelle dafuer eine Datei `05-reservations-svc.yml`.
 
 Hinweise:
 - Typ: `ClusterIP`
