@@ -219,9 +219,6 @@ Ziel: Die Ausgabe zeigt `{"status": "pass"}` — der Service leitet den Request 
 
 ## Aufgabe: Reservierung durchfuehren
 
-Der Service laeuft. Nutze die folgenden API-Endpunkte um eine Reservierung zu erstellen
-und abzufragen.
-
 ### API-Endpunkte
 
 | Methode | URL | Beschreibung |
@@ -239,15 +236,66 @@ und abzufragen.
 }
 ```
 
-### Deine Aufgabe
+### Schritt 1: Reservierung anlegen (PUT via nc)
 
-Starte einen busybox-Pod und:
-1. Erstelle eine Reservierung fuer Flug `FL001`, Sitz `12A`, Kunde `max`
-2. Pruefe danach mit einem GET ob die Reservierung gespeichert wurde
-3. Versuche denselben Sitz nochmal zu buchen — was passiert?
+`wget` in busybox unterstuetzt kein PUT — wir nutzen `nc` (netcat):
 
-**Hinweis:** `wget` in busybox unterstuetzt kein `PUT`.
-Welches andere Netzwerk-Tool bringt busybox mit?
+```
+kubectl run -it --rm busybox --image=busybox --restart=Never \
+  -n reservations-<dein-name> \
+  -- sh -c '
+BODY="{\"flight_id\":\"FL001\",\"seat_num\":\"12A\",\"customer_id\":\"max\"}"
+LEN=$(echo -n "$BODY" | wc -c)
+printf "PUT /reservations HTTP/1.0\r\nHost: ms-reservations\r\nContent-Type: application/json\r\nContent-Length: $LEN\r\n\r\n$BODY" \
+  | nc ms-reservations 8000
+'
+```
+
+Erwartete Ausgabe:
+```
+HTTP/1.0 200 OK
+...
+{
+  "status": "success"
+}
+```
+
+### Schritt 2: Reservierung abfragen (GET via wget)
+
+```
+kubectl run -it --rm busybox --image=busybox --restart=Never \
+  -n reservations-<dein-name> \
+  -- wget -O- "http://ms-reservations:8000/reservations?flight_id=FL001"
+```
+
+Erwartete Ausgabe:
+```
+{
+  "12A": "max"
+}
+```
+
+### Schritt 3: Doppelbuchung versuchen
+
+Versuche denselben Sitz nochmal zu buchen — was passiert?
+
+```
+kubectl run -it --rm busybox --image=busybox --restart=Never \
+  -n reservations-<dein-name> \
+  -- sh -c '
+BODY="{\"flight_id\":\"FL001\",\"seat_num\":\"12A\",\"customer_id\":\"erika\"}"
+LEN=$(echo -n "$BODY" | wc -c)
+printf "PUT /reservations HTTP/1.0\r\nHost: ms-reservations\r\nContent-Type: application/json\r\nContent-Length: $LEN\r\n\r\n$BODY" \
+  | nc ms-reservations 8000
+'
+```
+
+Erwartete Ausgabe:
+```
+HTTP/1.0 403 FORBIDDEN
+...
+{"error": "Could not complete reservation for 12A", "description": "Seat already reserved. Cannot double-book"}
+```
 
 ## Zusatzaufgabe: Image-Version aktualisieren
 
