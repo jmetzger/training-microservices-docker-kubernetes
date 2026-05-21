@@ -95,12 +95,10 @@ In `04-reservations-deploy.yml` den Tag aendern:
 
 ```
 kubectl apply -f . -n reservations-<dein-name>
-kubectl rollout status deployment ms-reservations -n reservations-<dein-name>
 kubectl get pods -n reservations-<dein-name>
 ```
 
 Erwartete Ausgabe:
 ```
-Waiting for deployment "ms-reservations" rollout to finish: 1 old replicas are pending termination...
-deployment "ms-reservations" successfully rolled out
+Neue Pods mit einem kurzen AGE (kürzlich erstellt), werden angezeigt. 
 ```
