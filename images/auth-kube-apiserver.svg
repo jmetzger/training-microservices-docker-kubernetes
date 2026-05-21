@@ -1,0 +1,59 @@
+<svg viewBox="0 0 740 380" xmlns="http://www.w3.org/2000/svg" font-family="monospace" font-size="12">
+  <defs>
+    <marker id="b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#555"/>
+    </marker>
+  </defs>
+
+  <!-- kube-apiserver center -->
+  <rect x="270" y="150" width="200" height="80" rx="10" fill="#264653" stroke="#1a2f38" stroke-width="3"/>
+  <text x="370" y="182" text-anchor="middle" fill="white" font-size="14" font-weight="bold">kube-apiserver</text>
+  <text x="370" y="200" text-anchor="middle" fill="#aad4e5" font-size="11">:6443 (HTTPS)</text>
+  <text x="370" y="216" text-anchor="middle" fill="#aad4e5" font-size="11">→ prüft Auth → RBAC</text>
+
+  <!-- Auth method 1: Zertifikate -->
+  <rect x="10" y="30" width="160" height="65" rx="6" fill="#E74C3C" stroke="#9B2222" stroke-width="2"/>
+  <text x="90" y="52" text-anchor="middle" fill="white" font-weight="bold">Client-Zertifikat</text>
+  <text x="90" y="68" text-anchor="middle" fill="#fdd" font-size="10">kubeconfig: client-cert</text>
+  <text x="90" y="83" text-anchor="middle" fill="#fdd" font-size="10">→ Admin / Bootstrapping</text>
+  <line x1="170" y1="62" x2="268" y2="172" stroke="#E74C3C" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#b)"/>
+
+  <!-- Auth method 2: ServiceAccount Token -->
+  <rect x="10" y="130" width="160" height="65" rx="6" fill="#E67E22" stroke="#9A5A0A" stroke-width="2"/>
+  <text x="90" y="152" text-anchor="middle" fill="white" font-weight="bold">ServiceAccount Token</text>
+  <text x="90" y="168" text-anchor="middle" fill="#ffe" font-size="10">projected volume in Pod</text>
+  <text x="90" y="183" text-anchor="middle" fill="#ffe" font-size="10">→ Pods / CI-Pipelines</text>
+  <line x1="170" y1="162" x2="268" y2="182" stroke="#E67E22" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#b)"/>
+
+  <!-- Auth method 3: OIDC -->
+  <rect x="10" y="230" width="160" height="65" rx="6" fill="#8E44AD" stroke="#5B2B72" stroke-width="2"/>
+  <text x="90" y="252" text-anchor="middle" fill="white" font-weight="bold">OIDC Token</text>
+  <text x="90" y="268" text-anchor="middle" fill="#ddd" font-size="10">--oidc-issuer-url Flag</text>
+  <text x="90" y="283" text-anchor="middle" fill="#ddd" font-size="10">→ Entwickler via SSO</text>
+  <line x1="170" y1="262" x2="268" y2="205" stroke="#8E44AD" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#b)"/>
+
+  <!-- Auth method 4: Webhook -->
+  <rect x="10" y="320" width="160" height="50" rx="6" fill="#7f8c8d" stroke="#5d6d7e" stroke-width="2"/>
+  <text x="90" y="342" text-anchor="middle" fill="white" font-weight="bold">Webhook Auth</text>
+  <text x="90" y="358" text-anchor="middle" fill="#ddd" font-size="10">→ externe Systeme</text>
+  <line x1="170" y1="345" x2="268" y2="218" stroke="#7f8c8d" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#b)"/>
+
+  <!-- RBAC -->
+  <rect x="490" y="100" width="150" height="60" rx="6" fill="#27AE60" stroke="#1A6B3A" stroke-width="2"/>
+  <text x="565" y="126" text-anchor="middle" fill="white" font-weight="bold">RBAC</text>
+  <text x="565" y="142" text-anchor="middle" fill="#dff" font-size="10">Role / ClusterRole</text>
+  <line x1="470" y1="180" x2="488" y2="140" stroke="#264653" stroke-width="2" marker-end="url(#b)"/>
+
+  <!-- Kubernetes Resources -->
+  <rect x="490" y="200" width="150" height="100" rx="6" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="2"/>
+  <text x="565" y="225" text-anchor="middle" fill="#333" font-weight="bold">Kubernetes-Objekte</text>
+  <text x="565" y="245" text-anchor="middle" fill="#555" font-size="11">Pods, Deployments</text>
+  <text x="565" y="261" text-anchor="middle" fill="#555" font-size="11">Services, Secrets</text>
+  <text x="565" y="277" text-anchor="middle" fill="#555" font-size="11">ConfigMaps ...</text>
+  <line x1="565" y1="160" x2="565" y2="198" stroke="#264653" stroke-width="2" marker-end="url(#b)"/>
+
+  <!-- Red X annotation -->
+  <rect x="490" y="320" width="230" height="50" rx="5" fill="#fdecea" stroke="#E74C3C" stroke-width="1.5"/>
+  <text x="605" y="342" text-anchor="middle" fill="#c0392b" font-weight="bold">Kunden / Mobile Apps:</text>
+  <text x="605" y="358" text-anchor="middle" fill="#c0392b" font-size="11">haben KEINEN Zugang zum API-Server</text>
+</svg>

@@ -1,0 +1,114 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg" font-family="monospace" font-size="12">
+  <defs>
+    <marker id="c" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#555"/>
+    </marker>
+    <marker id="cg" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#27ae60"/>
+    </marker>
+    <marker id="cp" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#8E44AD"/>
+    </marker>
+  </defs>
+
+  <!-- Internet zone -->
+  <rect x="5" y="5" width="175" height="420" rx="10" fill="#fdecea" stroke="#E74C3C" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="92" y="22" text-anchor="middle" fill="#E74C3C" font-weight="bold">Internet</text>
+
+  <!-- Mobile App -->
+  <rect x="20" y="35" width="145" height="60" rx="8" fill="#4A90D9" stroke="#2C5F8A" stroke-width="2"/>
+  <text x="92" y="60" text-anchor="middle" fill="white" font-weight="bold">Kunde /</text>
+  <text x="92" y="75" text-anchor="middle" fill="white" font-weight="bold">Mobile App</text>
+  <text x="92" y="88" text-anchor="middle" fill="#ddf" font-size="10">React Native / Flutter</text>
+
+  <!-- Keycloak (can be external or in cluster) -->
+  <rect x="20" y="130" width="145" height="65" rx="8" fill="#8E44AD" stroke="#5B2B72" stroke-width="2"/>
+  <text x="92" y="153" text-anchor="middle" fill="white" font-weight="bold">Keycloak / Auth0</text>
+  <text x="92" y="169" text-anchor="middle" fill="#ddd" font-size="11">OIDC Provider</text>
+  <text x="92" y="183" text-anchor="middle" fill="#ddd" font-size="10">stellt JWT aus</text>
+
+  <!-- Arrows between App and Keycloak -->
+  <line x1="92" y1="95" x2="92" y2="128" stroke="#8E44AD" stroke-width="2" marker-end="url(#cp)"/>
+  <text x="130" y="115" fill="#8E44AD" font-size="10">① Login</text>
+  <line x1="92" y1="195" x2="92" y2="218" stroke="#8E44AD" stroke-width="2" stroke-dasharray="3,2" marker-end="url(#cp)"/>
+  <text x="130" y="212" fill="#8E44AD" font-size="10">② JWT</text>
+
+  <!-- Mobile App -> Ingress API call -->
+  <line x1="165" y1="55" x2="235" y2="55" stroke="#555" stroke-width="2" marker-end="url(#c)"/>
+  <text x="200" y="47" text-anchor="middle" fill="#555" font-size="10">③ API-Call</text>
+  <text x="200" y="62" text-anchor="middle" fill="#E67E22" font-size="10">Bearer JWT</text>
+
+  <!-- Kubernetes Cluster -->
+  <rect x="200" y="5" width="545" height="420" rx="10" fill="#f0f4f8" stroke="#4A90D9" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="473" y="22" text-anchor="middle" fill="#4A90D9" font-weight="bold">Kubernetes Cluster</text>
+
+  <!-- Ingress / Istio Gateway -->
+  <rect x="215" y="35" width="145" height="80" rx="8" fill="#E67E22" stroke="#9A5A0A" stroke-width="2"/>
+  <text x="287" y="58" text-anchor="middle" fill="white" font-weight="bold">Ingress /</text>
+  <text x="287" y="73" text-anchor="middle" fill="white" font-weight="bold">Istio Gateway</text>
+  <text x="287" y="90" text-anchor="middle" fill="#ffe" font-size="10">JWT prüfen (JWKS)</text>
+  <text x="287" y="104" text-anchor="middle" fill="#ffe" font-size="10">TLS terminieren</text>
+
+  <!-- JWKS fetch -->
+  <line x1="215" y1="75" x2="165" y2="162" stroke="#8E44AD" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#cp)"/>
+  <text x="175" y="128" fill="#8E44AD" font-size="10">JWKS</text>
+  <text x="165" y="140" fill="#8E44AD" font-size="10">(Public Keys)</text>
+
+  <!-- Istio / Auth layer -->
+  <rect x="215" y="145" width="145" height="75" rx="8" fill="#E74C3C" stroke="#9B2222" stroke-width="2"/>
+  <text x="287" y="168" text-anchor="middle" fill="white" font-weight="bold">Istio /</text>
+  <text x="287" y="183" text-anchor="middle" fill="white" font-weight="bold">oauth2-proxy</text>
+  <text x="287" y="200" text-anchor="middle" fill="#fdd" font-size="10">RequestAuthentication</text>
+  <text x="287" y="214" text-anchor="middle" fill="#fdd" font-size="10">AuthorizationPolicy</text>
+
+  <line x1="287" y1="115" x2="287" y2="143" stroke="#555" stroke-width="2" marker-end="url(#c)"/>
+
+  <!-- Services -->
+  <rect x="420" y="60" width="145" height="60" rx="8" fill="#27AE60" stroke="#1A6B3A" stroke-width="2"/>
+  <text x="492" y="85" text-anchor="middle" fill="white" font-weight="bold">Order Service</text>
+  <text x="492" y="101" text-anchor="middle" fill="#dff" font-size="10">liest Claims aus Header</text>
+
+  <rect x="420" y="160" width="145" height="60" rx="8" fill="#27AE60" stroke="#1A6B3A" stroke-width="2"/>
+  <text x="492" y="185" text-anchor="middle" fill="white" font-weight="bold">Payment Service</text>
+  <text x="492" y="201" text-anchor="middle" fill="#dff" font-size="10">liest Claims aus Header</text>
+
+  <rect x="420" y="260" width="145" height="60" rx="8" fill="#27AE60" stroke="#1A6B3A" stroke-width="2"/>
+  <text x="492" y="285" text-anchor="middle" fill="white" font-weight="bold">Product Service</text>
+  <text x="492" y="301" text-anchor="middle" fill="#dff" font-size="10">liest Claims aus Header</text>
+
+  <!-- Arrows to services -->
+  <line x1="360" y1="175" x2="418" y2="90" stroke="#27ae60" stroke-width="2.5" marker-end="url(#cg)"/>
+  <line x1="360" y1="185" x2="418" y2="190" stroke="#27ae60" stroke-width="2.5" marker-end="url(#cg)"/>
+  <line x1="360" y1="195" x2="418" y2="285" stroke="#27ae60" stroke-width="2.5" marker-end="url(#cg)"/>
+  <text x="395" y="172" fill="#27ae60" font-size="10">Claims</text>
+  <text x="395" y="183" fill="#27ae60" font-size="10">als Header</text>
+
+  <!-- mTLS between services -->
+  <line x1="565" y1="120" x2="565" y2="158" stroke="#27ae60" stroke-width="2.5" stroke-dasharray="5,2" marker-end="url(#cg)"/>
+  <line x1="565" y1="220" x2="565" y2="258" stroke="#27ae60" stroke-width="2.5" stroke-dasharray="5,2" marker-end="url(#cg)"/>
+  <text x="590" y="143" fill="#27ae60" font-size="10">mTLS</text>
+  <text x="590" y="243" fill="#27ae60" font-size="10">mTLS</text>
+
+  <!-- Databases -->
+  <rect x="610" y="60" width="120" height="50" rx="6" fill="#7f8c8d" stroke="#5d6d7e" stroke-width="2"/>
+  <text x="670" y="90" text-anchor="middle" fill="white" font-weight="bold">Orders DB</text>
+  <line x1="565" y1="90" x2="608" y2="90" stroke="#555" stroke-width="1.5" marker-end="url(#c)"/>
+
+  <rect x="610" y="155" width="120" height="50" rx="6" fill="#7f8c8d" stroke="#5d6d7e" stroke-width="2"/>
+  <text x="670" y="185" text-anchor="middle" fill="white" font-weight="bold">Payments DB</text>
+  <line x1="565" y1="190" x2="608" y2="190" stroke="#555" stroke-width="1.5" marker-end="url(#c)"/>
+
+  <!-- kube-apiserver -->
+  <rect x="420" y="360" width="145" height="50" rx="8" fill="#264653" stroke="#1a2f38" stroke-width="2"/>
+  <text x="492" y="381" text-anchor="middle" fill="white" font-weight="bold">kube-apiserver</text>
+  <text x="492" y="397" text-anchor="middle" fill="#aad4e5" font-size="10">:6443 – NUR für Ops/CI</text>
+
+  <!-- Red barrier between internet and apiserver -->
+  <line x1="200" y1="385" x2="418" y2="385" stroke="#E74C3C" stroke-width="3" stroke-dasharray="6,3"/>
+  <text x="310" y="400" text-anchor="middle" fill="#E74C3C" font-size="11" font-weight="bold">✗ Kein Zugang für externe Kunden</text>
+
+  <!-- Istiod -->
+  <rect x="215" y="290" width="145" height="50" rx="8" fill="#264653" stroke="#1a2f38" stroke-width="2"/>
+  <text x="287" y="312" text-anchor="middle" fill="white" font-weight="bold">Istiod</text>
+  <text x="287" y="328" text-anchor="middle" fill="#aad4e5" font-size="10">Certs verteilen (SVID)</text>
+</svg>

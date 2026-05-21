@@ -1,0 +1,52 @@
+<svg viewBox="0 0 740 310" xmlns="http://www.w3.org/2000/svg" font-family="monospace" font-size="12">
+  <!-- Header -->
+  <rect x="10" y="10" width="720" height="35" rx="5" fill="#2C3E50"/>
+  <text x="155" y="33" text-anchor="middle" fill="white" font-weight="bold">Komponente</text>
+  <text x="340" y="33" text-anchor="middle" fill="white" font-weight="bold">Validiert</text>
+  <text x="510" y="33" text-anchor="middle" fill="white" font-weight="bold">Für wen</text>
+  <text x="660" y="33" text-anchor="middle" fill="white" font-weight="bold">Ergebnis</text>
+
+  <!-- Row 1 -->
+  <rect x="10" y="45" width="720" height="48" fill="#fdecea" stroke="#dee2e6"/>
+  <text x="155" y="65" text-anchor="middle" fill="#333" font-weight="bold">Keycloak / Auth0</text>
+  <text x="155" y="81" text-anchor="middle" fill="#555" font-size="11">OIDC Provider</text>
+  <text x="340" y="73" text-anchor="middle" fill="#555">Username + Passwort</text>
+  <text x="510" y="73" text-anchor="middle" fill="#555">Kunden, Entwickler</text>
+  <text x="660" y="73" text-anchor="middle" fill="#27ae60">→ JWT ausstellen</text>
+
+  <!-- Row 2 -->
+  <rect x="10" y="93" width="720" height="48" fill="#fff" stroke="#dee2e6"/>
+  <text x="155" y="113" text-anchor="middle" fill="#333" font-weight="bold">Ingress / Istio GW</text>
+  <text x="155" y="129" text-anchor="middle" fill="#555" font-size="11">RequestAuthentication</text>
+  <text x="340" y="121" text-anchor="middle" fill="#555">JWT Signatur + Ablauf</text>
+  <text x="510" y="121" text-anchor="middle" fill="#555">Externe Kunden</text>
+  <text x="660" y="121" text-anchor="middle" fill="#27ae60">→ Claims → Header</text>
+
+  <!-- Row 3 -->
+  <rect x="10" y="141" width="720" height="48" fill="#e8f5e9" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="155" y="161" text-anchor="middle" fill="#1a6b3a" font-weight="bold">Istio AuthPolicy</text>
+  <text x="155" y="177" text-anchor="middle" fill="#1a6b3a" font-size="11">Deklarative Regeln</text>
+  <text x="340" y="169" text-anchor="middle" fill="#333">Claims (role, sub, ...)</text>
+  <text x="510" y="169" text-anchor="middle" fill="#333">pro Route / Methode</text>
+  <text x="660" y="169" text-anchor="middle" fill="#27ae60">→ ALLOW / DENY</text>
+
+  <!-- Row 4 -->
+  <rect x="10" y="189" width="720" height="48" fill="#fff" stroke="#dee2e6"/>
+  <text x="155" y="209" text-anchor="middle" fill="#333" font-weight="bold">kube-apiserver</text>
+  <text x="155" y="225" text-anchor="middle" fill="#555" font-size="11">Kubernetes RBAC</text>
+  <text x="340" y="217" text-anchor="middle" fill="#555">Zertifikat / SA-Token / OIDC</text>
+  <text x="510" y="217" text-anchor="middle" fill="#E74C3C" font-weight="bold">NUR Ops / CI/CD</text>
+  <text x="660" y="217" text-anchor="middle" fill="#27ae60">→ K8s-Operationen</text>
+
+  <!-- Row 5 -->
+  <rect x="10" y="237" width="720" height="48" fill="#f8f9fa" stroke="#dee2e6"/>
+  <text x="155" y="257" text-anchor="middle" fill="#333" font-weight="bold">Backend-Service</text>
+  <text x="155" y="273" text-anchor="middle" fill="#555" font-size="11">(eigener Code)</text>
+  <text x="340" y="265" text-anchor="middle" fill="#555">Header lesen (X-Customer-Id)</text>
+  <text x="510" y="265" text-anchor="middle" fill="#555">Business-Logik</text>
+  <text x="660" y="265" text-anchor="middle" fill="#27ae60">→ Antwort</text>
+
+  <!-- Note -->
+  <rect x="10" y="290" width="720" height="18" rx="4" fill="#e8f4fd" stroke="#4A90D9"/>
+  <text x="370" y="303" text-anchor="middle" fill="#2C5F8A" font-size="11">ServiceAccount-Token = Workload-Identität für Pods/CI → niemals für externe Kunden</text>
+</svg>
