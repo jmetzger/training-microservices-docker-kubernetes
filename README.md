@@ -200,6 +200,9 @@
 
   1. Kubernetes Ingress
      * [Ingress Controller on Detail](ingress/ingress-controller-on-detail.md)
+     * [Traefik mit Helm installieren](ingress/traefik/install-with-helm.md)
+     * [Beispiel Ingress Traefik mit Hostnamen](kubectl-examples/04-ingress-traefik-with-hostnames-deployment.md)
+     * [Https/LetsEncrypt mit Traefik](ingress/https-letsencrypt-ingress-traefik.md)
 
   1. ServiceMesh
      * [Why a ServiceMesh ?](istio/overview/benefits-of-a-service-mesh.md)
