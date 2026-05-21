@@ -6,7 +6,7 @@ In dieser Uebung deployen wir nur den `ms-reservations` Microservice manuell auf
 Der Service benoetigt Redis als Datenspeicher — beides wird ausgerollt.
 
 Am Ende testen wir die Erreichbarkeit des Services von innerhalb des Clusters mit einem
-temporaeren busybox-Pod.
+temporaeren image-Pod.
 
 ## Schritt 1: Verzeichnis anlegen
 
