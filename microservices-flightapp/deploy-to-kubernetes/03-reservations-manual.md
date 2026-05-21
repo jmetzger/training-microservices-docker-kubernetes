@@ -191,7 +191,7 @@ ms-reservations-xxxx                    1/1     Running   0          1m
 ms-reservations-redis-xxxx              1/1     Running   0          2m
 ```
 
-## Aufgabe: Service fuer ms-reservations erstellen
+## Aufgabe: Service fuer ms-reservations erstellen und Verbindung testen 
 
 Das Deployment laeuft — aber von aussen (auch innerhalb des Clusters) ist der Pod
 noch nicht über ein Service erreichbar (Best Practice !). Erstelle dafuer eine Datei `05-reservations-svc.yml`.
@@ -208,14 +208,7 @@ kubectl apply -f . -n reservations-<dein-name>
 kubectl get svc -n reservations-<dein-name>
 ```
 
-Teste zuerst ob der Service erreichbar ist. Wir verwenden das Image `curlimages/curl` —
-es hat `curl` mit Shell und unterstuetzt alle HTTP-Methoden (GET, PUT, POST, ...):
-
-```
-kubectl run -it --rm curlpod --image=curlimages/curl --restart=Never \
-  -n reservations-<dein-name> \
-  -- curl -s http://ms-reservations:8000/ping
-```
+Teste zuerst ob der Service erreichbar ist. Verwende das Image curlimages/curl. Es hat auch eine Shell und unterstuetzt alle HTTP-Methoden (GET, PUT, POST, ...):
 
 Erwartete Ausgabe:
 ```
@@ -241,45 +234,23 @@ Erwartete Ausgabe:
 }
 ```
 
-### Schritt 1: Reservierung anlegen (PUT)
-
-```
-kubectl run -it --rm curlpod --image=curlimages/curl --restart=Never \
-  -n reservations-<dein-name> \
-  -- curl -s -X PUT -H "Content-Type: application/json" \
-     -d '{"flight_id":"FL001","seat_num":"12A","customer_id":"max"}' \
-     http://ms-reservations:8000/reservations
-```
+### ToDo 1: Führe eine Reservierung durch mit PUT 
 
 Erwartete Ausgabe:
 ```
 {"status": "success"}
 ```
 
-### Schritt 2: Reservierung abfragen (GET)
-
-```
-kubectl run -it --rm curlpod --image=curlimages/curl --restart=Never \
-  -n reservations-<dein-name> \
-  -- curl -s "http://ms-reservations:8000/reservations?flight_id=FL001"
-```
+### ToDo 2: Reservierung abfragen (GET)
 
 Erwartete Ausgabe:
 ```
 {"12A": "max"}
 ```
 
-### Schritt 3: Doppelbuchung versuchen
+### ToDo  3: Doppelbuchung versuchen
 
 Versuche denselben Sitz nochmal zu buchen — was passiert?
-
-```
-kubectl run -it --rm curlpod --image=curlimages/curl --restart=Never \
-  -n reservations-<dein-name> \
-  -- curl -s -X PUT -H "Content-Type: application/json" \
-     -d '{"flight_id":"FL001","seat_num":"12A","customer_id":"erika"}' \
-     http://ms-reservations:8000/reservations
-```
 
 Erwartete Ausgabe:
 ```
@@ -293,7 +264,6 @@ von `v1.1` auf `v17` und beobachte den Rolling Update:
 
 ```
 kubectl apply -f . -n reservations-<dein-name>
-kubectl rollout status deployment ms-reservations -n reservations-<dein-name>
 kubectl get pods -n reservations-<dein-name>
 ```
 
