@@ -20,10 +20,12 @@
      * [Datenbank - Patterns - Teil 1](microservices/database-patterns-teil1.md)
      * [Datenbank - Patterns - Teil 2](microservices/database-patterns-teil2.md)
      * [Strategische Patterns](microservices/strategic-patterns.md)
-     * [Tests](microservices/tests/overview.md)
+     * [Tests - Uebersicht](microservices/tests/00-testing-uebersicht.md)
      * [Monolith schneiden microservices](microservices/monolith-schneiden.md)
      * [IAM als Bounded Context — fachlich oder technisch?](microservices/iam-als-bounded-context.md)
      * [Datenmigration: Notification Service (Dual Write, Outbox, Backfill)](microservices/datenmigration-notification-service.md)
+
+  1. Micro-Frontends
      * [Micro-Frontends — Teams am Frontend ohne Kollisionen](microservices/micro-frontends.md)
      * [Micro-Frontends — Kommunikation zwischen MFEs](microservices/micro-frontends-kommunikation.md)
      * [Micro-Frontends — Module Federation (Webpack/Vite, TypeScript)](microservices/micro-frontends-module-federation.md)
@@ -53,14 +55,14 @@
      * [Circuit-Breaker und Fehlertoleranz](microservices/retry-circuit-breaker-fehlerhandling.md)
   
   1. Grundwissen Microservices - Tests (Teil 3)
-      * [Testing-Strategie: Was, wieviel, wann?](microservices/tests/testing-strategie.md)
-      * [Static Tests](microservices/tests/static.md)
-      * [Unit-Tests](microservices/tests/unit_testing.md)
-      * [Integration Testing](microservices/tests/integration_testing_gitlab_ci_cd.md)
-      * [Contract Testing mit OpenAPI](microservices/tests/contract-test.md)
-      * [Consumer-Driven Contract Testing mit Pact](microservices/tests/consumer-driven-contract-pact.md)
-      * [Integration Testing mit Testcontainers](microservices/tests/testcontainers.md)
-      * [End-to-End - e2e - Tests](microservices/tests/e2e-end-to-end.md)
+      * [Testing-Strategie: Was, wieviel, wann?](microservices/tests/00-testing-uebersicht.md)
+      * [Static Tests](microservices/tests/01-testing-static.md)
+      * [Unit-Tests](microservices/tests/02-testing-unit.md)
+      * [Integration Testing mit Testcontainers](microservices/tests/03-testing-integration-testcontainers.md)
+      * [Contract Testing mit OpenAPI](microservices/tests/04-testing-contract-openapi.md)
+      * [Consumer-Driven Contract Testing mit Pact](microservices/tests/05-testing-contract-pact.md)
+      * [End-to-End - e2e - Tests](microservices/tests/06-testing-e2e.md)
+      * [Integration in GitLab CI/CD](microservices/tests/07-testing-ci-cd-gitlab.md)
 
   1. Linux Tipps & Tricks
      * [In den Root-Benutzer wechseln](sudo.md)
