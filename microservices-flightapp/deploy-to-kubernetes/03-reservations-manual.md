@@ -14,6 +14,7 @@ temporaeren image-Pod.
 cd
 mkdir -p manifests/reservations
 cd manifests/reservations
+kubectl create ns reservations-<dein-name>
 ```
 
 ## Schritt 2: ConfigMap fuer Redis anlegen
