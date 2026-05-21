@@ -1,400 +1,135 @@
-# API Gateway vs. Istio Service Mesh – Authentication in Kubernetes
+# Istio Service Mesh Authentication – Nord-Süd und Ost-West
 
-Beide Komponenten übernehmen Authentication in Kubernetes – aber auf **unterschiedlichen Ebenen**
-und für **unterschiedliche Szenarien**. Oft braucht man beide.
+Istio übernimmt Authentication für **beide Verkehrsrichtungen** im Kubernetes-Cluster:
+Nord-Süd (externe Clients → Services) und Ost-West (Service → Service).
 
-> **Wichtig:** Ein API Gateway ist **keine** Ingress-Controller-Erweiterung.
-> Es ist eine eigenständige Software speziell für API-Management –
-> mit Plugins, Consumer-Verwaltung, Developer Portal und Analytics.
-> Bekannte Vertreter: **Kong**, **Apache APISIX**, **Tyk**.
-
-![API Gateway vs. Istio – Wann was?](/images/auth-gateway-vs-istio.svg)
+Ein dediziertes API Gateway (Kong, APISIX, Tyk) ist die **Alternative** – sinnvoll
+nur wenn Istio an seine Grenzen stößt.
 
 ---
 
-## Teil 1: API Gateway Authentication
+## Istio als primäre Lösung
 
-### Was ist ein API Gateway?
+Istio löst das Auth-Problem auf zwei Ebenen gleichzeitig:
 
-Ein API Gateway sitzt **vor allen Microservices** und übernimmt alles, was mit
-API-Management zu tun hat – Authentication ist nur eine von vielen Aufgaben.
+| Ebene | Mechanismus | Schützt |
+|-------|------------|---------|
+| Nord-Süd | Istio Ingress Gateway + RequestAuthentication | Eingehende Requests von außen |
+| Ost-West | PeerAuthentication (mTLS) + AuthorizationPolicy | Service-zu-Service intern |
 
-| Ingress Controller (NGINX, Traefik) | API Gateway (Kong, APISIX, Tyk) |
-|--------------------------------------|----------------------------------|
-| Routing / TLS – das war's | Auth, Rate Limiting, Routing, Transformation |
-| Kubernetes-nativ, einfach | Speziell für APIs / Microservices gebaut |
-| Konfiguration via Annotations | Plugin-Ökosystem, Admin-API, Developer Portal |
-| Kein Consumer-Konzept | Consumer: wer ruft meine API auf? |
-| Kein API-Key-Management | API-Keys, JWT, OIDC – alles built-in |
-
-### Wann API Gateway?
-
-- Externe Clients (Mobile App, Browser SPA, Partner) rufen APIs auf
-- Verschiedene Auth-Methoden je nach Client (JWT, API-Key, OIDC)
-- Rate Limiting pro Consumer oder pro API-Key
-- Request/Response-Transformation (Header hinzufügen, Body umbauen)
-- Zentrales API-Management mit Developer Portal
-
-### Was das Gateway nicht löst
-
-- Service A ruft intern Service B auf → das Gateway sieht das nicht
-- Ost-West-Traffic bleibt ohne Gateway-Auth → dafür ist Istio zuständig
-
-![API Gateway Authentication Flow](/images/auth-api-gateway-flow.svg)
-
-### Wie funktioniert Authentication im API Gateway?
-
-Das Gateway kennt das Konzept **Consumer**: eine App oder ein User,
-der die API aufruft. Jeder Consumer bekommt Credentials (JWT, API-Key).
-Das Gateway prüft die Credentials und leitet den Request **mit Consumer-Kontext**
-an den Backend-Service weiter.
-
-```
-Mobile App                    Kong API Gateway              Order Service
-    |                               |                             |
-    |── GET /api/orders             |                             |
-    |   Authorization: Bearer JWT ─>|                             |
-    |                               |── JWT Plugin prüft:         |
-    |                               |   Signatur ✓                |
-    |                               |   exp ✓                     |
-    |                               |   Consumer ermitteln        |
-    |                               |                             |
-    |                               |── GET /api/orders ─────────>|
-    |                               |   X-Consumer-Id: 42         |
-    |                               |   X-Consumer-Username: app1 |
-    |                               |   X-Consumer-Custom-Id: ... |
-    |                               |                             |
-    |<─────────────────────────── Response ─────────────────────  |
-```
+![Istio übernimmt Nord-Süd und Ost-West](/images/auth-istio-nord-sued.svg)
 
 ---
 
-### Code-Beispiel: Kong in Kubernetes (KongIngress + Plugins)
+## Teil 1: Nord-Süd mit Istio
 
-Kong läuft als Deployment im Cluster. Die Konfiguration erfolgt via
-Kubernetes Custom Resources (CRDs).
+### Wie es funktioniert
 
-```yaml
-# 1. Kong installieren (Helm)
-# helm repo add kong https://charts.konghq.com
-# helm install kong kong/ingress -n kong --create-namespace
+Der **Istio Ingress Gateway** ist der einzige Einstiegspunkt von außen.
+Er terminiert TLS und prüft das JWT via `RequestAuthentication` – direkt
+gegen den JWKS-Endpoint von Keycloak. Die Backend-Services bekommen
+die verifizierten Claims als HTTP-Header.
+
+```
+Mobile App                  Istio Ingress Gateway           Order Service
+    │                               │                             │
+    │── GET /api/orders             │                             │
+    │   Authorization: Bearer JWT ─>│                             │
+    │                               │  JWT prüfen (JWKS)          │
+    │                               │  Signatur ✓  exp ✓          │
+    │                               │  sub → x-user-sub           │
+    │                               │  role → x-user-role         │
+    │                               │                             │
+    │                               │── mTLS ────────────────────>│
+    │                               │   x-user-sub: user-42       │
+    │                               │   x-user-role: customer     │
+    │                               │                             │
+    │<───────────────────────── Response ────────────────────────│
 ```
 
-```yaml
-# 2. Consumer anlegen – repräsentiert eine App oder einen User
-apiVersion: configuration.konghq.com/v1
-kind: KongConsumer
-metadata:
-  name: mobile-app
-  namespace: production
-  annotations:
-    kubernetes.io/ingress.class: kong
-username: mobile-app
-custom_id: "app-001"
-```
+### Code: Istio Gateway + VirtualService
 
 ```yaml
-# 3. JWT-Credentials für den Consumer erstellen
-apiVersion: configuration.konghq.com/v1
-kind: KongPlugin
+# Gateway: TLS terminieren, Port 443 öffnen
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
 metadata:
-  name: jwt-plugin
-  namespace: production
-plugin: jwt
-config:
-  claims_to_verify:
-  - exp
-  key_claim_name: iss   # Kong sucht Consumer anhand des iss-Claims
----
-# Secret mit dem Public Key des OIDC Providers
-apiVersion: v1
-kind: Secret
-metadata:
-  name: mobile-app-jwt
-  namespace: production
-  labels:
-    konghq.com/credential: jwt
-type: Opaque
-stringData:
-  kongCredType: jwt
-  key: "https://keycloak.example.com/realms/myrealm"  # muss dem iss-Claim entsprechen
-  algorithm: RS256
-  rsa_public_key: |
-    -----BEGIN PUBLIC KEY-----
-    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...
-    -----END PUBLIC KEY-----
-```
-
-```yaml
-# 4. Route mit JWT-Plugin absichern
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: order-api
-  namespace: production
-  annotations:
-    konghq.com/plugins: jwt-plugin
-    konghq.com/strip-path: "false"
-spec:
-  ingressClassName: kong
-  rules:
-  - host: api.example.com
-    http:
-      paths:
-      - path: /api/orders
-        pathType: Prefix
-        backend:
-          service:
-            name: order-service
-            port:
-              number: 8080
-```
-
-```yaml
-# 5. Rate Limiting zusätzlich – 100 Requests pro Minute pro Consumer
-apiVersion: configuration.konghq.com/v1
-kind: KongPlugin
-metadata:
-  name: rate-limit
-  namespace: production
-plugin: rate-limiting
-config:
-  minute: 100
-  policy: local
-  limit_by: consumer
----
-# Beide Plugins kombinieren
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: order-api
-  namespace: production
-  annotations:
-    konghq.com/plugins: jwt-plugin,rate-limit
-```
-
----
-
-### Code-Beispiel: Apache APISIX in Kubernetes
-
-APISIX ist eine Alternative zu Kong – ebenfalls Plugin-basiert, sehr performant.
-
-```yaml
-# APISIX installieren (Helm)
-# helm repo add apisix https://charts.apiseven.com
-# helm install apisix apisix/apisix --set ingress-controller.enabled=true -n apisix --create-namespace
-```
-
-```yaml
-# ApisixRoute mit JWT-Plugin
-apiVersion: apisix.apache.org/v2
-kind: ApisixRoute
-metadata:
-  name: order-api
+  name: api-gateway
   namespace: production
 spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: api-tls-cert   # Secret mit TLS-Zertifikat (z.B. via cert-manager)
+    hosts:
+    - api.example.com
+---
+# VirtualService: Routing zu den Services
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: api-routes
+  namespace: production
+spec:
+  hosts:
+  - api.example.com
+  gateways:
+  - api-gateway
   http:
-  - name: orders-route
-    match:
-      hosts:
-      - api.example.com
-      paths:
-      - /api/orders*
-    backends:
-    - serviceName: order-service
-      servicePort: 8080
-    plugins:
-    - name: jwt-auth
-      enable: true
-    - name: limit-count
-      enable: true
-      config:
-        count: 100
-        time_window: 60
-        key: consumer_name
-        rejected_code: 429
----
-# Consumer mit JWT-Credentials
-apiVersion: apisix.apache.org/v2
-kind: ApisixConsumer
-metadata:
-  name: mobile-app
-  namespace: production
-spec:
-  authParameter:
-    jwtAuth:
-      value:
-        key: mobile-app-key
-        secret: "my-secret"     # für HS256
-        # oder: public_key für RS256 (Keycloak)
-        algorithm: RS256
-        exp: 86400
+  - match:
+    - uri:
+        prefix: /api/orders
+    route:
+    - destination:
+        host: order-service
+        port:
+          number: 8080
+  - match:
+    - uri:
+        prefix: /api/products
+    route:
+    - destination:
+        host: product-service
+        port:
+          number: 8080
 ```
+
+### Code: RequestAuthentication – JWT prüfen
 
 ```yaml
-# OIDC Plugin – APISIX holt Token selbst von Keycloak
-apiVersion: apisix.apache.org/v2
-kind: ApisixRoute
-metadata:
-  name: order-api-oidc
-  namespace: production
-spec:
-  http:
-  - name: orders-oidc
-    match:
-      hosts:
-      - api.example.com
-      paths:
-      - /api/*
-    backends:
-    - serviceName: order-service
-      servicePort: 8080
-    plugins:
-    - name: openid-connect
-      enable: true
-      config:
-        client_id: myapp
-        client_secret: secret
-        discovery: https://keycloak.example.com/realms/myrealm/.well-known/openid-configuration
-        redirect_uri: https://api.example.com/callback
-        scope: openid profile email
-        bearer_only: true          # nur Bearer-Token prüfen, kein Redirect
-        set_userinfo_header: true  # X-Userinfo Header setzen
-```
-
----
-
-### Backend-Service: Consumer-Header lesen
-
-Nach der Prüfung setzt das Gateway Headers mit Consumer-Informationen.
-Der Backend-Service braucht keinen Auth-Code.
-
-```go
-// Go – Kong setzt X-Consumer-* Header nach erfolgreicher JWT-Prüfung
-func ordersHandler(w http.ResponseWriter, r *http.Request) {
-    consumerID       := r.Header.Get("X-Consumer-Id")
-    consumerUsername := r.Header.Get("X-Consumer-Username")
-    consumerCustomID := r.Header.Get("X-Consumer-Custom-Id")
-
-    if consumerID == "" {
-        // Sollte nie passieren – Kong hätte vorher abgelehnt
-        http.Error(w, "Unauthorized", http.StatusUnauthorized)
-        return
-    }
-
-    log.Printf("Request von Consumer %s (username: %s)", consumerID, consumerUsername)
-    // Business-Logik ...
-}
-```
-
-```python
-# FastAPI – APISIX setzt X-Userinfo wenn openid-connect Plugin aktiv
-import base64, json
-from fastapi import FastAPI, Header, HTTPException
-
-app = FastAPI()
-
-@app.get("/api/orders")
-def get_orders(x_userinfo: str = Header(None)):
-    if not x_userinfo:
-        raise HTTPException(status_code=401)
-
-    # X-Userinfo ist base64-kodiertes JSON
-    user = json.loads(base64.b64decode(x_userinfo + "=="))
-    return {"user": user.get("sub"), "email": user.get("email"), "orders": []}
-```
-
----
-
-## Teil 2: Istio Service Mesh Authentication
-
-### Wann Istio?
-
-Istio löst das Problem, das das API Gateway **nicht** löst: den **Ost-West-Traffic**
-zwischen Services. Ohne Istio kann jeder Service im Cluster jeden anderen
-aufrufen – ohne Authentifizierung, ohne Verschlüsselung.
-
-**Typische Situationen:**
-- Alle Verbindungen zwischen Services müssen verschlüsselt sein (mTLS)
-- Service A darf Service B aufrufen, Service C aber nicht
-- Ein kompromittierter Service soll keinen Schaden anrichten können
-- JWT vom Kunden soll auch im Cluster weiter gültig sein
-
-**Was Istio nicht löst:**
-- Den initialen Login des Kunden – das ist Aufgabe des Identity Providers (Keycloak)
-- API-Key-Verwaltung, Rate Limiting, Developer Portal – das ist Aufgabe des API Gateways
-
-![Istio Service Mesh Flow](/images/auth-istio-mesh-flow.svg)
-
-### Wie funktioniert es?
-
-Istio injiziert in jeden Pod einen **Envoy Sidecar**. Dieser Proxy sitzt transparent
-zwischen App und Netzwerk – die App selbst merkt nichts davon.
-
-Istio hat **zwei Auth-Mechanismen**:
-
-```
-PeerAuthentication   → Wer ist der aufrufende Service?  (mTLS, SPIFFE-Identität)
-RequestAuthentication → Wer ist der Endnutzer?           (JWT-Validierung)
-AuthorizationPolicy  → Was ist erlaubt?                  (Kombination aus beidem)
-```
-
-### Code-Beispiel 1: mTLS erzwingen (PeerAuthentication)
-
-```yaml
-# Cluster-weit: kein Plain-Text-HTTP zwischen Pods mehr möglich
-apiVersion: security.istio.io/v1beta1
-kind: PeerAuthentication
-metadata:
-  name: default
-  namespace: istio-system
-spec:
-  mtls:
-    mode: STRICT
-```
-
-```bash
-# Namespace für Sidecar-Injection markieren
-kubectl label namespace production istio-injection=enabled
-
-# Pods neu starten damit Envoy injiziert wird
-kubectl rollout restart deployment -n production
-
-# Prüfen: READY = 2/2 bedeutet App + Envoy Sidecar
-kubectl get pods -n production
-# order-service-7d9f8b-xk2pq   2/2   Running
-
-# mTLS-Status prüfen
-istioctl authn tls-check order-service.production.svc.cluster.local
-```
-
-### Code-Beispiel 2: JWT validieren (RequestAuthentication)
-
-```yaml
-# Istio prüft JWT automatisch via JWKS – der Service-Code muss das nicht tun
+# Istio validiert JWT selbst via JWKS – kein Code im Service nötig
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
   name: customer-jwt
   namespace: production
 spec:
+  # Kein selector → gilt für alle Services im Namespace
   jwtRules:
   - issuer: "https://keycloak.example.com/realms/myrealm"
     jwksUri: "https://keycloak.example.com/realms/myrealm/protocol/openid-connect/certs"
     audiences:
     - "myapp"
-    outputClaimToHeaders:
-    - header: x-customer-id    # JWT-Claim → HTTP-Header
-      claim: customer_id
+    outputClaimToHeaders:          # Claims → HTTP-Header für Backend-Services
+    - header: x-user-sub
+      claim: sub
     - header: x-user-role
       claim: role
-    forwardOriginalToken: false
+    - header: x-customer-id
+      claim: customer_id
+    forwardOriginalToken: false    # rohen JWT nicht ans Backend weitergeben
 ```
 
-### Code-Beispiel 3: Zugriffskontrolle (AuthorizationPolicy)
+### Code: AuthorizationPolicy – Zugriff steuern (Nord-Süd)
 
 ```yaml
-# Requests ohne JWT ablehnen
+# Kein gültiges JWT → ablehnen
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -408,9 +143,9 @@ spec:
   rules:
   - from:
     - source:
-        notRequestPrincipals: ["*"]
+        notRequestPrincipals: ["*"]   # kein JWT vorhanden
 ---
-# Nur bestimmte Rollen dürfen POST – GET ist public
+# GET für alle eingeloggten User, POST nur für bestimmte Rollen
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -425,14 +160,78 @@ spec:
   - to:
     - operation:
         methods: ["GET"]
+        paths: ["/api/orders*"]
+    when:
+    - key: request.auth.principal
+      notValues: [""]
   - to:
     - operation:
         methods: ["POST"]
+        paths: ["/api/orders"]
     when:
     - key: request.auth.claims[role]
       values: ["customer", "admin"]
+```
+
+### Code: Backend-Service liest nur Header
+
+```go
+// Go – Istio hat JWT validiert, Claims stehen als Header bereit
+// Keine JWT-Bibliothek nötig
+func createOrderHandler(w http.ResponseWriter, r *http.Request) {
+    userSub    := r.Header.Get("X-User-Sub")
+    role       := r.Header.Get("X-User-Role")
+    customerID := r.Header.Get("X-Customer-Id")
+
+    if userSub == "" {
+        http.Error(w, "Unauthorized", http.StatusUnauthorized)
+        return
+    }
+    log.Printf("Order von %s (Rolle: %s, KundeID: %s)", userSub, role, customerID)
+    // Business-Logik ...
+}
+```
+
+```python
+# FastAPI – identisch
+from fastapi import FastAPI, Header, HTTPException
+
+app = FastAPI()
+
+@app.post("/api/orders")
+async def create_order(
+    x_user_sub:    str = Header(None),
+    x_user_role:   str = Header(None),
+    x_customer_id: str = Header(None),
+):
+    if not x_user_sub:
+        raise HTTPException(status_code=401)
+    return {"status": "created", "user": x_user_sub, "role": x_user_role}
+```
+
 ---
-# Ost-West: nur order-service darf payment-service aufrufen
+
+## Teil 2: Ost-West mit Istio
+
+### Code: mTLS cluster-weit erzwingen
+
+```yaml
+# PeerAuthentication STRICT: kein Plain-Text mehr zwischen Pods
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: istio-system   # gilt für gesamten Cluster
+spec:
+  mtls:
+    mode: STRICT
+```
+
+### Code: Service-zu-Service Zugriff einschränken
+
+```yaml
+# Nur order-service darf payment-service aufrufen
+# Identität kommt aus dem Kubernetes ServiceAccount (SPIFFE/SVID)
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -446,7 +245,6 @@ spec:
   rules:
   - from:
     - source:
-        # SPIFFE-ID aus dem Kubernetes ServiceAccount
         principals:
         - "cluster.local/ns/production/sa/order-service"
     to:
@@ -455,105 +253,154 @@ spec:
         paths: ["/internal/payments"]
 ```
 
-### Code-Beispiel 4: Backend liest Claims aus Headern
-
-```go
-// Go – Istio hat JWT validiert und Claims als Header gesetzt
-func createOrderHandler(w http.ResponseWriter, r *http.Request) {
-    customerID := r.Header.Get("X-Customer-Id")
-    role       := r.Header.Get("X-User-Role")
-
-    if customerID == "" {
-        http.Error(w, "Unauthorized", http.StatusUnauthorized)
-        return
-    }
-    // Business-Logik – kein JWT-Code nötig
-    log.Printf("Order von %s (Rolle: %s)", customerID, role)
-}
+```yaml
+# ServiceAccounts explizit vergeben – Basis für die SPIFFE-Identität
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: order-service
+  namespace: production
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+  namespace: production
+spec:
+  template:
+    spec:
+      serviceAccountName: order-service   # → SPIFFE: cluster.local/ns/production/sa/order-service
+      containers:
+      - name: order-service
+        image: my-registry/order-service:1.0
 ```
 
-```python
-# FastAPI – identisch, Claims kommen als Header
-from fastapi import FastAPI, Header, HTTPException
+### Istio installieren und testen
 
-app = FastAPI()
+```bash
+# 1. Istio installieren
+istioctl install --set profile=default -y
 
-@app.post("/api/orders")
-async def create_order(
-    x_customer_id: str = Header(None),
-    x_user_role:   str = Header(None),
-):
-    if not x_customer_id:
-        raise HTTPException(status_code=401)
-    return {"status": "created", "customer": x_customer_id}
+# 2. Namespace für Sidecar-Injection markieren
+kubectl label namespace production istio-injection=enabled
+
+# 3. Pods neu starten (Sidecar wird injiziert)
+kubectl rollout restart deployment -n production
+
+# 4. Prüfen: 2/2 = App + Envoy Sidecar
+kubectl get pods -n production
+# order-service-7d9f8b-xk2pq   2/2   Running
+
+# 5. mTLS testen: Plain-Text-Verbindung muss fehlschlagen
+kubectl run test --image=curlimages/curl --rm -it -- \
+  curl http://payment-service.production.svc.cluster.local:9090/health
+# → Connection reset (STRICT mTLS aktiv)
+
+# 6. AuthorizationPolicy testen
+kubectl exec -it deploy/order-service -n production -- \
+  curl http://payment-service:9090/internal/payments -X POST
+# → 200 OK  (order-service SA ist erlaubt)
+
+kubectl exec -it deploy/product-service -n production -- \
+  curl http://payment-service:9090/internal/payments -X POST
+# → 403 RBAC: access denied  (product-service SA ist nicht erlaubt)
 ```
 
 ---
 
-## Zusammenspiel: API Gateway + Istio
+## Wann zusätzlich ein API Gateway?
+
+Istio ist für die meisten Szenarien ausreichend. Ein API Gateway (Kong, APISIX, Tyk)
+kommt hinzu, wenn spezifische API-Management-Features gebraucht werden,
+die Istio nicht bietet.
+
+![Wann reicht Istio – wann brauche ich ein API Gateway?](/images/auth-wann-api-gateway.svg)
+
+### Typische Gründe für ein API Gateway
+
+**API-Key-Management:** Externe Partner oder Drittanbieter bekommen API-Keys statt JWTs.
+Istio kennt kein Consumer-Konzept mit Key-Verwaltung.
+
+**Developer Portal:** Öffentliche API-Dokumentation, Self-Service-Registrierung,
+Key-Generierung für externe Entwickler.
+
+**Request/Response-Transformation:** Body umschreiben, Header hinzufügen/entfernen,
+Protokollkonvertierung (REST → gRPC) – in Istio nur über komplexe EnvoyFilter möglich.
+
+### Code: Kong vor Istio (wenn beides gebraucht wird)
+
+```yaml
+# Kong läuft als Deployment – der Ingress-Traffic geht durch Kong,
+# dann ins Istio Mesh weiter
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: partner-app
+  namespace: production
+  annotations:
+    kubernetes.io/ingress.class: kong
+username: partner-app
+---
+# API-Key für den Consumer
+apiVersion: v1
+kind: Secret
+metadata:
+  name: partner-app-key
+  namespace: production
+  labels:
+    konghq.com/credential: key-auth
+type: Opaque
+stringData:
+  kongCredType: key-auth
+  key: "abc123geheimerschluessel"
+---
+# Route mit Key-Auth absichern
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: partner-api
+  namespace: production
+  annotations:
+    konghq.com/plugins: key-auth-plugin
+spec:
+  ingressClassName: kong
+  rules:
+  - host: api.example.com
+    http:
+      paths:
+      - path: /partner/
+        pathType: Prefix
+        backend:
+          service:
+            name: order-service   # Istio Sidecar läuft weiterhin im order-service Pod
+            port:
+              number: 8080
+```
 
 ```
 Internet
-   │  JWT / API-Key
+   │  API-Key oder JWT
    ▼
-┌────────────────────────────────────────┐
-│  API Gateway  (Kong / APISIX / Tyk)   │
-│  • Consumer prüfen (JWT, API-Key)      │
-│  • Rate Limiting                       │
-│  • Request-Transformation              │
-│  • X-Consumer-* Header setzen          │
-└──────────────────┬─────────────────────┘
-                   │ Consumer-Header
-                   ▼
-┌────────────────────────────────────────┐
-│  Istio Service Mesh                    │
-│                                        │
-│  ┌─────────────┐  mTLS  ┌──────────┐  │
-│  │ Order Svc   │───────>│ Payment  │  │
-│  │ + Envoy     │        │ + Envoy  │  │
-│  └─────────────┘        └──────────┘  │
-│                                        │
-│  PeerAuthentication: STRICT            │
-│  AuthorizationPolicy: SA-basiert       │
-└────────────────────────────────────────┘
-```
-
-```yaml
-# Minimales Setup: beides zusammen
----
-apiVersion: security.istio.io/v1beta1
-kind: PeerAuthentication
-metadata:
-  name: default
-  namespace: istio-system
-spec:
-  mtls:
-    mode: STRICT
----
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: payment-only-from-order
-  namespace: production
-spec:
-  selector:
-    matchLabels:
-      app: payment-service
-  action: ALLOW
-  rules:
-  - from:
-    - source:
-        principals:
-        - "cluster.local/ns/production/sa/order-service"
+┌──────────────────────────────────┐
+│  Kong API Gateway                │
+│  API-Key prüfen, Rate Limit,     │
+│  X-Consumer-* Header setzen      │
+└────────────────┬─────────────────┘
+                 │
+                 ▼
+┌──────────────────────────────────┐
+│  Istio Service Mesh              │
+│  mTLS Ost-West, AuthPolicy       │
+│  (Kong-Pod hat auch Envoy)       │
+└──────────────────────────────────┘
 ```
 
 ---
 
 ## Weiterführendes
 
+- [Istio Ingress Gateway](https://istio.io/latest/docs/tasks/traffic-management/ingress/ingress-control/)
+- [Istio RequestAuthentication](https://istio.io/latest/docs/reference/config/security/request_authentication/)
+- [Istio AuthorizationPolicy](https://istio.io/latest/docs/reference/config/security/authorization-policy/)
 - [Kong Kubernetes Ingress Controller](https://docs.konghq.com/kubernetes-ingress-controller/)
-- [Kong JWT Plugin](https://docs.konghq.com/hub/kong-inc/jwt/)
 - [Apache APISIX für Kubernetes](https://apisix.apache.org/docs/ingress-controller/getting-started/)
-- [APISIX openid-connect Plugin](https://apisix.apache.org/docs/apisix/plugins/openid-connect/)
-- [Tyk Operator für Kubernetes](https://tyk.io/docs/tyk-operator/)
-- [Istio Security Konzepte](https://istio.io/latest/docs/concepts/security/)

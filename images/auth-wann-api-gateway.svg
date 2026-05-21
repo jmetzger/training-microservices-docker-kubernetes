@@ -1,0 +1,84 @@
+<svg viewBox="0 0 740 320" xmlns="http://www.w3.org/2000/svg" font-family="monospace" font-size="12">
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#555"/>
+    </marker>
+    <marker id="ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#27ae60"/>
+    </marker>
+    <marker id="ar" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#e74c3c"/>
+    </marker>
+  </defs>
+
+  <text x="370" y="22" text-anchor="middle" fill="#2C3E50" font-size="14" font-weight="bold">Wann reicht Istio – wann brauche ich zusätzlich ein API Gateway?</text>
+
+  <!-- Header columns -->
+  <rect x="10"  y="35" width="355" height="30" rx="4" fill="#264653"/>
+  <text x="187" y="55" text-anchor="middle" fill="white" font-weight="bold">Feature / Anforderung</text>
+  <rect x="370" y="35" width="175" height="30" rx="4" fill="#27AE60"/>
+  <text x="457" y="55" text-anchor="middle" fill="white" font-weight="bold">Istio alleine</text>
+  <rect x="550" y="35" width="180" height="30" rx="4" fill="#16a085"/>
+  <text x="640" y="55" text-anchor="middle" fill="white" font-weight="bold">+ API Gateway</text>
+
+  <!-- Row 1 -->
+  <rect x="10"  y="65" width="355" height="30" fill="#f8f9fa" stroke="#dee2e6"/>
+  <text x="187" y="85" text-anchor="middle" fill="#333">JWT validieren (Nord-Süd)</text>
+  <rect x="370" y="65" width="175" height="30" fill="#e8f5e9" stroke="#dee2e6"/>
+  <text x="457" y="85" text-anchor="middle" fill="#27ae60" font-weight="bold">✓ RequestAuthentication</text>
+  <rect x="550" y="65" width="180" height="30" fill="#f8f9fa" stroke="#dee2e6"/>
+  <text x="640" y="85" text-anchor="middle" fill="#888">nicht nötig</text>
+
+  <!-- Row 2 -->
+  <rect x="10"  y="95" width="355" height="30" fill="#fff" stroke="#dee2e6"/>
+  <text x="187" y="115" text-anchor="middle" fill="#333">mTLS Service-zu-Service</text>
+  <rect x="370" y="95" width="175" height="30" fill="#e8f5e9" stroke="#dee2e6"/>
+  <text x="457" y="115" text-anchor="middle" fill="#27ae60" font-weight="bold">✓ PeerAuthentication</text>
+  <rect x="550" y="95" width="180" height="30" fill="#f8f9fa" stroke="#dee2e6"/>
+  <text x="640" y="115" text-anchor="middle" fill="#888">nicht nötig</text>
+
+  <!-- Row 3 -->
+  <rect x="10"  y="125" width="355" height="30" fill="#f8f9fa" stroke="#dee2e6"/>
+  <text x="187" y="145" text-anchor="middle" fill="#333">Zugriff nach JWT-Claims steuern</text>
+  <rect x="370" y="125" width="175" height="30" fill="#e8f5e9" stroke="#dee2e6"/>
+  <text x="457" y="145" text-anchor="middle" fill="#27ae60" font-weight="bold">✓ AuthorizationPolicy</text>
+  <rect x="550" y="125" width="180" height="30" fill="#f8f9fa" stroke="#dee2e6"/>
+  <text x="640" y="145" text-anchor="middle" fill="#888">nicht nötig</text>
+
+  <!-- Row 4 -->
+  <rect x="10"  y="155" width="355" height="30" fill="#fff" stroke="#dee2e6"/>
+  <text x="187" y="175" text-anchor="middle" fill="#333">Rate Limiting (einfach)</text>
+  <rect x="370" y="155" width="175" height="30" fill="#fffde7" stroke="#dee2e6"/>
+  <text x="457" y="175" text-anchor="middle" fill="#e67e22">~ EnvoyFilter möglich</text>
+  <rect x="550" y="155" width="180" height="30" fill="#f8f9fa" stroke="#dee2e6"/>
+  <text x="640" y="175" text-anchor="middle" fill="#888">(nicht nötig)</text>
+
+  <!-- Row 5 – API GW needed -->
+  <rect x="10"  y="185" width="355" height="30" fill="#fdecea" stroke="#dee2e6"/>
+  <text x="187" y="205" text-anchor="middle" fill="#c0392b">API-Key-Verwaltung pro Consumer</text>
+  <rect x="370" y="185" width="175" height="30" fill="#fdecea" stroke="#dee2e6"/>
+  <text x="457" y="205" text-anchor="middle" fill="#e74c3c">✗ nicht vorhanden</text>
+  <rect x="550" y="185" width="180" height="30" fill="#e8f5e9" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="640" y="205" text-anchor="middle" fill="#27ae60" font-weight="bold">✓ Kong / APISIX</text>
+
+  <!-- Row 6 -->
+  <rect x="10"  y="215" width="355" height="30" fill="#fdecea" stroke="#dee2e6"/>
+  <text x="187" y="235" text-anchor="middle" fill="#c0392b">Developer Portal / Doku</text>
+  <rect x="370" y="215" width="175" height="30" fill="#fdecea" stroke="#dee2e6"/>
+  <text x="457" y="235" text-anchor="middle" fill="#e74c3c">✗ nicht vorhanden</text>
+  <rect x="550" y="215" width="180" height="30" fill="#e8f5e9" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="640" y="235" text-anchor="middle" fill="#27ae60" font-weight="bold">✓ Kong / Tyk</text>
+
+  <!-- Row 7 -->
+  <rect x="10"  y="245" width="355" height="30" fill="#fdecea" stroke="#dee2e6"/>
+  <text x="187" y="265" text-anchor="middle" fill="#c0392b">Request/Response Transformation</text>
+  <rect x="370" y="245" width="175" height="30" fill="#fdecea" stroke="#dee2e6"/>
+  <text x="457" y="265" text-anchor="middle" fill="#e74c3c">✗ komplex (EnvoyFilter)</text>
+  <rect x="550" y="245" width="180" height="30" fill="#e8f5e9" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="640" y="265" text-anchor="middle" fill="#27ae60" font-weight="bold">✓ Plugin-Ökosystem</text>
+
+  <!-- Summary -->
+  <rect x="10" y="282" width="720" height="32" rx="5" fill="#e8f4fd" stroke="#4A90D9" stroke-width="1.5"/>
+  <text x="370" y="297" text-anchor="middle" fill="#2C5F8A" font-size="11" font-weight="bold">Fazit: Istio first. API Gateway nur wenn API-Key-Management, Developer Portal oder Transformations gebraucht werden.</text>
+  <text x="370" y="310" text-anchor="middle" fill="#555" font-size="10">Dann: API Gateway vor Istio Ingress Gateway – beide ergänzen sich.</text>
+</svg>

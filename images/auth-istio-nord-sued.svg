@@ -1,0 +1,103 @@
+<svg viewBox="0 0 740 400" xmlns="http://www.w3.org/2000/svg" font-family="monospace" font-size="12">
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#555"/>
+    </marker>
+    <marker id="ag" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#27ae60"/>
+    </marker>
+    <marker id="ap" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#8E44AD"/>
+    </marker>
+  </defs>
+
+  <!-- Internet zone -->
+  <rect x="5" y="30" width="130" height="340" rx="8" fill="#fdecea" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="70" y="50" text-anchor="middle" fill="#e74c3c" font-weight="bold">Internet</text>
+
+  <rect x="18" y="65" width="105" height="45" rx="6" fill="#4A90D9" stroke="#2C5F8A" stroke-width="2"/>
+  <text x="70" y="85" text-anchor="middle" fill="white" font-weight="bold">Mobile App</text>
+  <text x="70" y="100" text-anchor="middle" fill="#ddf" font-size="10">Bearer JWT</text>
+
+  <rect x="18" y="130" width="105" height="45" rx="6" fill="#4A90D9" stroke="#2C5F8A" stroke-width="2"/>
+  <text x="70" y="150" text-anchor="middle" fill="white" font-weight="bold">Browser SPA</text>
+  <text x="70" y="165" text-anchor="middle" fill="#ddf" font-size="10">Bearer JWT</text>
+
+  <!-- Keycloak (external) -->
+  <rect x="18" y="230" width="105" height="55" rx="6" fill="#8E44AD" stroke="#5B2B72" stroke-width="2"/>
+  <text x="70" y="252" text-anchor="middle" fill="white" font-weight="bold">Keycloak</text>
+  <text x="70" y="267" text-anchor="middle" fill="#ddd" font-size="10">OIDC Provider</text>
+  <text x="70" y="281" text-anchor="middle" fill="#ddd" font-size="10">stellt JWT aus</text>
+
+  <!-- Kubernetes Cluster -->
+  <rect x="150" y="10" width="580" height="375" rx="10" fill="#f0f4f8" stroke="#4A90D9" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="440" y="27" text-anchor="middle" fill="#4A90D9" font-weight="bold">Kubernetes Cluster – Istio übernimmt Nord-Süd UND Ost-West</text>
+
+  <!-- Istiod -->
+  <rect x="440" y="35" width="270" height="45" rx="8" fill="#264653" stroke="#1a2f38" stroke-width="2"/>
+  <text x="575" y="55" text-anchor="middle" fill="white" font-weight="bold">Istiod (Control Plane)</text>
+  <text x="575" y="70" text-anchor="middle" fill="#aad4e5" font-size="10">SVID-Zertifikate + JWKS-Keys verteilen</text>
+
+  <!-- Istio Ingress Gateway -->
+  <rect x="168" y="80" width="170" height="100" rx="8" fill="#E67E22" stroke="#9A5A0A" stroke-width="2"/>
+  <text x="253" y="103" text-anchor="middle" fill="white" font-weight="bold">Istio Ingress Gateway</text>
+  <rect x="180" y="112" width="146" height="22" rx="3" fill="#c0582a"/>
+  <text x="253" y="128" text-anchor="middle" fill="white" font-size="10">TLS terminieren</text>
+  <rect x="180" y="138" width="146" height="22" rx="3" fill="#c0582a"/>
+  <text x="253" y="154" text-anchor="middle" fill="white" font-size="10">JWT prüfen (RequestAuthentication)</text>
+  <rect x="180" y="164" width="146" height="10" rx="3" fill="#8E44AD"/>
+  <text x="253" y="172" text-anchor="middle" fill="white" font-size="9">JWKS ← Keycloak</text>
+
+  <!-- Pod A -->
+  <rect x="395" y="120" width="155" height="100" rx="8" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="2"/>
+  <text x="472" y="140" text-anchor="middle" fill="#333" font-weight="bold">Order Service</text>
+  <text x="472" y="155" text-anchor="middle" fill="#888" font-size="10">SA: order-service</text>
+  <rect x="408" y="161" width="130" height="25" rx="4" fill="#27AE60" stroke="#1A6B3A"/>
+  <text x="473" y="178" text-anchor="middle" fill="white" font-size="11">App (liest Header)</text>
+  <rect x="408" y="190" width="130" height="25" rx="4" fill="#E74C3C" stroke="#9B2222"/>
+  <text x="473" y="207" text-anchor="middle" fill="white" font-size="11">Envoy Sidecar</text>
+
+  <!-- Pod B -->
+  <rect x="575" y="120" width="145" height="100" rx="8" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="2"/>
+  <text x="647" y="140" text-anchor="middle" fill="#333" font-weight="bold">Payment Service</text>
+  <text x="647" y="155" text-anchor="middle" fill="#888" font-size="10">SA: payment-service</text>
+  <rect x="588" y="161" width="120" height="25" rx="4" fill="#27AE60" stroke="#1A6B3A"/>
+  <text x="648" y="178" text-anchor="middle" fill="white" font-size="11">App (liest Header)</text>
+  <rect x="588" y="190" width="120" height="25" rx="4" fill="#E74C3C" stroke="#9B2222"/>
+  <text x="648" y="207" text-anchor="middle" fill="white" font-size="11">Envoy Sidecar</text>
+
+  <!-- Arrows -->
+  <line x1="123" y1="87" x2="166" y2="110" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="123" y1="152" x2="166" y2="155" stroke="#555" stroke-width="2" marker-end="url(#a)"/>
+  <text x="145" y="102" text-anchor="middle" fill="#555" font-size="10">JWT</text>
+
+  <line x1="338" y1="155" x2="393" y2="165" stroke="#27ae60" stroke-width="2.5" marker-end="url(#ag)"/>
+  <text x="368" y="148" text-anchor="middle" fill="#27ae60" font-size="10" font-weight="bold">mTLS</text>
+  <text x="368" y="160" text-anchor="middle" fill="#27ae60" font-size="10">+ Claims als Header</text>
+
+  <line x1="550" y1="185" x2="573" y2="185" stroke="#27ae60" stroke-width="2.5" marker-end="url(#ag)"/>
+  <text x="562" y="177" text-anchor="middle" fill="#27ae60" font-size="10" font-weight="bold">mTLS</text>
+
+  <!-- Keycloak -> Istiod JWKS -->
+  <line x1="123" y1="257" x2="438" y2="57" stroke="#8E44AD" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ap)"/>
+  <text x="280" y="155" fill="#8E44AD" font-size="10">JWKS Public Keys</text>
+
+  <!-- AuthorizationPolicy labels -->
+  <rect x="168" y="255" width="170" height="40" rx="5" fill="#e8f4fd" stroke="#4A90D9"/>
+  <text x="253" y="272" text-anchor="middle" fill="#2C5F8A" font-size="10" font-weight="bold">AuthorizationPolicy</text>
+  <text x="253" y="287" text-anchor="middle" fill="#2C5F8A" font-size="10">JWT-Claims (role, sub …)</text>
+
+  <rect x="395" y="255" width="155" height="40" rx="5" fill="#e8f4fd" stroke="#4A90D9"/>
+  <text x="472" y="272" text-anchor="middle" fill="#2C5F8A" font-size="10" font-weight="bold">AuthorizationPolicy</text>
+  <text x="472" y="287" text-anchor="middle" fill="#2C5F8A" font-size="10">SA: order-service only</text>
+
+  <rect x="575" y="255" width="145" height="40" rx="5" fill="#e8f4fd" stroke="#4A90D9"/>
+  <text x="647" y="272" text-anchor="middle" fill="#2C5F8A" font-size="10" font-weight="bold">PeerAuthentication</text>
+  <text x="647" y="287" text-anchor="middle" fill="#2C5F8A" font-size="10">STRICT (kein Plain-Text)</text>
+
+  <!-- Summary bar -->
+  <rect x="168" y="315" width="552" height="55" rx="6" fill="#e8f5e9" stroke="#27AE60" stroke-width="1.5"/>
+  <text x="444" y="335" text-anchor="middle" fill="#1a6b3a" font-size="12" font-weight="bold">Istio übernimmt alles:</text>
+  <text x="444" y="352" text-anchor="middle" fill="#1a6b3a" font-size="11">Nord-Süd: Istio Gateway + RequestAuthentication + AuthorizationPolicy</text>
+  <text x="444" y="367" text-anchor="middle" fill="#1a6b3a" font-size="11">Ost-West: PeerAuthentication STRICT + AuthorizationPolicy per ServiceAccount</text>
+</svg>
