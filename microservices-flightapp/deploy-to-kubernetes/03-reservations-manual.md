@@ -207,19 +207,51 @@ kubectl apply -f . -n reservations-<dein-name>
 kubectl get svc -n reservations-<dein-name>
 ```
 
-Teste anschliessend mit einem busybox-Pod:
+Teste zuerst mit einem einfachen GET ob der Service erreichbar ist:
 
 ```
 kubectl run -it --rm busybox --image=busybox --restart=Never \
   -n reservations-<dein-name> \
-  -- wget -O- http://ms-reservations:8000/reservations
+  -- wget -O- http://ms-reservations:8000/ping
 ```
 
-Ziel: Die Ausgabe zeigt `{}` — der Service leitet den Request an den Pod weiter.
+Ziel: Die Ausgabe zeigt `{"status": "pass"}` — der Service leitet den Request an den Pod weiter.
+
+## Aufgabe: Reservierung durchfuehren
+
+Der Service laeuft. Nutze die folgenden API-Endpunkte um eine Reservierung zu erstellen
+und abzufragen.
+
+### API-Endpunkte
+
+| Methode | URL | Beschreibung |
+|---------|-----|--------------|
+| `PUT` | `http://ms-reservations:8000/reservations` | Reservierung anlegen |
+| `GET` | `http://ms-reservations:8000/reservations?flight_id=<id>` | Alle Reservierungen eines Fluges |
+
+### Daten fuer die Reservierung (JSON-Body beim PUT)
+
+```
+{
+  "flight_id": "FL001",
+  "seat_num": "12A",
+  "customer_id": "max"
+}
+```
+
+### Deine Aufgabe
+
+Starte einen busybox-Pod und:
+1. Erstelle eine Reservierung fuer Flug `FL001`, Sitz `12A`, Kunde `max`
+2. Pruefe danach mit einem GET ob die Reservierung gespeichert wurde
+3. Versuche denselben Sitz nochmal zu buchen — was passiert?
+
+**Hinweis:** `wget` in busybox unterstuetzt kein `PUT`.
+Welches andere Netzwerk-Tool bringt busybox mit?
 
 ## Zusatzaufgabe: Image-Version aktualisieren
 
-Wenn der Service funktioniert: Aendere den Image-Tag in `04-reservations-deploy.yml`
+Wenn die Reservierung geklappt hat: Aendere den Image-Tag in `04-reservations-deploy.yml`
 von `v1.1` auf `v17` und beobachte den Rolling Update:
 
 ```

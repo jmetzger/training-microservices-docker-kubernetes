@@ -1,6 +1,6 @@
-# Loesung: Service fuer ms-reservations
+# Loesung: Service und Reservierung fuer ms-reservations
 
-## Service-Manifest
+## Loesung 1: Service-Manifest
 
 ```
 nano 05-reservations-svc.yml
@@ -25,32 +25,79 @@ kubectl apply -f . -n reservations-<dein-name>
 kubectl get svc -n reservations-<dein-name>
 ```
 
-## Test mit busybox
+### Erklaerung
 
-```
-kubectl run -it --rm busybox --image=busybox --restart=Never \
-  -n reservations-<dein-name> \
-  -- wget -O- http://ms-reservations:8000/reservations
-```
-
-Erwartetes Ergebnis:
-```
-Connecting to ms-reservations:8000 (10.x.x.x:8000)
-writing to stdout
-{}
-```
-
-## Erklaerung
-
-| Feld | Wert | Bedeutung |
-|------|------|-----------|
-| `type: ClusterIP` | — | Service nur innerhalb des Clusters erreichbar |
-| `port: 8000` | — | Port auf dem der Service lauscht (und weiterleitet) |
-| `selector: app: reservations` | — | muss zum Label `app: reservations` im Deployment-Pod passen |
+| Feld | Bedeutung |
+|------|-----------|
+| `type: ClusterIP` | Service nur innerhalb des Clusters erreichbar |
+| `port: 8000` | Port auf dem der Service lauscht und weiterleitet |
+| `selector: app: reservations` | muss zum Label im Deployment-Pod passen |
 
 Der `selector` ist der entscheidende Teil: Kubernetes sucht alle Pods mit diesem Label
 und leitet Traffic dorthin weiter. Stimmt das Label nicht, gibt es keine Endpoints
 und der Service antwortet mit Connection refused.
+
+## Loesung 2: Reservierung durchfuehren
+
+Das Tool in busybox ist `nc` (netcat) — es kann rohe TCP-Verbindungen oeffnen
+und damit beliebige HTTP-Methoden senden.
+
+### Schritt 1: busybox-Pod starten und Reservierung anlegen (PUT)
+
+```
+kubectl run -it --rm busybox --image=busybox --restart=Never \
+  -n reservations-<dein-name> \
+  -- sh -c '
+BODY="{\"flight_id\":\"FL001\",\"seat_num\":\"12A\",\"customer_id\":\"max\"}"
+LEN=$(echo -n "$BODY" | wc -c)
+printf "PUT /reservations HTTP/1.0\r\nHost: ms-reservations\r\nContent-Type: application/json\r\nContent-Length: $LEN\r\n\r\n$BODY" \
+  | nc ms-reservations 8000
+'
+```
+
+Erwartete Ausgabe:
+```
+HTTP/1.0 200 OK
+...
+{
+  "status": "success"
+}
+```
+
+### Schritt 2: Reservierung abfragen (GET)
+
+```
+kubectl run -it --rm busybox --image=busybox --restart=Never \
+  -n reservations-<dein-name> \
+  -- wget -O- "http://ms-reservations:8000/reservations?flight_id=FL001"
+```
+
+Erwartete Ausgabe:
+```
+{
+  "12A": "max"
+}
+```
+
+### Schritt 3: Doppelbuchung versuchen
+
+```
+kubectl run -it --rm busybox --image=busybox --restart=Never \
+  -n reservations-<dein-name> \
+  -- sh -c '
+BODY="{\"flight_id\":\"FL001\",\"seat_num\":\"12A\",\"customer_id\":\"erika\"}"
+LEN=$(echo -n "$BODY" | wc -c)
+printf "PUT /reservations HTTP/1.0\r\nHost: ms-reservations\r\nContent-Type: application/json\r\nContent-Length: $LEN\r\n\r\n$BODY" \
+  | nc ms-reservations 8000
+'
+```
+
+Erwartete Ausgabe (HTTP 403):
+```
+HTTP/1.0 403 FORBIDDEN
+...
+{"error": "Could not complete reservation for 12A", "description": "Seat already reserved. Cannot double-book"}
+```
 
 ## Loesung Zusatzaufgabe: Image-Version aktualisieren
 
