@@ -177,36 +177,10 @@ kubectl apply -f . -n reservations-<dein-name>
 kubectl get pods -n reservations-<dein-name>
 ```
 
-## Schritt 6: Reservations Service anlegen
-
-```
-nano 05-reservations-svc.yml
-```
-
-```
-apiVersion: v1
-kind: Service
-metadata:
-  name: ms-reservations
-spec:
-  type: ClusterIP
-  ports:
-    - name: http
-      port: 8000
-  selector:
-    app: reservations
-```
-
-```
-kubectl apply -f . -n reservations-<dein-name>
-kubectl get svc -n reservations-<dein-name>
-```
-
-## Schritt 7: Status pruefen
+## Schritt 6: Status pruefen
 
 ```
 kubectl get pods -n reservations-<dein-name>
-kubectl get svc -n reservations-<dein-name>
 ```
 
 Erwartete Ausgabe (beide Pods Running):
@@ -216,7 +190,24 @@ ms-reservations-xxxx                    1/1     Running   0          1m
 ms-reservations-redis-xxxx              1/1     Running   0          2m
 ```
 
-## Schritt 8: Service von innen testen (busybox)
+## Aufgabe: Service fuer ms-reservations erstellen
+
+Das Deployment laeuft — aber von aussen (auch innerhalb des Clusters) ist der Pod
+noch nicht erreichbar. Erstelle dafuer eine Datei `05-reservations-svc.yml`.
+
+Hinweise:
+- Typ: `ClusterIP`
+- Port der App: `8000`
+- Der `selector` muss zum Label im Deployment passen
+
+Wende danach alle Manifests erneut an:
+
+```
+kubectl apply -f . -n reservations-<dein-name>
+kubectl get svc -n reservations-<dein-name>
+```
+
+Teste anschliessend mit einem busybox-Pod:
 
 ```
 kubectl run -it --rm busybox --image=busybox --restart=Never \
@@ -224,22 +215,12 @@ kubectl run -it --rm busybox --image=busybox --restart=Never \
   -- wget -O- http://ms-reservations:8000/reservations
 ```
 
-Erwartetes Ergebnis:
-```
-Connecting to ms-reservations:8000 (10.x.x.x:8000)
-writing to stdout
-{}
-```
+Ziel: Die Ausgabe zeigt `{}` — der Service leitet den Request an den Pod weiter.
 
-## Aufgabe: Image-Version aktualisieren
+## Zusatzaufgabe: Image-Version aktualisieren
 
-Aendere in `04-reservations-deploy.yml` den Image-Tag von `v1.1` auf `v17`:
-
-```
-          image: dockertrainereu/reservations-jm:v17
-```
-
-Deploye erneut und beobachte den Rolling Update:
+Wenn der Service funktioniert: Aendere den Image-Tag in `04-reservations-deploy.yml`
+von `v1.1` auf `v17` und beobachte den Rolling Update:
 
 ```
 kubectl apply -f . -n reservations-<dein-name>
