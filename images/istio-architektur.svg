@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 480" width="820" height="480" font-family="Arial, sans-serif">
+
+  <!-- Background -->
+  <rect width="820" height="480" fill="#f8f9fa" rx="8"/>
+
+  <!-- Control Plane Box -->
+  <rect x="20" y="20" width="780" height="110" rx="10" fill="#EEF2FF" stroke="#4F46E5" stroke-width="2"/>
+  <text x="410" y="45" text-anchor="middle" font-size="13" font-weight="bold" fill="#312E81">CONTROL PLANE</text>
+
+  <!-- Istiod box -->
+  <rect x="180" y="55" width="460" height="60" rx="8" fill="#4F46E5" stroke="#312E81" stroke-width="1.5"/>
+  <text x="410" y="80" text-anchor="middle" font-size="15" font-weight="bold" fill="white">Istiod</text>
+  <text x="250" y="100" text-anchor="middle" font-size="11" fill="#C7D2FE">Pilot (Discovery)</text>
+  <text x="410" y="100" text-anchor="middle" font-size="11" fill="#C7D2FE">Citadel (Certs/mTLS)</text>
+  <text x="575" y="100" text-anchor="middle" font-size="11" fill="#C7D2FE">Galley (Config)</text>
+
+  <!-- Data Plane Label -->
+  <text x="410" y="175" text-anchor="middle" font-size="13" font-weight="bold" fill="#374151">DATA PLANE</text>
+
+  <!-- Dashed config lines from Istiod to pods -->
+  <line x1="260" y1="115" x2="190" y2="215" stroke="#4F46E5" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <line x1="410" y1="115" x2="410" y2="215" stroke="#4F46E5" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <line x1="560" y1="115" x2="625" y2="215" stroke="#4F46E5" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="130" y="175" text-anchor="middle" font-size="10" fill="#6366F1">konfiguriert</text>
+
+  <!-- Pod A -->
+  <rect x="30" y="215" width="210" height="120" rx="8" fill="#ECFDF5" stroke="#059669" stroke-width="2"/>
+  <text x="135" y="235" text-anchor="middle" font-size="11" font-weight="bold" fill="#065F46">Pod A</text>
+  <rect x="45" y="245" width="80" height="75" rx="5" fill="#059669"/>
+  <text x="85" y="277" text-anchor="middle" font-size="11" font-weight="bold" fill="white">App</text>
+  <text x="85" y="293" text-anchor="middle" font-size="10" fill="#D1FAE5">Frontend</text>
+  <rect x="145" y="245" width="80" height="75" rx="5" fill="#F59E0B"/>
+  <text x="185" y="277" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Envoy</text>
+  <text x="185" y="293" text-anchor="middle" font-size="10" fill="#FEF3C7">Proxy</text>
+  <line x1="125" y1="282" x2="145" y2="282" stroke="white" stroke-width="1.5" marker-end="url(#arrowWhite)"/>
+
+  <!-- Pod B -->
+  <rect x="305" y="215" width="210" height="120" rx="8" fill="#ECFDF5" stroke="#059669" stroke-width="2"/>
+  <text x="410" y="235" text-anchor="middle" font-size="11" font-weight="bold" fill="#065F46">Pod B</text>
+  <rect x="320" y="245" width="80" height="75" rx="5" fill="#059669"/>
+  <text x="360" y="277" text-anchor="middle" font-size="11" font-weight="bold" fill="white">App</text>
+  <text x="360" y="293" text-anchor="middle" font-size="10" fill="#D1FAE5">Backend</text>
+  <rect x="420" y="245" width="80" height="75" rx="5" fill="#F59E0B"/>
+  <text x="460" y="277" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Envoy</text>
+  <text x="460" y="293" text-anchor="middle" font-size="10" fill="#FEF3C7">Proxy</text>
+  <line x1="400" y1="282" x2="420" y2="282" stroke="white" stroke-width="1.5"/>
+
+  <!-- Pod C -->
+  <rect x="580" y="215" width="210" height="120" rx="8" fill="#ECFDF5" stroke="#059669" stroke-width="2"/>
+  <text x="685" y="235" text-anchor="middle" font-size="11" font-weight="bold" fill="#065F46">Pod C</text>
+  <rect x="595" y="245" width="80" height="75" rx="5" fill="#059669"/>
+  <text x="635" y="277" text-anchor="middle" font-size="11" font-weight="bold" fill="white">App</text>
+  <text x="635" y="293" text-anchor="middle" font-size="10" fill="#D1FAE5">Database</text>
+  <rect x="695" y="245" width="80" height="75" rx="5" fill="#F59E0B"/>
+  <text x="735" y="277" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Envoy</text>
+  <text x="735" y="293" text-anchor="middle" font-size="10" fill="#FEF3C7">Proxy</text>
+  <line x1="675" y1="282" x2="695" y2="282" stroke="white" stroke-width="1.5"/>
+
+  <!-- mTLS connections between proxies -->
+  <line x1="225" y1="282" x2="305" y2="282" stroke="#7C3AED" stroke-width="2.5" stroke-dasharray="8,4"/>
+  <line x1="500" y1="282" x2="580" y2="282" stroke="#7C3AED" stroke-width="2.5" stroke-dasharray="8,4"/>
+
+  <!-- mTLS label -->
+  <rect x="245" y="265" width="60" height="18" rx="4" fill="#7C3AED"/>
+  <text x="275" y="278" text-anchor="middle" font-size="10" fill="white" font-weight="bold">mTLS</text>
+  <rect x="520" y="265" width="60" height="18" rx="4" fill="#7C3AED"/>
+  <text x="550" y="278" text-anchor="middle" font-size="10" fill="white" font-weight="bold">mTLS</text>
+
+  <!-- Legend -->
+  <rect x="30" y="375" width="760" height="85" rx="8" fill="white" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="410" y="398" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">Legende</text>
+  <rect x="60" y="408" width="16" height="16" rx="3" fill="#4F46E5"/>
+  <text x="83" y="420" font-size="11" fill="#374151">Istiod (Control Plane)</text>
+  <rect x="230" y="408" width="16" height="16" rx="3" fill="#059669"/>
+  <text x="253" y="420" font-size="11" fill="#374151">App Container</text>
+  <rect x="390" y="408" width="16" height="16" rx="3" fill="#F59E0B"/>
+  <text x="413" y="420" font-size="11" fill="#374151">Envoy Sidecar Proxy</text>
+  <line x1="590" y1="416" x2="630" y2="416" stroke="#7C3AED" stroke-width="2.5" stroke-dasharray="6,3"/>
+  <text x="638" y="420" font-size="11" fill="#374151">mTLS (verschluesselt)</text>
+  <line x1="95" y1="440" x2="135" y2="440" stroke="#4F46E5" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="143" y="444" font-size="11" fill="#374151">Konfiguration vom Control Plane</text>
+
+</svg>

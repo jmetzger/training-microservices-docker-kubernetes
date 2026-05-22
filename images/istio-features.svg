@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 320" width="820" height="320" font-family="Arial, sans-serif">
+
+  <rect width="820" height="320" fill="#f8f9fa" rx="8"/>
+  <text x="410" y="30" text-anchor="middle" font-size="15" font-weight="bold" fill="#111827">Istio — Die 5 Kern-Features</text>
+
+  <!-- mTLS / Security -->
+  <rect x="20" y="50" width="148" height="130" rx="8" fill="#EEF2FF" stroke="#4F46E5" stroke-width="2"/>
+  <text x="94" y="78" text-anchor="middle" font-size="22">🔒</text>
+  <text x="94" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="#312E81">mTLS</text>
+  <text x="94" y="116" text-anchor="middle" font-size="10" fill="#4338CA">Automatische</text>
+  <text x="94" y="129" text-anchor="middle" font-size="10" fill="#4338CA">Verschluesselung</text>
+  <text x="94" y="142" text-anchor="middle" font-size="10" fill="#4338CA">zwischen allen</text>
+  <text x="94" y="155" text-anchor="middle" font-size="10" fill="#4338CA">Services</text>
+  <text x="94" y="171" text-anchor="middle" font-size="10" font-style="italic" fill="#6366F1">Zero Trust</text>
+
+  <!-- Traffic Management -->
+  <rect x="178" y="50" width="148" height="130" rx="8" fill="#F0FDF4" stroke="#059669" stroke-width="2"/>
+  <text x="252" y="78" text-anchor="middle" font-size="22">🔀</text>
+  <text x="252" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="#065F46">Traffic Control</text>
+  <text x="252" y="116" text-anchor="middle" font-size="10" fill="#047857">Canary Releases</text>
+  <text x="252" y="129" text-anchor="middle" font-size="10" fill="#047857">A/B-Tests</text>
+  <text x="252" y="142" text-anchor="middle" font-size="10" fill="#047857">Gewichtetes</text>
+  <text x="252" y="155" text-anchor="middle" font-size="10" fill="#047857">Routing (90/10)</text>
+  <text x="252" y="171" text-anchor="middle" font-size="10" font-style="italic" fill="#059669">VirtualService</text>
+
+  <!-- Observability -->
+  <rect x="336" y="50" width="148" height="130" rx="8" fill="#FFFBEB" stroke="#D97706" stroke-width="2"/>
+  <text x="410" y="78" text-anchor="middle" font-size="22">📊</text>
+  <text x="410" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400E">Observability</text>
+  <text x="410" y="116" text-anchor="middle" font-size="10" fill="#B45309">Metrics automatisch</text>
+  <text x="410" y="129" text-anchor="middle" font-size="10" fill="#B45309">Tracing (Jaeger)</text>
+  <text x="410" y="142" text-anchor="middle" font-size="10" fill="#B45309">Service Graph</text>
+  <text x="410" y="155" text-anchor="middle" font-size="10" fill="#B45309">(Kiali)</text>
+  <text x="410" y="171" text-anchor="middle" font-size="10" font-style="italic" fill="#D97706">kein Code noetig</text>
+
+  <!-- Resilience -->
+  <rect x="494" y="50" width="148" height="130" rx="8" fill="#FFF1F2" stroke="#E11D48" stroke-width="2"/>
+  <text x="568" y="78" text-anchor="middle" font-size="22">🛡️</text>
+  <text x="568" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="#881337">Resilience</text>
+  <text x="568" y="116" text-anchor="middle" font-size="10" fill="#BE123C">Circuit Breaker</text>
+  <text x="568" y="129" text-anchor="middle" font-size="10" fill="#BE123C">Retries / Timeout</text>
+  <text x="568" y="142" text-anchor="middle" font-size="10" fill="#BE123C">Fault Injection</text>
+  <text x="568" y="155" text-anchor="middle" font-size="10" fill="#BE123C">(Chaos Testing)</text>
+  <text x="568" y="171" text-anchor="middle" font-size="10" font-style="italic" fill="#E11D48">DestinationRule</text>
+
+  <!-- Authorization -->
+  <rect x="652" y="50" width="148" height="130" rx="8" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="726" y="78" text-anchor="middle" font-size="22">✅</text>
+  <text x="726" y="100" text-anchor="middle" font-size="12" font-weight="bold" fill="#4C1D95">Authorization</text>
+  <text x="726" y="116" text-anchor="middle" font-size="10" fill="#6D28D9">Wer darf wen</text>
+  <text x="726" y="129" text-anchor="middle" font-size="10" fill="#6D28D9">aufrufen?</text>
+  <text x="726" y="142" text-anchor="middle" font-size="10" fill="#6D28D9">Feingranulare</text>
+  <text x="726" y="155" text-anchor="middle" font-size="10" fill="#6D28D9">Policies</text>
+  <text x="726" y="171" text-anchor="middle" font-size="10" font-style="italic" fill="#7C3AED">AuthorizationPolicy</text>
+
+  <!-- Bottom bar: Kein Code noetig -->
+  <rect x="20" y="210" width="780" height="50" rx="8" fill="#1E293B"/>
+  <text x="410" y="230" text-anchor="middle" font-size="12" font-weight="bold" fill="#F8FAFC">Alle Features greifen transparent per Sidecar — kein Code in der Applikation noetig</text>
+  <text x="410" y="248" text-anchor="middle" font-size="11" fill="#94A3B8">Aktivierung per Namespace-Label:  kubectl label namespace default istio-injection=enabled</text>
+
+  <!-- Bottom logos area -->
+  <rect x="20" y="275" width="780" height="35" rx="8" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="115" y="297" text-anchor="middle" font-size="11" fill="#475569">Envoy Proxy</text>
+  <text x="250" y="297" text-anchor="middle" font-size="11" fill="#475569">Kiali (Visualisierung)</text>
+  <text x="410" y="297" text-anchor="middle" font-size="11" fill="#475569">Jaeger (Tracing)</text>
+  <text x="570" y="297" text-anchor="middle" font-size="11" fill="#475569">Prometheus (Metrics)</text>
+  <text x="715" y="297" text-anchor="middle" font-size="11" fill="#475569">Grafana (Dashboards)</text>
+
+</svg>
