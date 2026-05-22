@@ -5,6 +5,7 @@
   1. Grundlagen
      * [Microservices-Trends 2026](microservices/trends-2026.md)
      * [Was sind Microservices ?](microservices/what-are.md)
+     * [Best Practices fuer Multi-Cluster- und Hybrid-Umgebungen](microservices/multi-cluster-hybrid.md)
      * [Grundkonzepte von Microservices](microservices/basics.md)
      * [Architektur von Microservices (Schichten/Layers)](microservices/layers.md)
      * [12 factor app](microservices/principles/12-factor-app.md)
@@ -425,6 +426,7 @@
     
   1. Kubernetes - Backups 
      + [Kubernetes Aware Cloud Backup - kasten.io](/backups/cluster-backup-kasten-io.md)
+     * [Backup- und Wiederherstellungsstrategien](/backups/backup-wiederherstellung.md)
 
   1. Kubernetes - Tipps & Tricks 
      * [Assigning Pods to Nodes](/tipps-tricks/pods-2-nodes.md) 
