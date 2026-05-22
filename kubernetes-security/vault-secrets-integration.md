@@ -1,5 +1,7 @@
 # Secrets in Kubernetes mit HashiCorp Vault
 
+![Übersicht: Secrets in Kubernetes mit HashiCorp Vault](/images/vault-secrets-overview.svg)
+
 ## Das Problem: Warum reichen native Kubernetes Secrets nicht aus?
 
 Kubernetes hat ein eingebautes `Secret`-Objekt. Auf den ersten Blick wirkt es wie eine
@@ -61,29 +63,7 @@ Ein einzelner Vault-Server ist ein **Single Point of Failure**. Wenn er ausfäll
 können keine Secrets mehr abgerufen werden — Pods starten nicht, Deployments schlagen
 fehl. In Produktion ist Vault deshalb immer als Cluster betrieben:
 
-```
-            ┌─────────────────────────────────┐
-            │        Vault Cluster (HA)        │
-            │                                 │
-            │  ┌─────────┐    ┌─────────┐    │
-            │  │ Vault 1  │    │ Vault 2  │    │
-            │  │ (Active) │←──→│(Standby)│    │
-            │  └─────────┘    └─────────┘    │
-            │         ┌─────────┐             │
-            │         │ Vault 3  │            │
-            │         │(Standby)│             │
-            │         └─────────┘             │
-            │                                 │
-            │  Storage-Backend: etcd/Consul/  │
-            │  Integrated Raft               │
-            └─────────────────────────────────┘
-                         ▲
-                         │ authentifiziert sich
-                         │ per Kubernetes Auth
-                    ┌────┴────┐
-                    │   Pod   │
-                    └─────────┘
-```
+![HashiCorp Vault HA Cluster](/images/vault-ha-cluster.svg)
 
 **Raft (Integrated Storage)** ist heute der empfohlene Weg — Vault managed seinen
 eigenen Cluster ohne externes Storage-Backend.
@@ -96,31 +76,6 @@ auf keine Anfragen.
 
 ## Die 3 Wege: Secrets aus Vault in Kubernetes
 
-### Überblick
-
-```
-                    ┌──────────────┐
-                    │ HashiCorp    │
-                    │   Vault      │
-                    └──────┬───────┘
-                           │
-           ┌───────────────┼───────────────┐
-           │               │               │
-           ▼               ▼               ▼
-    ┌─────────────┐ ┌─────────────┐ ┌─────────────┐
-    │   Weg 1:    │ │   Weg 2:    │ │   Weg 3:    │
-    │   Vault     │ │  Vault CSI  │ │  External   │
-    │   Agent     │ │  Provider   │ │  Secrets    │
-    │  Injector   │ │             │ │  Operator   │
-    └──────┬──────┘ └──────┬──────┘ └──────┬──────┘
-           │               │               │
-           ▼               ▼               ▼
-      Dateien im      Dateien im     Kubernetes
-      Pod (tmpfs)     Pod (tmpfs)    Secret Objekt
-```
-
----
-
 ### Weg 1: Vault Agent Injector (Sidecar)
 
 **Wie es funktioniert:**
@@ -129,27 +84,7 @@ Kubernetes startet automatisch einen zweiten Container (Sidecar) in jedem Pod,
 der Annotations hat. Dieser `vault-agent`-Container holt die Secrets aus Vault
 und schreibt sie als Datei in ein geteiltes Volume im Pod.
 
-```
-┌──────────────────────────────────────────────┐
-│                    Pod                       │
-│                                              │
-│  ┌──────────────┐     ┌──────────────────┐  │
-│  │  App-        │     │  vault-agent     │  │
-│  │  Container   │     │  (Sidecar)       │  │
-│  │              │     │                  │  │
-│  │  liest:      │     │  holt Secrets    │  │
-│  │  /vault/     │←────│  aus Vault und   │  │
-│  │  secrets/    │     │  schreibt sie    │  │
-│  │  config      │     │  ins Volume      │  │
-│  └──────────────┘     └────────┬─────────┘  │
-│                                │             │
-└────────────────────────────────┼─────────────┘
-                                 │ authentifiziert
-                                 ▼ per ServiceAccount
-                          ┌─────────────┐
-                          │    Vault    │
-                          └─────────────┘
-```
+![Vault Agent Injector](/images/vault-agent-injector.svg)
 
 **Konfiguration per Annotations:**
 
@@ -195,29 +130,7 @@ wie Volumes in den Pod gemountet.
 
 **Wie es funktioniert:**
 
-```
-┌─────────────────────────────────────────────┐
-│                    Pod                      │
-│                                             │
-│  ┌──────────────────────────────────────┐  │
-│  │  App-Container                       │  │
-│  │                                      │  │
-│  │  liest: /mnt/secrets/password        │  │
-│  └─────────────────┬────────────────────┘  │
-│                    │ gemountetes Volume     │
-└────────────────────┼────────────────────────┘
-                     │
-          ┌──────────▼──────────┐
-          │  Secrets Store      │
-          │  CSI Driver         │  (DaemonSet auf jedem Node)
-          │  + Vault Provider   │
-          └──────────┬──────────┘
-                     │ holt Secret
-                     ▼
-              ┌─────────────┐
-              │    Vault    │
-              └─────────────┘
-```
+![Vault CSI Provider](/images/vault-csi-provider.svg)
 
 **SecretProviderClass definieren:**
 
@@ -279,36 +192,7 @@ im Spiel ist.
 
 **Wie es funktioniert:**
 
-```
-┌──────────────────────────────────────────┐
-│              Kubernetes Cluster          │
-│                                          │
-│  ┌──────────────────┐                   │
-│  │ External Secrets │  beobachtet       │
-│  │   Operator       │◄── ExternalSecret │
-│  │  (Controller)    │                   │
-│  └────────┬─────────┘                   │
-│           │ holt Secret                 │
-│           │                             │
-└───────────┼─────────────────────────────┘
-            │
-            ▼
-     ┌─────────────┐
-     │    Vault    │
-     └──────┬──────┘
-            │ erstellt/aktualisiert
-            ▼
-┌───────────────────────────────────────────┐
-│           Kubernetes Cluster              │
-│                                           │
-│  ┌──────────────────┐  ┌──────────────┐  │
-│  │  Kubernetes      │  │     Pod      │  │
-│  │  Secret          │─►│  nutzt als   │  │
-│  │  (automatisch    │  │  Env-Var oder│  │
-│  │   erstellt)      │  │  Volume      │  │
-│  └──────────────────┘  └──────────────┘  │
-└───────────────────────────────────────────┘
-```
+![External Secrets Operator](/images/vault-eso.svg)
 
 **ExternalSecret definieren:**
 

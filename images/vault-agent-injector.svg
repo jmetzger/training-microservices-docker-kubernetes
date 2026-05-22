@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 300" font-family="Arial, sans-serif">
+  <rect width="820" height="300" fill="#f4f6f9" rx="10"/>
+  <text x="410" y="30" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a1a2e">Weg 1: Vault Agent Injector (Sidecar)</text>
+
+  <!-- Pod outer box -->
+  <rect x="30" y="48" width="565" height="215" rx="10" fill="#EBF5FB" stroke="#326CE5" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="312" y="68" text-anchor="middle" font-size="12" font-weight="bold" fill="#326CE5">Pod</text>
+
+  <!-- App Container -->
+  <rect x="55" y="78" width="195" height="155" rx="8" fill="#fff" stroke="#326CE5" stroke-width="1.5"/>
+  <rect x="55" y="78" width="195" height="32" rx="8" fill="#326CE5"/>
+  <rect x="55" y="98" width="195" height="12" fill="#326CE5"/>
+  <text x="152" y="99" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">App Container</text>
+  <text x="152" y="128" text-anchor="middle" font-size="10" fill="#555">liest Secret aus:</text>
+  <rect x="70" y="135" width="165" height="22" rx="4" fill="#f0f0f0" stroke="#ccc" stroke-width="1"/>
+  <text x="152" y="150" text-anchor="middle" font-size="10" fill="#333" font-family="monospace">/vault/secrets/config</text>
+  <text x="152" y="185" text-anchor="middle" font-size="10" fill="#555">Keine Code-Änderung</text>
+  <text x="152" y="200" text-anchor="middle" font-size="10" fill="#555">nötig — einfach Datei</text>
+  <text x="152" y="215" text-anchor="middle" font-size="10" fill="#555">lesen wie gewohnt.</text>
+
+  <!-- Shared Volume -->
+  <rect x="265" y="148" width="105" height="55" rx="6" fill="#FFF9C4" stroke="#f39c12" stroke-width="1.5"/>
+  <text x="317" y="168" text-anchor="middle" font-size="9" font-weight="bold" fill="#e67e22">Shared Volume</text>
+  <text x="317" y="182" text-anchor="middle" font-size="9" fill="#666">(tmpfs / RAM)</text>
+  <text x="317" y="196" text-anchor="middle" font-size="9" fill="#666">Secret-Datei</text>
+
+  <!-- vault-agent Sidecar -->
+  <rect x="385" y="78" width="185" height="155" rx="8" fill="#fff" stroke="#8e44ad" stroke-width="1.5"/>
+  <rect x="385" y="78" width="185" height="32" rx="8" fill="#8e44ad"/>
+  <rect x="385" y="98" width="185" height="12" fill="#8e44ad"/>
+  <text x="477" y="99" text-anchor="middle" font-size="11" font-weight="bold" fill="#fff">vault-agent (Sidecar)</text>
+  <text x="477" y="128" text-anchor="middle" font-size="10" fill="#555">Automatisch injiziert</text>
+  <text x="477" y="143" text-anchor="middle" font-size="10" fill="#555">via Annotations</text>
+  <text x="477" y="163" text-anchor="middle" font-size="10" fill="#555">Holt Secret aus Vault</text>
+  <text x="477" y="178" text-anchor="middle" font-size="10" fill="#555">Hält Lease aufrecht</text>
+  <text x="477" y="193" text-anchor="middle" font-size="10" fill="#555">→ automatische</text>
+  <text x="477" y="208" text-anchor="middle" font-size="10" fill="#555">   Rotation</text>
+
+  <!-- Arrow: vault-agent → shared volume -->
+  <line x1="383" y1="175" x2="372" y2="175" stroke="#8e44ad" stroke-width="1.5" marker-end="url(#arrPurple)"/>
+
+  <!-- Arrow: shared volume → app container -->
+  <line x1="263" y1="175" x2="252" y2="175" stroke="#f39c12" stroke-width="1.5" marker-end="url(#arrOrange)"/>
+
+  <!-- Arrow: vault-agent → Vault (bottom) -->
+  <line x1="477" y1="235" x2="477" y2="263" stroke="#8e44ad" stroke-width="2" marker-end="url(#arrPurple)"/>
+  <text x="500" y="255" font-size="9" fill="#8e44ad">holt Secret</text>
+
+  <!-- Vault box -->
+  <rect x="615" y="78" width="175" height="175" rx="10" fill="#1C1C2C" stroke="#FFB300" stroke-width="2"/>
+  <text x="702" y="102" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFB300">HashiCorp</text>
+  <text x="702" y="118" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFB300">Vault</text>
+  <line x1="625" y1="125" x2="780" y2="125" stroke="#FFB300" stroke-width="1" opacity="0.4"/>
+  <text x="702" y="148" text-anchor="middle" font-size="10" fill="#aaa">secret/data/</text>
+  <text x="702" y="163" text-anchor="middle" font-size="10" fill="#aaa">my-app/config</text>
+  <text x="702" y="193" text-anchor="middle" font-size="10" fill="#27ae60">✓ Authentifizierung</text>
+  <text x="702" y="208" text-anchor="middle" font-size="10" fill="#aaa">via ServiceAccount</text>
+  <text x="702" y="228" text-anchor="middle" font-size="10" fill="#27ae60">✓ kein Secret in etcd</text>
+
+  <!-- Arrow: vault-agent → Vault (horizontal) -->
+  <line x1="572" y1="175" x2="613" y2="175" stroke="#8e44ad" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrPurple)"/>
+
+  <!-- Bottom note -->
+  <rect x="30" y="270" width="760" height="22" rx="5" fill="#f5eef8" stroke="#8e44ad" stroke-width="1"/>
+  <text x="410" y="284" text-anchor="middle" font-size="10" fill="#6c3483">Konfiguration: Annotations im Deployment-Manifest — vault.hashicorp.com/agent-inject: "true" + vault.hashicorp.com/role: "my-app-role"</text>
+
+  <defs>
+    <marker id="arrPurple" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#8e44ad"/>
+    </marker>
+    <marker id="arrOrange" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#f39c12"/>
+    </marker>
+  </defs>
+</svg>
