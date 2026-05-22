@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 420" font-family="Arial, sans-serif" font-size="13">
+
+  <!-- Background -->
+  <rect width="860" height="420" fill="#f8f9fa" rx="8"/>
+
+  <!-- Title -->
+  <text x="430" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#1a1a2e">Monitoring-Stack: Prometheus &amp; Grafana in Kubernetes</text>
+
+  <!-- ===== Kubernetes Cluster Box ===== -->
+  <rect x="20" y="50" width="300" height="330" rx="10" fill="#e8f4fd" stroke="#2196F3" stroke-width="2"/>
+  <text x="170" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="#1565C0">Kubernetes Cluster</text>
+
+  <!-- Pods / Apps -->
+  <rect x="40" y="90" width="120" height="60" rx="6" fill="#ffffff" stroke="#90CAF9" stroke-width="1.5"/>
+  <text x="100" y="114" text-anchor="middle" font-size="12" font-weight="bold" fill="#1565C0">App-Pods</text>
+  <text x="100" y="132" text-anchor="middle" font-size="11" fill="#555">/metrics</text>
+
+  <!-- node-exporter -->
+  <rect x="180" y="90" width="120" height="60" rx="6" fill="#ffffff" stroke="#90CAF9" stroke-width="1.5"/>
+  <text x="240" y="110" text-anchor="middle" font-size="12" font-weight="bold" fill="#1565C0">node-exporter</text>
+  <text x="240" y="128" text-anchor="middle" font-size="11" fill="#555">CPU, RAM, Disk</text>
+  <text x="240" y="143" text-anchor="middle" font-size="11" fill="#555">je Node</text>
+
+  <!-- kube-state-metrics -->
+  <rect x="40" y="175" width="120" height="60" rx="6" fill="#ffffff" stroke="#90CAF9" stroke-width="1.5"/>
+  <text x="100" y="196" text-anchor="middle" font-size="12" font-weight="bold" fill="#1565C0">kube-state-</text>
+  <text x="100" y="211" text-anchor="middle" font-size="12" font-weight="bold" fill="#1565C0">metrics</text>
+  <text x="100" y="228" text-anchor="middle" font-size="11" fill="#555">Deployments, Pods</text>
+
+  <!-- cAdvisor -->
+  <rect x="180" y="175" width="120" height="60" rx="6" fill="#ffffff" stroke="#90CAF9" stroke-width="1.5"/>
+  <text x="240" y="199" text-anchor="middle" font-size="12" font-weight="bold" fill="#1565C0">cAdvisor</text>
+  <text x="240" y="217" text-anchor="middle" font-size="11" fill="#555">Container-</text>
+  <text x="240" y="232" text-anchor="middle" font-size="11" fill="#555">Metriken</text>
+
+  <!-- ServiceMonitor -->
+  <rect x="40" y="260" width="260" height="40" rx="6" fill="#E3F2FD" stroke="#64B5F6" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="170" y="276" text-anchor="middle" font-size="11" font-weight="bold" fill="#1565C0">ServiceMonitor / PodMonitor</text>
+  <text x="170" y="292" text-anchor="middle" font-size="11" fill="#555">definiert was Prometheus scrapt</text>
+
+  <!-- scrape arrow label -->
+  <text x="170" y="325" text-anchor="middle" font-size="11" fill="#555">DaemonSet</text>
+  <text x="170" y="340" text-anchor="middle" font-size="11" fill="#1565C0">(node-exporter)</text>
+  <text x="170" y="358" text-anchor="middle" font-size="11" fill="#555">Deployment</text>
+  <text x="170" y="373" text-anchor="middle" font-size="11" fill="#1565C0">(kube-state-metrics)</text>
+
+  <!-- ===== Prometheus Box ===== -->
+  <rect x="360" y="100" width="180" height="200" rx="10" fill="#fff3e0" stroke="#FF9800" stroke-width="2"/>
+  <text x="450" y="125" text-anchor="middle" font-size="14" font-weight="bold" fill="#E65100">Prometheus</text>
+
+  <!-- Retrieval -->
+  <rect x="375" y="135" width="150" height="40" rx="5" fill="#FFE0B2" stroke="#FFB74D" stroke-width="1"/>
+  <text x="450" y="152" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">Retrieval</text>
+  <text x="450" y="168" text-anchor="middle" font-size="11" fill="#555">pull /metrics alle 15s</text>
+
+  <!-- TSDB -->
+  <rect x="375" y="185" width="150" height="40" rx="5" fill="#FFE0B2" stroke="#FFB74D" stroke-width="1"/>
+  <text x="450" y="202" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">TSDB</text>
+  <text x="450" y="218" text-anchor="middle" font-size="11" fill="#555">Time Series Database</text>
+
+  <!-- HTTP / PromQL -->
+  <rect x="375" y="235" width="150" height="40" rx="5" fill="#FFE0B2" stroke="#FFB74D" stroke-width="1"/>
+  <text x="450" y="252" text-anchor="middle" font-size="11" font-weight="bold" fill="#E65100">HTTP Server</text>
+  <text x="450" y="268" text-anchor="middle" font-size="11" fill="#555">PromQL-API</text>
+
+  <!-- ===== AlertManager Box ===== -->
+  <rect x="360" y="320" width="180" height="60" rx="10" fill="#fce4ec" stroke="#E91E63" stroke-width="2"/>
+  <text x="450" y="343" text-anchor="middle" font-size="13" font-weight="bold" fill="#880E4F">AlertManager</text>
+  <text x="450" y="362" text-anchor="middle" font-size="11" fill="#555">E-Mail, Slack, PagerDuty</text>
+
+  <!-- ===== Grafana Box ===== -->
+  <rect x="590" y="100" width="240" height="200" rx="10" fill="#e8f5e9" stroke="#4CAF50" stroke-width="2"/>
+  <text x="710" y="125" text-anchor="middle" font-size="14" font-weight="bold" fill="#1B5E20">Grafana</text>
+
+  <!-- Dashboards -->
+  <rect x="605" y="135" width="210" height="40" rx="5" fill="#C8E6C9" stroke="#81C784" stroke-width="1"/>
+  <text x="710" y="152" text-anchor="middle" font-size="11" font-weight="bold" fill="#1B5E20">Dashboards</text>
+  <text x="710" y="168" text-anchor="middle" font-size="11" fill="#555">Cluster / Pods / Nodes</text>
+
+  <!-- Data Source -->
+  <rect x="605" y="185" width="210" height="40" rx="5" fill="#C8E6C9" stroke="#81C784" stroke-width="1"/>
+  <text x="710" y="202" text-anchor="middle" font-size="11" font-weight="bold" fill="#1B5E20">Data Source</text>
+  <text x="710" y="218" text-anchor="middle" font-size="11" fill="#555">Prometheus (PromQL)</text>
+
+  <!-- Alerts -->
+  <rect x="605" y="235" width="210" height="40" rx="5" fill="#C8E6C9" stroke="#81C784" stroke-width="1"/>
+  <text x="710" y="252" text-anchor="middle" font-size="11" font-weight="bold" fill="#1B5E20">Alerting</text>
+  <text x="710" y="268" text-anchor="middle" font-size="11" fill="#555">Grafana Alerts</text>
+
+  <!-- User/Browser -->
+  <rect x="640" y="320" width="140" height="60" rx="10" fill="#ede7f6" stroke="#7E57C2" stroke-width="2"/>
+  <text x="710" y="343" text-anchor="middle" font-size="13" font-weight="bold" fill="#4527A0">Browser</text>
+  <text x="710" y="362" text-anchor="middle" font-size="11" fill="#555">:3000 (Grafana UI)</text>
+
+  <!-- ===== Arrows ===== -->
+
+  <!-- Cluster -> Prometheus (scrape) -->
+  <line x1="320" y1="170" x2="358" y2="170" stroke="#FF9800" stroke-width="2" marker-end="url(#arrowOrange)"/>
+  <text x="339" y="163" text-anchor="middle" font-size="10" fill="#E65100">scrape</text>
+
+  <!-- Prometheus -> AlertManager -->
+  <line x1="450" y1="300" x2="450" y2="318" stroke="#E91E63" stroke-width="2" marker-end="url(#arrowPink)"/>
+  <text x="466" y="315" font-size="10" fill="#880E4F">alerts</text>
+
+  <!-- Prometheus -> Grafana (PromQL) -->
+  <line x1="542" y1="255" x2="588" y2="230" stroke="#4CAF50" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="548" y="248" font-size="10" fill="#1B5E20">PromQL</text>
+
+  <!-- Browser -> Grafana -->
+  <line x1="710" y1="318" x2="710" y2="302" stroke="#7E57C2" stroke-width="2" marker-end="url(#arrowPurple)"/>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowOrange" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#FF9800"/>
+    </marker>
+    <marker id="arrowPink" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#E91E63"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#4CAF50"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#7E57C2"/>
+    </marker>
+  </defs>
+
+</svg>

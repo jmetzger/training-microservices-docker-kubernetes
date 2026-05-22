@@ -243,6 +243,7 @@
      * [Aus pod mit curl api-server abfragen](/kubernetes-advanced/curl-api-server.md)
 
   1. Kubernetes - Monitoring 
+     * [Überblick Monitoring-Stack (Prometheus + Grafana)](kubernetes-monitoring/monitoring-overview.md)
      * [metrics-server aktivieren (microk8s und vanilla)](/microk8s/metrics-server.md)
      * [Prometheus Überblick](/prometheus/overview.md)
      * [Prometheus Kubernetes Stack installieren](prometheus-grafana/install-with-helm.md)
