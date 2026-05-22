@@ -123,6 +123,52 @@ spec:
     app: my-nginx
 ```        
 
+## Example III: Service mit LoadBalancer (ExternalIP)
+
+```
+cd; cd manifests/04-service 
+nano service.yml
+# in Zeile type: 
+# NodePort ersetzt durch LoadBalancer  
+
+kubectl apply -f .
+kubectl get svc svc-nginx
+
+kubectl describe svc svc-nginx
+# hier heisst das nicht External-IP ->
+# sondern
+```
+
+<img width="775" height="63" alt="image" src="https://github.com/user-attachments/assets/3f1db219-e5d8-4bbf-a001-17fc5eaae93f" />
+
+```
+kubectl get svc svc-nginx -w 
+# spätestens nach 5 Minuten bekommen wir eine externe ip
+# z.B. 41.32.44.45
+
+curl http://41.32.44.45 
+```
+
+
+## Example getting a specific ip from loadbalancer (if supported) 
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-nginx2
+spec:
+  type: LoadBalancer
+  # this line to get a specific ip if supported
+  loadBalancerIP: 10.34.12.34
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    web: my-nginx
+```       
+
+
 ## Ref.
 
   * https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/
