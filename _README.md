@@ -3,13 +3,16 @@
 
 ## Agenda
   1. Grundlagen
+     * [Microservices-Trends 2026](#microservices-trends-2026)
      * [Was sind Microservices ?](#was-sind-microservices-)
+     * [Best Practices fuer Multi-Cluster- und Hybrid-Umgebungen](#best-practices-fuer-multi-cluster--und-hybrid-umgebungen)
      * [Grundkonzepte von Microservices](#grundkonzepte-von-microservices)
      * [Architektur von Microservices (Schichten/Layers)](#architektur-von-microservices-schichtenlayers)
      * [12 factor app](#12-factor-app)
      * [Monolith vs. Microservices](#monolith-vs-microservices)
      * [Praxisbeispiele](#praxisbeispiele)
      * [Was ist devops](#was-ist-devops)
+     * [Was ist ein API Gateway](#was-ist-ein-api-gateway)
      * [Microservice and Database](#microservice-and-database)
 
   1. Analyse Monolith / Microservice
@@ -20,18 +23,37 @@
      * [Datenbank - Patterns - Teil 1](#datenbank---patterns---teil-1)
      * [Datenbank - Patterns - Teil 2](#datenbank---patterns---teil-2)
      * [Strategische Patterns](#strategische-patterns)
-     * [Tests](#tests)
+     * [Tests - Uebersicht](#tests---uebersicht)
      * [Monolith schneiden microservices](#monolith-schneiden-microservices)
+     * [IAM als Bounded Context — fachlich oder technisch?](#iam-als-bounded-context-—-fachlich-oder-technisch)
+     * [Authentication in Kubernetes (Kunde / Mobile App)](#authentication-in-kubernetes-kunde--mobile-app)
+     * [API Gateway vs. Istio Service Mesh – Authentication](#api-gateway-vs-istio-service-mesh-–-authentication)
+     * [JWT mit Keycloak und Istio — Login-Flow, Client Credentials, Validierung](#jwt-mit-keycloak-und-istio-—-login-flow-client-credentials-validierung)
+     * [Datenmigration: Notification Service (Dual Write, Outbox, Backfill)](#datenmigration-notification-service-dual-write-outbox-backfill)
+
+  1. Micro-Frontends
+     * [Micro-Frontends — Teams am Frontend ohne Kollisionen](#micro-frontends-—-teams-am-frontend-ohne-kollisionen)
+     * [Micro-Frontends — Kommunikation zwischen MFEs](#micro-frontends-—-kommunikation-zwischen-mfes)
+     * [Micro-Frontends — Module Federation (Webpack/Vite, TypeScript)](#micro-frontends-—-module-federation-webpackvite-typescript)
+
+  1. Übungen: Monolith schneiden
+     * [Uebung: Monolith schneiden — DDD, Bounded Contexts und Strangler Fig](#uebung-monolith-schneiden-—-ddd-bounded-contexts-und-strangler-fig)
+     * [Auswertung: EventStorming — ShopMax](#auswertung-eventstorming-—-shopmax)
+     * [Auswertung: Bounded Contexts — ShopMax](#auswertung-bounded-contexts-—-shopmax)
+     * [Weiterfuehrende Schritte: Monolith schneiden (Schritt 3–7)](#weiterfuehrende-schritte-monolith-schneiden-schritt-3–7)
+     * [Musterloesung: Monolith schneiden mit DDD und Strangler Fig (Trainer)](#musterloesung-monolith-schneiden-mit-ddd-und-strangler-fig-trainer)
 
   1. Grundwissen Microservices - Synchrones Messaging
      * [gRPC vs. REST API](#grpc-vs-rest-api)
      * [API-Abfrage über REST-API](#api-abfrage-über-rest-api)
+     * [OpenAPI-Spec aus Code generieren (Go, Python, Java, TS, Rust, C#, PHP)](#openapi-spec-aus-code-generieren-go-python-java-ts-rust-c#-php)
     
   1. Grundwissen Microservices - Async Messaging
      * [Asynchrones Messaging](#asynchrones-messaging)
      * [EventBus Implementierungen/Überblick](#eventbus-implementierungenüberblick)
      * [Kafka Schaubild](#kafka-schaubild)
      * [Schema Registry (confluent)](#schema-registry-confluent)
+     * [Uebung: Kafka Schema Registry — Avro und Schema-Evolution](#uebung-kafka-schema-registry-—-avro-und-schema-evolution)
      * [Topic/Queue ohne Downtime migrieren](#topicqueue-ohne-downtime-migrieren)
      * [Disruptive Änderungen im Schema migrieren](#disruptive-änderungen-im-schema-migrieren)
 
@@ -39,12 +61,14 @@
      * [Circuit-Breaker und Fehlertoleranz](#circuit-breaker-und-fehlertoleranz)
   
   1. Grundwissen Microservices - Tests (Teil 3)
-      * [Tests](microservices/tests/overview.md) 
-      * [Static Tests](microservices/tests/static.md)
-      * [Unit-Tests](microservices/tests/unit_testing.md)
-      * [Integration Testing](microservices/tests/integration_testing_gitlab_ci_cd.md)
-      * [Contract Testing](microservices/tests/contract-test.md)
-      * [End-to-End - e2e - Tests](microservices/tests/e2e-end-to-end.md)
+      * [Testing-Strategie: Was, wieviel, wann?](microservices/tests/00-testing-uebersicht.md)
+      * [Static Tests](microservices/tests/01-testing-static.md)
+      * [Unit-Tests](microservices/tests/02-testing-unit.md)
+      * [Integration Testing mit Testcontainers](microservices/tests/03-testing-integration-testcontainers.md)
+      * [Contract Testing mit OpenAPI](microservices/tests/04-testing-contract-openapi.md)
+      * [Consumer-Driven Contract Testing mit Pact](microservices/tests/05-testing-contract-pact.md)
+      * [End-to-End - e2e - Tests](microservices/tests/06-testing-e2e.md)
+      * [Integration in GitLab CI/CD](microservices/tests/07-testing-ci-cd-gitlab.md)
 
   1. Linux Tipps & Tricks
      * [In den Root-Benutzer wechseln](#in-den-root-benutzer-wechseln)
@@ -76,7 +100,7 @@
      * [Scanning docker image with docker scan/snyx(Deprecated)](#scanning-docker-image-with-docker-scansnyxdeprecated)
     
   1. Docker Compose
-     * [Ist docker-compose installiert?](#ist-docker-compose-installiert)
+     * [Ist docker compose installiert?](#ist-docker-compose-installiert)
      * [Example with Wordpress / MySQL](#example-with-wordpress--mysql)
      * [Example with Ubuntu and Dockerfile](#example-with-ubuntu-and-dockerfile)
      * [Logs in docker - compose](#logs-in-docker---compose)
@@ -89,11 +113,14 @@
      * [Überblick shared database / database-per-service](#überblick-shared-database--database-per-service)
      * [Umgang mit Joins bei database-per-service](#umgang-mit-joins-bei-database-per-service)
      * [Umgang mit Transaktionen bei database-per-service (SAGA)](#umgang-mit-transaktionen-bei-database-per-service-saga)
+     * [Uebung: SAGA-Pattern mit Temporal (Docker Compose, Java)](#uebung-saga-pattern-mit-temporal-docker-compose-java)
+     * [Apache Camel (EIP) vs. Temporal — Vergleich und Entscheidungshilfe](#apache-camel-eip-vs-temporal-—-vergleich-und-entscheidungshilfe)
      * [Event Sourcing](#event-sourcing)
     
   1. Microservice - flightapp - concepts
      * [Vorgehensweise nach dem SEED-Verfahren](#vorgehensweise-nach-dem-seed-verfahren)
      * [Vorgehensweise nach SEED on Detail](#vorgehensweise-nach-seed-on-detail)
+     * [SEED vs. DDD mit EventStorming — Wann nehme ich was?](#seed-vs-ddd-mit-eventstorming-—-wann-nehme-ich-was)
 
   1. Microservice - flightapp - reservations 
      * [Template for microservice with python flask ](#template-for-microservice-with-python-flask-)
@@ -113,10 +140,15 @@
      * [github Deployment](#github-deployment)
      * [github Deployment-with-secret-not-working](#github-deployment-with-secret-not-working)
 
+  1. Microservice - flightapp - Uebungen: Manuell in Kubernetes deployen
+     * [Uebung: ms-reservations manuell deployen und Service erstellen](#uebung-ms-reservations-manuell-deployen-und-service-erstellen)
+     * [Loesung: Service fuer ms-reservations](#loesung-service-fuer-ms-reservations)
+
   1. Kubernetes - Überblick
      * [Warum Kubernetes, was macht Kubernetes](#warum-kubernetes-was-macht-kubernetes)
      * [Aufbau Allgemein](#aufbau-allgemein)
      * [Structure Kubernetes Deep Dive](https://github.com/jmetzger/training-kubernetes-advanced/assets/1933318/1ca0d174-f354-43b2-81cc-67af8498b56c)
+     * [Ausbaustufen Kubernetes](#ausbaustufen-kubernetes)
      * [Aufbau mit helm,OpenShift,Rancher(RKE),microk8s](#aufbau-mit-helmopenshiftrancherrkemicrok8s)
      * [Welches System ? (minikube, micro8ks etc.)](#welches-system--minikube-micro8ks-etc)
 
@@ -162,6 +194,8 @@
      * [Configmap MariaDB - Example](#configmap-mariadb---example)
      * [Configmap MariaDB my.cnf](#configmap-mariadb-mycnf)
      * [Secret MariaDB - Example](#secret-mariadb---example)
+     * [Secrets aus HashiCorp Vault - 3 Wege](#secrets-aus-hashicorp-vault---3-wege)
+     * [Security und Compliance im Betrieb von Kubernetes-Clustern](#security-und-compliance-im-betrieb-von-kubernetes-clustern)
 
   1. Kubernetes Praxis (Teil 2) - API Objekte 
      * [Hintergrund Statefulsets](#hintergrund-statefulsets)
@@ -172,8 +206,12 @@
 
   1. Kubernetes Ingress
      * [Ingress Controller on Detail](#ingress-controller-on-detail)
+     * [Traefik mit Helm installieren](#traefik-mit-helm-installieren)
+     * [Beispiel Ingress Traefik mit Hostnamen](#beispiel-ingress-traefik-mit-hostnamen)
+     * [Https/LetsEncrypt mit Traefik](#httpsletsencrypt-mit-traefik)
 
   1. ServiceMesh
+     * [Istio — Service Mesh Überblick](#istio-—-service-mesh-überblick)
      * [Why a ServiceMesh ?](#why-a-servicemesh-)
      * [How does a ServiceMeshs work? (example istio](#how-does-a-servicemeshs-work-example-istio)
      * [istio security features](#istio-security-features)
@@ -190,6 +228,7 @@
   1. Kubernetes Scaling / Resource Management 
      * [Autoscaling Pods/Deployments](#autoscaling-podsdeployments)
      * [Resources and Limits for containers](#resources-and-limits-for-containers)
+     * [ResourceQuota und LimitRange im Namespace (Uebung)](#resourcequota-und-limitrange-im-namespace-uebung)
      * [ResourceQuotas and LimitQuotas by Namespace](https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/quota-memory-cpu-namespace/)
 
   1. Kubernetes Tipps & Tricks
@@ -203,6 +242,12 @@
      * [Prometheus Kubernetes Stack installieren](#prometheus-kubernetes-stack-installieren)
      * [Prometheus - Services scrapen die keine Endpunkte für Prometheus haben](#prometheus---services-scrapen-die-keine-endpunkte-für-prometheus-haben)
     
+  1. Kubernetes Storage (CSI) 
+     * [Überblick Persistant Volumes (CSI)](#überblick-persistant-volumes-csi)
+     * [Liste der Treiber mit Features (CSI)](https://kubernetes-csi.github.io/docs/drivers.html)
+     * [Übung Persistant Storage](#übung-persistant-storage)
+     * [Beispiel mariadb](#beispiel-mariadb)
+
   1. Helm
      * [Helm internals / secret a.s.o](#helm-internals--secret-aso)
     
@@ -388,6 +433,7 @@
     
   1. Kubernetes - Backups 
      + [Kubernetes Aware Cloud Backup - kasten.io](/backups/cluster-backup-kasten-io.md)
+     * [Backup- und Wiederherstellungsstrategien](#backup--und-wiederherstellungsstrategien)
 
   1. Kubernetes - Tipps & Tricks 
      * [Assigning Pods to Nodes](#assigning-pods-to-nodes)
@@ -442,6 +488,176 @@
 
 ## Grundlagen
 
+### Microservices-Trends 2026
+
+
+![Microservices-Trends 2026](/images/microservices-trends-2026.svg)
+
+### Die Stimmung: Ernüchterung nach dem Hype
+
+Vor einigen Jahren galt die Devise: „Microservices sind immer die richtige Wahl."
+Das hat sich geändert. Viele Teams haben schmerzhaft gelernt, dass Microservices
+echte Komplexität mitbringen — verteilte Systeme, Netzwerklatenzen, viele kleine
+Deployments, aufwändiges Monitoring. 2026 lautet die ehrlichere Frage:
+
+> **Brauchen wir hier wirklich Microservices — oder lösen sie mehr Probleme als sie schaffen?**
+
+Das ist kein Rückschritt, sondern Reife.
+
+---
+
+### Trend 1: Der Modulare Monolith als bewusste Entscheidung
+
+#### Was ist ein Modularer Monolith?
+
+Ein normaler Monolith ist eine große Anwendung, bei der alles wild durcheinander
+verwoben ist — eine Änderung kann überall etwas kaputt machen.
+
+Ein **modularer Monolith** ist anders: Die Anwendung läuft als ein einziger Prozess
+(wie ein klassischer Monolith), ist aber intern in klar getrennte Module aufgeteilt.
+Jedes Modul hat seine eigene Zuständigkeit und kommuniziert mit anderen Modulen
+nur über definierte Schnittstellen.
+
+```
+Normaler Monolith:         Modularer Monolith:        Microservices:
+                                                       
+  ┌─────────────┐          ┌─────────────────┐         ┌──────┐  ┌──────┐
+  │ Alles       │          │ Modul A │Modul B│         │ Svc A│  │ Svc B│
+  │ durchein-   │          │─────────┼───────│         └──────┘  └──────┘
+  │ ander       │          │ Modul C │Modul D│            Netz      Netz
+  └─────────────┘          └─────────────────┘         ┌──────┐  ┌──────┐
+                             Ein Prozess                │ Svc C│  │ Svc D│
+                                                        └──────┘  └──────┘
+```
+
+**Wann ist ein modularer Monolith sinnvoll?**
+- Kleines Team (unter 10 Entwickler)
+- Die Domäne ist noch nicht vollständig verstanden
+- Schnelle Iteration wichtiger als unabhängige Skalierung
+- Infrastruktur-Aufwand soll gering bleiben
+
+Der modulare Monolith kann später immer noch in Microservices aufgeteilt werden —
+aber man trifft diese Entscheidung dann bewusst, nicht weil es gerade modern ist.
+
+---
+
+### Trend 2: Platform Engineering — Was ist das, und was ist der Unterschied zu DevOps?
+
+#### Was ist DevOps?
+
+DevOps war die Antwort auf die Trennung zwischen Entwicklung (Dev) und Betrieb (Ops).
+Die Idee: Entwickler bauen nicht nur die Software, sie betreiben sie auch.
+„You build it, you run it."
+
+Das funktioniert gut für kleine Teams. Aber in großen Organisationen mit vielen Teams
+entsteht ein neues Problem: **Jedes Team erfindet das Rad neu** — eigene CI/CD-Pipelines,
+eigene Monitoring-Setups, eigene Deployment-Skripte.
+
+#### Was macht ein Platform Team anders?
+
+Ein **Platform Team** baut eine interne Plattform, die alle anderen Teams nutzen.
+Statt dass jedes Entwicklungsteam selbst Kubernetes, CI/CD, Monitoring und Secrets-Management
+aufbaut, gibt es einen „goldenen Weg" (**Golden Path**), der schon funktioniert.
+
+```
+DevOps (jedes Team für sich):      Platform Engineering:
+
+  Team A: eigene Pipeline            Platform Team
+  Team B: eigene Pipeline            └── Baut interne Plattform
+  Team C: eigene Pipeline                (Golden Path)
+  → viel Doppelarbeit                        │
+                                    ┌────────┼────────┐
+                                  Team A  Team B  Team C
+                                    → nutzen Plattform
+                                    → fokussieren auf Features
+```
+
+| | DevOps | Platform Engineering |
+|---|---|---|
+| Wer baut Infrastruktur? | Jedes Team selbst | Zentrales Platform-Team |
+| Ziel | Dev und Ops zusammenbringen | Entwickler-Produktivität skalieren |
+| Typische Größe | Kleine bis mittlere Teams | Ab ~5+ Entwicklungsteams |
+| Produkt | Die eigene Anwendung | Die Plattform ist das Produkt |
+
+**Wichtig:** Platform Engineering ersetzt DevOps nicht — es ist die nächste Stufe,
+wenn DevOps in großen Organisationen an seine Grenzen kommt.
+
+---
+
+### Trend 3: Hybride Architekturen
+
+Statt „alles Microservice oder alles Monolith" mischt man heute bewusst:
+
+- **Microservices** für Teile, die unabhängig skalieren oder deployt werden müssen
+- **Modularer Monolith** für den Kernbereich, der noch nicht stabil ist
+- **Serverless / Functions-as-a-Service (FaaS)** für einzelne, event-getriebene Aufgaben
+  (z.B. Bild-Resizing beim Upload — warum dafür einen dauerhaft laufenden Service betreiben?)
+
+#### Was ist Event-Driven Architecture (EDA)?
+
+**Event-Driven Architecture** bedeutet: Services kommunizieren nicht direkt miteinander
+(„ruf mich an"), sondern über Ereignisse („ich teile mit, was passiert ist").
+
+```
+Klassisch (synchron):         Event-Driven:
+
+  Bestellung  →  Zahlung       Bestellung
+  Zahlung     →  Versand       └── publiziert: "Bestellung eingegangen"
+  Versand     →  ...                  │
+  (Kette reißt bei Fehler)     Zahlung ──── reagiert auf Event
+                               Versand ──── reagiert auf Event
+                               (jeder Service arbeitet unabhängig)
+```
+
+**Vorteil:** Services kennen sich nicht — weniger Abhängigkeiten, besser skalierbar.
+**Nachteil:** Schwerer zu debuggen, da kein direkter Aufruf-Stack.
+
+---
+
+### Trend 4: AI-Workloads auf denselben Clustern
+
+2026 laufen KI-Modelle (Inference, Embedding-Generierung, RAG-Pipelines) nicht mehr
+auf separaten Systemen, sondern direkt im Kubernetes-Cluster neben den Microservices.
+
+Das bringt neue Anforderungen:
+- GPU-Scheduling in Kubernetes
+- Neue Ressourcentypen (GPUs statt nur CPU/RAM)
+- AIOps: KI hilft beim Monitoring und Alerting
+
+---
+
+### Trend 5: Observability, Security und Inter-Service-Kommunikation bleiben die größten Schmerzpunkte
+
+Das sind 2026 die drei Themen, die Enterprise-Rollouts am stärksten bremsen:
+
+**Observability** — „Was passiert gerade in meinem System?"
+Klassisches Logging reicht nicht mehr. Distributed Tracing (ein Request über 10 Services
+verfolgen) und strukturierte Metriken sind Pflicht.
+
+**Security** — „Wie vertrauen sich Services gegenseitig?"
+Jeder Service muss sich authentifizieren. mTLS (gegenseitige TLS-Verschlüsselung zwischen
+Services) und feingranulare AuthorizationPolicies (wer darf mit wem reden?) sind Standard.
+Genau hier kommt Istio ins Spiel.
+
+**Inter-Service-Kommunikation** — „Wie reden Services miteinander zuverlässig?"
+Retry-Logik, Circuit Breaker, Timeouts — das muss jeder Service können. Ein Service-Mesh
+wie Istio nimmt diese Logik aus dem Anwendungscode heraus und macht sie zur Infrastruktur.
+
+---
+
+### Zusammenfassung: Die Kernbotschaft für 2026
+
+| Früher | Heute |
+|--------|-------|
+| „Microservices immer" | „Microservices wo sinnvoll" |
+| Jedes Team baut alles selbst | Platform Team baut goldenen Weg |
+| Monolith = schlecht | Modularer Monolith = valide Option |
+| Separate Infrastruktur für alles | Kubernetes als universelle Plattform |
+| Security als Nachgedanke | Security und Observability von Anfang an |
+
+**Die wichtigste Frage vor jeder Architekturentscheidung:**
+*Welches Problem löst diese Entscheidung — und welche neuen Probleme schafft sie?*
+
 ### Was sind Microservices ?
 
 
@@ -456,6 +672,347 @@ aus modularen Komponenten oder Diensten aufgebaut wird.
 um mit anderen Diensten zu kommunizieren.
 ```
 
+### Best Practices fuer Multi-Cluster- und Hybrid-Umgebungen
+
+
+### Das Grundproblem: Warum ein einzelner Cluster nicht ausreicht
+
+#### Die Latenz-Grenze: < 10 ms
+
+Kubernetes-Cluster haben eine harte technische Grenze, die oft unterschaetzt wird:
+
+> **Alle Nodes eines Clusters muessen mit einer Netzwerklatenz von unter 10 ms**
+> **erreichbar sein — insbesondere die etcd-Knoten im Control Plane.**
+
+Das bedeutet: Nodes in verschiedenen geografischen Regionen koennen **nicht** einfach
+zu einem einzigen Cluster zusammengefasst werden.
+
+![Latenz-Grenze in Kubernetes-Clustern](/images/multi-cluster-latenz.svg)
+
+**Was passiert bei zu hoher Latenz?**
+- etcd-Leader-Wahlen schlagen fehl
+- Control Plane wird instabil
+- Pods werden nicht mehr korrekt geplant
+
+---
+
+### Loesung: Multi-Cluster mit Geo-LoadBalancer
+
+Statt einem grossen Cluster ueber alle Standorte: **ein Cluster pro Region**,
+verbunden durch einen Geo-LoadBalancer, der Nutzer zur naechstgelegenen Region routed.
+
+![Multi-Cluster mit Geo-LoadBalancer](/images/multi-cluster-geo-loadbalancer.svg)
+
+**Wie der Geo-LoadBalancer entscheidet:**
+- Anhand der IP-Geolokation des Nutzers
+- Anhand von Healthchecks (faellt ein Cluster aus → Traffic zur naechsten Region)
+- Anhand von Latenz-Messungen (Anycast oder Latency-Based Routing)
+
+---
+
+### Achtung: Multi-Cluster steigert die Komplexitaet erheblich
+
+![Komplexitaetsvergleich: Ein Cluster vs. drei Cluster](/images/multi-cluster-komplexitaet.svg)
+
+> **Faustregel:** Jeder zusaetzliche Cluster verdreifacht den Betriebsaufwand
+> fuer das Platform-Team — nicht verdoppelt.
+
+**Wann lohnt sich der Aufwand?**
+
+| Situation | Empfehlung |
+|-----------|------------|
+| Startup, < 20 Entwickler | Ein Cluster, Namespaces zur Trennung |
+| Regulatorik erfordert EU/US-Trennung | Multi-Cluster noetig |
+| Prod-Ausfall kostet mehr als Overhead | Multi-Cluster noetig |
+| Globale Nutzer mit Latenz-Anforderung | Multi-Cluster noetig |
+| Kein globaler Traffic, keine Compliance | Ein Cluster reicht |
+
+---
+
+### Warum ueberhaupt mehrere Cluster?
+
+Ein einzelner Kubernetes-Cluster hat praktische Grenzen:
+
+- **Latenz**: Nodes muessen unter 10 ms erreichbar sein — schliesst Geo-Verteilung in einem Cluster aus
+- **Skalierbarkeit**: Ab ca. 5.000 Nodes wird ein einzelner Cluster unhandlich
+- **Isolation**: Prod und Dev im gleichen Cluster teilen das Schicksal bei einem Ausfall
+- **Compliance**: Daten in der EU, Compute in den USA — rechtlich oft nicht mischbar
+- **Verfuegbarkeit**: Ein Cluster = ein Single Point of Failure
+
+![Single Cluster vs. Multi-Cluster](/images/multi-cluster-overview.svg)
+
+---
+
+### Die drei Multi-Cluster-Muster
+
+#### Muster 1: Umgebungs-Trennung (Dev/Staging/Prod)
+
+Das einfachste und haeufigste Muster: Ein Cluster pro Umgebung.
+
+| Cluster | Wer nutzt ihn | Besonderheiten |
+|---------|--------------|----------------|
+| dev-cluster | Entwickler (frei experimentieren) | Keine strengen Policies |
+| staging-cluster | QA, Integrationstests vor Release | Gleiche Configs wie Prod |
+| prod-cluster | Echte Nutzer | RBAC streng, PodDisruptionBudget |
+
+**Wann sinnvoll:**
+- Wenn Prod-Stabilitat kritisch ist
+- Wenn Compliance getrennte Umgebungen fordert
+- Einfach zu verstehen und zu betreiben
+
+**Herausforderung:** Gleiche Manifests muessen in mehrere Cluster deployt werden
+→ Loesung: GitOps (ArgoCD ApplicationSet, Flux Kustomization)
+
+---
+
+#### Muster 2: Geografische Verteilung (Active-Active)
+
+Mehrere Cluster in verschiedenen Regionen, alle nehmen Traffic an.
+
+![Muster 2: Geografische Verteilung Active-Active](/images/multi-cluster-muster-geo.svg)
+
+**Was wird repliziert:**
+- Stateless Services: problemlos in beiden Clustern
+- Stateful Services (Datenbanken): komplexer — oft regionale DBs mit Replikation
+
+**Wann sinnvoll:**
+- Globale Anwendungen mit Latenz-Anforderungen
+- Compliance erfordert Datensouveraenitat
+- Hochverfuegbarkeit auch bei Regions-Ausfall
+
+---
+
+#### Muster 3: Workload-Spezialisierung
+
+Verschiedene Cluster fuer verschiedene Workload-Typen.
+
+| Cluster | Workload | Hardware |
+|---------|----------|----------|
+| gpu-cluster | ML-Training | A100/H100 GPUs — teuer, intensiv |
+| batch-cluster | Nacht-Jobs, Batch-Verarbeitung | Spot-Instanzen — guenstig |
+| web-cluster | APIs, UIs, Standard-Services | Standard-Nodes, Autoscaling |
+
+**Wann sinnvoll:**
+- GPU-Workloads sollen regulaere Deployments nicht beeinflussen
+- Kostenoptimierung durch Node-Typen pro Workload
+- Teams mit sehr verschiedenen Anforderungen
+
+---
+
+### Hybrid-Cloud: On-Premise + Public Cloud
+
+Hybrid bedeutet: eigene Rechenzentren (On-Premise) und Public Cloud gleichzeitig nutzen.
+
+| Aspekt | On-Premise | Public Cloud (AWS/Azure/GCP) |
+|--------|-----------|------------------------------|
+| Hardware | Eigene Hardware | Elastisch, Pay-per-Use |
+| Daten | Datenschutz-kritische Daten | Burst-Kapazitaet |
+| Latenz | Gering zum Kernsystem | Abhaengig von Region |
+| Kosten | Hohe Fixkosten | Variable Kosten |
+
+#### Warum Hybrid?
+
+| Grund | Erklaerung |
+|-------|-----------|
+| Regulatorik | Kundendaten duerfen das eigene RZ nicht verlassen |
+| Bestandsinvestitionen | Hardware wurde gekauft und muss genutzt werden |
+| Burst-Kapazitaet | On-Premise fuer Grundlast, Cloud fuer Spitzen |
+| Migration | Schrittweise aus dem RZ in die Cloud |
+
+#### Typische Hybrid-Architektur
+
+![Hybrid-Architektur On-Premise und Public Cloud](/images/multi-cluster-hybrid-arch.svg)
+
+---
+
+### Verbindung zwischen Clustern: Netzwerk-Optionen
+
+![Netzwerkoptionen zwischen Clustern: VPN, Service Mesh, Cilium ClusterMesh](/images/multi-cluster-netzwerk.svg)
+
+---
+
+### GitOps fuer Multi-Cluster: Das Fundament
+
+Ohne GitOps wird Multi-Cluster-Management schnell zum Chaos.
+Goldene Regel: **Ein Git-Repo als einzige Quelle der Wahrheit fuer alle Cluster.**
+
+#### ArgoCD: ApplicationSet Pattern
+
+```yaml
+## Einmal definieren — in alle Cluster deployen
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+spec:
+  generators:
+  - list:
+      elements:
+      - cluster: prod-eu
+        url: https://prod-eu.example.com
+      - cluster: prod-us
+        url: https://prod-us.example.com
+  template:
+    spec:
+      destination:
+        server: '{{url}}'
+      source:
+        path: apps/myservice/overlays/{{cluster}}
+```
+
+**Ergebnis:** Ein Commit in Git → ArgoCD deployt automatisch in alle Cluster.
+
+#### Kustomize Overlay-Struktur fuer Multi-Cluster
+
+```
+apps/myservice/
+  base/                   ← gemeinsame Manifests
+    deployment.yml
+    service.yml
+  overlays/
+    dev/                  ← Dev-spezifisch
+      kustomization.yaml
+      replicas.yml        ← 1 Replica
+    prod-eu/              ← Prod EU-spezifisch
+      kustomization.yaml
+      replicas.yml        ← 5 Replicas
+      configmap.yml       ← EU-Endpoints
+    prod-us/              ← Prod US-spezifisch
+      kustomization.yaml
+      replicas.yml        ← 5 Replicas
+      configmap.yml       ← US-Endpoints
+```
+
+**Vorteil:** Keine Dopplung von Manifests, Unterschiede sind klar sichtbar.
+
+---
+
+### Sicherheit in Multi-Cluster-Umgebungen
+
+#### 1. Cluster-uebergreifende Identitaet (SPIFFE/SPIRE)
+
+Problem: Wie weiss Cluster A, dass eine Anfrage wirklich von Cluster B kommt?
+
+Der SPIRE Server laeuft zentral und stellt jeder Workload eine kryptografische Identitaet aus
+(z.B. `spiffe://prod-eu/ns/orders/sa/payment-svc`). Cluster B validiert dieses Zertifikat
+automatisch — mTLS ohne manuelle Zertifikatsverwaltung.
+
+#### 2. Secrets-Management (Vault / External Secrets Operator)
+
+**Anti-Pattern:** Secrets in Git oder als Kubernetes-Secrets ohne Verschluesselung.
+
+**Best Practice:** Zentraler Vault, alle Cluster holen Secrets zur Laufzeit.
+
+| Cluster | Auth-Token | Policy |
+|---------|-----------|--------|
+| prod-eu | Cluster-eigenes Token | Voller Prod-Zugriff |
+| prod-us | Cluster-eigenes Token | Voller Prod-Zugriff |
+| staging | Cluster-eigenes Token | Eingeschraenkte Policy, weniger Rechte |
+
+External Secrets Operator synchronisiert automatisch:
+```yaml
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+spec:
+  secretStoreRef:
+    name: vault-backend
+  target:
+    name: db-password       # → wird zu normalem Kubernetes Secret
+  data:
+  - secretKey: password
+    remoteRef:
+      key: secret/prod/database
+      property: password
+```
+
+#### 3. RBAC-Strategie uebergreifend
+
+| Cluster | Wer darf deployen | Wer darf lesen |
+|---------|-------------------|----------------|
+| dev | Alle Entwickler | Alle Entwickler |
+| staging | CI/CD Pipeline | Entwickler, QA |
+| prod | Nur CI/CD Pipeline | Senior Devs, Ops |
+
+**Werkzeug:** OIDC-Integration (Keycloak, Okta) → ein Login, Rechte per Cluster-Rolle.
+
+---
+
+### Observability: Alles sichtbar machen
+
+Ein grosses Problem bei Multi-Cluster: Logs und Metriken sind ueber alle Cluster verteilt.
+
+#### Zentrales Monitoring
+
+Jeder Cluster betreibt eine lokale Prometheus-Instanz, die per `remote_write` an eine
+zentrale Instanz (Grafana Cloud, Thanos oder VictoriaMetrics) schreibt. Ein Dashboard
+zeigt alle Cluster, Alerts koennen uebergreifend korreliert werden.
+
+**Ergebnis:** Ein Dashboard zeigt alle Cluster, Alerts koennen uebergreifend korreliert werden.
+
+#### Verteiltes Tracing (OpenTelemetry)
+
+| Span | Service | Dauer | Hinweis |
+|------|---------|-------|---------|
+| 1 | EU-Frontend | 50 ms | |
+| 2 | Cross-Cluster-Hop | 15 ms | Netzwerk zwischen Clustern! |
+| 3 | US-Orders-API | 30 ms | |
+| 4 | DB-Query | 10 ms | |
+
+Die gleiche Trace-ID (`abc-123`) verbindet alle Spans uebergreifend — sichtbar in Jaeger/Tempo.
+
+OpenTelemetry Collector in jedem Cluster, zentral gesammeltes Jaeger/Tempo.
+
+---
+
+### Best Practices auf einen Blick
+
+| Thema | Best Practice |
+|-------|---------------|
+| Cluster-Anzahl | Klein anfangen — 1 Prod, 1 Dev. Nur bei echtem Bedarf mehr. |
+| Netzwerk | VPN fuer Start, Cilium/Istio wenn Service Discovery noetig |
+| GitOps | ArgoCD ApplicationSet oder Flux mit Cluster-Tags |
+| Secrets | Zentraler Vault, nie Secrets in Git |
+| Observability | Zentrales Prometheus/Grafana von Anfang an |
+| RBAC | OIDC-basiert, Rechte per Cluster unterschiedlich |
+| DNS | Eindeutige Cluster-Namen: prod-eu.k8s.example.com |
+| Kosten | Cluster-Overhead einrechnen (3 Control Plane Nodes pro Cluster!) |
+
+---
+
+### Anti-Patterns
+
+**Anti-Pattern 1: Snowflake-Cluster**
+Jeder Cluster hat andere Addons, andere Versionen, andere Netzwerk-Plugins.
+→ Katastrophe beim Troubleshooting, jeder Cluster eine eigene Wissenschaft.
+
+**Loesung:** Cluster-as-Code (Crossplane, Cluster API) — alle Cluster gleich gebaut.
+
+---
+
+**Anti-Pattern 2: Manuelle Deployments in mehrere Cluster**
+Entwickler deployen manuell mit `kubectl` in 5 Cluster.
+→ Cluster laufen auseinander, niemand weiss welcher Stand wo ist.
+
+**Loesung:** Nur GitOps, keine manuellen Deployments in Prod.
+
+---
+
+**Anti-Pattern 3: Zu viele Cluster zu frueh**
+10 Cluster fuer ein 5-Mann-Team.
+→ Mehr Wartungsaufwand als Nutzen, jeder Cluster braucht Updates, Monitoring, Sicherheits-Patches.
+
+**Faustregel:** Cluster kosten Betrieb. Jeder neue Cluster muss seinen Nutzen rechtfertigen.
+
+---
+
+### Wann Multi-Cluster (nicht) anfangen?
+
+| Starte mit einem Cluster wenn ... | Wechsle zu Multi-Cluster wenn ... |
+|----------------------------------|----------------------------------|
+| Team &lt; 20 Entwickler | Regulatorik es erfordert (DSGVO, Region) |
+| Keine Compliance-Anforderungen | Prod-Ausfall kostet mehr als Overhead |
+| Proof of Concept / Startup | Team &gt; 3 dedizierte Platform Engineers |
+| Kein globaler Traffic | Verschiedene Workload-Typen (GPU + Web) |
+| | Echter Geo-Bedarf (&lt; 50 ms in US und EU) |
+
 ### Grundkonzepte von Microservices
 
 
@@ -464,7 +1021,7 @@ um mit anderen Diensten zu kommunizieren.
 #### Was ? 
 
   * Microservices leben das Konzept, so viel wie möglich Informationen
-in einer Komponenten zu verstecken 
+in einer Komponente zu verstecken 
   * Der Microservice gibt so wenig Informationen wie "nötig" preis. 
 
 #### Warum ? 
@@ -478,14 +1035,34 @@ in einer Komponenten zu verstecken
 
    * Teams unabhängig Änderung in Microservices machen und dieses redeployen und zwar ohne alle anderen
      * zu redeployen 
-   * This is the most important thing and also the (Die wichtigste Sache, der Tipp Nr. 1)
+   * (Das ist die wichtigste Sache bei microservices, der Tipp Nr. 1)
 
 
 
 ### Architektur von Microservices (Schichten/Layers)
 
+
+Bei Microservices meint man mit "Schichten" die **interne Strukturierung** eines einzelnen Microservices:
+
+**Typische Schichten:**
+- **Presentation Layer** - API-Endpunkte (REST, gRPC)
+- **Business Logic Layer** - Geschäftslogik und Domänenregeln
+- **Data Access Layer** - Datenbankzugriffe und Persistierung
+
+**Wichtig:** Jeder Microservice hat seine eigenen Schichten - im Gegensatz zu monolithischen Architekturen, wo Schichten über die gesamte Anwendung gehen.
+
+
 ### 12 factor app
 
+
+  * Das sind best-practices 
+
+```
+Die 12-Factors stammen von Heroku 
+und beschreiben, wie eine App aussehen muss, 
+damit sie sich problemlos in einer Cloud-Plattform betreiben lässt 
+— also genau das, was Kubernetes heute von einem Workload erwartet.
+```
 
   * Ursprünglich entwickelt von heroku 2011
   * Ursprünglich gedacht für cloud-native apps
@@ -500,7 +1077,7 @@ Hier ist die Tabelle der Twelve-Factor App Principles:
 | # | Prinzip | Beschreibung |
 |---|---------|--------------|
 | 1 | Codebase | Versionsverwaltetes Code-Repository |
-| 2 | Dependencies | Abhängigkeiten sollten extern verwaltet werden |
+| 2 | Dependencies | Abhängigkeiten sollten extern verwaltet werden. <br/> (spielte zur Zeit von heroku eine Rolle, weil Software auf dem Host ausgeführt wurde. Man soll sich also nicht darauf verlassen, was auf dem Host existiert. Bei Docker/Kubernetes ist das bereits im Container-Image selbst geregelt. Man könnte also sagen, die Regel ist bei Docker-Images ohnehin erfüllt.|
 | 3 | Config | Konfiguration als Umgebungsvariablen |
 | 4 | Backing Services | Datenbanken, Messaging etc. als externe Ressourcen |
 | 5 | Build, Release, Run | Drei unabhängige Deployment-Schritte |
@@ -510,7 +1087,8 @@ Hier ist die Tabelle der Twelve-Factor App Principles:
 | 9 | Disposability | Schneller Start und einfaches Herunterfahren |
 | 10 | DEV/PROD Parity | Entwicklungumgebung und Produktion möglichst ähnlich |
 | 11 | Logs | Logs als Event-Streams behandeln (wie bei docker / kubernetes) |
-| 12 | Admin Processes | Admin-Aufgaben als One-off-Prozesse |
+| 12 | Admin Processes | Admin-Aufgaben als One-off-Prozesse <br/> Einmalige Aktion möglichst gescriptet und versioniert und sie sollten in der gleichen Umgebung 
+umgesetzt werden. <br/> Job/Cronjob/initContainer |
 
 ### Monolith vs. Microservices
 
@@ -635,6 +1213,102 @@ II. Im Rahmen eines DevOps-Modells sind Entwicklungs- und Operations-Teams nicht
 
 ```
 
+### Was ist ein API Gateway
+
+
+### Was ist ein API Gateway?
+
+![API Gateway Übersicht](/images/api-gateway-overview.svg)
+
+Ein API Gateway ist ein zentraler Einstiegspunkt, der alle eingehenden Anfragen von
+externen Clients entgegennimmt und sie an die richtigen internen Microservices weiterleitet.
+
+Der Client — egal ob Browser, Mobile App oder ein anderes System — kennt nur eine
+einzige Adresse: `api.example.com`. Was dahinter passiert, ist ihm egal.
+
+---
+
+### Was macht ein API Gateway konkret?
+
+API Gateways bieten ein reiches Feature-Set, das weit über einfaches Routing hinausgeht:
+
+| Aufgabe | Beschreibung |
+|---------|-------------|
+| **Routing** | `/api/users` → User Service, `/api/orders` → Order Service |
+| **Authentifizierung** | JWT, OAuth2, API-Keys prüfen bevor die Anfrage den Service erreicht |
+| **Autorisierung** | Darf dieser Nutzer auf diese Route zugreifen? |
+| **Rate Limiting** | Granular pro Client, Route oder API-Plan (z.B. Free vs. Pro) |
+| **TLS-Terminierung** | HTTPS endet am Gateway, intern läuft HTTP |
+| **Load Balancing** | Anfragen auf mehrere Instanzen eines Service verteilen |
+| **Request-Transformation** | Header umschreiben, Payloads anpassen, Protokolle konvertieren |
+| **Logging & Monitoring** | Alle Requests zentral erfassen |
+| **Circuit Breaker** | Fehlgeschlagene Services abkapseln, Fallback liefern |
+| **API-Versionierung** | `/v1/users` und `/v2/users` parallel betreiben |
+| **Developer Portal** | Self-Service für externe Entwickler: Doku, API-Keys, Playground |
+
+---
+
+### Bekannte API Gateways
+
+| Produkt | Einsatz |
+|---------|---------|
+| **Kong** | Open Source, plugin-basiert, sehr verbreitet; Enterprise-Version mit Developer Portal |
+| **APISIX** | Open Source, Apache-Projekt, hohe Performance, ebenfalls plugin-basiert |
+| **Tyk** | Open Source, stark bei API-Key-Management und Developer Portal |
+
+---
+
+### API Gateway vs. Service Mesh — was ist der Unterschied?
+
+Ein häufiges Missverständnis: Istio ist rein für Ost-West (intern). Das stimmt nicht ganz.
+
+**Istio kann über sein Ingress Gateway auch Nord-Süd-Traffic (extern → intern) steuern.**
+Der entscheidende Unterschied liegt nicht in der Verkehrsrichtung, sondern im Feature-Set.
+
+![Auth und API Gateway Flow](/images/auth-api-gateway-flow.svg)
+
+| | API Gateway | Service Mesh (z.B. Istio) |
+|---|---|---|
+| **Nord-Süd (extern → intern)** | Ja, Hauptaufgabe | Ja, möglich via Ingress Gateway |
+| **Ost-West (intern → intern)** | Nein | Ja, Kernaufgabe |
+| **Schwerpunkt** | Externe Clients, Developer-Erfahrung | Service-zu-Service-Kommunikation |
+| **Authentifizierung** | OAuth2, API-Keys, JWT für Nutzer/Apps | mTLS zwischen Services |
+| **Rate Limiting** | Granular pro Client, Route und Plan | Begrenzt |
+| **Developer Portal** | Ja (z.B. Kong, Tyk) | Nein |
+| **Request-Transformation** | Ja (Header, Payload, Protokoll) | Begrenzt |
+| **API-Versionierung** | Ja | Nein |
+| **Observability intern** | Begrenzt | Stark (Tracing, Metriken je Service) |
+| **mTLS zwischen Services** | Nein | Ja |
+
+#### Wann reicht das Istio Ingress Gateway?
+
+Das Istio Ingress Gateway ist ausreichend, wenn:
+- kein Developer Portal benötigt wird
+- kein komplexes Rate Limiting nach API-Plänen nötig ist
+- die Nutzer intern sind (kein öffentliches API)
+
+Ein dediziertes API Gateway ist sinnvoll, wenn:
+- externe Entwickler das API nutzen sollen
+- verschiedene API-Pläne (Free, Pro, Enterprise) verwaltet werden
+- komplexe Auth-Flows (OAuth2 Authorization Code, API-Key-Verwaltung) nötig sind
+- das API als Produkt vermarktet wird
+
+**Faustregel:** Service Mesh und API Gateway schließen sich nicht aus — in produktiven
+Setups laufen beide oft zusammen. Das API Gateway übernimmt den Eingang mit reichem
+Feature-Set, das Service Mesh sichert und beobachtet die Kommunikation im Cluster.
+
+---
+
+### Zusammenfassung
+
+Ein API Gateway ist kein optionales Extra, sondern bei jeder Microservices-Architektur
+mit externen Clients praktisch unverzichtbar.
+
+Der Unterschied zu einem Service Mesh wie Istio liegt nicht darin, dass Istio kein
+Nord-Süd-Traffic kann — das kann es. Der Unterschied liegt im Feature-Set: API-Keys,
+Developer Portals, granulares Rate Limiting nach Plänen und Request-Transformation
+machen ein dediziertes API Gateway zur richtigen Wahl für externe APIs.
+
 ### Microservice and Database
 
 
@@ -657,7 +1331,7 @@ II. Im Rahmen eines DevOps-Modells sind Entwicklungs- und Operations-Teams nicht
 
 ### Weiche Faktoren
 - **Entwickler-Produktivität**: Änderungen benötigen umfangreiche Regressionstests
-- **Technologie-Lock-in**: Neue Technologien nicht einsetzbar
+- **Technologie-Lock-in**: Neue Technologien nicht bzw. schwer einsetzbar 
 - **Team-Autonomie**: Teams blockieren sich gegenseitig
 - **Onboarding**: Neue Entwickler brauchen Wochen zum Verständnis
 - **Code-Ownership**: Unklare Verantwortlichkeiten
@@ -929,7 +1603,7 @@ Tabellen die über Service - Grenzen hinweg existieren aufteilen
 #### Wie umleitung, z.B.
 
   * http proxy 
-  * oder s.u. branch by extraction
+  * oder s.u. branch by abstraction
   * An- und Abschalten mit Feature Toggle 
   * Über message broker 
 
@@ -953,7 +1627,10 @@ Tabellen die über Service - Grenzen hinweg existieren aufteilen
 
 ### Pattern: Decorating Collaborator
 
-  * Ansteuerung als nachgelagerten Prozess über einen Proxy 
+  * Ansteuerung als nachgelagerten Prozess über einen Proxy
+  * Example: Decorating Collaborator
+
+
 
 ### Pattern Branch by Abstraction 
 
@@ -985,65 +1662,103 @@ Abstraktion anpassen, dass sie unsere neue Implementierung verwendet
 
 
 
-### Tests
+### Tests - Uebersicht
 
 
-### Pyramidenkonzept vs. Testing Trophy 
+### Was testen wir — und wieviel davon?
 
-  * Meine Empfehlung: Testing Trophy ist mehr optimiert für Microservices. (Quick Deployment)
+Empfohlene Verteilung nach der **Testing Trophy** (optimiert fuer Microservices):
 
-<img width="581" height="569" alt="image" src="https://github.com/user-attachments/assets/b68534e2-2608-4ad7-81ca-fc7104a06b86" />
+![Testing Trophy](/images/testing-trophy.svg)
 
-  * Reference: https://kentcdodds.com/blog/the-testing-trophy-and-testing-classifications 
+> **Warum so viele Integration Tests?**
+> In Microservices stecken die meisten Fehler an den Grenzen zwischen Service und
+> Datenbank, Message Broker oder anderem Service — nicht in der isolierten Logik.
 
-### Vorgehen 
+---
 
-  * Integrationstests stehen imn Vordergrund, dazu zählen auch "Contract Tests"
-  * Ein sehr wichtiges Kernelement 
+### Was testen wir wo?
 
-### Static Tests
+| Testart | Was wird getestet | Werkzeug |
+|---|---|---|
+| **Static** | Syntaxfehler, Formatierung, bekannte Sicherheitsluecken | ESLint, SpotBugs, Trivy |
+| **Unit** | Reine Geschaeftslogik (keine DB, kein Netzwerk) | JUnit, pytest, Jest |
+| **Integration** | Service + echte DB / Kafka / Redis | Testcontainers |
+| **Contract** | API-Vertrag zwischen Consumer und Provider | Pact, OpenAPI + Dredd |
+| **E2E** | Vollstaendige User Journey ueber alle Services | Playwright, Cypress |
 
-  * Code braucht dazu nicht ausgeführt zu werden. 
-  * siehe [Statische Tests](/microservices/tests/static.md)
+---
 
-#### gitlab ci/cd 
-
-  * Kann gut z.B. über den Schritt Linting in die CI/CD Pipeline integriert werden.
-
-### Integration CI/CD - Pipeline 
-
-  * Tests können alle (bis auf End-to-End (E2E) können sehr gut in gitlab ci/cd pipeline integriert werden
-  * Empfehlung von E2E - Tests (möglichst nachts, da sie länger dauern können)
-
-### Contract (= gehört in den Bereich der Integration-Tests) 
-
-```  
-Schnittstelle wird geprüft, ob sie alle Verträge erfüllt
-Gibt sie die definierten Antworten mit den definierten Parametern
-The contract specifies all the possible inputs and outputs with their data structures and side effects. 
-The consumer and producer of the service must follow the rules stated in the contract for communication to be possible.
-```
-
-### E2E (End-to-End-Testing)
-
-#### Be Careful - E2E - Testing ! 
+### Wann im Entwicklungsprozess?
 
 ```
-Aim for a pyramid where a small number of critical user journeys are covered by E2E tests (e.g. 5-10% of total tests), and the rest by faster tests
+Entwickler        Pre-Commit       CI (jeder PR)      Nightly        Release
+    |                  |                 |                |              |
+    |-- schreibt Code  |                 |                |              |
+    |                  |                 |                |              |
+    |                  |-- Static -----> |                |              |
+    |                  |-- Unit -------> |                |              |
+    |                  |                 |                |              |
+    |                  |                 |-- Static ----> |              |
+    |                  |                 |-- Unit ------> |              |
+    |                  |                 |-- Integration->|              |
+    |                  |                 |-- Contract --> |              |
+    |                  |                 |                |              |
+    |                  |                 |                |-- E2E -----> |
+    |                  |                 |                |              |
+    |                  |                 |                |              |-- Smoke Test
 ```
 
-##### Design Tests for Resilience (E2E - Tests)
+| Phase | Tests | Dauer | Ziel |
+|---|---|---|---|
+| **Pre-Commit** (lokal) | Static, Unit | < 1 Min. | Sofortfeedback, kein kaputten Code committen |
+| **CI — jeder PR** | Static, Unit, Integration, Contract | 5-15 Min. | Kein defekter PR in main |
+| **Nightly** | E2E | 30-60 Min. | Vollstaendige Systemvalidierung |
+| **Vor Release** | Alle + manueller Smoke Test | — | Letztes Sicherheitsnetz |
+
+---
+
+### Warum E2E nicht bei jedem PR?
+
+E2E-Tests sind langsam, flakey (timing-abhaengig) und teuer.
+Ziel: **5-10 kritische User Journeys**, nicht jedes Feature.
 
 ```
-Design Tests for Resilience: Write your E2E test scripts to be resilient to minor delays and asynchronous behavior. This means adding appropriate retries, waits, and timeouts around steps that involve eventual consistency. For instance, if a user action triggers an email service, your test shouldn’t immediately fail if the email isn’t instant – instead poll an API or database until a reasonable timeout. However, avoid simply increasing waits to mask race conditions; whenever you add a wait, understand why it’s needed and whether the system provides a way to know when the state is ready (e.g., a webhook or a status poll). Use idempotency where possible: tests should be able to rerun without side effects. If your E2E tests occasionally hit external APIs or services, build in fallbacks or simulate those interactions to reduce flakiness from outside variability.
+Falsch: 500 E2E-Tests, laufen 2h, schlagen oft zufaellig fehl
+Richtig: 10 E2E-Tests fuer die wichtigsten Pfade (Checkout, Login, Zahlung)
 ```
 
-  * Ref: https://www.bunnyshell.com/blog/end-to-end-testing-for-microservices-a-2025-guide/
+---
 
+### Praktische Faustregeln
 
+**Unit Test schreiben wenn:**
+- Die Logik komplex ist (Berechnungen, Entscheidungen, Transformationen)
+- Keine externe Abhaengigkeit benoetigt wird
 
+**Integration Test schreiben wenn:**
+- Code mit einer Datenbank, Kafka oder einem anderen Service interagiert
+- SQL-Abfragen, ORM-Mappings oder Transaktionen getestet werden sollen
 
+**Contract Test schreiben wenn:**
+- Zwei Services miteinander kommunizieren
+- Ein Service eine API eines anderen Services aufruft
 
+**E2E Test schreiben wenn:**
+- Ein kritischer Geschaeftsprozess end-to-end abgesichert werden soll
+- Mehrere Services zusammenspielen muessen
+
+---
+
+### Anti-Patterns
+
+| Anti-Pattern | Problem | Besser |
+|---|---|---|
+| Nur Unit Tests | Findet keine Integrationsfehler (Mock weicht von Realitaet ab) | Integration Tests mit Testcontainers |
+| Zu viele E2E Tests | Langsam, flakey, schwer zu debuggen | Auf wenige kritische Journeys reduzieren |
+| Kein Contract Test | Aenderung am Provider bricht Consumer unbemerkt | Pact zwischen allen Services |
+| Geteilte Test-DB | Tests beeinflussen sich gegenseitig | Testcontainers — jeder Test eigene DB |
+| Mocks fuer alles | Tests bestehen, Produktion bricht | Echte Abhaengigkeiten via Testcontainers |
 
 ### Monolith schneiden microservices
 
@@ -1053,10 +1768,11 @@ Design Tests for Resilience: Write your E2E test scripts to be resilient to mino
   * Code-Größe 
   * Technische Schnitt 
   * Amazon: 2 Pizzas, wieviele können sich davon, wie gross kann man team 
-  * Microserver wegschmeissen und er müsste in wenigen Tagen oder mehreren Wochen wieder herstellen
+  * Microservice wegschmeissen und er müsste in wenigen Tagen oder mehreren Wochen wieder herstellen
 
 ### Wie kann ich schneiden (GUT) ? 
 
+  * Fachlich 
   * DDD (Domain Driven Design) - Welche Aufgaben gibt es innerhalb des sogenannten Bounded Context in meiner Domäne 
   * Domäne: Bibliothek 
   * In der Bibliothek 
@@ -1132,7 +1848,7 @@ Axiom: Eine eigenständige Datenbank pro Service. Warum ?
 ##### Punkt 1 : Jeder Service soll unabhängig laufen können 
 
 ```
-We want earch service to run independently of other services 
+Jeder Service soll unabhängig vom anderen Service sein 
 
 o no DB for everything (If DB goes down our service goes down)
 o it easier to scale (if one service needs more capacity)
@@ -1182,6 +1898,3507 @@ Bibliothek
 ```
 
 
+
+### IAM als Bounded Context — fachlich oder technisch?
+
+
+### Die kritische Frage
+
+Ein Bounded Context ist per DDD-Definition eine **sprachliche/fachliche Grenze** (Ubiquitous Language), keine technische.
+Wenn IAM nur deshalb abgetrennt wird, weil "Authentifizierung ist halt Technik", ist das kein Bounded Context —
+sondern eine technische Schicht (Shared Kernel, Infrastructure, Library).
+
+### Wann IAM ein echter fachlicher BC ist
+
+  * Es gibt eine eigene Fachlichkeit mit eigener Sprache: Rollen, Berechtigungen, Mandanten, Einladungs-Workflows, Access Reviews, Approval-Prozesse
+  * Jemand im Business kümmert sich tatsächlich darum ("wer darf was") als eigene Domäne
+  * Beispiel: SaaS mit komplexem Org-/Team-/Permission-Modell → ja, eigener BC
+
+### Wann es kein eigener BC ist (häufiger als gedacht)
+
+  * Du nutzt Keycloak / Auth0 / Entra ID → Authentifizierung ist ein **gekauftes Generic Subdomain**, eine externe Capability. Du integrierst dagegen über einen ACL, modellierst es aber nicht als eigenen BC.
+  * "User registrieren" hat keine eigene Geschäftslogik außer "Datensatz anlegen" → das ist CRUD, kein BC.
+
+### DDD-Einordnung
+
+| Begriff | Bedeutung für IAM |
+|---|---|
+| Core Domain | fast nie — IAM ist selten dein Wettbewerbsvorteil |
+| Generic Subdomain | meistens — "gelöstes Problem", kauf es ein |
+| Supporting Subdomain | wenn du leichte eigene Logik brauchst |
+
+### Bounded Context: Kundenverwaltung vs. IAM
+
+Das Schaubild zeigt den sauberen Schnitt und das Owner-Konsumenten-Muster:
+
+![Bounded Contexts: IAM vs. Kundenverwaltung](../images/bounded-contexts-iam-kunde.svg)
+
+#### IAM (Generic BC)
+
+  * **User** als Login-Subjekt: Credentials, Rollen, Permissions, Tokens, MFA
+  * Events: `UserCreated`, `PasswordChanged`, `RoleAssigned`, `LoggedIn`
+  * Sprache: Security/Technik
+
+#### Kundenverwaltung (Domain-BC)
+
+  * **Kunde** als Geschäftsobjekt: Stammdaten, Adressen, Präferenzen, Segment, Bonität, Vertragshistorie
+  * Events: `CustomerRegistered`, `AddressChanged`, `CustomerBlocked`
+  * Sprache: Marketing/Vertrieb
+
+#### Verbindung
+
+Der Customer referenziert eine `userId` aus IAM (oder umgekehrt).
+Beide sind getrennte Aggregate mit eigener ID — nicht dasselbe Objekt.
+
+### Warum die Trennung wichtig ist
+
+  * Nicht jeder User ist ein Kunde (Mitarbeiter, Admins, Service-Accounts)
+  * Nicht jeder Kunde hat einen Login (B2B-Firmenkunde mit mehreren Usern; Laufkundschaft ohne Account)
+  * Lifecycle ist unterschiedlich: User kann gesperrt werden, Kunde bleibt bestehen — und umgekehrt
+
+**Häufige Falle:** "Kunde" und "User" in eine Tabelle/ein Aggregat packen.
+Funktioniert am Anfang, rächt sich spätestens wenn ein Kunde mehrere Logins braucht oder ein Mitarbeiter auch Kunde wird.
+
+### Authorization: fachlich vs. technisch
+
+Autorisierung hat drei Ebenen mit unterschiedlicher Zuständigkeit:
+
+| Ebene | Frage | Wo modellieren |
+|---|---|---|
+| Authentication | Wer bist du? | IAM (immer) |
+| Coarse-grained Authorization | Rollen, Gruppen | IAM (eigener BC) |
+| Fine-grained Authorization | "Nur der Auftragsersteller darf stornieren" | Domain-BC (domänenspezifische Regel) |
+
+**Der typische Fehler:** Berechtigungslogik über alle Contexts verschmieren.
+Sauberer ist: IAM stellt Identität + Rollen bereit, jeder Domain-Context entscheidet selbst, was diese Rollen in seinem Kontext dürfen.
+
+### Im Event Storming: Authorization als Policy
+
+Im Event Storming taucht Authorization an zwei Stellen auf:
+
+  1. **Als Policy vor Commands** — die Frage "Darf dieser Actor dieses Command auslösen?" wird als gelbe Policy/Regel zwischen Actor und Command modelliert.
+     Beispiel: `OrderPlaced` → Policy "nur Customer mit verifiziertem Account" → `ShipOrder`
+
+  2. **Als eigener Kontext mit eigenen Events** — `UserRegistered`, `RoleAssigned`, `PermissionGranted`, `TokenIssued`.
+     Diese laufen in einer eigenen Swimlane.
+
+### Ein Event, mehrere Konsumenten
+
+Ein Event "gehört" immer genau einem Bounded Context (dem, der es publiziert) — aber mehrere Contexts können es konsumieren:
+
+```
+IAM publiziert: UserRegistered
+   |
+   +-> Kundenverwaltung  (legt Customer an)
+   +-> Notification       (schickt Welcome-Mail)
+   +-> Analytics          (zählt Signups)
+```
+
+**Wichtige Unterscheidung:**
+
+| Typ | Beschreibung |
+|---|---|
+| Domain Event (intern) | reichhaltig, contextspezifische Sprache, bleibt im Context |
+| Integration Event (extern) | schlank, stabil, für andere Contexts gedacht |
+
+**Anti-Pattern:** Geteiltes Event-Schema, das beide Contexts gemeinsam ändern müssen → erzeugt versteckte Kopplung.
+Besser: Owner definiert das Schema, Konsumenten passen sich an (oder nutzen einen ACL).
+
+### Typische Registrierungs-Szenarien
+
+#### 1. Self-Service Signup (B2C)
+
+```
+User klickt "Registrieren"
+   |
+IAM:    UserRegistered          <- Identität entsteht hier
+   | (Integration Event)
+Kunde:  CustomerRegistered      <- Kunde reagiert, legt Profil an
+```
+
+IAM ist der Auslöser. Kunde folgt.
+
+#### 2. Kunde wird vom Vertrieb angelegt (B2B)
+
+```
+Vertrieb legt Firmenkunde an
+   |
+Kunde:  CustomerRegistered      <- Kunde existiert zuerst (ohne Login!)
+   | später, wenn jemand Zugang braucht
+IAM:    UserRegistered          <- Login wird nachträglich erzeugt
+   |
+Kunde:  UserLinkedToCustomer
+```
+
+Kunde ist der Auslöser. IAM folgt — oder kommt gar nicht (Laufkundschaft).
+
+#### 3. Mitarbeiter-Onboarding
+
+```
+HR legt Mitarbeiter an
+   |
+IAM:    UserRegistered          <- nur User, kein Kunde
+```
+
+Nur IAM. Kein Customer-BC involviert.
+
+### Faustregel
+
+Frag im Event Storming nicht "ist das technisch oder fachlich?", sondern:
+
+> **Spricht hier jemand eine andere Fachsprache, und ändert sich das Modell aus anderen Gründen?**
+
+Wenn ja → Bounded Context. Wenn die einzige Antwort "das macht das Framework" ist → kein BC, sondern Infrastruktur.
+
+Integration: Andere Contexts konsumieren IAM meist über ein Token (JWT mit Claims) oder einen ACL — kein direkter DB-Zugriff.
+Im Event Storming zeichnet man das als Context Map mit Customer/Supplier-Beziehung (IAM = Upstream).
+
+### Authentication in Kubernetes (Kunde / Mobile App)
+
+
+### Wer authentifiziert sich wozu?
+
+Zuerst die wichtigste Unterscheidung – es gibt **zwei völlig getrennte Auth-Ebenen**:
+
+![Zwei Auth-Ebenen in Kubernetes](/images/auth-zwei-ebenen.svg)
+
+> **ServiceAccount-Token ist Workload-Identität** – für Pod-zu-Pod oder CI/CD-zu-API-Server.
+> Ein Kunde / eine Mobile App bekommt **niemals** einen ServiceAccount-Token zu sehen.
+
+---
+
+### Der kube-apiserver und seine Auth-Mechanismen
+
+Der kube-apiserver ist der **einzige Einstiegspunkt** für alle Kubernetes-Operationen.
+Er kennt mehrere Auth-Methoden – aber keine davon ist für Kunden gedacht.
+
+![kube-apiserver Auth-Methoden](/images/auth-kube-apiserver.svg)
+
+#### OIDC am kube-apiserver konfigurieren (für Entwickler-Login)
+
+```yaml
+## kube-apiserver Flags (z.B. in /etc/kubernetes/manifests/kube-apiserver.yaml)
+spec:
+  containers:
+  - command:
+    - kube-apiserver
+    - --oidc-issuer-url=https://keycloak.example.com/realms/myrealm
+    - --oidc-client-id=kubectl
+    - --oidc-username-claim=email
+    - --oidc-groups-claim=groups
+    # Damit kann ein Entwickler per Keycloak-Login kubectl benutzen
+```
+
+```yaml
+## RBAC: Entwickler-Gruppe darf Pods lesen
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: dev-team-view
+subjects:
+- kind: Group
+  name: "dev-team"          # kommt aus dem groups-Claim im OIDC-Token
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: view
+  apiGroup: rbac.authorization.k8s.io
+```
+
+---
+
+### Kunde / Mobile App – der richtige Auth-Flow
+
+Ein externer Kunde hat **keinen Zugang zum kube-apiserver**. Er kommuniziert ausschließlich
+über den **Ingress** mit den Anwendungs-Services. Der OIDC-Provider stellt JWTs aus,
+die am Ingress oder im Service Mesh geprüft werden.
+
+![Kunde / Mobile App Auth-Flow in Kubernetes](/images/auth-kunde-mobile-flow.svg)
+
+---
+
+### JWT-Flow für Mobile App – vollständiger Code
+
+#### 1. PKCE Authorization Code Flow (Mobile App / SPA)
+
+```
+Mobile App                    Keycloak                   Backend (K8s)
+    |                             |                             |
+    |── GET /auth?                |                             |
+    |   response_type=code        |                             |
+    |   code_challenge=S256  ────>|                             |
+    |                             |                             |
+    |<── Login-Seite (redirect) ──|                             |
+    |                             |                             |
+    |── User gibt Credentials ───>|                             |
+    |                             |                             |
+    |<── Authorization Code ──────|                             |
+    |                             |                             |
+    |── POST /token               |                             |
+    |   code + code_verifier ────>|                             |
+    |                             |                             |
+    |<── Access Token (JWT) ──────|                             |
+    |    Refresh Token            |                             |
+    |                             |                             |
+    |── GET /api/orders           |                             |
+    |   Authorization: Bearer JWT |──────────────────────────>  |
+    |                             |             JWT prüfen      |
+    |                             |             Claims extrahieren
+    |<─────────────────────────── Antwort ────────────────────  |
+```
+
+#### 2. Keycloak Realm + Client einrichten
+
+```bash
+## Realm und Client via Keycloak Admin CLI anlegen
+kcadm.sh create realms -s realm=myapp -s enabled=true
+
+kcadm.sh create clients -r myapp \
+  -s clientId=mobile-app \
+  -s 'redirectUris=["myapp://callback", "https://app.example.com/callback"]' \
+  -s publicClient=true \
+  -s 'standardFlowEnabled=true' \
+  -s 'attributes={"pkce.code.challenge.method":"S256"}'
+
+## Custom Claims (z.B. Kundennummer) als Mapper hinzufügen
+kcadm.sh create clients/<client-id>/protocol-mappers/models -r myapp \
+  -s name=customer-id \
+  -s protocolMapper=oidc-user-attribute-mapper \
+  -s 'config={"user.attribute":"customerId","claim.name":"customer_id","access.token.claim":"true"}'
+```
+
+#### 3. Istio: JWT validieren + Claims als Header setzen
+
+```yaml
+## RequestAuthentication: Istio prüft das JWT selbst (kein Code im Service nötig)
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: customer-jwt
+  namespace: production
+spec:
+  jwtRules:
+  - issuer: "https://keycloak.example.com/realms/myapp"
+    jwksUri: "https://keycloak.example.com/realms/myapp/protocol/openid-connect/certs"
+    audiences:
+    - "mobile-app"
+    outputClaimToHeaders:
+    - header: x-customer-id      # claim → HTTP-Header für Backend
+      claim: customer_id
+    - header: x-user-sub
+      claim: sub
+    - header: x-user-email
+      claim: email
+    forwardOriginalToken: false   # JWT nicht ans Backend weitergeben
+```
+
+```yaml
+## AuthorizationPolicy: Requests OHNE gültiges JWT ablehnen
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: require-customer-jwt
+  namespace: production
+spec:
+  selector:
+    matchLabels:
+      app: order-service
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]   # kein JWT vorhanden → DENY
+---
+## Feinere Regel: GET ohne Auth, POST nur mit gültigem JWT
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: order-service-rules
+  namespace: production
+spec:
+  selector:
+    matchLabels:
+      app: order-service
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        methods: ["GET"]
+        paths: ["/api/v1/products*"]   # Produktliste: öffentlich
+  - from:
+    - source:
+        requestPrincipals: ["*"]        # Eingeloggte Kunden
+    to:
+    - operation:
+        methods: ["GET", "POST"]
+        paths: ["/api/v1/orders*"]
+```
+
+#### 4. Backend-Service liest Claims aus Headern (kein JWT-Parsing)
+
+```go
+// order-service/handler.go
+// Istio hat das JWT validiert und Claims als Header gesetzt.
+// Der Service braucht keine JWT-Bibliothek.
+func CreateOrderHandler(w http.ResponseWriter, r *http.Request) {
+    customerID := r.Header.Get("X-Customer-Id")
+    userSub    := r.Header.Get("X-User-Sub")
+
+    if customerID == "" {
+        http.Error(w, "missing customer identity", http.StatusUnauthorized)
+        return
+    }
+
+    order := Order{
+        CustomerID: customerID,
+        CreatedBy:  userSub,
+    }
+    // Datenbanklogik ...
+    w.WriteHeader(http.StatusCreated)
+    json.NewEncoder(w).Encode(order)
+}
+```
+
+```python
+## payment-service/app.py (FastAPI)
+from fastapi import FastAPI, Header, HTTPException
+
+app = FastAPI()
+
+@app.post("/api/v1/payments")
+async def create_payment(
+    x_customer_id: str = Header(None, alias="x-customer-id"),
+    x_user_sub:    str = Header(None, alias="x-user-sub"),
+):
+    if not x_customer_id:
+        raise HTTPException(status_code=401, detail="No identity")
+
+    # x_customer_id kommt gesetzt von Istio – keine weitere Validierung nötig
+    return {"status": "ok", "customer": x_customer_id}
+```
+
+---
+
+### Token-Refresh in der Mobile App
+
+```swift
+// iOS Swift – Token automatisch erneuern
+class TokenManager {
+    private var accessToken: String?
+    private var refreshToken: String?
+    private var expiresAt: Date?
+
+    func getValidToken() async throws -> String {
+        // Abgelaufen? Neu holen via Refresh Token
+        if let exp = expiresAt, Date() > exp.addingTimeInterval(-60) {
+            try await refreshAccessToken()
+        }
+        return accessToken ?? { throw AuthError.notAuthenticated }()
+    }
+
+    private func refreshAccessToken() async throws {
+        let body = "grant_type=refresh_token&refresh_token=\(refreshToken!)&client_id=mobile-app"
+        var req = URLRequest(url: URL(string: "https://keycloak.example.com/realms/myapp/protocol/openid-connect/token")!)
+        req.httpMethod = "POST"
+        req.httpBody = body.data(using: .utf8)
+
+        let (data, _) = try await URLSession.shared.data(for: req)
+        let tokens = try JSONDecoder().decode(TokenResponse.self, from: data)
+        accessToken = tokens.accessToken
+        expiresAt   = Date().addingTimeInterval(Double(tokens.expiresIn))
+    }
+}
+```
+
+---
+
+### Zusammenfassung: Was validiert was?
+
+![Zusammenfassung: Was validiert was?](/images/auth-zusammenfassung.svg)
+
+---
+
+### Login-Button in einer Web-App
+
+Du baust **kein eigenes Login-Formular**. Keycloak stellt die Login-Seite bereit.
+Deine App hat nur einen Button – Klick darauf startet den Redirect zu Keycloak.
+
+![Login-Button Flow mit Keycloak](/images/auth-login-button-flow.svg)
+
+Der entscheidende Punkt: **Ab Schritt ⑪ kontaktiert deine App Keycloak nicht mehr.**
+Das JWT wird vom Istio Gateway lokal geprüft (Public Key wurde einmalig geholt und gecacht).
+
+#### React-Beispiel mit keycloak-js
+
+```bash
+npm install keycloak-js
+```
+
+```javascript
+// keycloak.js – einmalig initialisieren
+import Keycloak from 'keycloak-js';
+
+const keycloak = new Keycloak({
+  url:      'https://keycloak.example.com',
+  realm:    'myrealm',
+  clientId: 'my-webapp',
+});
+
+export default keycloak;
+```
+
+```jsx
+// App.jsx
+import { useEffect, useState } from 'react';
+import keycloak from './keycloak';
+
+export default function App() {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    keycloak
+      .init({ onLoad: 'check-sso', pkceMethod: 'S256' })
+      .then(() => setReady(true));
+
+    // Token automatisch erneuern bevor es abläuft
+    setInterval(() => keycloak.updateToken(60), 30000);
+  }, []);
+
+  if (!ready) return <p>Laden...</p>;
+
+  if (!keycloak.authenticated) {
+    return <button onClick={() => keycloak.login()}>Login</button>;
+  }
+
+  return (
+    <div>
+      <p>Eingeloggt als {keycloak.tokenParsed.email}</p>
+      <button onClick={() => keycloak.logout()}>Logout</button>
+      <Orders />
+    </div>
+  );
+}
+```
+
+```javascript
+// api.js – Token zu jedem API-Call hinzufügen
+import keycloak from './keycloak';
+
+export async function fetchOrders() {
+  const response = await fetch('/api/orders', {
+    headers: {
+      Authorization: `Bearer ${keycloak.token}`,
+    },
+  });
+  return response.json();
+}
+```
+
+```yaml
+## Keycloak Client-Konfiguration (Public Client für SPA)
+## In Keycloak Admin Console:
+## Client ID:        my-webapp
+## Client Protocol: openid-connect
+## Access Type:     public          ← kein Client-Secret nötig
+## Valid Redirect:  https://app.example.com/*
+## Web Origins:     https://app.example.com
+```
+
+---
+
+### Weiterführendes
+
+- [Keycloak – Mobile App PKCE](https://www.keycloak.org/docs/latest/securing_apps/#_mobile_apps)
+- [Istio RequestAuthentication](https://istio.io/latest/docs/reference/config/security/request_authentication/)
+- [oauth2-proxy Docs](https://oauth2-proxy.github.io/oauth2-proxy/)
+- [Kubernetes OIDC Auth](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens)
+- [RFC 7636 – PKCE](https://datatracker.ietf.org/doc/html/rfc7636)
+
+### API Gateway vs. Istio Service Mesh – Authentication
+
+
+Istio übernimmt Authentication für **beide Verkehrsrichtungen** im Kubernetes-Cluster:
+Nord-Süd (externe Clients → Services) und Ost-West (Service → Service).
+
+Ein dediziertes API Gateway (Kong, APISIX, Tyk) ist die **Alternative** – sinnvoll
+nur wenn Istio an seine Grenzen stößt.
+
+---
+
+### Istio als primäre Lösung
+
+Istio löst das Auth-Problem auf zwei Ebenen gleichzeitig:
+
+| Ebene | Mechanismus | Schützt |
+|-------|------------|---------|
+| Nord-Süd | Istio Ingress Gateway + RequestAuthentication | Eingehende Requests von außen |
+| Ost-West | PeerAuthentication (mTLS) + AuthorizationPolicy | Service-zu-Service intern |
+
+![Istio übernimmt Nord-Süd und Ost-West](/images/auth-istio-nord-sued.svg)
+
+---
+
+### Teil 1: Nord-Süd mit Istio
+
+#### Wie es funktioniert
+
+Der **Istio Ingress Gateway** ist der einzige Einstiegspunkt von außen.
+Er terminiert TLS und prüft das JWT via `RequestAuthentication` – direkt
+gegen den JWKS-Endpoint von Keycloak. Die Backend-Services bekommen
+die verifizierten Claims als HTTP-Header.
+
+```
+Mobile App                  Istio Ingress Gateway           Order Service
+    │                               │                             │
+    │── GET /api/orders             │                             │
+    │   Authorization: Bearer JWT ─>│                             │
+    │                               │  JWT prüfen (JWKS)          │
+    │                               │  Signatur ✓  exp ✓          │
+    │                               │  sub → x-user-sub           │
+    │                               │  role → x-user-role         │
+    │                               │                             │
+    │                               │── mTLS ────────────────────>│
+    │                               │   x-user-sub: user-42       │
+    │                               │   x-user-role: customer     │
+    │                               │                             │
+    │<───────────────────────── Response ────────────────────────│
+```
+
+#### Code: Istio Gateway + VirtualService
+
+```yaml
+## Gateway: TLS terminieren, Port 443 öffnen
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: api-gateway
+  namespace: production
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: api-tls-cert   # Secret mit TLS-Zertifikat (z.B. via cert-manager)
+    hosts:
+    - api.example.com
+---
+## VirtualService: Routing zu den Services
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: api-routes
+  namespace: production
+spec:
+  hosts:
+  - api.example.com
+  gateways:
+  - api-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /api/orders
+    route:
+    - destination:
+        host: order-service
+        port:
+          number: 8080
+  - match:
+    - uri:
+        prefix: /api/products
+    route:
+    - destination:
+        host: product-service
+        port:
+          number: 8080
+```
+
+#### Code: RequestAuthentication – JWT prüfen
+
+```yaml
+## Istio validiert JWT selbst via JWKS – kein Code im Service nötig
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: customer-jwt
+  namespace: production
+spec:
+  # Kein selector → gilt für alle Services im Namespace
+  jwtRules:
+  - issuer: "https://keycloak.example.com/realms/myrealm"
+    jwksUri: "https://keycloak.example.com/realms/myrealm/protocol/openid-connect/certs"
+    audiences:
+    - "myapp"
+    outputClaimToHeaders:          # Claims → HTTP-Header für Backend-Services
+    - header: x-user-sub
+      claim: sub
+    - header: x-user-role
+      claim: role
+    - header: x-customer-id
+      claim: customer_id
+    forwardOriginalToken: false    # rohen JWT nicht ans Backend weitergeben
+```
+
+#### Code: AuthorizationPolicy – Zugriff steuern (Nord-Süd)
+
+```yaml
+## Kein gültiges JWT → ablehnen
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: require-jwt
+  namespace: production
+spec:
+  selector:
+    matchLabels:
+      app: order-service
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]   # kein JWT vorhanden
+---
+## GET für alle eingeloggten User, POST nur für bestimmte Rollen
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: order-service-rules
+  namespace: production
+spec:
+  selector:
+    matchLabels:
+      app: order-service
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        methods: ["GET"]
+        paths: ["/api/orders*"]
+    when:
+    - key: request.auth.principal
+      notValues: [""]
+  - to:
+    - operation:
+        methods: ["POST"]
+        paths: ["/api/orders"]
+    when:
+    - key: request.auth.claims[role]
+      values: ["customer", "admin"]
+```
+
+#### Code: Backend-Service liest nur Header
+
+```go
+// Go – Istio hat JWT validiert, Claims stehen als Header bereit
+// Keine JWT-Bibliothek nötig
+func createOrderHandler(w http.ResponseWriter, r *http.Request) {
+    userSub    := r.Header.Get("X-User-Sub")
+    role       := r.Header.Get("X-User-Role")
+    customerID := r.Header.Get("X-Customer-Id")
+
+    if userSub == "" {
+        http.Error(w, "Unauthorized", http.StatusUnauthorized)
+        return
+    }
+    log.Printf("Order von %s (Rolle: %s, KundeID: %s)", userSub, role, customerID)
+    // Business-Logik ...
+}
+```
+
+```python
+## FastAPI – identisch
+from fastapi import FastAPI, Header, HTTPException
+
+app = FastAPI()
+
+@app.post("/api/orders")
+async def create_order(
+    x_user_sub:    str = Header(None),
+    x_user_role:   str = Header(None),
+    x_customer_id: str = Header(None),
+):
+    if not x_user_sub:
+        raise HTTPException(status_code=401)
+    return {"status": "created", "user": x_user_sub, "role": x_user_role}
+```
+
+---
+
+### Teil 2: Ost-West mit Istio
+
+#### Code: mTLS cluster-weit erzwingen
+
+```yaml
+## PeerAuthentication STRICT: kein Plain-Text mehr zwischen Pods
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: istio-system   # gilt für gesamten Cluster
+spec:
+  mtls:
+    mode: STRICT
+```
+
+#### Code: Service-zu-Service Zugriff einschränken
+
+```yaml
+## Nur order-service darf payment-service aufrufen
+## Identität kommt aus dem Kubernetes ServiceAccount (SPIFFE/SVID)
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: payment-allow-order
+  namespace: production
+spec:
+  selector:
+    matchLabels:
+      app: payment-service
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals:
+        - "cluster.local/ns/production/sa/order-service"
+    to:
+    - operation:
+        methods: ["POST"]
+        paths: ["/internal/payments"]
+```
+
+```yaml
+## ServiceAccounts explizit vergeben – Basis für die SPIFFE-Identität
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: order-service
+  namespace: production
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+  namespace: production
+spec:
+  template:
+    spec:
+      serviceAccountName: order-service   # → SPIFFE: cluster.local/ns/production/sa/order-service
+      containers:
+      - name: order-service
+        image: my-registry/order-service:1.0
+```
+
+#### Istio installieren und testen
+
+```bash
+## 1. Istio installieren
+istioctl install --set profile=default -y
+
+## 2. Namespace für Sidecar-Injection markieren
+kubectl label namespace production istio-injection=enabled
+
+## 3. Pods neu starten (Sidecar wird injiziert)
+kubectl rollout restart deployment -n production
+
+## 4. Prüfen: 2/2 = App + Envoy Sidecar
+kubectl get pods -n production
+## order-service-7d9f8b-xk2pq   2/2   Running
+
+## 5. mTLS testen: Plain-Text-Verbindung muss fehlschlagen
+kubectl run test --image=curlimages/curl --rm -it -- \
+  curl http://payment-service.production.svc.cluster.local:9090/health
+## → Connection reset (STRICT mTLS aktiv)
+
+## 6. AuthorizationPolicy testen
+kubectl exec -it deploy/order-service -n production -- \
+  curl http://payment-service:9090/internal/payments -X POST
+## → 200 OK  (order-service SA ist erlaubt)
+
+kubectl exec -it deploy/product-service -n production -- \
+  curl http://payment-service:9090/internal/payments -X POST
+## → 403 RBAC: access denied  (product-service SA ist nicht erlaubt)
+```
+
+---
+
+### Wann zusätzlich ein API Gateway?
+
+Istio ist für die meisten Szenarien ausreichend. Ein API Gateway (Kong, APISIX, Tyk)
+kommt hinzu, wenn spezifische API-Management-Features gebraucht werden,
+die Istio nicht bietet.
+
+![Wann reicht Istio – wann brauche ich ein API Gateway?](/images/auth-wann-api-gateway.svg)
+
+#### Typische Gründe für ein API Gateway
+
+**API-Key-Management:** Externe Partner oder Drittanbieter bekommen API-Keys statt JWTs.
+Istio kennt kein Consumer-Konzept mit Key-Verwaltung.
+
+**Developer Portal:** Öffentliche API-Dokumentation, Self-Service-Registrierung,
+Key-Generierung für externe Entwickler.
+
+**Request/Response-Transformation:** Body umschreiben, Header hinzufügen/entfernen,
+Protokollkonvertierung (REST → gRPC) – in Istio nur über komplexe EnvoyFilter möglich.
+
+#### Code: Kong vor Istio (wenn beides gebraucht wird)
+
+```yaml
+## Kong läuft als Deployment – der Ingress-Traffic geht durch Kong,
+## dann ins Istio Mesh weiter
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: partner-app
+  namespace: production
+  annotations:
+    kubernetes.io/ingress.class: kong
+username: partner-app
+---
+## API-Key für den Consumer
+apiVersion: v1
+kind: Secret
+metadata:
+  name: partner-app-key
+  namespace: production
+  labels:
+    konghq.com/credential: key-auth
+type: Opaque
+stringData:
+  kongCredType: key-auth
+  key: "abc123geheimerschluessel"
+---
+## Route mit Key-Auth absichern
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: partner-api
+  namespace: production
+  annotations:
+    konghq.com/plugins: key-auth-plugin
+spec:
+  ingressClassName: kong
+  rules:
+  - host: api.example.com
+    http:
+      paths:
+      - path: /partner/
+        pathType: Prefix
+        backend:
+          service:
+            name: order-service   # Istio Sidecar läuft weiterhin im order-service Pod
+            port:
+              number: 8080
+```
+
+```
+Internet
+   │  API-Key oder JWT
+   ▼
+┌──────────────────────────────────┐
+│  Kong API Gateway                │
+│  API-Key prüfen, Rate Limit,     │
+│  X-Consumer-* Header setzen      │
+└────────────────┬─────────────────┘
+                 │
+                 ▼
+┌──────────────────────────────────┐
+│  Istio Service Mesh              │
+│  mTLS Ost-West, AuthPolicy       │
+│  (Kong-Pod hat auch Envoy)       │
+└──────────────────────────────────┘
+```
+
+---
+
+### Weiterführendes
+
+- [Istio Ingress Gateway](https://istio.io/latest/docs/tasks/traffic-management/ingress/ingress-control/)
+- [Istio RequestAuthentication](https://istio.io/latest/docs/reference/config/security/request_authentication/)
+- [Istio AuthorizationPolicy](https://istio.io/latest/docs/reference/config/security/authorization-policy/)
+- [Kong Kubernetes Ingress Controller](https://docs.konghq.com/kubernetes-ingress-controller/)
+- [Apache APISIX für Kubernetes](https://apisix.apache.org/docs/ingress-controller/getting-started/)
+
+### JWT mit Keycloak und Istio — Login-Flow, Client Credentials, Validierung
+
+
+### Was ist JWT?
+
+Ein **JSON Web Token (JWT)** ist ein kompaktes, selbstbeschreibendes Token,
+das Informationen (Claims) ueber einen User oder Service traegt.
+Es besteht aus drei Base64Url-kodierten Teilen, getrennt durch Punkte.
+
+![JWT Aufbau – Header, Payload, Signatur](/images/jwt-aufbau.svg)
+
+| Teil | Inhalt | Zweck |
+|------|--------|-------|
+| **Header** | Algorithm (RS256), Token-Typ | Wie wurde signiert? |
+| **Payload** | sub, email, roles, exp | Wer bin ich, was darf ich? |
+| **Signatur** | RSA-signiert mit Keycloak Private Key | Manipulationsschutz |
+
+Die Signatur kann jeder mit dem **oeffentlichen Key** von Keycloak pruefen –
+ohne dass Keycloak dafuer erreichbar sein muss.
+
+---
+
+### Weg 1: User meldet sich an (Browser/App)
+
+Der Standard-Flow fuer Webanwendungen heisst **Authorization Code Flow**.
+Kein Passwort wandert durch die App – nur ein kurzlebiger "Code".
+
+![Authorization Code Flow – User Login](/images/jwt-login-flow.svg)
+
+#### Was passiert Schritt fuer Schritt
+
+| Schritt | Wer | Was |
+|---------|-----|-----|
+| 1 | Browser | Leitet zu Keycloak weiter — mit `redirect_uri=https://backend.com/callback` |
+| 2 | Keycloak | Zeigt Login-Formular, prueft Credentials |
+| 3 | Keycloak | Antwortet mit **HTTP 302 Redirect** zu `https://backend.com/callback?code=abc123` |
+| 4 | Browser | **Folgt dem Redirect automatisch** — ladet die Callback-URL des Backends (Code steckt im Query-Parameter) |
+| 5 | Backend | Schickt `code` + `client_secret` an Keycloak (Server-to-Server, Browser nicht beteiligt) |
+| 6 | Keycloak | **Stellt den JWT aus** — prueft code, generiert Token, signiert ihn mit Private Key, schickt ihn ans Backend |
+| 7 | Backend | Speichert JWT in Session oder Cookie |
+
+**Der entscheidende Mechanismus in Schritt 3–4:**
+Keycloak schickt keinen Token an den Browser — es schickt nur einen **Redirect**.
+Der Browser folgt diesem Redirect blind und landet auf der Callback-URL des Backends.
+Dabei uebertraegt er den `code` als URL-Parameter. Der Browser "weiss" nicht, was er tut —
+er folgt nur einer HTTP-Weiterleitung.
+
+**Warum laufen Schritt 5–6 am Browser vorbei?**
+Das Backend ruft Keycloak direkt auf — ohne Browser-Beteiligung.
+Dabei sendet es den `client_secret`, der **niemals** den Server verlassen darf.
+Der Browser bekommt den `access_token` nie zu sehen — nur das Backend haelt ihn.
+
+---
+
+### Weg 2: Service holt sich selbst ein JWT (Service-to-Service)
+
+Wenn kein User beteiligt ist – z.B. ein Cronjob oder Microservice ruft einen
+anderen Service auf – gibt es keinen Login-Dialog.
+Der Flow heisst **Client Credentials**.
+
+![Client Credentials Flow – Service-to-Service](/images/jwt-client-credentials.svg)
+
+```
+POST https://keycloak/realms/myrealm/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+&client_id=service-a
+&client_secret=geheim123
+```
+
+Response:
+```json
+{
+  "access_token": "eyJhbGciOiJSUzI1NiJ9...",
+  "expires_in": 300,
+  "token_type": "Bearer"
+}
+```
+
+Der Service speichert den Token und sendet ihn bei jedem Folge-Request mit:
+
+```
+GET /api/orders
+Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...
+```
+
+**Wichtig:** Den Token bis kurz vor Ablauf cachen – nicht bei jedem Call
+neu anfordern. `expires_in` gibt die Lebensdauer in Sekunden an.
+
+---
+
+### Wo landet das JWT im Request?
+
+```
+GET /api/orders HTTP/1.1
+Host: my-service.example.com
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyLTQyIiwiZW1haWwiOiJ1c2VyQGV4YW1wbGUuY29tIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImFkbWluIl19LCJleHAiOjE3MTYwMDAzMDB9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+```
+
+Das Token ist einfach ein langer String im `Authorization`-Header.
+Der Empfaenger entschluesselt ihn (kein Netzwerkaufruf noetig) und
+liest die Claims direkt aus dem Payload.
+
+---
+
+### Wie Istio das JWT prueft – ohne App-Code-Aenderung
+
+Istio's Envoy-Sidecar interceptet jeden eingehenden Request **bevor**
+er den App-Container erreicht. Die Validierung laeuft vollautomatisch.
+
+![Istio JWT-Validierung](/images/jwt-istio-validation.svg)
+
+#### Konfiguration: RequestAuthentication
+
+```yaml
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: jwt-keycloak
+  namespace: production
+spec:
+  jwtRules:
+  - issuer: "https://keycloak/realms/myrealm"
+    jwksUri: "https://keycloak/realms/myrealm/protocol/openid-connect/certs"
+```
+
+Istio holt die **Public Keys automatisch** vom JWKS-Endpoint und prueft:
+- Signatur korrekt? (RSA)
+- Token nicht abgelaufen? (`exp`)
+- Issuer stimmt? (`iss`)
+
+#### Konfiguration: AuthorizationPolicy
+
+```yaml
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: require-admin
+  namespace: production
+spec:
+  rules:
+  - from:
+    - source:
+        requestPrincipals: ["*"]
+    when:
+    - key: request.auth.claims[realm_access/roles]
+      values: ["admin"]
+```
+
+#### Was Istio mit validierten Claims macht
+
+Nach erfolgreicher Pruefung extrahiert Istio Claims als HTTP-Header:
+
+| Claim im JWT | HTTP-Header | Beispielwert |
+|-------------|-------------|--------------|
+| `sub` | `x-forwarded-client-cert` / `x-user-sub` | `user-42` |
+| `email` | `x-user-email` | `user@example.com` |
+| `realm_access.roles` | `x-user-role` | `admin` |
+
+Die App-Container lesen einfach diese Header – kein JWT-Parsing,
+keine Signaturpruefung im Code.
+
+---
+
+### Zusammenfassung: Wer macht was?
+
+| Komponente | Aufgabe |
+|-----------|---------|
+| **Keycloak** | Ausstellen und Signieren von JWTs (OIDC-Server) |
+| **Browser/App** | Leitet zur Login-Page weiter, tauscht Code gegen Token |
+| **Backend-Service** | Speichert Token, sendet im `Authorization`-Header |
+| **Microservice** | Holt Token per Client Credentials, cacht ihn |
+| **Istio Sidecar** | Validiert JWT, blockiert invalide Requests, extrahiert Claims |
+| **App-Container** | Muss JWT nicht kennen – liest nur Header |
+
+**Der Kernvorteil von Istio:** Authentication wird aus dem App-Code
+herausgezogen und zentral konfiguriert. Neue Services sind automatisch
+geschuetzt, ohne dass Entwickler Auth-Bibliotheken einbinden muessen.
+
+### Datenmigration: Notification Service (Dual Write, Outbox, Backfill)
+
+
+Dieses Dokument zeigt anhand des **Notification Service** von ShopMax,
+wie eine Datenbank-Migration beim Herausloesen eines Microservices konkret ablaeuft.
+
+---
+
+### Verwendete Patterns im Ueberblick
+
+| Pattern | Zweck | Warum hier |
+|---|---|---|
+| **Database-per-Service** | Jeder Service bekommt eine eigene, isolierte DB | Zielarchitektur — ohne eigene DB sind Services faktisch noch ein Monolith |
+| **Strangler Fig (DB-Ebene)** | Alte Tabelle bleibt waehrend der Migration erhalten | Kein Big-Bang-Cut — Monolith laeuft weiter, kein Datenverlustrisiko |
+| **Backfill** | Historische Daten einmalig in neue DB kopieren | Neue DB muss vollstaendig sein, bevor Reads umgestellt werden koennen |
+| **Dual Write** | Monolith schreibt waehrend Migration in beide DBs | Neue DB bleibt aktuell, bevor der Switch vollzogen ist |
+| **Outbox Pattern** | Konsistenz beim Dual Write sicherstellen | Loest das Problem: Was passiert, wenn einer der beiden Writes fehlschlaegt? |
+
+---
+
+### Ausgangslage: Notifications in der Monolith-DB
+
+Die `notifications`-Tabelle sitzt heute in der gemeinsamen Monolith-Datenbank
+und haengt ueber Foreign Keys an `users` und `orders`:
+
+```sql
+-- Monolith-DB (PostgreSQL, gemeinsam mit allen anderen Services)
+
+CREATE TABLE notifications (
+    id          BIGSERIAL PRIMARY KEY,
+    user_id     BIGINT NOT NULL REFERENCES users(id),
+    order_id    BIGINT REFERENCES orders(id),
+    type        VARCHAR(50)  NOT NULL,  -- ORDER_CONFIRMATION, SHIPPING, INVOICE
+    channel     VARCHAR(20)  NOT NULL,  -- EMAIL, SMS
+    content     TEXT,
+    sent_at     TIMESTAMP,
+    status      VARCHAR(20)  NOT NULL   -- SENT, FAILED, PENDING
+);
+```
+
+```
++-----------------------------+
+|       Monolith-DB           |
+|                             |
+|  users                      |
+|  orders  <--+               |
+|  notifications --+          |
+|             |   |           |
+|             FK  FK          |
++-----------------------------+
+```
+
+**Das Problem mit den Foreign Keys:**
+Foreign Keys erzwingen, dass `users` und `orders` in derselben DB stehen wie `notifications`.
+Solange das so ist, kann der Notification Service keine eigene DB haben —
+er ist faktisch mit dem Monolith verdrahtet.
+
+---
+
+### Ziel: Eigene Datenbank fuer den Notification Service
+
+Im Notification Service gibt es keine Foreign Keys mehr.
+Statt `user_id` werden die benoetigten Daten denormalisiert gespeichert.
+
+```sql
+-- Notification-Service-DB (eigene PostgreSQL-Instanz)
+
+CREATE TABLE notifications (
+    id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    recipient_email  VARCHAR(255) NOT NULL,  -- denormalisiert, kein FK zu users
+    recipient_phone  VARCHAR(50),
+    order_reference  VARCHAR(100),           -- nur Referenz-ID, kein FK zu orders
+    type             VARCHAR(50)  NOT NULL,
+    channel          VARCHAR(20)  NOT NULL,
+    content          TEXT,
+    sent_at          TIMESTAMP,
+    status           VARCHAR(20)  NOT NULL
+);
+```
+
+```
++-----------------------------+     +-----------------------------+
+|       Monolith-DB           |     |    Notification-Service-DB  |
+|                             |     |                             |
+|  users                      |     |  notifications              |
+|  orders                     |     |    recipient_email (Text)   |
+|  (notifications entfernt)   |     |    order_reference (Text)   |
+|                             |     |    (keine Foreign Keys)     |
++-----------------------------+     +-----------------------------+
+       [Monolith]                        [Notification Service]
+```
+
+**Warum Denormalisierung?**
+Microservices duerfen nicht in fremde Datenbanken schauen.
+Der Notification Service braucht nur die E-Mail-Adresse und die Bestellnummer —
+diese Werte werden beim Schreiben mitgegeben, nicht nachtraeglich per JOIN geholt.
+
+---
+
+### Migrationspfad (Schritt fuer Schritt)
+
+#### Phase 1 — Neue Datenbank aufsetzen
+
+**Pattern: Database-per-Service**
+
+Als erstes wird nur die Infrastruktur bereitgestellt: eine eigene PostgreSQL-Instanz
+fuer den Notification Service mit dem neuen Schema (ohne Foreign Keys).
+Der neue Service laeuft noch nicht — die DB ist leer und wird noch nicht befuellt.
+
+```
+[Monolith-DB]                    [Notification-Service-DB]
+  notifications (alt)              notifications (neu, leer)
+  users
+  orders
+```
+
+**Warum zuerst die DB, noch vor dem Code?**
+Ohne DB kann der neue Service keine Daten speichern.
+Der Backfill (Phase 2) braucht eine fertige Zieldatenbank.
+
+---
+
+#### Phase 2 — Historische Daten migrieren
+
+**Pattern: Backfill**
+
+Die neue DB wird mit allen historischen Daten aus der Monolith-DB befuellt —
+bevor der neue Service auch nur eine einzige neue Notification empfaengt.
+
+```sql
+-- Einmalige Backfill-Migration (laeuft gegen Monolith-DB)
+-- Fuehrt den notwendigen JOIN noch einmal aus, um E-Mail + Telefon aufzuloesen
+
+INSERT INTO notification_service_db.notifications
+    (id, recipient_email, recipient_phone, order_reference,
+     type, channel, content, sent_at, status)
+SELECT
+    gen_random_uuid(),
+    u.email,
+    u.phone,
+    o.reference_number,
+    n.type,
+    n.channel,
+    n.content,
+    n.sent_at,
+    n.status
+FROM notifications n
+JOIN users  u ON u.id = n.user_id
+JOIN orders o ON o.id = n.order_id;
+```
+
+**Warum Backfill vor dem Code-Switch?**
+Wuerde man den neuen Service zuerst aktivieren und erst danach den Backfill laufen lassen,
+wuerde die neue DB neue Notifications empfangen, aber der historische Stand fehlt.
+Reports, Retry-Logik und Kundenanfragen wuerden fehlschlagen.
+Die neue DB muss vollstaendig sein, bevor der neue Service aktiv wird.
+
+**Kontrolle nach dem Backfill:**
+
+```sql
+-- Zeilenanzahl muss uebereinstimmen
+SELECT COUNT(*) FROM monolith_db.notifications;
+SELECT COUNT(*) FROM notification_service_db.notifications;
+
+-- Stichprobe: letzte 100 Eintraege manuell pruefen
+SELECT * FROM notification_service_db.notifications
+ORDER BY sent_at DESC LIMIT 100;
+```
+
+---
+
+#### Phase 3 — Strangler Fig auf Code-Ebene
+
+**Pattern: Strangler Fig**
+
+Erst jetzt — nachdem die neue DB vollstaendig befuellt ist — wird der Code umgeschaltet.
+Der direkte Aufruf bleibt als Sicherheitsnetz erhalten, der neue Event-Pfad kommt dazu.
+
+**Phase 3a: Beide Pfade parallel betreiben**
+
+```java
+// Uebergangsphase: alter Aufruf bleibt, neuer Event-Pfad kommt dazu
+public Order placeOrder(Cart cart, Customer customer) {
+    Order order = createOrder(cart);
+    paymentService.charge(customer, order.total());
+
+    // Alter Pfad: laeuft weiter (Sicherheitsnetz)
+    notificationService.sendOrderConfirmation(customer.email(), order);
+
+    // Neuer Pfad: Event fuer den Notification Service
+    eventBus.publish(new OrderPlacedEvent(
+        order.id(),
+        customer.email(),
+        customer.phone(),
+        order.total()
+    ));
+
+    return order;
+}
+```
+
+```
+[Monolith]
+    |
+    |-- direkter Aufruf --> [Notification-Code im Monolith] --> [Monolith-DB]
+    |
+    +-- Event -----------> [Neuer Notification Service]     --> [Notification-Svc-DB]
+```
+
+Beide Pfade laufen gleichzeitig. Neue Notifications landen in beiden DBs —
+die neue DB hat nun historische Daten (aus Phase 2) und neue Daten (aus Events).
+
+**Phase 3b: Neuen Pfad verifizieren**
+
+```sql
+-- Vergleich: gleiche Anzahl neuer Notifications seit Aktivierung des neuen Pfads?
+SELECT COUNT(*) FROM monolith_db.notifications        WHERE sent_at > '2024-01-15';
+SELECT COUNT(*) FROM notification_svc_db.notifications WHERE sent_at > '2024-01-15';
+```
+
+**Phase 3c: Alten Pfad entfernen**
+
+Erst wenn der neue Pfad bestaetigt ist:
+
+```java
+// Nur noch Event — direkter Aufruf entfernt
+public Order placeOrder(Cart cart, Customer customer) {
+    Order order = createOrder(cart);
+    paymentService.charge(customer, order.total());
+
+    eventBus.publish(new OrderPlacedEvent(
+        order.id(),
+        customer.email(),
+        customer.phone(),
+        order.total()
+    ));
+
+    return order;
+}
+```
+
+**Warum parallel und nicht direkt umschalten?**
+Ein sofortiger Switch ist ein Big-Bang-Cut ohne Fallback.
+Beim parallelen Betrieb laeuft der Monolith weiter als Sicherheitsnetz,
+bis der neue Pfad bewiesen ist.
+
+---
+
+#### Phase 4 — Dual Write (nur zur Erklaerung — in der Praxis ueberspringen)
+
+**Pattern: Dual Write**
+
+> **Hinweis:** Phase 4 ist kein empfohlener Implementierungsschritt.
+> Sie erklaert, was Teams ohne Outbox Pattern tun — und warum es ein Problem ist.
+> In der Praxis direkt zu Phase 5 (Outbox) wechseln.
+
+Ohne Outbox Pattern wuerde man versucht sein, einfach in beide DBs zu schreiben:
+
+```java
+// Im Monolith (naiver Ansatz)
+public void sendNotification(Notification n) {
+    monolithDb.insert(n);            // alte Tabelle
+    notificationServiceDb.insert(n); // neue DB
+}
+```
+
+```
+[Monolith]
+    |
+    |-- INSERT --> [Monolith-DB: notifications]     (1. Write)
+    |
+    +-- INSERT --> [Notification-Service-DB]        (2. Write)
+```
+
+**Warum das nicht funktioniert:**
+Die beiden INSERTs laufen nicht in einer Transaktion.
+Schlaegt der zweite fehl (Netzwerkfehler, DB-Ausfall), ist die neue DB inkonsistent —
+ohne Moeglichkeit zur automatischen Wiederholung. Datenverlust ist die Folge.
+Deshalb: direkt zu Phase 5.
+
+---
+
+#### Phase 5 — Outbox Pattern fuer Konsistenz
+
+**Pattern: Outbox Pattern**
+
+Statt direkt in beide DBs zu schreiben, schreibt der Monolith atomar
+in seine eigene DB — aber zusaetzlich in eine `outbox`-Tabelle.
+Ein separater Relay-Prozess liest die Outbox und schreibt in die neue DB.
+
+```sql
+-- Neue Tabelle in der Monolith-DB
+CREATE TABLE notification_outbox (
+    id          BIGSERIAL PRIMARY KEY,
+    payload     JSONB NOT NULL,      -- serialisierte Notification
+    created_at  TIMESTAMP DEFAULT NOW(),
+    relayed_at  TIMESTAMP            -- NULL = noch nicht uebertragen
+);
+```
+
+```java
+// Im Monolith: alles in EINER Transaktion
+@Transactional
+public void sendNotification(Notification n) {
+    monolithDb.insert(n);
+    outboxDb.insert(toJson(n));   // atomar mit obigem INSERT
+    // kein direkter Write in Notification-Service-DB mehr
+}
+```
+
+**Ja — die Aktualisierung der Service-DB ist asynchron.**
+
+Der Monolith kehrt sofort zurueck, nachdem er in seine eigene DB geschrieben hat.
+Die Notification-Service-DB wird erst danach aktualisiert — durch einen
+separaten Relay-Prozess, der unabhaengig laeuft:
+
+```
+[Monolith] --Transaktion--> [Monolith-DB]
+    |                           |
+    | (kehrt sofort zurueck)    | notification_outbox: neuer Eintrag
+    v                           |
+[Response an Client]            |
+                                | (asynchron, Millisekunden bis Sekunden spaeter)
+                                v
+                       [Relay-Prozess]
+                                |
+                                v
+                   [Notification-Service-DB]
+```
+
+**Variante A — Polling (einfacher):**
+
+Ein Hintergrund-Thread fragt die Outbox-Tabelle direkt per SQL ab,
+schreibt in die neue DB und markiert den Eintrag als verarbeitet:
+
+```sql
+-- Schritt 1: Offene Eintraege holen (Relay-Prozess liest Monolith-DB)
+SELECT id, payload
+FROM notification_outbox
+WHERE relayed_at IS NULL
+ORDER BY created_at
+LIMIT 100;
+
+-- Schritt 2: Eintrag in Notification-Service-DB schreiben
+INSERT INTO notification_svc_db.notifications (...)
+VALUES (...);  -- aus payload deserialisiert
+
+-- Schritt 3: Eintrag als erledigt markieren (Empfehlung: UPDATE)
+UPDATE notification_outbox
+SET relayed_at = NOW()
+WHERE id = 42;
+```
+
+Schritt 2 und 3 laufen in einer Transaktion — faellt die Notification-Service-DB aus,
+wird auch der Status-Update nicht committed. Der Eintrag bleibt offen und wird
+beim naechsten Polling-Durchlauf erneut verarbeitet.
+
+**Warum UPDATE statt DELETE?**
+Gerade waehrend einer Migration will man den Audit-Trail behalten:
+- Bei Problemen sieht man *wann* welcher Eintrag uebertragen wurde
+- Doppelt verarbeitete Eintraege sind erkennbar (`relayed_at` bereits gesetzt)
+
+Die Tabellengroesse wird nicht im Relay-Prozess geloest, sondern durch einen
+separaten Cleanup-Job:
+
+```sql
+-- Separater CronJob (z.B. taeglich)
+-- 7 Tage Aufbewahrung fuer Fehleranalyse, danach loeschen
+DELETE FROM notification_outbox
+WHERE relayed_at < NOW() - INTERVAL '7 days';
+```
+
+Die 7 Tage sind ein Richtwert — je nach SLA und Debugging-Beduerfnis anpassen.
+
+Verzoegerung: typisch < 1 Sekunde. Einfach umzusetzen, aber erzeugt staendige
+DB-Abfragen auch wenn nichts zu tun ist.
+
+**Variante B — CDC / Change Data Capture (robuster):**
+
+Statt zu pollen, lauscht ein Tool wie **Debezium** auf den PostgreSQL Write-Ahead-Log (WAL).
+Jeder neue Eintrag in `notification_outbox` loest sofort ein Event aus — ohne Polling.
+
+```
+[Monolith-DB: notification_outbox]
+    |
+    | WAL (Write-Ahead-Log) -- PostgreSQL schreibt jeden Commit ins Log
+    v
+[Debezium] (liest WAL, produziert Events)
+    |
+    v
+[Kafka Topic: notification-outbox]
+    |
+    v
+[Notification Service] -- konsumiert und schreibt in eigene DB
+```
+
+Verzoegerung: typisch < 100ms. Kein Polling, hohe Zuverlaessigkeit, aber
+mehr Infrastruktur (Debezium, Kafka).
+
+**Was passiert bei einem Fehler im Relay?**
+
+Der Outbox-Eintrag bleibt in der Tabelle (`relayed_at` bleibt NULL).
+Beim naechsten Durchlauf wird er erneut verarbeitet.
+Die Notification-Service-DB ist damit **eventually consistent** —
+sie wird garantiert aktualisiert, aber nicht zwingend sofort.
+
+> **Konsequenz fuer den Notification Service:**
+> Er darf keine Annahme treffen, dass ein Eintrag sofort da ist.
+> Lese-Anfragen kurz nach einem Write koennen noch den alten Stand zeigen.
+> Das ist in diesem Fall akzeptabel — eine E-Mail-Bestaetigung darf
+> mit wenigen Sekunden Verzoegerung ankommen.
+
+**Warum Outbox statt Dual Write?**
+Dual Write ist nicht atomar — bei einem Fehler zwischen den beiden Writes
+entsteht Datenverlust oder Inkonsistenz ohne Moeglichkeit zur Wiederholung.
+Das Outbox Pattern schreibt atomar in eine DB und uebertraegt dann
+mit Retry-Logik in die zweite. Jeder Eintrag wird garantiert genau einmal uebertragen.
+
+---
+
+#### Phase 6 — Reads auf neue DB umstellen
+
+Alle Stellen, die bisher aus `monolith_db.notifications` gelesen haben,
+werden auf den Notification Service (bzw. seine DB) umgestellt.
+
+```
+Vorher: Monolith fragt SELECT * FROM notifications WHERE user_id = ?
+Nachher: GET /notifications?userId=<ref>  -->  Notification Service
+```
+
+Dieser Schritt kann schrittweise erfolgen: erst Admin-UI, dann Reporting, dann Kundenbereich.
+
+---
+
+#### Phase 7 — Alte Tabelle abschalten
+
+Erst wenn alle Reads und Writes auf die neue DB umgestellt sind und der
+Relay-Prozess keine offenen Eintraege mehr hat:
+
+```sql
+-- Outbox leeren (alle uebertragen)
+SELECT COUNT(*) FROM notification_outbox WHERE relayed_at IS NULL;
+-- Muss 0 sein
+
+-- Alte Tabelle entfernen
+DROP TABLE notification_outbox;
+DROP TABLE notifications;  -- aus Monolith-DB
+```
+
+```
+Vorher:                          Nachher:
++----------------+               +----------------+
+| Monolith-DB    |               | Monolith-DB    |
+|  notifications |               |  (keine noti.) |
+|  outbox        |               +----------------+
++----------------+
+                                 +----------------------+
+                                 | Notification-Svc-DB  |
+                                 |  notifications       |
+                                 +----------------------+
+```
+
+---
+
+### Zusammenfassung: Warum diese Reihenfolge?
+
+```
+Phase 1: Neue DB aufsetzen      (Database-per-Service) -- nur Infrastruktur, noch keine Daten
+Phase 2: Backfill               -- neue DB vollstaendig befuellen, bevor neuer Service startet
+Phase 3: Code entkoppeln        (Strangler Fig)        -- erst jetzt umschalten, DB ist bereit
+Phase 4: (Dual Write)           -- nur zur Erklaerung, in der Praxis ueberspringen
+Phase 5: Outbox                 -- zuverlaessiger Relay fuer laufende Writes
+Phase 6: Reads umstellen        -- neuer Service uebernimmt
+Phase 7: Alte Tabelle loeschen  -- Monolith vollstaendig entkoppelt
+```
+
+**Die entscheidende Reihenfolge:** DB aufsetzen → Backfill → Code umschalten.
+Wer den Code zuerst umschaltet, hat einen aktiven Service mit einer leeren oder
+unvollstaendigen DB — das fuehrt zu inkonsistenten Daten, die schwer rueckzusetzen sind.
+
+Jede Phase ist einzeln rueckrollbar. Laeuft etwas schief, laeuft der
+Monolith weiter auf der alten DB — kein Datenverlust, kein Ausfall.
+
+> **Faustregel:** Die Datenmigration ist fertig, wenn kein Code mehr
+> die alte Tabelle referenziert — weder fuer Reads noch fuer Writes.
+> Erst dann ist der Schnitt wirklich vollzogen.
+
+## Micro-Frontends
+
+### Micro-Frontends — Teams am Frontend ohne Kollisionen
+
+
+### Das Problem: Wo fangen die Konflikte an?
+
+Im Microservices-Backend hat jedes Team klare Grenzen: Team A besitzt den Produkt-Service,
+Team B besitzt den Warenkorb-Service. Aber das Frontend? Oft arbeiten alle Teams an denselben
+Dateien, im selben Repository, ohne klares Ownership.
+
+Das fuehrt zu:
+- Merge-Konflikten und gegenseitigem Blockieren
+- Kein Team kann unabhaengig deployen — jede Aenderung braucht Abstimmung
+- Unclear, wer fuer welchen Bereich der UI verantwortlich ist
+
+**Die Loesung: das Microservices-Prinzip auf das Frontend uebertragen.**
+
+---
+
+### Kernkonzept: Der vertikale Schnitt
+
+Die entscheidende Frage ist nicht "Wie teilen wir die technischen Schichten auf?"
+sondern: **"Welcher Teil der Benutzeroberflaeche gehoert zu welcher Domaene?"**
+
+![Vergleich: Technischer Schnitt vs. Domaenen-Schnitt](/images/micro-frontend-schnittstrategien.svg)
+
+#### Technischer Schnitt — das Antipattern
+
+Teams nach Technologie aufzuteilen klingt logisch, erzeugt aber genau das Problem, das wir loesen wollen:
+
+| Team | Zustaendigkeit |
+|---|---|
+| Team UI | Alle Seiten in React / Vue / Angular |
+| Team Plattform | API-Gateway, BFF fuer alle Domains |
+| Team Backend A, B, C | Einzelne Services |
+
+Jedes neue Feature benoetigt **Koordination ueber alle drei Teams hinweg** — unabhaengige Arbeit
+ist nicht moeglich.
+
+#### Domaenen-Schnitt — der richtige Ansatz
+
+Teams nach Geschaeftsdomaene aufzuteilen, sodass jedes Team seinen **vollstaendigen vertikalen Slice** besitzt:
+
+| Team | Frontend | BFF | Services | Datenbank |
+|---|---|---|---|---|
+| Team Katalog | Produktliste, Suche | Produkt-API | Produkt-Svc, Such-Svc | Produkt-DB |
+| Team Warenkorb | Warenkorb-UI | Cart-API | Korb-Svc, Preis-Svc | Korb-DB |
+| Team Checkout | Bestell-Formular | Order-API | Bestell-Svc, Zahlung-Svc | Bestell-DB |
+
+**Wichtig:** Der Frontend-Schnitt muss nicht 1:1 zu den Backend-Services passen.
+Ein Frontend-Bereich (z.B. Warenkorb) darf mehrere Backend-Services ansprechen —
+solange das **Ownership klar im gleichen Team** liegt.
+
+---
+
+### Wie kommen die Teile zusammen? Die Shell-App
+
+Wenn jedes Team sein eigenes Frontend-Stueck baut — wie sieht der Nutzer am Ende
+eine zusammenhaengende Anwendung?
+
+Die Antwort: eine **Shell-App (Host-App)** koordiniert das Zusammenfuegen.
+
+![Micro-Frontend Laufzeit-Architektur](/images/micro-frontend-architektur.svg)
+
+Die Shell-App stellt bereit:
+- **Navigation und Routing** — welche MFE-URL wird geladen?
+- **Shared Design System** — gemeinsame Komponenten (Button, Header, Formularfelder)
+- **Auth-Kontext** — Login-Status wird an alle MFEs weitergegeben
+- **Fehlerhandling** — was passiert, wenn ein MFE nicht laedt?
+
+---
+
+### Integrationsmuster
+
+Es gibt drei gaengige Wege, Micro-Frontends zusammenzufuehren:
+
+#### 1. Build-Time Integration (npm-Packages)
+
+Jedes Team veroeffentlicht sein MFE als npm-Package. Die Shell-App importiert alle Packages
+und baut sie gemeinsam.
+
+```
+// shell/package.json
+{
+  "dependencies": {
+    "@shop/mfe-catalog":  "^2.1.0",
+    "@shop/mfe-cart":     "^1.4.0",
+    "@shop/mfe-checkout": "^3.0.0"
+  }
+}
+```
+
+**Vorteil:** Einfach, kein Infrastruktur-Aufwand, Type-Safety moeglich.
+
+**Nachteil:** Aenderung in einem MFE erfordert neuen Build der Shell-App —
+kein wirklich unabhaengiges Deployment.
+
+---
+
+#### 2. Laufzeit-Integration (Webpack Module Federation)
+
+Die Shell-App laedt MFEs **zur Laufzeit** aus separaten URLs. Jedes Team kann deployen,
+ohne dass die Shell-App neu gebaut werden muss.
+
+```javascript
+// webpack.config.js der Shell-App
+new ModuleFederationPlugin({
+  remotes: {
+    catalog:  "catalog@https://catalog.shop.de/remoteEntry.js",
+    cart:     "cart@https://cart.shop.de/remoteEntry.js",
+    checkout: "checkout@https://checkout.shop.de/remoteEntry.js",
+  }
+})
+```
+
+```javascript
+// webpack.config.js des Katalog-MFE (wird von der Shell geladen)
+new ModuleFederationPlugin({
+  name: "catalog",
+  filename: "remoteEntry.js",
+  exposes: {
+    "./CatalogApp": "./src/App"
+  }
+})
+```
+
+**Vorteil:** Echte Entkopplung. Team Katalog kann jederzeit deployen, ohne Team Shell informieren zu muessen.
+
+**Nachteil:** Mehr Infrastruktur-Aufwand, Versionskonflikte bei geteilten Libraries moeglich.
+
+---
+
+#### 3. iFrame-basierte Integration
+
+Jedes MFE laeuft in einem eigenen iFrame. Kommunikation ueber `window.postMessage`.
+
+**Vorteil:** Maximale Isolation, kein Risiko durch geteilte Bibliotheken.
+
+**Nachteil:** Schlechte UX (Scrolling, Accessibility, Browser-History), Performance-Overhead.
+Nur in Ausnahmefaellen empfehlenswert.
+
+---
+
+### Spielregeln fuer das interdisziplinaere Team
+
+Micro-Frontends loesen viele Koordinationsprobleme — aber nur, wenn klare Vereinbarungen bestehen.
+
+#### Das darf jedes Team eigenstaendig entscheiden
+
+- Technologiewahl innerhalb des eigenen MFE (Framework-Version, State-Management, Testing)
+- Release-Zeitpunkt des eigenen MFE
+- Datenbankschema der eigenen Services
+- Interne Architektur des eigenen Frontend-Stuecks
+
+#### Das wird gemeinsam festgelegt (und dann nicht mehr geaendert ohne Abstimmung)
+
+| Thema | Beispiel |
+|---|---|
+| Design System | Gemeinsame Komponenten-Library (`@shop/ui`) |
+| API-Kontrakte | Wie spricht die Shell-App mit den MFEs? (Props, Events, Context) |
+| Routing-Konvention | `/catalog/*`, `/cart/*`, `/checkout/*` gehoeren wem? |
+| Authentifizierung | Wie wird der Auth-Token weitergereicht? |
+| Shared Libraries | React-Version, die alle nutzen (vermeidet doppeltes Bundle) |
+
+#### Contract Testing fuer MFE-Grenzen
+
+Genau wie Backend-Services per Consumer-Driven Contract Testing integriert werden,
+koennen MFEs ihre Schnittstellen absichern:
+
+```javascript
+// Team Katalog: definiert, welche Props die Shell erwartet
+export interface CatalogAppProps {
+  authToken: string;
+  onAddToCart: (productId: string) => void;
+}
+```
+
+Aendert Team Katalog diese Schnittstelle, schlaegt der Contract-Test sofort an —
+bevor es zu Laufzeitfehlern in der Shell-App kommt.
+
+---
+
+### Wann lohnt sich das?
+
+Micro-Frontends sind **kein Default** — sie bringen echten Overhead mit sich.
+
+| Szenario | Empfehlung |
+|---|---|
+| 1-2 Teams am Frontend | Monolithisches Frontend, klare Ordnerstruktur reicht aus |
+| 3+ Teams, viele gegenseitige Blockaden | Micro-Frontends erwaegen |
+| Teams brauchen wirklich unabhaengige Releases | Module Federation sinnvoll |
+| Sehr unterschiedliche Tech-Stacks im Team | iFrame oder Web Components |
+
+#### Der haeufigste Fehler
+
+Teams beginnen mit Micro-Frontends, weil es technisch interessant ist — aber
+ohne echte Domaenengrenze. Das Ergebnis: die gleichen Koordinationsprobleme wie vorher,
+nur mit mehr Infrastruktur.
+
+**Erst Domaene finden, dann schneiden. Nicht andersherum.**
+
+---
+
+### Zusammenfassung
+
+```
+Microservice-Prinzip:          Micro-Frontend-Prinzip:
+  Service A — DB A               MFE A — Services A — DB A
+  Service B — DB B    ──────►    MFE B — Services B — DB B
+  Service C — DB C               MFE C — Services C — DB C
+
+Jeder Service: eigenstaendig    Jedes Team: eigenstaendig
+deploybar, testbar, skalierbar  deploybar, von UI bis Datenbank
+```
+
+Die Schnittlinie liegt **nicht** zwischen UI und Backend,
+sondern **vertikal durch alle Schichten**, entlang der Geschaeftsdomaene.
+
+---
+
+### Praxisbeispiele aus Deutschland und DACH
+
+Diese Unternehmen setzen Micro-Frontends produktiv ein und haben darueber
+oeffentlich geschrieben — gut geeignet als Diskussionsgrundlage im Training.
+
+| Unternehmen | Ansatz | Besonderheit |
+|---|---|---|
+| **Zalando** | Server-Side Composition (Project Mosaic) | Eigenes Oekosystem: Tailor (Layout-Service), Skipper (Router). Pionier des Konzepts in Europa. |
+| **OTTO** | Web Components (`@otto-ec/elements`) | Framework-agnostische Komponenten-Library als gemeinsames Design System fuer alle MFEs. |
+| **SAP** | SAP Fiori Launchpad | Shell laedt Fiori-Apps als eigenstaendige MFEs, basierend auf UI5-Framework. Enterprise-Massstab. |
+| **Siemens** | MindSphere IoT-Plattform | Partner-Teams liefern eigene MFEs in die Plattform — klassischer Multi-Vendor-Ansatz. |
+| **ING Deutschland** | Banking-Portal | Erfahrungsbericht: Migration von Monolith auf MFEs im laufenden Betrieb. |
+
+#### Was diese Beispiele gemeinsam haben
+
+Alle haben den gleichen Ausgangspunkt: ein wachsendes Frontend-Team,
+das sich gegenseitig blockiert hat. Die Loesung war immer der vertikale Schnitt —
+nicht nach Technologie, sondern nach Geschaeftsdomaene.
+
+---
+
+### Weiterfuehrende Themen
+
+- [MFE-Kommunikation — Custom Events, Shell, Backend-Zustand](micro-frontends-kommunikation.md)
+- [Module Federation — Webpack-Konfiguration und Codebeispiele](micro-frontends-module-federation.md)
+- [Was sind Microservices?](what-are.md)
+- [Bounded Contexts und Domainschnitt](../microservices/monolith-schneiden.md)
+- [IAM als Bounded Context](iam-als-bounded-context.md)
+- [SEED vs. DDD / EventStorming](seed-vs-ddd-eventstorming.md)
+
+### Micro-Frontends — Kommunikation zwischen MFEs
+
+
+### Das Problem
+
+Micro-Frontends laufen als separate JavaScript-Bundles im Browser.
+Sie teilen **keine gemeinsamen Variablen, keinen gemeinsamen Store**.
+
+```
+MFE: Katalog                     MFE: Warenkorb
+─────────────────                ─────────────────
+let cartCount = 0;               let items = [];
+                                 
+// Diese Variable ist fuer       // ...komplett
+// Warenkorb unsichtbar!         // unsichtbar
+```
+
+Trotzdem soll ein Klick auf "Kaufen" im Katalog den Warenkorb sofort aktualisieren.
+
+![MFE Kommunikationsmuster](/images/micro-frontend-kommunikation.svg)
+
+---
+
+### Muster 1: Custom Events (empfohlen fuer lose Kopplung)
+
+Der Browser stellt mit `CustomEvent` einen eingebauten Nachrichtenkanal bereit.
+Kein Framework, keine gemeinsame Library noetig.
+
+#### Sender: Katalog-MFE
+
+```javascript
+// CatalogApp.jsx — Button "In den Warenkorb"
+function handleBuyClick(product) {
+  // 1. Erst den eigenen Service aufrufen
+  await fetch('/api/cart/items', {
+    method: 'POST',
+    body: JSON.stringify({ productId: product.id, qty: 1 })
+  });
+
+  // 2. Alle anderen MFEs benachrichtigen
+  window.dispatchEvent(
+    new CustomEvent('cart:item-added', {
+      detail: { productId: product.id, name: product.name, qty: 1 }
+    })
+  );
+}
+```
+
+#### Empfaenger: Warenkorb-MFE
+
+```javascript
+// CartApp.jsx — reagiert auf das Event
+useEffect(() => {
+  const handler = (event) => {
+    const { productId, qty } = event.detail;
+    setCartCount(prev => prev + qty);
+    setCartVisible(true); // Warenkorb aufklappen
+  };
+
+  window.addEventListener('cart:item-added', handler);
+  return () => window.removeEventListener('cart:item-added', handler);
+}, []);
+```
+
+#### Warum `window`?
+
+`window` ist das einzige Objekt, das alle MFEs im Browser teilen.
+Events auf `window` sind global sichtbar — unabhaengig davon,
+in welchem Framework oder Bundle das MFE laeuft.
+
+#### Event-Namenskonvention
+
+Prefix mit dem Domaenennamen verhindert Kollisionen:
+
+```
+cart:item-added          ✓  klar, welche Domaene
+cart:item-removed        ✓
+checkout:order-placed    ✓
+added                    ✗  zu generisch, Konflikte moeglich
+```
+
+---
+
+### Muster 2: Shell-App als Vermittler
+
+Die Shell-App haelt den gemeinsamen Zustand und gibt ihn per Props weiter.
+
+```javascript
+// Shell-App: App.jsx
+function App() {
+  const [cartItems, setCartItems] = useState([]);
+  const [cartOpen, setCartOpen]   = useState(false);
+
+  function handleAddToCart(product) {
+    setCartItems(prev => [...prev, product]);
+    setCartOpen(true); // Warenkorb direkt oeffnen
+  }
+
+  return (
+    <>
+      <CatalogApp onAddToCart={handleAddToCart} />
+      <CartApp
+        items={cartItems}
+        isOpen={cartOpen}
+        onClose={() => setCartOpen(false)}
+      />
+    </>
+  );
+}
+```
+
+**Wann sinnvoll:** Wenn beide MFEs im gleichen Framework (z.B. React) laufen
+und der geteilte Zustand ueberschaubar bleibt.
+
+**Problem bei Wachstum:** Die Shell wird zum Flaschenhals, wenn viele MFEs
+Zustand teilen muessen ("Prop-Drilling durch die Shell").
+
+---
+
+### Muster 3: Backend als gemeinsamer Zustand
+
+Jedes MFE redet direkt mit dem Backend. Der Warenkorb-Service ist
+die einzige Quelle der Wahrheit — keine Frontend-Synchronisation noetig.
+
+#### Mit Server-Sent Events (SSE)
+
+```javascript
+// CartApp.jsx — abonniert Aenderungen vom Server
+useEffect(() => {
+  const eventSource = new EventSource('/api/cart/stream');
+
+  eventSource.addEventListener('cart-updated', (event) => {
+    const cart = JSON.parse(event.data);
+    setCartItems(cart.items);
+    setCartCount(cart.totalItems);
+  });
+
+  return () => eventSource.close();
+}, []);
+```
+
+```javascript
+// CatalogApp.jsx — schreibt nur in den Service
+async function handleBuyClick(productId) {
+  await fetch('/api/cart/items', {
+    method: 'POST',
+    body: JSON.stringify({ productId, qty: 1 })
+  });
+  // kein Event noetig — Cart-Service benachrichtigt Warenkorb-MFE
+}
+```
+
+**Vorteil:** Zustand ueberlebt einen Browser-Reload.
+Wenn der Nutzer die Seite neu laedt, zeigt der Warenkorb trotzdem den richtigen Stand.
+
+---
+
+### Welches Muster wann?
+
+| Szenario | Empfehlung |
+|---|---|
+| Verschiedene Frameworks (React + Vue) | Custom Events — framework-agnostisch |
+| Gleiches Framework, einfache App | Shell als Vermittler |
+| Zustand muss persistiert werden | Backend-Zustand + SSE/Polling |
+| Performance-kritisch (viele Updates) | WebSocket statt SSE |
+| Einfachste Loesung zuerst | Custom Events, dann bei Bedarf erweitern |
+
+---
+
+### Was man vermeiden sollte
+
+#### Direkter Import zwischen MFEs
+
+```javascript
+// catalog-mfe/src/App.jsx
+
+// NIEMALS:
+import CartStore from 'cart-mfe/src/store'; // harte Kopplung!
+CartStore.addItem(product);                 // Katalog haengt jetzt von Warenkorb ab
+```
+
+Das zerstoert die Unabhaengigkeit — Katalog-MFE kann nicht mehr
+ohne Warenkorb-MFE deployt werden.
+
+#### Globale Variablen
+
+```javascript
+// NIEMALS:
+window.__sharedCart = [];  // Wer ist Owner? Wer rauemt auf?
+```
+
+Kein Ownership, kein Lifecycle, schwer zu testen.
+
+#### Die Faustregel
+
+> **MFEs kommunizieren ueber Ereignisse oder Vertraege — nicht ueber
+> gemeinsamen Code und nicht ueber direkte Referenzen.**
+
+---
+
+### Zusammenfassung: Das "Kaufen"-Beispiel
+
+```
+Nutzer klickt "Kaufen" im Katalog-MFE
+        │
+        ▼
+  Katalog-MFE
+  ├─ POST /api/cart/items  (Cart-Service speichert)
+  └─ window.dispatchEvent('cart:item-added', { ... })
+                │
+                ▼ (Browser leitet weiter)
+        Warenkorb-MFE
+        ├─ empfaengt Event
+        ├─ aktualisiert Zaehler
+        └─ klappt Warenkorb-Drawer auf
+```
+
+Die beiden MFEs kennen sich **nicht** — sie kennen nur den Event-Namen.
+Das ist lose Kopplung in der Praxis.
+
+---
+
+### Weiterfuehrendes
+
+- [Micro-Frontends — Grundlagen und Schnittstrategien](micro-frontends.md)
+
+### Micro-Frontends — Module Federation (Webpack/Vite, TypeScript)
+
+
+### Was ist Module Federation?
+
+Module Federation ist ein Feature von **Webpack 5** (seit 2020), das es erlaubt,
+JavaScript-Module aus einem anderen laufenden Deployment zu laden —
+zur Laufzeit, nicht beim Build.
+
+Das ist der technische Kern hinter Laufzeit-Micro-Frontends:
+Jedes Team deployt sein MFE eigenstaendig, die Shell-App laedt es dynamisch nach.
+
+![Module Federation: Build-Zeit vs. Laufzeit](/images/micro-frontend-module-federation.svg)
+
+---
+
+### Was ist die Shell-App?
+
+Die Shell-App ist der **aeussere Rahmen** der gesamten Anwendung.
+Sie selbst enthaelt kaum eigene Fachlogik — sie stellt den Rahmen bereit,
+in den die MFEs zur Laufzeit eingesetzt werden.
+
+```
+┌──────────────────────────────────────────────────────┐
+│  Shell-App  (der Rahmen)                             │
+│  ┌────────────────────────────────────────────────┐  │
+│  │  Navigation · Auth-Kontext · Design System     │  │
+│  └────────────────────────────────────────────────┘  │
+│                                                      │
+│  ┌──────────────┐  ┌──────────────┐  ┌───────────┐  │
+│  │ MFE: Katalog │  │MFE: Warenkorb│  │MFE: Check-│  │
+│  │              │  │              │  │out        │  │
+│  └──────────────┘  └──────────────┘  └───────────┘  │
+└──────────────────────────────────────────────────────┘
+```
+
+**Laeuft die Shell-App auf dem Server?** Nein — sie laeuft vollstaendig im Browser.
+Der Server liefert nur die statischen Dateien aus (`index.html`, `main.js`).
+Danach ist der Server nicht mehr beteiligt.
+
+```
+Server                       Browser des Nutzers
+─────────────────            ─────────────────────────────
+Gibt Dateien aus:            Fuehrt aus:
+  index.html      ──────►     laedt main.js
+  main.js         ──────►     Shell-App startet
+                              Shell laedt MFEs nach
+                              Nutzer sieht die Seite
+```
+
+**Warum heisst es Shell-App?** Nichts mit Linux — der Name kommt vom Bild
+einer Huelle (Nussschale), die den Inhalt zusammenhaelt.
+In der Webpack-Dokumentation heisst dieselbe Rolle **Host**.
+
+| Name | Kontext |
+|---|---|
+| Shell-App | Branchenbezeichnung fuer MFE-Architektur |
+| Host | Webpack-Terminologie |
+| Container-App | aeltere Bezeichnung, gleiche Idee |
+
+---
+
+### Vom Code zum Kunden — Schritt fuer Schritt
+
+**Schritt 1: Entwickler schreibt Code (TypeScript / React)**
+
+```
+catalog-mfe/src/
+├── App.tsx            React-Komponente mit JSX
+├── ProductList.tsx
+└── api/products.ts    fetch-Aufrufe zum Backend
+```
+
+**Schritt 2: Webpack laeuft (lokal oder in CI/CD)**
+
+Webpack liest alle Dateien, uebersetzt TypeScript → JavaScript,
+loest alle Imports auf und schreibt das Ergebnis nach `dist/`:
+
+```
+catalog-mfe/dist/
+├── remoteEntry.js     Einstiegspunkt fuer Module Federation
+├── 42.chunk.js        der eigentliche App-Code
+└── 891.chunk.js       vendor-Code (z.B. React)
+```
+
+**Schritt 3: CI/CD deployt die dist/-Dateien auf einen Webserver / CDN**
+
+```
+dist/*.js  ──►  https://catalog.shop.de/
+```
+
+Ab hier ist Webpack fertig. Auf dem Server liegen nur fertige `.js`-Dateien.
+
+**Schritt 4: Kunde oeffnet https://shop.meinefirma.de**
+
+```
+Browser                         Server: shop.meinefirma.de
+  │── GET / ──────────────────────────────────────────► │
+  │◄── index.html ────────────────────────────────────  │
+  │── GET /main.js ────────────────────────────────────►│
+  │◄── main.js (Shell-App) ───────────────────────────  │
+```
+
+**Schritt 5: Shell-App startet im Browser und laedt die MFEs nach**
+
+```
+Browser                         catalog.shop.de     cart.shop.de
+  │── GET /remoteEntry.js ──────────────────────►  │
+  │◄── remoteEntry.js ─────────────────────────    │
+  │── GET /42.chunk.js (CatalogApp) ─────────────► │
+  │◄── 42.chunk.js ────────────────────────────    │
+  │                                                     │── GET /remoteEntry.js ──────────────────────────►  │
+  │◄── remoteEntry.js ─────────────────────────────── │
+  │── GET /77.chunk.js (CartApp) ──────────────────────►│
+  │◄── 77.chunk.js ────────────────────────────────── │
+```
+
+**Schritt 6: Fertig — der Nutzer sieht die komplette Anwendung**
+
+Alle drei MFEs laufen im gleichen Browser-Tab, obwohl sie von drei verschiedenen
+Servern geladen wurden und von drei verschiedenen Teams deployt wurden.
+React wurde dabei **nur einmal geladen** (`singleton: true`).
+
+---
+
+### Sprache und Tooling
+
+| Tool | Module Federation verfuegbar als | Hinweis |
+|---|---|---|
+| **Webpack 5** | direkt eingebaut — kein Plugin noetig | Standard fuer React/Angular-Projekte |
+| **Vite** | Plugin `@originjs/vite-plugin-federation` | Neuere Projekte, schnellerer Dev-Server |
+| **TypeScript** | vollstaendig unterstuetzt | Typen fuer Remote-Module per `declarations.d.ts` |
+| **Framework** | framework-agnostisch | funktioniert mit React, Vue, Angular, Svelte, Vanilla JS |
+
+---
+
+### Die drei Rollen
+
+```
+HOST (Shell-App)           REMOTE (MFE)              SHARED
+─────────────────          ──────────────             ────────────
+laedt Module aus           stellt Module              gemeinsame Libraries
+anderen Deployments        bereit (exposes)           (z.B. React)
+zur Laufzeit               erzeugt remoteEntry.js     nur einmal geladen
+```
+
+---
+
+### Schritt-fuer-Schritt Beispiel
+
+#### Voraussetzungen
+
+```
+Node.js >= 16
+Webpack >= 5
+```
+
+#### Verzeichnisstruktur
+
+```
+shop/
+├── shell-app/          # Host
+│   ├── src/
+│   │   ├── App.tsx
+│   │   └── bootstrap.tsx
+│   └── webpack.config.js
+│
+├── catalog-mfe/        # Remote 1
+│   ├── src/
+│   │   ├── App.tsx
+│   │   └── bootstrap.tsx
+│   └── webpack.config.js
+│
+└── cart-mfe/           # Remote 2
+    ├── src/
+    │   ├── App.tsx
+    │   └── bootstrap.tsx
+    └── webpack.config.js
+```
+
+---
+
+#### Remote konfigurieren: Katalog-MFE
+
+Das Katalog-MFE stellt seine App als ladbares Modul bereit.
+
+```javascript
+// catalog-mfe/webpack.config.js
+const { ModuleFederationPlugin } = require('webpack').container;
+const deps = require('./package.json').dependencies;
+
+module.exports = {
+  mode: 'development',
+  devServer: { port: 3001 },
+
+  plugins: [
+    new ModuleFederationPlugin({
+      name: 'catalog',            // eindeutiger Name des Remote
+      filename: 'remoteEntry.js', // Einstiegspunkt fuer den Host
+
+      exposes: {
+        './CatalogApp':  './src/App',
+        './ProductCard': './src/components/ProductCard',
+      },
+
+      shared: {
+        react:       { singleton: true, requiredVersion: deps.react },
+        'react-dom': { singleton: true, requiredVersion: deps['react-dom'] },
+      },
+    }),
+  ],
+};
+```
+
+```tsx
+// catalog-mfe/src/App.tsx
+export default function CatalogApp() {
+  return (
+    <div>
+      <h2>Produktkatalog</h2>
+      <ProductList />
+    </div>
+  );
+}
+```
+
+```tsx
+// catalog-mfe/src/index.ts
+import('./bootstrap'); // dynamischer Import — Pflicht bei Module Federation
+```
+
+```tsx
+// catalog-mfe/src/bootstrap.tsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+**Warum `bootstrap.tsx`?**
+Ohne den dynamischen Import wuerde Webpack React "eager" laden — bevor
+der Host die shared-Konfiguration aushandeln kann. Das fuehrt zu zwei
+React-Instanzen im Browser. Der Umweg ueber `bootstrap` gibt Webpack die noetige Zeit.
+
+---
+
+#### Host konfigurieren: Shell-App
+
+```javascript
+// shell-app/webpack.config.js
+const { ModuleFederationPlugin } = require('webpack').container;
+const deps = require('./package.json').dependencies;
+
+module.exports = {
+  mode: 'development',
+  devServer: { port: 3000 },
+
+  plugins: [
+    new ModuleFederationPlugin({
+      name: 'shell',
+
+      remotes: {
+        // Format: "<name>@<url>/remoteEntry.js"
+        catalog: 'catalog@http://localhost:3001/remoteEntry.js',
+        cart:    'cart@http://localhost:3002/remoteEntry.js',
+      },
+
+      shared: {
+        react:       { singleton: true, requiredVersion: deps.react },
+        'react-dom': { singleton: true, requiredVersion: deps['react-dom'] },
+      },
+    }),
+  ],
+};
+```
+
+```tsx
+// shell-app/src/App.tsx
+import React, { Suspense } from 'react';
+
+const CatalogApp = React.lazy(() => import('catalog/CatalogApp'));
+const CartApp    = React.lazy(() => import('cart/CartApp'));
+
+export default function App() {
+  return (
+    <div>
+      <nav>Shop Navigation</nav>
+
+      <Suspense fallback={<div>Katalog laedt...</div>}>
+        <CatalogApp />
+      </Suspense>
+
+      <Suspense fallback={<div>Warenkorb laedt...</div>}>
+        <CartApp />
+      </Suspense>
+    </div>
+  );
+}
+```
+
+---
+
+#### TypeScript: Typen fuer Remote-Module deklarieren
+
+TypeScript kennt die Remote-Module nicht — sie kommen erst zur Laufzeit.
+Ohne Deklaration gibt es einen Compiler-Fehler.
+
+```typescript
+// shell-app/src/declarations.d.ts
+declare module 'catalog/CatalogApp' {
+  const CatalogApp: React.ComponentType;
+  export default CatalogApp;
+}
+
+declare module 'cart/CartApp' {
+  const CartApp: React.ComponentType;
+  export default CartApp;
+}
+```
+
+---
+
+#### Starten (lokale Entwicklung)
+
+```
+## Terminal 1
+cd catalog-mfe && npm start   # http://localhost:3001
+
+## Terminal 2
+cd cart-mfe && npm start      # http://localhost:3002
+
+## Terminal 3
+cd shell-app && npm start     # http://localhost:3000
+```
+
+---
+
+### Dynamic Remotes — URL aus Config laden
+
+In Produktion sind die URLs Umgebungsvariablen, keine hartkodierten Strings.
+
+```javascript
+// shell-app/webpack.config.js
+new ModuleFederationPlugin({
+  name: 'shell',
+  remotes: {
+    catalog: `catalog@${process.env.CATALOG_URL}/remoteEntry.js`,
+    cart:    `cart@${process.env.CART_URL}/remoteEntry.js`,
+  },
+})
+```
+
+---
+
+### Vite-Alternative: `@originjs/vite-plugin-federation`
+
+```javascript
+// catalog-mfe/vite.config.ts
+import federation from '@originjs/vite-plugin-federation';
+
+export default defineConfig({
+  plugins: [
+    federation({
+      name: 'catalog',
+      filename: 'remoteEntry.js',
+      exposes: { './CatalogApp': './src/App.tsx' },
+      shared: ['react', 'react-dom'],
+    }),
+  ],
+  build: { target: 'esnext' }, // Pflicht fuer Top-Level Await
+});
+```
+
+```javascript
+// shell-app/vite.config.ts
+import federation from '@originjs/vite-plugin-federation';
+
+export default defineConfig({
+  plugins: [
+    federation({
+      name: 'shell',
+      remotes: { catalog: 'http://localhost:3001/assets/remoteEntry.js' },
+      shared: ['react', 'react-dom'],
+    }),
+  ],
+  build: { target: 'esnext' },
+});
+```
+
+---
+
+### Haeufige Fallstricke
+
+| Problem | Ursache | Loesung |
+|---|---|---|
+| `Shared module is not available` | React zweimal geladen | `singleton: true` in beiden Configs setzen |
+| TypeScript-Fehler `Cannot find module` | Fehlende Typdeklaration | `declarations.d.ts` anlegen |
+| MFE laedt nicht in Produktion | URL stimmt nicht | `remoteEntry.js`-URL pruefen, CORS-Header setzen |
+| Weisser Bildschirm ohne Fehlermeldung | `eager` Consumption | `index.ts` nur `import('./bootstrap')` — nichts anderes |
+| Verschiedene React-Versionen | Inkompatible `shared`-Config | `requiredVersion` in allen MFEs gleich setzen |
+
+---
+
+### Hintergrund: Was ist Webpack?
+
+Browser verstehen kein TypeScript, kein JSX, keine relativen Imports.
+Sie verstehen nur plain JavaScript und HTML.
+
+**Webpack** ist ein Build-Tool: Es laeuft einmalig beim Entwickler oder in der CI/CD-Pipeline,
+liest den Quellcode und erzeugt daraus fertige `.js`-Dateien, die der Browser direkt laden kann.
+
+```
+src/
+├── App.tsx        ──┐
+├── components/    ──┤  webpack  ──►  dist/main.js  (Browser versteht das)
+└── styles.css     ──┘
+```
+
+Webpack laeuft ausschliesslich zur Build-Zeit — nie im Browser des Nutzers.
+
+---
+
+### Weiterfuehrendes
+
+- [Micro-Frontends — Grundlagen und Schnittstrategien](micro-frontends.md)
+- [MFE-Kommunikation — Custom Events, Shell, Backend-Zustand](micro-frontends-kommunikation.md)
+
+## Übungen: Monolith schneiden
+
+### Uebung: Monolith schneiden — DDD, Bounded Contexts und Strangler Fig
+
+
+### Modell und Warum
+
+Diese Uebung verwendet zwei aufeinander aufbauende Techniken:
+
+| Technik | Zweck | Warum |
+|---|---|---|
+| **DDD Bounded Contexts** | Wo schneiden? | Fachliche Grenzen, nicht technische — der Code folgt der Sprache des Business |
+| **Strangler Fig Pattern** | Wie migrieren? | Schrittweise Abloesung, kein riskanter Big-Bang-Rewrite |
+| **Event Storming (vereinfacht)** | Was gehoert zusammen? | Sichtbar machen, welche Teile des Systems tatsaechlich zusammenhaengen |
+
+> **Strangler Fig** = eine tropische Pflanze, die langsam um einen Baum waechst und ihn schliesslich ersetzt.
+> Der alte Monolith laeuft weiter, waehrend neue Services ihn stueck fuer stueck ablösen.
+
+---
+
+### Ausgangslage: Der Monolith "ShopMax"
+
+ShopMax ist ein 8 Jahre alter Online-Shop, entwickelt in Java/Spring Boot als einzelne
+deploybare Einheit.
+
+**Funktionsumfang (was der Shop kann):**
+
+- Kunden koennen sich registrieren, einloggen, Profil pflegen
+- Produkte werden gepflegt (Beschreibung, Preis, Bilder, Kategorien)
+- Lagerbestaende werden gefuehrt
+- Kunden legen Artikel in den Warenkorb
+- Bestellungen werden aufgegeben und koennen storniert werden
+- Zahlungen via Kreditkarte, PayPal, Rechnung
+- Versand inkl. Tracking und Retouren
+- E-Mail- und SMS-Benachrichtigungen (Bestellbestaetigung, Versand, Rechnung)
+- Rechnungen werden erstellt und archiviert
+
+Das Team klagt ueber:
+
+- **Lange Deployments** (40 Min. Test + Build fuer jede Aenderung)
+- **Angst vor Releases** (Bugfix in Zahlung bricht Produktsuche)
+- **Skalierungsprobleme** (Black Friday: komplette App hochskalieren, obwohl nur Checkout bremst)
+- **Team-Konflikte** (3 Teams arbeiten auf derselben Codebase, stoen sich gegenseitig)
+
+#### Aktuelle Architektur (vereinfacht)
+
+```
++------------------------------------------------------------+
+|                    ShopMax Monolith                        |
+|                                                            |
+|  UserService    ProductService    OrderService             |
+|  CartService    PaymentService    ShippingService          |
+|  InventoryService    NotificationService                   |
+|                                                            |
+|  +------------------+                                      |
+|  |   PostgreSQL DB  |  (eine DB, alle Tabellen drin)       |
+|  +------------------+                                      |
++------------------------------------------------------------+
+         |
+    Load Balancer
+         |
+      Frontend
+```
+
+**Alles in einem Prozess. Ein Fehler kann alles "breaken".**
+
+---
+
+### Schritt 1: Domain Events identifizieren (Event Storming)
+
+> **Warum dieser Schritt?**
+> Bevor wir schneiden, muessen wir verstehen, was das System *tut*.
+> Event Storming zeigt uns die wichtigen Geschaeftsereignisse — und damit die natuerlichen Grenzen.
+
+#### Aufgabe (15 Min., Gruppen zu 3-4 Personen)
+
+Schreibt auf Post-its (oder Zettel) alle **Ereignisse** (Domain Events), die in ShopMax
+passieren. Format: **Vergangenheitsform**, orange Post-it.
+
+Beispiele als Einstieg:
+
+```
+KundeRegistriert       ProduktGesucht         ZahlungFehlgeschlagen
+```
+
+**Optional (falls ihr das Gefühl habt, Euch fehlen Events): Ordnet die Events auf einer Zeitlinie an:**
+
+Warum? Events die zeitlich nahe zusammen passieren, gehoeren oft zum selben Bounded Context.
+Luecken in der Zeitlinie zeigen, wo noch Events fehlen.
+
+```
+[frueh]                                          [spaet]
+
+KundeRegistriert -> ... -> ProduktGesucht -> ... -> ZahlungFehlgeschlagen -> ...
+```
+
+#### Orientierungshilfe: Wieviele Events sind richtig?
+
+Als Daumenregel gilt: **3-5 Events pro Bounded Context**.
+Wieviele Contexts ShopMax hat, erarbeitet ihr in Schritt 2.
+
+| Anzahl Events | Bewertung | Typisches Problem |
+|---|---|---|
+| **< 10** | Zu wenig | Zu abstrakt — Contexts werden nicht sichtbar, Grenzen bleiben unklar |
+| **10-17** | Eher zu wenig | Einige Prozesse fehlen, z.B. Fehlerszenarien (ZahlungFehlgeschlagen) |
+| **18-30** | Gut | Deckt Hauptprozesse und wichtige Ausnahmen ab |
+| **31-40** | Grenzwertig | Zu technisch, z.B. "EmailAdresseGeaendert" statt "KundeAktualisiert" |
+| **> 40** | Zu viel | CRUD-Niveau statt Business-Events — Events sind Implementierungsdetails, keine Geschaeftsereignisse |
+
+**Qualitaetscheck fuer eure Events:**
+- Wuerden Business-Analysten (nicht Entwickler) den Begriff verstehen? ✓
+- Ist das Event in der Vergangenheitsform formuliert? ✓
+- Loest das Event eine Reaktion in mindestens einem anderen Bereich aus? ✓
+- Wenn Nein zu allen drei: wahrscheinlich kein Domain Event, sondern ein technisches Detail ✗
+
+#### Beobachtung
+
+Markiert Events, die **thematisch zusammengehoeren** mit einer Farbe.
+Ihr werdet feststellen: Einige Events gehoeren immer zusammen —
+das sind Hinweise auf **Bounded Contexts**.
+
+---
+
+### Schritt 2: Bounded Contexts identifizieren
+
+> **Warum dieser Schritt?**
+> Ein Bounded Context ist ein fachlicher Bereich, der eine klare Sprache und
+> klare Verantwortung hat. Innerhalb eines Contexts bedeutet "Bestellung" dasselbe.
+> Ausserhalb koennte "Bestellung" etwas voellig anderes bedeuten.
+>
+> **Faustregeln:**
+> - Ein Context = ein Team
+> - Ein Context = eine Deployeinheit (spaeter)
+> - Die Grenzen folgen der **Ubiquitous Language** (gemeinsamer Fachbegriffe)
+
+#### Aufgabe
+
+Analysiert eure Events aus Schritt 1 und gruppiert sie in Bounded Contexts:
+
+- Wie viele Contexts findet ihr?
+- Gebt jedem Context einen praegnanten Namen aus der Fachsprache des Business
+- Welche Events gehoeren dazu?
+
+Nutzt das folgende Raster (ihr braucht moeglicherweise mehr oder weniger Felder):
+
+```
++-------------------+    +-------------------+    +-------------------+
+|    Zahlung        |    |   Bestellprozess  |    |                   |
+|                   |    |                   |    |                   |
+|                   |    |                   |    |                   |
+|                   |    |                   |    |                   |
++-------------------+    +-------------------+    +-------------------+
+
++-------------------+    +-------------------+    +-------------------+
+|                   |    |                   |    |                   |
+|                   |    |                   |    |                   |
+|                   |    |                   |    |                   |
+|                   |    |                   |    |                   |
++-------------------+    +-------------------+    +-------------------+
+```
+
+#### Diskussionsfragen
+
+1. Warum ist "Lagerbestand" ein eigener Context und kein Teil von "Produktkatalog"?
+   *(Hinweis: Wer aendert Lagerbestand? Wer aendert Produktdaten?)*
+
+2. Koennte "Warenkorb" ein eigener Context sein? Was spricht dafuer, was dagegen?
+
+3. Woran erkennt man, dass man einen Context **zu gross** oder **zu klein** geschnitten hat?
+
+### Auswertung: EventStorming — ShopMax
+
+
+Auswertung der Teilnehmer-Ergebnisse aus Schritt 1 der Uebung
+"Monolith schneiden mit DDD und Strangler Fig Pattern".
+
+---
+
+### Gefundene Events (Gruppe)
+
+```
+KundeRegistriert        EmailVerifiziert        ProduktGesucht
+ArtikelInWarenkorbHinzugefuegt
+BestellungDurchgefuehrt BestellungStorniert     KundenBestaetigung(Verschickt)
+ZahlungFehlgeschlagen   ZahlungErstattet        RechnungErstellt
+BestandAbgefragt        BestandGeaendert        NachbestellungAusgeloest
+VersandLabelErstellt    PaketVersendet          VersandBestaetigung(Erhalten)
+RetoureRegistriert      RetoureLabelErstellt    RetoureErhalten
+RabattCode
+```
+
+**Anzahl: ~20 Events — das liegt im guten Bereich (Ziel: 18-30).**
+
+---
+
+### Positiv aufgefallen
+
+- **EmailVerifiziert** — wird oft vergessen, hier gefunden ✓
+- **ZahlungFehlgeschlagen** — Fehlerfall explizit beruecksichtigt ✓
+- **NachbestellungAusgeloest** — zeigt Denken ueber Lagerbestand hinaus ✓
+- **RetoureRegistriert / RetoureLabelErstellt / RetoureErhalten** — dreiteiliger Retoure-Prozess vollstaendig ✓
+- **VersandLabelErstellt** — guter Zwischenschritt vor dem Versand ✓
+
+---
+
+### Anmerkungen und Korrekturen
+
+#### RabattCode — kein Domain Event
+
+`RabattCode` ist ein **Objekt**, kein Ereignis.
+Domain Events stehen in der Vergangenheitsform und beschreiben etwas, das passiert ist.
+
+```
+Falsch:  RabattCode
+Richtig: RabattcodeEingeloest
+         RabattcodeErstellt
+         RabattcodeAbgelaufen
+```
+
+#### BestandAbgefragt — eher technisches Event
+
+Eine Abfrage (Query) ist kein Geschaeftsereignis — sie veraendert keinen Zustand
+und loest keine Reaktion in anderen Contexts aus.
+
+```
+Raus:    BestandAbgefragt
+Behalten: BestandGeaendert, NachbestellungAusgeloest
+```
+
+#### ProduktGesucht — Grenzfall
+
+Streng genommen ist eine Suche kein Domain Event (kein Zustandswechsel, keine Reaktion).
+Im Kontext von Analytics oder Recommendation Engines koennte es eines sein.
+Fuer ShopMax: eher raus.
+
+#### PaketVersendet — richtig, aber LieferungZugestellt fehlt
+
+`PaketVersendet` ist korrekt und war gut gefunden.
+Es fehlt jedoch `LieferungZugestellt` als **zusaetzliches** Event.
+Beide beschreiben verschiedene Zeitpunkte mit verschiedenen fachlichen Konsequenzen:
+
+```
+[PaketVersendet]                      [LieferungZugestellt]
+ Paket verlaesst das Lager             Zusteller scannt beim Kunden
+ → VersandEmail wird ausgeloest        → Rueckgabefrist beginnt
+ → Tracking-Nummer wird aktiv          → Rechnungsziel beginnt (Zahlung auf Rechnung)
+                                       → Bestellprozess formal abgeschlossen
+```
+
+Typische Ursache: Man denkt aus Shop-Perspektive ("wir haben versendet")
+und vergisst die Kundenperspektive ("Paket ist angekommen").
+
+---
+
+### Vergessene Events
+
+| Fehlendes Event | Warum wichtig |
+|---|---|
+| KundeAngemeldet | Login ist ein Geschaeftsereignis — relevant fuer Security, Session, Fraud-Detection |
+| ProfilAktualisiert | "Profil pflegen" steht im Funktionsumfang — hat eigene Fachlogik (z.B. Adresse fuer Versand) |
+| PasswortGeaendert | Eigener Sicherheits-Flow (Bestaetigung, Invalidierung von Sessions) |
+| ProduktAngelegt | Wer legt Produkte an? Eigenes Team, eigene Fachlogik |
+| PreisGeaendert | Preisaenderungen haben Downstream-Effekte (Warenkorb, laufende Bestellungen) |
+| WarenkorbGeleert / WarenkorbAbgebrochen | Session laeuft ab — relevant fuer Analytics und Remarketing |
+| BestellungBestaetigt | Zwischenzustand zwischen AufgegebenAndVersendet — loest oft Lagerreservierung aus |
+| LagerbestandKritisch | Schwellenwert unterschritten — loest Einkaufsprozess aus, bevor Bestand auf 0 faellt |
+| ArtikelAusverkauft | Bestand = 0 ist ein eigenes Event mit eigenen Reaktionen (Produktseite, Bestellsperre) |
+| BestellbestaetigunsEmailVersendet | Benachrichtigungen sind eigene Events — sie koennen fehlschlagen und muessen nachverfolgt werden |
+| VersandEmailVersendet | Gleicher Grund — der Versand der Email ist ein eigenes verfolgbares Ereignis |
+
+**ZahlungErfolgt — groesste inhaltliche Luecke**
+
+`ZahlungErfolgt` fehlt vollstaendig.
+Die Gruppe hat `ZahlungFehlgeschlagen` und `ZahlungErstattet` gefunden, aber nicht den Normalfall.
+
+`ZahlungErfolgt` loest mehr Downstream-Reaktionen aus als jedes andere Event:
+
+```
+ZahlungErfolgt
+    → LagerbestandAktualisiert         (Reservierung wird fest)
+    → LieferungVorbereitet             (Versand wird angestossen)
+    → RechnungErstellt
+    → BestellbestaetigunsEmailVersendet
+```
+
+Typische Ursache: Man denkt zuerst an Fehler ("was kann schiefgehen?")
+und vergisst den Erfolgsfall explizit als Event zu benennen.
+
+---
+
+### Zusammenfassung fuer die Gruppe
+
+| Kategorie | Bewertung |
+|---|---|
+| Anzahl Events | Gut (ca. 20) |
+| Fehlerfaelle | Gut — ZahlungFehlgeschlagen explizit genannt |
+| Retoure-Prozess | Sehr gut — alle drei Schritte gefunden |
+| Format | Ein Fehler: RabattCode ist kein Event |
+| Technische Events | BestandAbgefragt und ProduktGesucht hinterfragen |
+| Groesste Luecke | Kundenverwaltung (Login, Profil) und ZahlungErfolgt fehlen |
+
+> **Wichtigste Erkenntnis:**
+> Die gefundenen Events decken vor allem den Bestellprozess gut ab.
+> Kundenverwaltung und Produktpflege sind unterrepraesentiert —
+> das wird sich in der naechsten Aufgabe zeigen.
+
+### Auswertung: Bounded Contexts — ShopMax
+
+
+Auswertung der Teilnehmer-Ergebnisse aus Schritt 2 der Uebung
+"Monolith schneiden mit DDD und Strangler Fig Pattern".
+
+---
+
+### Gefundene Bounded Contexts (Gruppe)
+
+```
+Kundenverwaltung      NutzerVerwaltung      Warenkorb
+Bestellungsprozess    Zahlungsprozess       Lager
+Versand               Retoure (leer)
+```
+
+**Anzahl: 8 Contexts — etwas viel, siehe Diskussion unten.**
+
+#### Events pro Context
+
+| Context | Events |
+|---|---|
+| Kundenverwaltung | KundeRegistriert |
+| NutzerVerwaltung | EmailVerifiziert, NutzerAngemeldet, PasswortGeaendert |
+| Warenkorb | ProduktGesucht, ArtikelInWarenkorbHinzugefuegt, ArtikelInWarenkorbEntfernt, ArtikelAnzahlInWarenkorbGeaendert |
+| Bestellungsprozess | BestellungAusgefuehrt, BestellungStorniert, RechnungErstellt, BestellbestaetigunsVerschickt |
+| Zahlungsprozess | ZahlungAuthorisiert, ZahlungFehlgeschlagen, ZahlungErstattet |
+| Lager | BestandAbgefragt, BestandGeaendert, NachbestellungAusgefuehrt |
+| Versand | PaketVersendet, VersandlabelErstellt, VersandbestaetigunsVerschickt, RetoureErhalten |
+| Retoure | (leer) |
+
+---
+
+### Positiv aufgefallen
+
+- **NutzerAngemeldet und PasswortGeaendert** — in Schritt 1 noch gefehlt, jetzt gefunden ✓
+- **ArtikelAnzahlInWarenkorbGeaendert** — feiner Unterschied zu Hinzufuegen/Entfernen, gut erkannt ✓
+- **ZahlungAuthorisiert** statt ZahlungErfolgt — praeziser, trifft den richtigen Moment (Genehmigung durch Bank) ✓
+- **Retoure als eigener Context** — der Gedanke ist richtig, auch wenn der Context noch leer ist ✓
+
+---
+
+### Diskussionspunkte
+
+#### Kundenverwaltung und NutzerVerwaltung — eine gute Trennung, unglueckliche Benennung
+
+Die Trennung ist fachlich begruendet:
+- **NutzerVerwaltung** = Identity Management (Login, Passwort, Authentifizierung) — technisches Team, eigene Datenbank, eigene Sicherheitsanforderungen
+- **Kundenverwaltung** = Kundenstammdaten (Adresse, Praeferenzen, Bestellhistorie) — fachliches Team, Shoplogik
+
+Das ist ein bekanntes DDD-Muster: ein Nutzer (technische Identitaet) ist nicht dasselbe
+wie ein Kunde (Geschaeftsentitaet). Ein Nutzer koennte mehrere Kundenprofile haben,
+ein Kunde koennte angelegt werden bevor er einen Login hat.
+
+Die Bezeichnung "NutzerVerwaltung" war ungluecklich — besser waere **IdentityManagement**
+oder **Authentifizierung** gewesen, dann waere die Trennung sofort klar gewesen.
+
+#### ProduktGesucht im Warenkorb — falscher Context
+
+Eine Produktsuche gehoert nicht zum Warenkorb.
+Der Warenkorb kuemmert sich um Artikel, die bereits ausgewaehlt wurden.
+Die Suche findet vorher statt — im Produktkatalog (falls ueberhaupt als Event).
+
+```
+Warenkorb:       ArtikelInWarenkorbHinzugefuegt  ✓
+                 ArtikelInWarenkorbEntfernt       ✓
+                 ArtikelAnzahlGeaendert           ✓
+
+Nicht hier:      ProduktGesucht                  ✗  (eher Produktkatalog oder raus)
+```
+
+#### RetoureErhalten im Versand — gehoert in Retoure
+
+Der Retoure-Context wurde angelegt, aber leer gelassen.
+`RetoureErhalten` wurde in Versand einsortiert — das ist inkonsistent.
+
+Entweder gehoert `RetoureErhalten` in den Retoure-Context,
+oder Retoure ist kein eigener Context und die Events werden in Versand zusammengefasst.
+Beides ist vertretbar — aber nicht gemischt.
+
+```
+Option A: Retoure als eigener Context
++-------------------+
+|     Retoure       |
+| RetoureErhalten   |
+| RetoureLabelErstellt (aus Schritt 1) |
+| RetoureRegistriert  (aus Schritt 1) |
++-------------------+
+
+Option B: Retoure als Teil von Versand
++-------------------+
+|      Versand      |
+| PaketVersendet    |
+| VersandlabelErstellt |
+| RetoureRegistriert|
+| RetoureLabelErstellt |
+| RetoureErhalten   |
++-------------------+
+```
+
+#### BestandAbgefragt im Lager — kein Domain Event
+
+Wie bereits in Schritt 1 angemerkt: eine Abfrage ist kein Geschaeftsereignis.
+Sie veraendert keinen Zustand und loest keine Reaktion aus.
+
+```
+Raus:     BestandAbgefragt
+Behalten: BestandGeaendert, NachbestellungAusgefuehrt
+```
+
+#### ZahlungAuthorisiert vs. ZahlungErfolgt
+
+`ZahlungAuthorisiert` ist praezise — es ist der Moment, wo die Bank die Zahlung genehmigt.
+Aber der Prozess hat zwei Schritte:
+
+```
+1. ZahlungAuthorisiert  — Bank gibt gruenes Licht (Reservierung)
+2. ZahlungErfolgt       — Geld wird tatsaechlich eingezogen (Capture)
+```
+
+Fuer einen einfachen Online-Shop laufen diese oft zusammen.
+Bei grossen Bestellungen oder Vorkasse koennen sie auseinanderfallen.
+Fuer ShopMax ist `ZahlungAuthorisiert` als einziges Event akzeptabel —
+aber der Unterschied sollte bewusst sein.
+
+---
+
+### Fehlender Context: Produktkatalog
+
+Der Produktkatalog fehlt vollstaendig als Context.
+Im Funktionsumfang steht: "Produkte werden gepflegt (Beschreibung, Preis, Bilder, Kategorien)".
+Wer pflegt die Produkte? Ein anderes Team als das, das Bestellungen bearbeitet.
+
+```
+Fehlender Context:
++-------------------+
+|   Produktkatalog  |
+|                   |
+| ProduktAngelegt   |
+| PreisGeaendert    |
+| ProduktDeaktiviert|
++-------------------+
+```
+
+---
+
+### Zusammenfassung fuer die Gruppe
+
+| Kategorie | Bewertung |
+|---|---|
+| Anzahl Contexts | 8 — etwas viel, Kundenverwaltung/NutzerVerwaltung zusammenfuehren |
+| Groesste Staerke | Warenkorb sauber abgegrenzt, Zahlungsprozess praezise |
+| Groesste Luecke | Produktkatalog fehlt als eigener Context |
+| Konsistenzproblem | Retoure-Context leer, RetoureErhalten in Versand |
+| Zu entfernen | BestandAbgefragt (Query, kein Event), ProduktGesucht aus Warenkorb |
+
+> **Faustregel fuer zu viele Contexts:**
+> Wenn ein Context nur ein oder zwei Events hat und kein eigenes Team dahintersteht,
+> ist er wahrscheinlich Teil eines groesseren Contexts.
+
+### Weiterfuehrende Schritte: Monolith schneiden (Schritt 3–7)
+
+
+> Dieses Material baut auf Schritt 1 und 2 aus `uebung-monolith-schneiden.md` auf.
+> Einsatz je nach verfuegbarer Zeit und Gruppenfortschritt.
+
+---
+
+### Schritt 3: Context Map zeichnen
+
+> **Warum dieser Schritt?**
+> Contexts interagieren miteinander. Die Context Map zeigt, wer von wem abhaengt
+> und welche Integration-Patterns verwendet werden.
+> Sie macht unsichtbare Kopplungen sichtbar — und damit sichtbar,
+> wo wir anfangen sollten zu schneiden.
+
+#### Aufgabe
+
+Zeichnet die Abhaengigkeiten zwischen euren Contexts aus Schritt 2.
+
+Fuer jede Verbindung: Wer braucht Daten von wem? Wer publiziert Events, wer abonniert sie?
+
+> **Was bedeutet "publiziert"?**
+> Ein Service sendet ein Domain Event auf einen Event Bus (z.B. Kafka).
+> Er interessiert sich nicht dafuer, wer zuhoert — er publiziert einfach.
+> Andere Services *subscriben* selbst auf Events, die sie brauchen.
+> Vorteil: Der Sender hat keine Abhaengigkeit zum Empfaenger.
+
+#### Integration-Patterns markieren
+
+Tragt fuer jede Verbindung ein, wie die Kommunikation stattfindet:
+
+| Von | Nach | Aktuell (Monolith) | Ziel (Microservices) |
+|---|---|---|---|
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+
+> **Schluesserkenntnis:** Ueberall wo heute ein *direkter Methodenaufruf* steht,
+> haben wir eine **enge Kopplung**. Diese muss vor dem Schneiden entkoppelt werden.
+
+---
+
+### Schritt 4: Strangler Fig — Migrationsreihenfolge planen
+
+> **Warum dieser Schritt?**
+> Wir koennen nicht alle Contexts gleichzeitig herausloesen — das waere ein Big-Bang-Rewrite
+> mit hohem Risiko. Der Strangler Fig Plan legt fest, in welcher **Reihenfolge** wir
+> vorgehen und wie der Monolith dabei weiterlaeuft.
+>
+> **Kriterien fuer den ersten Schnitt:**
+> - Geringer Abhaengigkeiten zu anderen Contexts (wenige Verbindungen in der Context Map)
+> - Hoher Business-Wert (z.B. Skalierungsproblem loesen)
+> - Klare Sprache / klare Teamverantwortung
+> - Keine Datenbankfremdzugriffe von anderen Contexts
+
+#### Bewertungsmatrix
+
+Tragt eure Contexts aus Schritt 2 ein und bewertet jeden von 1 (schlecht) bis 5 (gut):
+
+> **Skala:** 5 = ideal fuer den ersten Schnitt, 1 = ungeeignet.
+> Bei "Wenige Abhaeng.": 5 = kaum andere Contexts haengen daran (leicht herausloesbar),
+> 1 = viele Contexts haengen daran (hohes Risiko).
+
+| Context | Wenige Abhaeng. | Business-Wert | Klare Verantwort. | Isolierte DB | **Score** |
+|---|---|---|---|---|---|
+| | | | | | |
+| | | | | | |
+| | | | | | |
+| | | | | | |
+| | | | | | |
+| | | | | | |
+
+**Welcher Context hat den hoechsten Score? Das ist euer Startkandidat.**
+
+#### Migrationsphasen
+
+Plant anhand eures Startkandiaten, wie der Monolith schrittweise abgeloest wird:
+
+```
+Phase 0 (heute):  [Kompletter Monolith]
+
+Phase 1:          [Monolith ohne Context A] + [Service A]
+                       Strangler Proxy leitet Calls um
+
+Phase 2:          [Monolith ohne A, ohne B] + [Service A] + [Service B]
+
+Phase N:          [letzte Contexts als Services]
+                       Monolith ist "stranguliert" = leer = abgeschaltet
+```
+
+---
+
+### Schritt 5: Anti-Corruption Layer (ACL) einplanen
+
+> **Warum dieser Schritt?**
+> Wenn ein neuer Microservice mit dem alten Monolith kommunizieren muss,
+> soll er **nicht** die interne Sprache des Monolithen uebernehmen.
+> Der ACL uebersetzt zwischen den Modellen — er schuetzt den neuen Service
+> vor der technischen Schuld des Monolithen.
+
+#### Beispiel: Notification Service greift auf Kundendaten zu
+
+**Ohne ACL (falsch):**
+
+```
+Notification Service                 Monolith
+      |                                  |
+      |-- GET /internal/user/42 -------> |
+      |<-- { user_id: 42,               |
+      |       usr_mail: "...",           |  Monolith-internes Modell
+      |       created_ts: 1234567 } ---- |  leckt in den neuen Service
+```
+
+**Mit ACL (richtig):**
+
+```
+Notification Service    ACL (Adapter)          Monolith
+      |                      |                     |
+      |-- getRecipient(42) -> |                     |
+      |                      |-- GET /internal/user/42 -->|
+      |                      |<-- { usr_mail, ... } ------|
+      |<-- Recipient{         |  (uebersetzt Monolith-
+      |     email: "...",     |   Modell in eigene Sprache)
+      |     name: "..." } --- |
+```
+
+#### Aufgabe
+
+Skizziert fuer den **Notification Service** einen ACL:
+
+1. Welche Daten braucht der Notification Service vom Monolith?
+2. Wie soll das interne Modell des Notification Service aussehen?
+3. Was uebersetzt der ACL?
+
+---
+
+### Schritt 6: Datenbankstrategie planen
+
+> **Warum dieser Schritt?**
+> Die **geteilte Datenbank** ist das groesste Hindernis beim Schneiden.
+> Solange zwei Services in dieselbe DB schreiben, sind sie faktisch ein Monolith —
+> egal wie viele Services man deployt.
+
+#### Database-per-Service Strategie
+
+```
+ZIEL: Jeder Service hat seine eigene, isolierte Datenbank
+
++-------------------+    +-------------------+    +-------------------+
+| Notification DB   |    |  Product DB       |    |  Order DB         |
+| (PostgreSQL)      |    |  (PostgreSQL)     |    |  (PostgreSQL)     |
+|                   |    |                   |    |                   |
+| notifications     |    | products          |    | orders            |
+| templates         |    | categories        |    | order_items       |
++-------------------+    +-------------------+    +-------------------+
+       ^                        ^                        ^
+       |                        |                        |
+[Notification Svc]        [Product Svc]            [Order Svc]
+```
+
+#### Migrationsstrategie fuer die DB
+
+**Problem:** Die `notifications`-Tabelle steht heute in der Monolith-DB,
+mit Foreign Keys zu `users`, `orders`, etc.
+
+**Loesungsschritte:**
+
+```
+1. Tabelle duplizieren (Strangler Phase):
+   - Neue notifications-DB anlegen
+   - Monolith schreibt in BEIDE DBs (dual-write)
+   - Notification Service liest nur aus neuer DB
+
+2. Consumers umstellen:
+   - Monolith liest jetzt auch aus neuer DB
+
+3. Alte Tabelle abschalten:
+   - Monolith schreibt nur noch in neue DB (ueber API-Call)
+   - Foreign Keys weg (durch Events ersetzt)
+```
+
+#### Diskussionsfrage
+
+Was passiert, wenn der Dual-Write fehlschlaegt? Eine DB wird geschrieben, die andere nicht.
+Wie loest ihr das? *(Hinweis: Outbox Pattern, Saga Pattern)*
+
+---
+
+### Schritt 7: Den ersten Service ausloesen (praktisch)
+
+> Jetzt wird es konkret. Wir loesen den **Notification Service** aus dem Monolith.
+
+#### Vorher: Notification-Code im Monolith
+
+```
+// OrderService.java (im Monolith)
+public Order placeOrder(Cart cart, Customer customer) {
+    Order order = createOrder(cart);
+    paymentService.charge(customer, order.total());
+    inventoryService.reserve(cart.items());
+
+    // Direkte Kopplung - das wollen wir weg
+    notificationService.sendOrderConfirmation(customer.email(), order);
+
+    return order;
+}
+```
+
+#### Problem
+
+`OrderService` muss wissen, wie Notifications funktionieren.
+Wenn `notificationService.sendOrderConfirmation()` fehlschlaegt, schlaegt die ganze Bestellung fehl.
+
+#### Schritt 7a: Event statt direkter Aufruf
+
+```
+// OrderService.java (refactored, noch im Monolith)
+public Order placeOrder(Cart cart, Customer customer) {
+    Order order = createOrder(cart);
+    paymentService.charge(customer, order.total());
+    inventoryService.reserve(cart.items());
+
+    // Kein direkter Aufruf mehr - nur Event publizieren
+    eventBus.publish(new OrderPlacedEvent(
+        order.id(),
+        customer.email(),
+        order.items(),
+        order.total()
+    ));
+
+    return order;
+}
+```
+
+**Was aendert sich?**
+- `OrderService` kennt `NotificationService` nicht mehr
+- Notification kann asynchron, spaeter, oder gar nicht ankommen — Bestellung ist trotzdem fertig
+- Notification Service kann deployed werden, ohne den Monolith zu kennen
+
+#### Schritt 7b: Notification Service als eigener Prozess
+
+```
+// NotificationService (neuer, eigenstaendiger Service)
+@EventHandler
+public void on(OrderPlacedEvent event) {
+    Email email = templateEngine.render(
+        "order-confirmation",
+        Map.of("orderId", event.orderId(),
+               "items",   event.items())
+    );
+    emailGateway.send(event.customerEmail(), email);
+}
+```
+
+#### Schritt 7c: Strangler Proxy (falls REST-APIs umgeleitet werden muessen)
+
+```
+         Request: POST /api/notify/order-confirmation
+                         |
+               +--------------------+
+               |   API Gateway /    |
+               |  Strangler Proxy   |
+               +--------------------+
+                   /            \
+          (alt)   /              \ (neu, wenn Feature-Flag aktiv)
+                 /                \
+    +------------------+    +-------------------+
+    |     Monolith     |    | Notification Svc  |
+    | /api/notify/...  |    | /api/notify/...   |
+    +------------------+    +-------------------+
+```
+
+Der Proxy leitet Traffic schrittweise um — z.B. 10% zum neuen Service, dann 50%, dann 100%.
+
+---
+
+### Ergebnis-Praesentation (10 Min. pro Gruppe)
+
+Praesentiert eurer Ergebnis:
+
+1. **Context Map** — welche Contexts habt ihr identifiziert?
+2. **Erste Priorisierung** — mit welchem Context fangt ihr an und warum?
+3. **Ein kritischer Schnitt** — wo ist es schwierig? Was koennte schiefgehen?
+
+---
+
+### Zusammenfassung: Wann ist ein Schnitt gut?
+
+| Kriterium | Gut | Schlecht |
+|---|---|---|
+| Kommunikation | Async Events oder klar definierte APIs | Direkter DB-Zugriff fremder Services |
+| Daten | Jeder Service hat eigene DB | Geteilte DB-Tabellen |
+| Deployment | Service deployed unabhaengig | Release braucht Koordination mit anderen |
+| Sprache | Einheitliche Fachbegriffe im Context | "Bestellung" bedeutet in zwei Services verschiedenes |
+| Teamverantwortung | Ein Team = ein Service | Mehrere Teams aendern denselben Service |
+| Fehler | Ausfall isoliert (Circuit Breaker) | Ein Ausfall reisst alles |
+
+> **Faustregel:** Wenn ihr mehr als 30 Minuten braucht, um zu erklaeren,
+> welches Team fuer ein Feature verantwortlich ist — dann ist der Schnitt falsch.
+
+### Musterloesung: Monolith schneiden mit DDD und Strangler Fig (Trainer)
+
+
+> **Hinweis fuer Trainer:** Diese Seite enthaelt die Musterloesung fuer die Uebung.
+> Nicht an Teilnehmer ausgeben — erst nach der Ergebnis-Praesentation zeigen.
+
+---
+
+### Schritt 1: Domain Events (Musterloesung)
+
+Eine vollstaendige Liste liegt bei 20-25 Events. Wichtig: alle Fehlerfaelle mitnehmen.
+
+```
+KundeRegistriert        ProfilAktualisiert      KundeGeloescht
+ProduktGespeichert      PreisGeaendert          ProduktGeloescht
+LagerbestandAktualisiert LagerbestandKritisch
+ArtikelInWarenkorbGelegt WarenkorbGeleert
+BestellungAufgegeben    BestellungStorniert     RechnungErstellt
+ZahlungErfolgt          ZahlungFehlgeschlagen   RueckzahlungInitiiert
+LieferungVersendet      LieferungZugestellt     RetourneEingeleitet
+EmailVersendet          SMSVersendet            PushNotificationVersendet
+```
+
+**Zeitlinie (Musterloesung):**
+
+```
+[frueh]                                                              [spaet]
+
+KundeRegistriert -> ProduktGesucht -> ArtikelInWarenkorbGelegt
+  -> BestellungAufgegeben -> ZahlungErfolgt -> LagerbestandAktualisiert
+  -> LieferungVersendet -> LieferungZugestellt -> EmailVersendet -> RechnungErstellt
+
+Fehlerfall:
+  -> ZahlungFehlgeschlagen -> (Wiederholung oder BestellungStorniert)
+  -> RueckzahlungInitiiert -> EmailVersendet
+```
+
+Events die im Normalfall zeitlich eng zusammen liegen, deuten auf denselben Context hin
+(z.B. ZahlungErfolgt + LagerbestandAktualisiert + LieferungVersendet passieren alle kurz
+nach BestellungAufgegeben — moeglicher Hinweis auf engen Bestellprozess-Kern).
+
+**Haeufige Fehler:**
+- Nur Erfolgsfaelle (ZahlungErfolgt ohne ZahlungFehlgeschlagen)
+- Technische Events statt Business-Events (z.B. "DatenbankEintragErstellt")
+- CRUD-Level: "KundeUpdated" statt "ProfilAktualisiert" / "EmailGeaendert"
+
+---
+
+### Schritt 2: Bounded Contexts (Musterloesung)
+
+```
++-------------------+    +-------------------+    +-------------------+
+|   Kundenverwaltung |    |    Produktkatalog  |    |   Lagerbestand    |
+|                   |    |                   |    |                   |
+| KundeRegistriert  |    | ProduktGespeichert |    | LagerbestandAktual|
+| ProfilAktualisiert|    | PreisGeaendert     |    | LagerbestandKrit. |
+| KundeGeloescht    |    | ProduktGeloescht   |    |                   |
++-------------------+    +-------------------+    +-------------------+
+
++-------------------+    +-------------------+    +-------------------+
+|   Bestellprozess  |    |      Zahlung       |    |  Versand/Logistik |
+|                   |    |                   |    |                   |
+| ArtikelI.Warenk.  |    | ZahlungErfolgt     |    | LieferungVersendet|
+| BestellungAufgeg. |    | ZahlungFehlgeschl. |    | LieferungZugest.  |
+| BestellungStorn.  |    | RueckzahlungInit.  |    | RetourneEingel.   |
+| RechnungErstellt  |    |                   |    |                   |
++-------------------+    +-------------------+    +-------------------+
+
++-------------------+
+|  Benachrichtigung |
+|                   |
+| EmailVersendet    |
+| SMSVersendet      |
+| PushNotification  |
++-------------------+
+```
+
+**Diskussionspunkte:**
+
+*Warum Lagerbestand kein Teil von Produktkatalog?*
+Produktdaten aendert das Produktmanagement-Team (selten).
+Lagerbestand aendert das Lager-Team bei jeder Bestellung (staendig).
+Verschiedene Teams, verschiedene Aenderungsfrequenz = verschiedene Contexts.
+
+*Warum Warenkorb kein eigener Context?*
+Der Warenkorb ist ein kurzlebiger Zustand im Bestellprozess — keine eigene Fachsprache,
+kein eigenes Team, keine eigene DB sinnvoll. Bei sehr grossem Traffic (z.B. Amazon)
+koennte er eigener Context werden.
+
+*Woran erkennt man einen zu gross geschnittenen Context?*
+Beispiel: Jemand fasst Bestellung, Zahlung und Versand in einem "Bestellprozess"-Context zusammen:
+
+```
+Zu gross:
++-----------------------------------------------+
+|               Bestellprozess                  |
+|                                               |
+| BestellungAufgegeben  ZahlungErfolgt          |
+| ZahlungFehlgeschlagen LieferungVersendet      |
++-----------------------------------------------+
+```
+
+Erkennungszeichen:
+- Das Zahlung-Team und das Logistik-Team muessen denselben Context aendern
+- Ein Bugfix in der Zahlungslogik blockiert ein Deployment des Versand-Teams
+- Die Fachbegriffe kommen aus verschiedenen Abteilungen mit verschiedener Sprache
+
+Korrekt geschnitten: Bestellung, Zahlung und Versand sind drei separate Contexts,
+die ueber Events miteinander kommunizieren.
+
+*Ist Benachrichtigung wirklich ein fachlicher Bounded Context?*
+
+Das ist eine berechtigte Frage — und die Antwort haengt vom Unternehmen ab.
+
+Argumente dagegen (eher technischer Service):
+- Keine eigene Fachlogik aus der Domaene — "EmailVersendet" ist ein technisches Resultat, kein Geschaeftsereignis
+- Kein eigenes Domänenmodell
+- Aehnlich wie Logging oder Monitoring: ein Querschnittsservice
+
+Argumente dafuer (eigener fachlicher Context):
+- Eigene Geschaeftsregeln: Wer bekommt welche Nachricht ueber welchen Kanal? (SMS deaktiviert, Opt-out, Praeferenzen)
+- Eigenes Team: Communications-Team mit Templates, Branding, Versanddienstleister-Anbindung
+- Eigene Fehlerbehandlung: Retry-Logik bei fehlgeschlagener Email, Bounce-Management
+
+Fazit fuer ShopMax:
+- Kleiner Shop → technischer Infrastruktur-Service, kein eigener Context
+- Grosser Shop (Zalando, Amazon) → eigenes Communications-Team mit Personalisierung, A/B-Tests, rechtlichen Anforderungen → eigener fachlicher Context
+
+In der Uebung wurde Benachrichtigung als eigener Context gewaehlt, weil er sich gut
+als **erster Schnitt** eignet (keine Abhaengigkeiten, kein kritischer Pfad) —
+nicht weil er fachlich zwingend ein eigener Context sein muss.
+
+*Woran erkennt man, dass ein Event im falschen Bounded Context ist?*
+
+| Zeichen | Beispiel aus ShopMax |
+|---|---|
+| **Falsches Team ist verantwortlich** | `VersandEmailVersendet` im Versand-Context — die Email schickt das Benachrichtigungs-Team, nicht die Logistik |
+| **Falsche Ubiquitous Language** | `ProduktGesucht` im Warenkorb — im Warenkorb gibt es keine "Suche", der Begriff gehoert zum Produktkatalog |
+| **Context reagiert nie auf dieses Event** | `RetoureErhalten` im Versand — Versand versendet, er empfaengt keine Retouren |
+| **Event enthaelt Daten aus einem anderen Context** | `BestellungAufgegeben` mit `zahlungsMethode`-Feld im Bestellprozess — Zahlungsmethode gehoert in den Zahlungs-Context |
+| **Andere Contexts muessen hineinsehen um zu reagieren** | Wenn Zahlung auf ein Event im Bestellprozess zugreifen muss, um eigene Events auszuloesen — ist die Grenze falsch gezogen |
+
+---
+
+### Schritt 3: Context Map (Musterloesung)
+
+```
+                         +-------------------+
+                         |   Produktkatalog  |
+                         +-------------------+
+                              ^         ^
+                              |         |
+               +--------------+         +-----------+
+               |                                    |
+    +-------------------+                +-------------------+
+    |   Bestellprozess  |                |   Lagerbestand    |
+    +-------------------+                +-------------------+
+       |        |    |                            ^
+       |        |    +----BestellungAufgegeben--->+
+       |        |
+       |        +--------BestellungAufgegeben---> +-------------------+
+       |                                          |  Benachrichtigung |
+       | BestellungAufgegeben                     +-------------------+
+       v                                                   ^
+    +-------------------+                                  |
+    |      Zahlung      |--------ZahlungErfolgt----------->+
+    +-------------------+
+               |
+               | ZahlungErfolgt
+               v
+    +-------------------+
+    |  Versand/Logistik |
+    +-------------------+
+```
+
+#### Integration-Patterns
+
+| Von | Nach | Aktuell (Monolith) | Ziel (Microservices) |
+|---|---|---|---|
+| Bestellprozess | Zahlung | direkter Methodenaufruf | async Event (BestellungAufgegeben) |
+| Bestellprozess | Lagerbestand | direkter DB-Zugriff | async Event (BestellungAufgegeben) |
+| Bestellprozess | Benachrichtigung | direkter Methodenaufruf | async Event (BestellungAufgegeben) |
+| Zahlung | Versand | direkter Methodenaufruf | async Event (ZahlungErfolgt) |
+| Zahlung | Benachrichtigung | direkter Methodenaufruf | async Event (ZahlungErfolgt) |
+| Bestellprozess | Produktkatalog | direkter DB-Zugriff | sync REST (Preisabfrage) |
+
+---
+
+### Schritt 4: Strangler Fig — Migrationsreihenfolge (Musterloesung)
+
+#### Bewertungsmatrix
+
+> **Skala:** 5 = ideal fuer den ersten Schnitt, 1 = ungeeignet.
+> Bei "Wenige Abhaeng.": 5 = kaum andere Contexts haengen daran (leicht herausloesbar),
+> 1 = viele Contexts haengen daran (hohes Risiko).
+
+| Context | Wenige Abhaeng. | Business-Wert | Klare Verantwort. | Isolierte DB | **Score** |
+|---|---|---|---|---|---|
+| Benachrichtigung | 5 | 2 | 5 | 4 | **16** |
+| Produktkatalog | 3 | 4 | 4 | 3 | **14** |
+| Versand/Logistik | 3 | 3 | 4 | 4 | **14** |
+| Zahlung | 2 | 5 | 3 | 3 | **13** |
+| Kundenverwaltung | 3 | 3 | 3 | 3 | **12** |
+| Bestellprozess | 1 | 5 | 2 | 2 | **10** |
+| Lagerbestand | 3 | 4 | 4 | 3 | **14** |
+
+**Ergebnis:** Startkandidat ist **Benachrichtigung**, dann **Produktkatalog** oder **Lagerbestand**.
+
+**Warum Benachrichtigung zuerst?**
+- Keine anderen Services haengen davon ab (nur eingehende Events, kein Upstream-Abhaenger)
+- Kein kritischer Pfad: Ausfall = keine Email, aber keine Bestellungsfehler
+- Gut isolierbar: eigene DB-Tabellen, kein DB-Join mit anderen Services noetig
+- Team kann den gesamten Prozess (Strangler Proxy, DB-Migration, Deployment) lernen — ohne Risiko fuer den Checkout-Pfad
+
+**Warum Bestellprozess zuletzt?**
+- Fast alle anderen Contexts haengen davon ab
+- Geteilte DB mit Foreign Keys zu fast allen Tabellen
+- Kritischer Pfad: Ausfall = keine Bestellungen = Umsatzverlust
+
+#### Migrationsphasen (konkret fuer ShopMax)
+
+```
+Phase 0 (heute):    [Kompletter Monolith]
+
+Phase 1 (Monat 1):  [Monolith ohne Notification] + [Notification Service]
+                         Strangler Proxy leitet Notification-Calls um
+
+
+Phase 2 (Monat 3):  [Monolith ohne Notification, Produkt, Lager]
+                    + [Product Service] + [Inventory Service] + [Notification Service]
+
+Phase 3 (Monat 6):  [Monolith-Kern: Bestellung + Zahlung + Kunde]
+                    + [weitere Services]
+
+Phase N:            [Bestellprozess Service] + [Zahlungs Service] + [Kunden Service]
+                         Monolith ist "stranguliert" = leer = abgeschaltet
+```
 
 ## Grundwissen Microservices - Synchrones Messaging
 
@@ -1427,6 +5644,446 @@ curl -X PUT --header 'Content-Type: application/json' --header 'Accept: applicat
 }' 'https://api.predic8.de/shop/products/140'
 ```
 
+### OpenAPI-Spec aus Code generieren (Go, Python, Java, TS, Rust, C#, PHP)
+
+
+Uebersicht der wichtigsten Tools pro Sprache mit minimalen Code-Beispielen.
+
+---
+
+### Go
+
+#### swaggo/swag (Kommentar-basiert)
+
+Installation:
+
+```bash
+go install github.com/swaggo/swag/cmd/swag@latest
+go get github.com/swaggo/gin-swagger
+go get github.com/swaggo/files
+```
+
+Handler mit Annotations:
+
+```go
+// @Summary      Get user by ID
+// @Description  Returns a single user
+// @Tags         users
+// @Param        id   path      int  true  "User ID"
+// @Success      200  {object}  User
+// @Failure      404  {object}  ErrorResponse
+// @Router       /users/{id} [get]
+func GetUser(c *gin.Context) {
+    // ...
+}
+
+type User struct {
+    ID    int    `json:"id" example:"1"`
+    Name  string `json:"name" example:"Jochen"`
+    Email string `json:"email" example:"j@example.com"`
+}
+```
+
+Generieren:
+
+```bash
+swag init -g main.go -o ./docs
+## erzeugt docs/swagger.json + docs/swagger.yaml
+```
+
+#### Huma (native, ohne Annotations)
+
+```go
+package main
+
+import (
+    "context"
+    "github.com/danielgtaylor/huma/v2"
+    "github.com/danielgtaylor/huma/v2/adapters/humachi"
+    "github.com/go-chi/chi/v5"
+)
+
+type GreetingInput struct {
+    Name string `path:"name" maxLength:"30" example:"world"`
+}
+
+type GreetingOutput struct {
+    Body struct {
+        Message string `json:"message"`
+    }
+}
+
+func main() {
+    router := chi.NewMux()
+    api := huma.NewAPI("My API", "1.0.0", humachi.New(router, huma.DefaultConfig("My API", "1.0.0")))
+
+    huma.Register(api, huma.Operation{
+        OperationID: "get-greeting",
+        Method:      "GET",
+        Path:        "/greeting/{name}",
+        Summary:     "Get a greeting",
+    }, func(ctx context.Context, input *GreetingInput) (*GreetingOutput, error) {
+        resp := &GreetingOutput{}
+        resp.Body.Message = "Hello, " + input.Name
+        return resp, nil
+    })
+}
+// OpenAPI verfuegbar unter /openapi.json
+```
+
+---
+
+### Python
+
+#### FastAPI (nativ, Gold-Standard)
+
+```bash
+pip install fastapi uvicorn
+```
+
+```python
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI(title="My API", version="1.0.0")
+
+class User(BaseModel):
+    id: int
+    name: str
+    email: str
+
+class UserCreate(BaseModel):
+    name: str
+    email: str
+
+@app.get("/users/{user_id}", response_model=User, tags=["users"])
+def get_user(user_id: int):
+    """Returns a single user by ID."""
+    return {"id": user_id, "name": "Jochen", "email": "j@example.com"}
+
+@app.post("/users", response_model=User, status_code=201, tags=["users"])
+def create_user(user: UserCreate):
+    return {"id": 1, **user.dict()}
+```
+
+Spec abrufen:
+
+```bash
+uvicorn main:app
+## Swagger UI:  http://localhost:8000/docs
+## ReDoc:       http://localhost:8000/redoc
+## JSON-Spec:   http://localhost:8000/openapi.json
+```
+
+Spec als Datei exportieren:
+
+```python
+import json
+from main import app
+
+with open("openapi.json", "w") as f:
+    json.dump(app.openapi(), f, indent=2)
+```
+
+#### Django REST Framework
+
+```bash
+pip install drf-spectacular
+```
+
+`settings.py`:
+
+```python
+INSTALLED_APPS = [..., "drf_spectacular"]
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+SPECTACULAR_SETTINGS = {"TITLE": "My API", "VERSION": "1.0.0"}
+```
+
+```bash
+python manage.py spectacular --file schema.yaml
+```
+
+---
+
+### TypeScript / Node.js
+
+#### NestJS
+
+```bash
+npm install @nestjs/swagger
+```
+
+```typescript
+// main.ts
+import { NestFactory } from '@nestjs/core';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { AppModule } from './app.module';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  const config = new DocumentBuilder()
+    .setTitle('My API').setVersion('1.0').build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('docs', app, document);
+  await app.listen(3000);
+}
+bootstrap();
+```
+
+```typescript
+// user.controller.ts
+import { Controller, Get, Param } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
+
+export class UserDto {
+  @ApiProperty({ example: 1 }) id: number;
+  @ApiProperty({ example: 'Jochen' }) name: string;
+}
+
+@ApiTags('users')
+@Controller('users')
+export class UserController {
+  @Get(':id')
+  @ApiOperation({ summary: 'Get user by ID' })
+  @ApiResponse({ status: 200, type: UserDto })
+  findOne(@Param('id') id: string): UserDto {
+    return { id: +id, name: 'Jochen' };
+  }
+}
+```
+
+UI unter `http://localhost:3000/docs`, JSON unter `/docs-json`.
+
+#### Zod + Hono (modern, typsicher)
+
+```bash
+npm install hono @hono/zod-openapi zod
+```
+
+```typescript
+import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
+
+const UserSchema = z.object({
+  id: z.number().openapi({ example: 1 }),
+  name: z.string().openapi({ example: 'Jochen' }),
+}).openapi('User');
+
+const route = createRoute({
+  method: 'get',
+  path: '/users/{id}',
+  request: { params: z.object({ id: z.string() }) },
+  responses: {
+    200: { content: { 'application/json': { schema: UserSchema } }, description: 'OK' },
+  },
+});
+
+const app = new OpenAPIHono();
+app.openapi(route, (c) => c.json({ id: 1, name: 'Jochen' }));
+app.doc('/openapi.json', { openapi: '3.0.0', info: { title: 'API', version: '1.0' } });
+```
+
+---
+
+### Java / Spring Boot
+
+#### springdoc-openapi
+
+`pom.xml`:
+
+```xml
+<dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    <version>2.5.0</version>
+</dependency>
+```
+
+```java
+@RestController
+@RequestMapping("/users")
+@Tag(name = "users")
+public class UserController {
+
+    @Operation(summary = "Get user by ID")
+    @ApiResponse(responseCode = "200", description = "Found")
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
+        return new User(id, "Jochen", "j@example.com");
+    }
+}
+
+@Schema(description = "User entity")
+public record User(
+    @Schema(example = "1") Long id,
+    @Schema(example = "Jochen") String name,
+    @Schema(example = "j@example.com") String email
+) {}
+```
+
+Endpunkte:
+- Swagger UI: `http://localhost:8080/swagger-ui.html`
+- JSON: `http://localhost:8080/v3/api-docs`
+- YAML: `http://localhost:8080/v3/api-docs.yaml`
+
+---
+
+### Rust
+
+#### utoipa (mit Axum)
+
+`Cargo.toml`:
+
+```toml
+[dependencies]
+utoipa = { version = "4", features = ["axum_extras"] }
+utoipa-swagger-ui = { version = "7", features = ["axum"] }
+axum = "0.7"
+serde = { version = "1", features = ["derive"] }
+```
+
+```rust
+use axum::{routing::get, Json, Router};
+use serde::Serialize;
+use utoipa::{OpenApi, ToSchema};
+use utoipa_swagger_ui::SwaggerUi;
+
+##[derive(Serialize, ToSchema)]
+struct User {
+    #[schema(example = 1)]
+    id: u64,
+    #[schema(example = "Jochen")]
+    name: String,
+}
+
+##[utoipa::path(
+    get,
+    path = "/users/{id}",
+    params(("id" = u64, Path, description = "User ID")),
+    responses((status = 200, body = User))
+)]
+async fn get_user() -> Json<User> {
+    Json(User { id: 1, name: "Jochen".into() })
+}
+
+##[derive(OpenApi)]
+##[openapi(paths(get_user), components(schemas(User)))]
+struct ApiDoc;
+
+##[tokio::main]
+async fn main() {
+    let app = Router::new()
+        .route("/users/:id", get(get_user))
+        .merge(SwaggerUi::new("/swagger-ui").url("/openapi.json", ApiDoc::openapi()));
+    // ...
+}
+```
+
+---
+
+### C# / .NET
+
+#### Swashbuckle (ASP.NET Core)
+
+```bash
+dotnet add package Swashbuckle.AspNetCore
+```
+
+```csharp
+// Program.cs
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+    c.SwaggerDoc("v1", new() { Title = "My API", Version = "v1" }));
+
+var app = builder.Build();
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.MapGet("/users/{id}", (int id) => new User(id, "Jochen"))
+   .WithTags("users")
+   .WithOpenApi();
+
+app.Run();
+
+public record User(int Id, string Name);
+```
+
+UI: `/swagger`, JSON: `/swagger/v1/swagger.json`
+
+---
+
+### PHP
+
+#### swagger-php (Annotations / Attributes)
+
+```bash
+composer require zircote/swagger-php
+```
+
+```php
+use OpenApi\Attributes as OA;
+
+##[OA\Info(version: '1.0.0', title: 'My API')]
+class OpenApiSpec {}
+
+class UserController
+{
+    #[OA\Get(
+        path: '/users/{id}',
+        tags: ['users'],
+        parameters: [new OA\Parameter(name: 'id', in: 'path', required: true)],
+        responses: [new OA\Response(response: 200, description: 'OK',
+            content: new OA\JsonContent(ref: '#/components/schemas/User'))]
+    )]
+    public function getUser(int $id) { /* ... */ }
+}
+
+##[OA\Schema(schema: 'User')]
+class User {
+    #[OA\Property(example: 1)] public int $id;
+    #[OA\Property(example: 'Jochen')] public string $name;
+}
+```
+
+Generieren:
+
+```bash
+./vendor/bin/openapi src -o openapi.yaml
+```
+
+---
+
+### Workflow-Tipps
+
+**Spec versionieren:** Generierte `openapi.json` / `openapi.yaml` in Git checken — Diffs zeigen Breaking Changes sofort.
+
+**CI-Check gegen Breaking Changes:**
+
+```bash
+## oasdiff vergleicht zwei Specs
+docker run --rm -v $PWD:/specs tufin/oasdiff breaking \
+  /specs/openapi-main.yaml /specs/openapi-pr.yaml
+```
+
+**Client-SDKs aus der Spec generieren:**
+
+```bash
+## OpenAPI Generator (Java-basiert, viele Sprachen)
+docker run --rm -v $PWD:/local openapitools/openapi-generator-cli generate \
+  -i /local/openapi.yaml -g typescript-axios -o /local/client-ts
+```
+
+**Lint:**
+
+```bash
+npx @stoplight/spectral-cli lint openapi.yaml
+```
+
+**Faustregel:** Tools, die aus Typen/Schemas generieren (FastAPI, NestJS, utoipa, Huma), liefern bessere Specs als kommentar-basierte (swaggo, swagger-php), weil sie nicht aus der Synchronitaet laufen koennen.
+
 ## Grundwissen Microservices - Async Messaging
 
 ### Asynchrones Messaging
@@ -1483,6 +6140,388 @@ curl -X PUT --header 'Content-Type: application/json' --header 'Accept: applicat
 ### Software (Implementation) 
 
   * Confluence Schema Registry
+
+### Uebung: Kafka Schema Registry — Avro und Schema-Evolution
+
+
+### Hintergrund
+
+Die Confluent Schema Registry zentralisiert die Verwaltung von Avro-Schemas.
+Statt das Schema in jedem Producer/Consumer zu hardcoden, wird es einmalig registriert.
+Die Registry erzwingt Kompatibilitaetsregeln und verhindert Breaking Changes.
+
+```
+Producer  →  Schema Registry  →  Kafka Topic  →  Consumer
+           (Schema-ID + Daten)                  (holt Schema per ID)
+```
+
+---
+
+### Teil 1 — Zentraler Setup (Trainer)
+
+> Dieser Teil laeuft **einmalig**. Teilnehmer koennen beobachten, muessen aber nicht selbst ausfuehren.
+
+#### 1.1 Namespace anlegen
+
+```
+kubectl create namespace kafka
+```
+
+#### 1.2 Kafka deployen (apache/kafka:3.9.0, KRaft-Mode)
+
+```
+kubectl apply -n kafka -f - <<'EOF'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-controller-headless
+  namespace: kafka
+spec:
+  clusterIP: None
+  ports:
+  - name: client
+    port: 9092
+  - name: controller
+    port: 9093
+  selector:
+    app.kubernetes.io/name: kafka
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka
+  namespace: kafka
+spec:
+  ports:
+  - name: client
+    port: 9092
+  selector:
+    app.kubernetes.io/name: kafka
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kafka-controller
+  namespace: kafka
+spec:
+  serviceName: kafka-controller-headless
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kafka
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: kafka
+    spec:
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+      containers:
+      - name: kafka
+        image: apache/kafka:3.9.0
+        command:
+        - /bin/bash
+        - -c
+        - |
+          NODE_ID=${HOSTNAME##*-}
+          HOST="${HOSTNAME}.kafka-controller-headless.kafka.svc.cluster.local"
+          export KAFKA_NODE_ID=$NODE_ID
+          export KAFKA_ADVERTISED_LISTENERS="PLAINTEXT://${HOST}:9092,CONTROLLER://${HOST}:9093"
+          mkdir -p /var/lib/kafka/data/kafka-logs
+          exec /etc/kafka/docker/run
+        env:
+        - name: CLUSTER_ID
+          value: "MkU3OEVBNTcwNTJENDM2Qk"
+        - name: KAFKA_PROCESS_ROLES
+          value: "broker,controller"
+        - name: KAFKA_CONTROLLER_QUORUM_VOTERS
+          value: "0@kafka-controller-0.kafka-controller-headless.kafka.svc.cluster.local:9093,1@kafka-controller-1.kafka-controller-headless.kafka.svc.cluster.local:9093,2@kafka-controller-2.kafka-controller-headless.kafka.svc.cluster.local:9093"
+        - name: KAFKA_LISTENERS
+          value: "PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093"
+        - name: KAFKA_CONTROLLER_LISTENER_NAMES
+          value: "CONTROLLER"
+        - name: KAFKA_INTER_BROKER_LISTENER_NAME
+          value: "PLAINTEXT"
+        - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+          value: "3"
+        - name: KAFKA_DEFAULT_REPLICATION_FACTOR
+          value: "3"
+        - name: KAFKA_MIN_INSYNC_REPLICAS
+          value: "2"
+        - name: KAFKA_LOG_DIRS
+          value: "/var/lib/kafka/data/kafka-logs"
+        - name: PATH
+          value: "/opt/kafka/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+        ports:
+        - containerPort: 9092
+          name: client
+        - containerPort: 9093
+          name: controller
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/kafka/data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 4Gi
+EOF
+```
+
+```
+kubectl -n kafka rollout status statefulset/kafka-controller
+```
+
+> **Hinweis:** KRaft-Mode (kein Zookeeper), 3 Combined-Controller+Broker Nodes.
+
+#### 1.3 Schema Registry deployen (confluentinc/cp-schema-registry:7.7.1)
+
+```
+kubectl apply -n kafka -f - <<'EOF'
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: schema-registry
+  namespace: kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: schema-registry
+  template:
+    metadata:
+      labels:
+        app: schema-registry
+    spec:
+      enableServiceLinks: false
+      containers:
+      - name: schema-registry
+        image: confluentinc/cp-schema-registry:7.7.1
+        env:
+        - name: SCHEMA_REGISTRY_HOST_NAME
+          value: "schema-registry"
+        - name: SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS
+          value: "PLAINTEXT://kafka.kafka.svc.cluster.local:9092"
+        - name: SCHEMA_REGISTRY_LISTENERS
+          value: "http://0.0.0.0:8081"
+        - name: SCHEMA_REGISTRY_KAFKASTORE_TOPIC_REPLICATION_FACTOR
+          value: "3"
+        ports:
+        - containerPort: 8081
+          name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: schema-registry
+  namespace: kafka
+spec:
+  selector:
+    app: schema-registry
+  ports:
+  - port: 8081
+    name: http
+    targetPort: 8081
+EOF
+```
+
+#### 1.4 Verifikation
+
+```
+kubectl -n kafka get pods
+```
+
+Erwartete Ausgabe:
+
+```
+NAME                               READY   STATUS    RESTARTS   AGE
+kafka-controller-0                 1/1     Running   0          2m
+kafka-controller-1                 1/1     Running   0          2m
+kafka-controller-2                 1/1     Running   0          2m
+schema-registry-...                1/1     Running   0          1m
+```
+
+```
+kubectl -n kafka run verify --image=curlimages/curl --restart=Never --rm -i -- \
+  curl -s http://schema-registry.kafka.svc.cluster.local:8081/subjects
+```
+
+Erwartete Ausgabe: `[]`
+
+---
+
+### Teil 2 — Pro Teilnehmer
+
+> **Setze als Erstes deine TLN-Nummer:**
+>
+> ```
+> export TLN_NR=1   # <- deine Nummer
+> export NS=tln${TLN_NR}
+> export TOPIC=tln${TLN_NR}-orders
+> ```
+
+#### 2.1 Topic anlegen
+
+```
+kubectl -n kafka exec -it kafka-controller-0 -- \
+  kafka-topics.sh --bootstrap-server localhost:9092 \
+    --create --topic ${TOPIC} \
+    --partitions 3 --replication-factor 2
+```
+
+Erwartete Ausgabe: `Created topic tln1-orders.`
+
+#### 2.2 Avro-Schema registrieren
+
+```
+kubectl -n ${NS} run schemareg --image=curlimages/curl --restart=Never -i --rm -- \
+  curl -s -X POST \
+    -H "Content-Type: application/vnd.schemaregistry.v1+json" \
+    --data '{"schema": "{\"type\":\"record\",\"name\":\"Order\",\"namespace\":\"de.tln'${TLN_NR}'\",\"fields\":[{\"name\":\"id\",\"type\":\"string\"},{\"name\":\"product\",\"type\":\"string\"},{\"name\":\"quantity\",\"type\":\"int\"}]}"}' \
+    http://schema-registry.kafka.svc.cluster.local:8081/subjects/${TOPIC}-value/versions
+```
+
+Erwartete Ausgabe: `{"id":1}`
+
+**Verifikation:**
+
+```
+kubectl -n ${NS} run verify --image=curlimages/curl --restart=Never -i --rm -- \
+  curl -s http://schema-registry.kafka.svc.cluster.local:8081/subjects/${TOPIC}-value/versions/latest
+```
+
+#### 2.3 Producer-Pod (Avro Console Producer)
+
+```
+kubectl -n ${NS} run producer -it --rm --restart=Never \
+  --image=confluentinc/cp-schema-registry:7.7.1 -- bash
+```
+
+Im Container:
+
+```
+kafka-avro-console-producer \
+  --bootstrap-server kafka.kafka.svc.cluster.local:9092 \
+  --topic tln${TLN_NR}-orders \
+  --property schema.registry.url=http://schema-registry.kafka.svc.cluster.local:8081 \
+  --property value.schema='{"type":"record","name":"Order","namespace":"de.tln'${TLN_NR}'","fields":[{"name":"id","type":"string"},{"name":"product","type":"string"},{"name":"quantity","type":"int"}]}'
+```
+
+Eingabe (jede Zeile = eine Nachricht):
+
+```
+{"id":"o-1","product":"Schraubenzieher","quantity":2}
+{"id":"o-2","product":"Hammer","quantity":1}
+```
+
+Strg+D zum Beenden.
+
+#### 2.4 Consumer-Pod
+
+In **neuem Terminal**:
+
+```
+export TLN_NR=1
+export NS=tln${TLN_NR}
+
+kubectl -n ${NS} run consumer -it --rm --restart=Never \
+  --image=confluentinc/cp-schema-registry:7.7.1 -- bash
+```
+
+Im Container:
+
+```
+kafka-avro-console-consumer \
+  --bootstrap-server kafka.kafka.svc.cluster.local:9092 \
+  --topic tln${TLN_NR}-orders \
+  --from-beginning \
+  --property schema.registry.url=http://schema-registry.kafka.svc.cluster.local:8081
+```
+
+**Erwartete Ausgabe:**
+
+```
+{"id":"o-1","product":"Schraubenzieher","quantity":2}
+{"id":"o-2","product":"Hammer","quantity":1}
+```
+
+---
+
+### Teil 3 — Schema-Evolution (Bonus)
+
+Fuege ein optionales Feld hinzu (rueckwaertskompatibel):
+
+```
+kubectl -n ${NS} run schemareg2 --image=curlimages/curl --restart=Never -i --rm -- \
+  curl -s -X POST \
+    -H "Content-Type: application/vnd.schemaregistry.v1+json" \
+    --data '{"schema": "{\"type\":\"record\",\"name\":\"Order\",\"namespace\":\"de.tln'${TLN_NR}'\",\"fields\":[{\"name\":\"id\",\"type\":\"string\"},{\"name\":\"product\",\"type\":\"string\"},{\"name\":\"quantity\",\"type\":\"int\"},{\"name\":\"customer\",\"type\":[\"null\",\"string\"],\"default\":null}]}"}' \
+    http://schema-registry.kafka.svc.cluster.local:8081/subjects/${TOPIC}-value/versions
+```
+
+Erwartete Ausgabe: `{"id":2}` — Versionsnummer steigt auf 2.
+
+Alle Versionen listen:
+
+```
+kubectl -n ${NS} run verify --image=curlimages/curl --restart=Never -i --rm -- \
+  curl -s http://schema-registry.kafka.svc.cluster.local:8081/subjects/${TOPIC}-value/versions
+```
+
+Erwartete Ausgabe: `[1,2]`
+
+#### Inkompatibles Schema testen
+
+```
+kubectl -n ${NS} run schemareg-bad --image=curlimages/curl --restart=Never -i --rm -- \
+  curl -s -X POST \
+    -H "Content-Type: application/vnd.schemaregistry.v1+json" \
+    --data '{"schema": "{\"type\":\"record\",\"name\":\"Order\",\"fields\":[{\"name\":\"id\",\"type\":\"int\"}]}"}' \
+    http://schema-registry.kafka.svc.cluster.local:8081/subjects/${TOPIC}-value/versions
+```
+
+**Erwartete Ausgabe:** HTTP 409 — `Schema being registered is incompatible with an earlier schema`
+
+---
+
+### Teil 4 — Cleanup (pro Teilnehmer)
+
+```
+kubectl -n kafka exec kafka-controller-0 -- \
+  kafka-topics.sh --bootstrap-server localhost:9092 \
+    --delete --topic tln${TLN_NR}-orders
+
+kubectl -n ${NS} run cleanup --image=curlimages/curl --restart=Never -i --rm -- \
+  curl -s -X DELETE \
+    http://schema-registry.kafka.svc.cluster.local:8081/subjects/tln${TLN_NR}-orders-value
+```
+
+---
+
+### Diskussionsfragen
+
+1. Warum ist Topic-Naming-Prefix (`tln${TLN_NR}-`) bei geteiltem Cluster sinnvoll? Welche Alternative gäbe es mit ACLs?
+2. Welche Kompatibilitaetsmodi gibt es in der Schema Registry (`BACKWARD`, `FORWARD`, `FULL`, `NONE`) und wann nutzt man welchen?
+3. Warum wird `${TOPIC}-value` als Subject-Name verwendet? (TopicNameStrategy vs. RecordNameStrategy)
+4. Wie wuerdest du Producer-Isolation per Kafka-ACL pro `tln${TLN_NR}` umsetzen?
+
+---
+
+### Troubleshooting
+
+| Symptom | Ursache | Fix |
+|---|---|---|
+| Producer haengt bei „Schema not found" | Schema-Registry-URL falsch | Service-DNS pruefen: `schema-registry.kafka.svc.cluster.local:8081` |
+| `LEADER_NOT_AVAILABLE` | Broker noch nicht ready | `kubectl -n kafka get pods` — warten bis alle 3 Controller `1/1` |
+| `409 Conflict` beim Schema-POST | Inkompatibel zu Vorversion | Kompatibilitaetsmodus pruefen: `GET /config/${SUBJECT}` |
+| Topic-Erstellung „replication factor: 2 > 1" | Nur 1 Broker laeuft | Replication-Factor auf 1 reduzieren oder Controller-Replicas pruefen |
+| Schema Registry CrashLoop | Kubernetes injiziert `SCHEMA_REGISTRY_PORT` | `enableServiceLinks: false` im Pod-Spec setzen |
 
 ### Topic/Queue ohne Downtime migrieren
 
@@ -1780,10 +6819,14 @@ docker compose version
 ```
 docker run -d --name my_nginx nginx:1.23
 docker container ls
+## wenn er nicht läuft dann sehen wir ihn nur mit
+docker container ls -a
 ## oder 
 docker ps
+docker ps -a
 
-## Ip-Adresse rausfinden 
+## Ip-Adresse rausfinden
+docker inspect my_nginx
 docker inspect my_nginx | grep -i -A 20 networksettings
 ## ip ist: 172.17.0.2
 ## Webseite von nginx anzeigen 
@@ -1799,9 +6842,11 @@ docker images
 ```
 ## falls nicht root
 sudo su -
+```
+
+```
 ## wo sind die overlays
-cd /var/lib/docker
-cd overlay2
+cd /var/lib/docker/rootfs/overlayfs 
 ## now find out
 ls -la
 exit
@@ -1934,6 +6979,12 @@ curl http://localhost:8080
 
 ```
 
+
+```
+docker start test-nginx 
+curl <ip-der-maschine>:8080
+```
+
 ## Example with Dockerfile
 
 ### Ubuntu mit ping
@@ -1942,6 +6993,7 @@ curl http://localhost:8080
 ### Image erstellen 
 
 ```
+cd
 mkdir myubuntu 
 cd myubuntu/
 ```
@@ -1976,7 +7028,7 @@ docker build -t myubuntu:1.0 .
 docker images
 ```
 
-### Image (ping) testen  
+### Image (ping) testen  (mit image fullubuntu:1.0)
 
 ```
 ## -t wird benötigt, damit bash WEITER im Hintergrund im läuft.
@@ -2001,6 +7053,34 @@ ping 172.17.0.3
 
  
 ```
+
+
+### Image (ping) testen  (mit image myubuntu:1.0)
+
+```
+## -t wird benötigt, damit bash WEITER im Hintergrund im läuft.
+## auch mit -d (ohne -t) wird die bash ausgeführt, aber "das Terminal" dann direkt beendet 
+## -> container läuft dann nicht mehr 
+docker run -d -t --name container-ubuntu myubuntu:1.0
+docker container ls
+
+## docker inspect to find out ip of other container 
+## 172.17.0.3 
+docker inspect container-ubuntu | grep -i ipaddress
+```
+
+```
+## Zweiten Container starten um 1. anzupingen 
+docker run -d -t --name container-ubuntu2 myubuntu:1.0 
+
+## Ersten Container -> 2. anpingen 
+docker exec -it container-ubuntu2 bash 
+## Jeder container hat eine eigene IP 
+ping 172.17.0.3
+
+ 
+```
+
 
 ### Slim multistage-build
 
@@ -2062,7 +7142,7 @@ ls -la
   * Alle container einer applikation in einem eigenen Netzwerk  
   * Images scannen inkl. security scans. 
 
-### Images die nicht als root lauen 
+### Images die nicht als root laufen 
 
   * ~bitnami~ 
   * nginx unprivileged
@@ -2172,7 +7252,7 @@ docker scan --json --accept-license dockertrainereu/jm-hello-docker  > result.js
 
 ## Docker Compose
 
-### Ist docker-compose installiert?
+### Ist docker compose installiert?
 
 
 ### docker compose direkt als plugin für docker (aktuell die beste Wahl)
@@ -2273,7 +7353,10 @@ exit
 ### Schritt 4: Alles wieder beenden 
 
 ```
+## Achtung, damit werden auch die Container gelöscht 
 docker compose down
+## nur stoppen
+docker compose stop 
 ```
 
 ### Example with Ubuntu and Dockerfile
@@ -2362,9 +7445,9 @@ docker compose logs
 
 ```
 ##Im Ordner des Projektes
-##z.B wordpress-mysql-compose-project 
-cd ~/wordpress-mysql-compose-project 
-docker-compose logs
+##z.B wp 
+cd ~/wp
+docker compose logs
 ## jetzt werden alle logs aller services angezeigt 
 ```
 
@@ -2535,75 +7618,597 @@ Development time coupling - a developer working on, for example, the OrderServic
 ### Umgang mit Transaktionen bei database-per-service (SAGA)
 
 
-### Problem 
+### Problem
 
-  * When we move to a database per service pattern, we cannot use transactions
+  * Wenn wir auf das Database-per-Service-Pattern wechseln, koennen wir keine klassischen Datenbanktransaktionen mehr verwenden
 
-### Example Problem 
+### Beispiel-Problem
 
-  * You are using database-per-service-pattern
+  * Das Database-per-Service-Pattern ist im Einsatz
 
 ```
-x e-commerce store
-x customers have a credit limit.
-x The application must ensure that a new order will not exceed the customer’s credit limit.
-x Orders and Customers are in different databases owned by different services
-x because of this: application cannot simply use a local ACID transaction.
+x Ein Online-Shop
+x Kunden haben ein Kreditlimit
+x Die Anwendung muss sicherstellen, dass eine neue Bestellung das Kreditlimit des Kunden nicht ueberschreitet
+x Bestellungen und Kunden liegen in verschiedenen Datenbanken, die von verschiedenen Services verwaltet werden
+x Deshalb: Die Anwendung kann keine einfache lokale ACID-Transaktion verwenden
 ```
 
-### Schaubild (Wie funktioniert es ?) 
+### Schaubild (Wie funktioniert es?)
 
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/f4615f49-5937-476e-bff7-d32e7de870c9)
 
-### Saga Execution Coordinator (SEC) as central component 
+### Saga Execution Coordinator (SEC) als zentrale Komponente
 
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/a33eb0a1-0e04-48a7-983c-9b6741202afe)
 
-  * contains a Saga log that captures the sequence of events of a distributed transaction.
-  * ON FAILURE:  the SEC component inspects the Saga log to identify the impacted components and the sequence in which the compensating transactions should run.
-  * It can then identify transactions successfully rolled back, which ones are pending, and can take appropriate actions
+  * Enthaelt ein Saga-Log, das die Abfolge der Ereignisse einer verteilten Transaktion aufzeichnet
+  * BEI FEHLER: Die SEC-Komponente prueft das Saga-Log, um die betroffenen Komponenten und die Reihenfolge der Kompensationstransaktionen zu ermitteln
+  * Sie kann erkennen, welche Transaktionen erfolgreich zurueckgerollt wurden, welche noch ausstehen, und entsprechende Massnahmen einleiten
 
-### Implementation as Saga Choreography Pattern
+### Implementierung als Saga-Choreography-Pattern
 
-#### When ?
+#### Wann?
 
-  * Greenfield (starting from scratch) microservices development 
+  * Greenfield (Entwicklung von Grund auf neu)
 
-#### How ?
+#### Wie?
 
-  * each microservice that is part of the transaction publishes an event that is processed by the next microservice.
+  * Jeder Microservice, der Teil der Transaktion ist, veroeffentlicht ein Event, das vom naechsten Microservice verarbeitet wird
 
-#### Schaubild (Success)
+#### Schaubild (Erfolgsfall)
 
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/9261961c-41f7-4d96-b260-c64f332b6d14)
 
-#### Schaubild (Failure) 
+#### Schaubild (Fehlerfall)
 
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/0118fe17-6e95-4281-b305-1e33c868062c)
 
-### Implementation as Saga Orchestration Pattern 
+### Implementierung als Saga-Orchestration-Pattern
 
-#### When ?
+#### Wann?
 
-  * Brownfield (we already have a set of microservices)
+  * Brownfield (es existieren bereits Microservices)
 
-#### How ? 
+#### Wie?
 
-  * Orchestrator will be in charge of the whole transactions process
+  * Ein Orchestrator uebernimmt die Steuerung des gesamten Transaktionsprozesses
 
-#### Schaubild
+### Kompensationstransaktionen
 
-![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/d71df512-af4d-4eae-a3ab-23d4b3f369e3)
+Eine Kompensationstransaktion macht den fachlichen Effekt eines bereits committeten
+Schritts rueckgaengig — weil ein `ROLLBACK` ueber Service-Grenzen hinweg nicht moeglich ist.
 
-### Products 
+#### Beispiel: Bestellung schlaegt in Schritt 3 fehl
 
-  * Camunda (framework)
-  * Apache Camel 
+```
+Schritt 1: Order-Service legt Bestellung an        → in Order-DB committed ✓
+Schritt 2: Customer-Service reduziert Kreditlimit  → in Customer-DB committed ✓
+Schritt 3: Payment-Service bucht Zahlung           → FEHLER ✗
+```
 
-### Reference:
+Da Schritt 1 und 2 bereits in ihren jeweiligen Datenbanken committed sind,
+kann kein technisches `ROLLBACK` mehr helfen. Der Saga Execution Coordinator
+startet stattdessen Kompensationstransaktionen in umgekehrter Reihenfolge:
+
+```
+Kompensation zu Schritt 2: Customer-Service stellt Kreditlimit wieder her
+Kompensation zu Schritt 1: Order-Service storniert die Bestellung
+```
+
+#### Wichtige Eigenschaften einer Kompensationstransaktion
+
+- **Kein technisches Rollback** — sie ist eine neue, eigenstaendige Datenbankoperation
+- **Idempotent** — sie muss mehrfach ausfuehrbar sein ohne zusaetzlichen Schaden
+  (der SEC kann sie bei Fehler erneut aufrufen)
+- **Kann selbst fehlschlagen** — der SEC muss auch das abfangen und wiederholen
+- **Kein exakter Rueckgaengig-Effekt** — zwischen Original und Kompensation koennen
+  andere Transaktionen gelaufen sein (z.B. hat der Kunde inzwischen etwas anderes bestellt)
+
+> **Faustregel:** Kompensationstransaktionen implementieren "Business Undo",
+> nicht "Technical Rollback". Der Zustand wird fachlich korrigiert,
+> nicht technisch zurueckgesetzt.
+
+### Produkte
+
+  * Camunda (Framework)
+  * Apache Camel
+
+### Referenzen
 
   * https://www.baeldung.com/cs/saga-pattern-microservices#introduction-to-saga
   * https://microservices.io/patterns/data/saga.html
+
+### Uebung: SAGA-Pattern mit Temporal (Docker Compose, Java)
+
+
+**Dauer:** ca. 90-120 Minuten
+**Level:** Fortgeschritten
+**Stack:** Java 17, Maven, Temporal, Docker Compose
+
+---
+
+### Lernziel
+
+Du implementierst eine **Reisebuchungs-Saga** mit drei Schritten (Hotel, Flug, Zahlung).
+Schlaegt ein Schritt fehl, werden die bereits erfolgreichen Schritte ueber
+**Kompensationen** in umgekehrter Reihenfolge zurueckgenommen.
+
+Nach der Uebung kannst du:
+
+- Temporal als Workflow-Engine per Docker Compose betreiben
+- Workflow und Activities trennen
+- den `io.temporal.workflow.Saga`-Helper fuer Kompensationen nutzen
+- Erfolgs- und Fehlerfall in der Temporal Web-UI beobachten
+
+---
+
+### Szenario
+
+```
+T1  bookHotel       --> C1  cancelHotel
+T2  bookFlight      --> C2  cancelFlight
+T3  chargePayment   --> (Pivot, keine Kompensation)
+```
+
+Schlaegt `chargePayment` fehl, laufen `cancelFlight` (C2) und `cancelHotel` (C1)
+in umgekehrter Reihenfolge.
+
+---
+
+### Vorbereitung
+
+```bash
+git clone https://github.com/jmetzger/training-microservices-docker-kubernetes
+cd training-microservices-docker-kubernetes/microservices/uebung-saga-temporal
+```
+
+---
+
+### Schritt 1: Infrastruktur starten
+
+```bash
+docker compose up -d postgresql temporal temporal-ui
+```
+
+Warte bis Temporal healthy ist (ca. 30 Sekunden):
+
+```bash
+docker compose ps
+## temporal muss Status "healthy" zeigen
+```
+
+Web-UI erreichbar unter: http://localhost:8233
+
+---
+
+### Schritt 2: Code-Struktur verstehen
+
+```
+src/main/java/de/t3isp/saga/
+├── BookingActivities.java       # Activity-Interface mit 5 Methoden
+├── BookingActivitiesImpl.java   # Implementierung mit Fehler bei amount > 1000
+├── BookingWorkflow.java         # Workflow-Interface
+├── BookingWorkflowImpl.java     # Saga-Logik mit Kompensationen
+├── SagaWorker.java              # Registriert Workflow + Activities
+├── SagaStarter.java             # Loest zwei Workflows aus (Erfolg + Fehler)
+└── Main.java                    # Einstiegspunkt (worker | starter)
+```
+
+---
+
+### Wie funktioniert das Zusammenspiel?
+
+#### Worker und Starter — zwei Rollen, ein Image
+
+Beide Container werden aus demselben Dockerfile gebaut, uebernehmen aber verschiedene Aufgaben:
+
+**`saga-worker`** — der Ausfuehrer (laeuft dauerhaft)
+- Registriert `BookingWorkflowImpl` und `BookingActivitiesImpl` bei Temporal
+- Wartet auf Aufgaben von der Task Queue `booking-saga`
+- `restart: on-failure` — startet neu falls Temporal kurz nicht erreichbar ist
+
+**`saga-starter`** — der Ausloser (laeuft einmalig)
+- Loest zwei Workflows bei Temporal aus: 500 EUR (Erfolg) und 2000 EUR (Fehler)
+- Beendet sich danach — `restart: "no"`
+- Er fuehrt die Workflows nicht selbst aus, er beauftragt nur Temporal
+
+```
+saga-starter  -->  Temporal Server  -->  saga-worker
+  (ausloesen)      (koordinieren,         (ausfuehren,
+                    persistieren)          Activities laufen hier)
+```
+
+Temporal haelt den Workflow-State persistent. Faellt der Worker aus und kommt zurueck,
+weiss Temporal genau wo der Workflow aufgehoert hat — und der Worker macht einfach weiter.
+
+#### Wie wird der Workflow definiert?
+
+Der Kern der Uebung liegt in `BookingWorkflowImpl.java`:
+
+```java
+public String bookTrip(String bookingId, double amount) {
+    Saga saga = new Saga(
+        new Saga.Options.Builder()
+            .setParallelCompensation(false)  // C2 vor C1, nicht gleichzeitig
+            .build());
+
+    try {
+        activities.bookHotel(bookingId);
+        saga.addCompensation(activities::cancelHotel, bookingId);  // C1
+
+        activities.bookFlight(bookingId);
+        saga.addCompensation(activities::cancelFlight, bookingId); // C2
+
+        activities.chargePayment(bookingId, amount);               // Pivot (kein Cancel)
+
+        return "Buchung " + bookingId + " erfolgreich";
+
+    } catch (Exception e) {
+        saga.compensate();        // ruft C2, dann C1 — umgekehrte Reihenfolge
+        throw Workflow.wrap(e);   // Fehler an Temporal weiterleiten
+    }
+}
+```
+
+**Warum steht `addCompensation` immer NACH der jeweiligen Activity?**
+
+Schlaegt `bookHotel` selbst fehl, gibt es nichts zu stornieren.
+Stuende die Registrierung davor, wuerde `cancelHotel` fuer eine Buchung aufgerufen,
+die nie stattgefunden hat. Durch die Reihenfolge "erst buchen, dann registrieren"
+kompensiert die Saga nur, was tatsaechlich erfolgreich war.
+
+#### Was steckt hinter bookTrip?
+
+Das Interface `BookingWorkflow.java` legt nur die Signatur fest:
+
+```java
+@WorkflowInterface
+public interface BookingWorkflow {
+    @WorkflowMethod
+    String bookTrip(String bookingId, double amount);
+}
+```
+
+Den tatsaechlichen Ablauf definiert `BookingWorkflowImpl.java`:
+
+```java
+public String bookTrip(String bookingId, double amount) {
+    Saga saga = new Saga(...);
+    try {
+        activities.bookHotel(bookingId);            // T1
+        saga.addCompensation(...cancelHotel);        // C1 registrieren
+
+        activities.bookFlight(bookingId);            // T2
+        saga.addCompensation(...cancelFlight);        // C2 registrieren
+
+        activities.chargePayment(bookingId, amount); // T3 — Pivot, kein Cancel
+
+        return "erfolgreich";
+    } catch (Exception e) {
+        saga.compensate();   // C2, dann C1 — umgekehrte Reihenfolge
+        throw Workflow.wrap(e);
+    }
+}
+```
+
+Die Verbindung zwischen Interface und Implementierung stellt der **Worker** her —
+er registriert beides beim Start bei Temporal:
+
+```java
+worker.registerWorkflowImplementationTypes(BookingWorkflowImpl.class);
+```
+
+Wenn der Starter `workflow.bookTrip()` aufruft, weiss Temporal:
+"Diese Methode wird von `BookingWorkflowImpl.bookTrip()` ausgefuehrt —
+durch den Worker auf der Queue `booking-saga`."
+
+```
+BookingWorkflow          BookingWorkflowImpl       BookingActivitiesImpl
+(Interface/Vertrag)  --> (Ablauf/Reihenfolge)  --> (eigentliche Arbeit)
+```
+
+`BookingActivitiesImpl` enthaelt die eigentliche Arbeit — in der Uebung bewusst
+einfach gehalten (nur Logging + gezielter Fehler):
+
+```java
+@Override
+public String bookHotel(String bookingId) {
+    log.info("[{}] ✓ Hotel gebucht", bookingId);
+    return "hotel-" + bookingId;
+}
+
+@Override
+public void cancelHotel(String bookingId) {
+    log.info("[{}] ↩ Hotel STORNIERT (Kompensation C1)", bookingId);
+}
+
+@Override
+public void chargePayment(String bookingId, double amount) {
+    if (amount > 1000) {
+        log.warn("[{}] ✗ Zahlung abgelehnt: {} EUR > Limit", bookingId, amount);
+        throw new RuntimeException("Zahlung abgelehnt: " + amount + " EUR");
+    }
+    log.info("[{}] ✓ Zahlung von {} EUR erfolgreich", bookingId, amount);
+}
+```
+
+In einem echten System wuerde hier stehen:
+- `bookHotel` → HTTP-Call an ein Hotel-API
+- `cancelHotel` → HTTP-Call mit der Buchungs-ID um zu stornieren
+- `chargePayment` → Aufruf an Stripe, PayPal o.ae.
+
+---
+
+#### Wie loest der Starter einen Workflow aus?
+
+```java
+// 1. Verbindung zu Temporal aufbauen (gRPC, Port 7233)
+WorkflowClient client = WorkflowClient.newInstance(
+    WorkflowServiceStubs.newServiceStubs(
+        WorkflowServiceStubsOptions.newBuilder()
+            .setTarget("temporal:7233")
+            .build()));
+
+// 2. Workflow-Stub anlegen — nur lokales Proxy-Objekt, noch kein Netzwerkaufruf
+BookingWorkflow workflow = client.newWorkflowStub(
+    BookingWorkflow.class,
+    WorkflowOptions.newBuilder()
+        .setTaskQueue("booking-saga")   // welche Queue?
+        .setWorkflowId("booking-001")   // eindeutige ID (fuer Deduplizierung)
+        .build());
+
+// 3. Workflow ausloesen — blockiert bis Workflow abgeschlossen ist
+workflow.bookTrip("booking-001", 500.0);
+```
+
+Was dabei passiert:
+
+```
+Starter                    Temporal Server              Worker
+   |                            |                          |
+   |-- newWorkflowStub() -----> |                          |
+   |   (nur lokal, kein Call)   |                          |
+   |                            |                          |
+   |-- bookTrip() ------------> |                          |
+   |   (gRPC zu :7233)          | persistiert in PostgreSQL|
+   |                            | <-- polling ------------ |
+   |   (wartet...)              | -- Aufgabe ausgeben ----> |
+   |                            |    Activities ausfuehren  |
+   |                            | <-- Ergebnis ------------ |
+   | <-- return / Exception --- |                          |
+```
+
+**Drei wichtige Punkte:**
+
+- `newWorkflowStub()` erzeugt nur ein lokales Proxy-Objekt — noch kein Netzwerkaufruf.
+  Einfach gesagt: es ist wie das Schreiben einer Adresse auf einen Briefumschlag —
+  du weisst schon wohin der Brief soll, aber abgeschickt hast du noch nichts.
+  Erst `bookTrip()` schickt den Brief ab.
+- `bookTrip()` sendet den Start-Request an Temporal per gRPC — Temporal persistiert den Auftrag sofort in PostgreSQL, bevor der Worker ihn abarbeitet
+- Der Aufruf **blockiert** bis der Workflow fertig ist. Will man nicht warten, gibt es stattdessen `WorkflowClient.start(workflow, ...)` — dann laeuft der Workflow asynchron weiter
+
+---
+
+### Schritt 3: Worker und Starter ausfuehren
+
+**Worker starten** (laeuft dauerhaft im Hintergrund):
+
+```bash
+docker compose up -d saga-worker
+docker compose logs -f saga-worker
+```
+
+**Starter ausfuehren** (in neuem Terminal):
+
+```bash
+docker compose run --rm saga-starter starter
+```
+
+---
+
+### Erwartete Ausgabe
+
+**Starter:**
+
+```
+=== Fall 1: Erfolgsfall (500 EUR) ===
+ERGEBNIS: Buchung booking-001 erfolgreich abgeschlossen
+
+=== Fall 2: Fehlerfall (2000 EUR) — Kompensationen werden erwartet ===
+ERGEBNIS: Workflow fehlgeschlagen (erwartet) — Kompensationen gelaufen
+```
+
+**Worker-Logs (Fall 1 — Erfolg):**
+
+```
+[booking-001] ✓ Hotel gebucht
+[booking-001] ✓ Flug gebucht
+[booking-001] ✓ Zahlung von 500.0 EUR erfolgreich
+```
+
+**Worker-Logs (Fall 2 — Fehler mit Kompensation):**
+
+```
+[booking-002] ✓ Hotel gebucht
+[booking-002] ✓ Flug gebucht
+[booking-002] ✗ Zahlung abgelehnt: 2000.0 EUR > Limit 1000 EUR
+[booking-002] ↩ Flug STORNIERT (Kompensation C2)   <-- umgekehrte Reihenfolge
+[booking-002] ↩ Hotel STORNIERT (Kompensation C1)
+```
+
+---
+
+### Schritt 4: Web-UI beobachten
+
+Oeffne http://localhost:8233 und vergleiche die Event-History beider Workflows:
+
+- `booking-success-001` — alle Activities gruener Status, kein Fehler
+- `booking-failure-001` — `ChargePayment` rot, danach `CancelFlight` und `CancelHotel` als Kompensation
+
+**Frage:** In welcher Reihenfolge erscheinen die Kompensationen in der Event-History?
+Erkennst du, dass C2 vor C1 laeuft?
+
+---
+
+### Kernkonzepte im Code
+
+#### Warum steht `addCompensation` nach der Activity?
+
+```java
+activities.bookHotel(bookingId);
+saga.addCompensation(activities::cancelHotel, bookingId);  // NACH bookHotel
+```
+
+Schlaegt `bookHotel` selbst fehl, gibt es nichts zu stornieren.
+Stuende die Registrierung davor, wuerde eine Buchung kompensiert, die nie stattgefunden hat.
+
+#### Wie laufen Kompensationen?
+
+```java
+} catch (Exception e) {
+    saga.compensate();   // ruft C2, dann C1 — umgekehrte Reihenfolge
+    throw Workflow.wrap(e);
+}
+```
+
+`saga.compensate()` arbeitet die registrierten Kompensationen von hinten nach vorne ab.
+Das entspricht dem Prinzip: zuletzt gebucht = zuerst storniert.
+
+#### Retry vs. Kompensation
+
+In `BookingWorkflowImpl` ist `setMaximumAttempts(1)` gesetzt — keine Retries.
+In echten Systemen wuerde Temporal die Activity bei transientem Fehler
+automatisch wiederholen (konfigurierbar per `RetryOptions`).
+Erst wenn alle Retries erschoepft sind, greift die Saga-Kompensation.
+
+---
+
+### Bonus-Aufgaben
+
+#### A) Retry einbauen
+
+Entferne `setMaximumAttempts(1)` aus den `ActivityOptions` und lass `chargePayment`
+beim ersten Aufruf fehlschlagen, beim zweiten erfolgreich sein (z.B. statischer Zaehler).
+Beobachte: Temporal retryt die Activity — die Kompensation greift NICHT.
+Warum ist das korrekt?
+
+#### B) Crash-Recovery
+
+Baue ein `Thread.sleep(15000)` in `bookFlight` ein.
+Starte den Worker (`docker compose restart saga-worker`) waehrend `bookFlight` schlaeft.
+Beobachte in der Web-UI: der Workflow laeuft genau dort weiter, wo er aufgehoert hat.
+Temporal persistiert den State — nicht der Worker.
+
+#### C) Parallele Kompensation
+
+Setze in `BookingWorkflowImpl`:
+
+```java
+new Saga.Options.Builder().setParallelCompensation(true).build()
+```
+
+Frage: Wann ist parallele Kompensation sinnvoll, wann gefaehrlich?
+
+---
+
+### Aufraeumen
+
+```bash
+docker compose down -v
+```
+
+---
+
+### Checkliste
+
+- [ ] Infrastruktur gestartet, Web-UI erreichbar (http://localhost:8233)
+- [ ] Erfolgsfall: drei Buchungen, keine Kompensation in den Logs
+- [ ] Fehlerfall: `chargePayment` schlaegt fehl, `cancelFlight` + `cancelHotel` laufen
+- [ ] Kompensationen laufen in umgekehrter Reihenfolge (C2 vor C1)
+- [ ] Event-History beider Workflows in der Web-UI verglichen
+
+### Apache Camel (EIP) vs. Temporal — Vergleich und Entscheidungshilfe
+
+
+### Herkunft
+
+**Apache Camel** implementiert die **Enterprise Integration Patterns (EIP)** —
+ein Katalog von Loesungen fuer typische Integrationsprobleme aus dem gleichnamigen Buch
+von Gregor Hohpe & Bobby Woolf (2003).
+
+![EIP-Grafik: Routing, Splitter, Translator, Aggregator](/images/eip-grafik.svg)
+
+Die zentralen EIP-Bausteine in Camel:
+
+| Pattern | Was es tut |
+|---|---|
+| **Content-Based Router** | Nachricht je nach Inhalt an verschiedene Ziele leiten |
+| **Splitter** | Eine Nachricht in mehrere Teile aufteilen |
+| **Aggregator** | Mehrere Nachrichten zu einer zusammenfassen |
+| **Translator** | Format einer Nachricht umwandeln (z.B. XML → JSON) |
+| **Dead Letter Channel** | Fehlgeschlagene Nachrichten separat behandeln |
+
+---
+
+### Direkter Vergleich
+
+| | **Apache Camel** | **Temporal** |
+|---|---|---|
+| **Herkunft** | Enterprise Integration Patterns (EIP) | Workflow-Orchestrierung |
+| **Kernfrage** | Wie verbinde und transformiere ich Systeme? | Wie orchestriere ich Geschaeftsprozesse zuverlaessig? |
+| **Denkweise** | Nachrichten fliessen durch Routen | Code beschreibt Schritt-fuer-Schritt-Ablaeufe |
+| **State** | Zustandslos (Nachrichten sind ephemer) | Zustandsbehaftet (Workflow-State wird persistiert) |
+| **Fehlerbehandlung** | Dead Letter Channel, Retry in der Route | Automatische Retries, Saga-Kompensation |
+| **Laufzeit** | Millisekunden bis Sekunden | Sekunden bis Monate (Long-Running) |
+| **Staerke** | Protokoll-Uebersetzung, Routing, ETL | Business-Prozesse, Sagas, verteilte Transaktionen |
+| **DSL** | Java, XML, YAML (deklarativ) | Java, Go, Python, TypeScript (Code) |
+
+---
+
+### Wann welches Tool?
+
+**Apache Camel fuer SAGA nehmen, wenn:**
+- Camel bereits fuer Integration im Einsatz ist
+- Die Saga kurzlebig ist (Sekunden bis Minuten)
+- Kompensationslogik einfach und flach ist
+- Kein persistierter State ueber Crashes hinweg benoetigt wird
+
+Camel hat seit Version 2.21 einen eigenen **Saga EIP** eingebaut:
+
+```java
+// Saga-Route: Schritte definieren
+from("direct:bookTrip")
+    .saga()
+        .to("direct:bookHotel")
+        .to("direct:bookFlight")
+        .to("direct:chargePayment")
+    .end();
+
+// Hotel buchen — mit Kompensation
+from("direct:bookHotel")
+    .saga()
+    .compensation("direct:cancelHotel")
+    .log("Hotel gebucht")
+    .to("http://hotel-service/book");
+
+// Kompensation: Hotel stornieren
+from("direct:cancelHotel")
+    .log("Hotel storniert (Kompensation)")
+    .to("http://hotel-service/cancel");
+```
+
+Schlaegt ein Schritt fehl, ruft Camel automatisch die registrierten
+Kompensations-Routen in umgekehrter Reihenfolge auf — gleiches Prinzip wie bei Temporal,
+aber ohne persistierten State. Faellt der Prozess zwischen zwei Schritten aus,
+gibt es keine automatische Wiederherstellung.
+
+**Temporal fuer SAGA nehmen, wenn:**
+- Die Saga Stunden oder Tage dauern kann
+- Crash-Recovery ohne Datenverlust Pflicht ist
+- Komplexe oder verschachtelte Kompensationslogik benoetigt wird
+- Observability ueber Web-UI wichtig ist
+
 
 ### Event Sourcing
 
@@ -2790,6 +8395,145 @@ Wir machen das für ms-flights und ms-reservations
 
 ### Schritt 9: Implementieren 
 
+### SEED vs. DDD mit EventStorming — Wann nehme ich was?
+
+
+### Kurzuebersicht
+
+| Kriterium | SEED | DDD + EventStorming |
+|---|---|---|
+| Ausgangspunkt | Akteure und ihre Jobs (JTBD) | Domaenen-Events |
+| Richtung | Top-down: Akteur → Job → API | Bottom-up: Event → Aggregat → Service |
+| Fokus | API-Design und Schnittstellen | Domaenenverstaendnis und Schnittfindung |
+| Ergebnis | OpenAPI-Spezifikation | Bounded Contexts, Ubiquitous Language |
+| Teamformat | Kleines Team, Entwickler-nah | Workshop mit Fachexperten und Devs |
+| Wann ideal | Neue Services entwerfen (greenfield) | Monolith verstehen und schneiden |
+
+---
+
+### SEED — Service Experience Envelope Design
+
+**Kernfrage:** *Wer will was tun, und welche API braucht er dafuer?*
+
+SEED geht von Akteuren aus (z.B. Kunde, BFF-API, anderer Microservice) und
+beschreibt deren "Jobs to be Done" (JTBD). Daraus werden Actions und Queries
+abgeleitet und direkt als OpenAPI-Spec beschrieben.
+
+#### Vorgehensweise (7 Schritte)
+
+1. Akteure identifizieren
+2. Jobs der Akteure ermitteln (JTBD)
+3. Interaktionsschritte mit Ablaufdiagrammen entwickeln
+4. Actions und Queries ableiten
+5. Als OpenAPI-Spezifikation beschreiben
+6. Feedback zur API einholen
+7. Implementieren
+
+#### Staerken von SEED
+
+- Schnell zu einem konkreten API-Vertrag
+- Gut geeignet, wenn die Domaene schon klar ist
+- Entwickler koennen direkt loslegen (OpenAPI → Code)
+- Verhindert "zu viele Features" durch JTBD-Fokus
+
+#### Schwaechen von SEED
+
+- Setzt voraus, dass die Domaene und die Servicegrenzen bekannt sind
+- Deckt keine versteckten Geschaeftsprozesse auf
+- Weniger geeignet fuer das Aufteilen eines gewachsenen Monolithen
+
+---
+
+### DDD + EventStorming
+
+**Kernfrage:** *Was passiert in der Domaene, und wo liegen die natuерlichen Grenzen?*
+
+EventStorming bringt Fachexperten und Entwickler zusammen, um alle
+relevanten **Domaenen-Events** an einer Pinnwand zu sammeln (orange Karten).
+Daraus entstehen Aggregate, Bounded Contexts und schliesslich Servicegrenzen.
+
+#### Vorgehensweise (EventStorming grob)
+
+1. Events sammeln (Was passiert im System? z.B. `BestellungAufgegeben`)
+2. Events zeitlich sortieren
+3. Commands und Akteure hinzufuegen (Was loest den Event aus?)
+4. Aggregate identifizieren (Welche Daten gehoeren zusammen?)
+5. Bounded Contexts abgrenzen (Wo aendert sich die Sprache/Verantwortung?)
+6. Serviceschnitt ableiten
+
+#### Staerken von DDD/EventStorming
+
+- Legt versteckte Komplexitaet und Konflikte offen
+- Schafft gemeinsames Verstaendnis zwischen Fachbereich und Technik
+- Ideal zum Schneiden eines Monolithen
+- Ergebnis sind stabile Servicegrenzen (nicht nur APIs)
+
+#### Schwaechen von DDD/EventStorming
+
+- Zeitaufwaendig (halber bis ganzer Tag fuer komplexe Domaenen)
+- Braucht echte Fachexperten im Raum
+- Liefert keine fertige API-Spezifikation
+
+---
+
+### Die Kombination: SEED + DDD
+
+In der Praxis ergaenzen sich beide Methoden hervorragend:
+
+```
+EventStorming
+    └─► Bounded Contexts gefunden
+            └─► Pro Service: SEED anwenden
+                    └─► OpenAPI-Spezifikation
+                            └─► Implementierung
+```
+
+**Konkret:**
+- EventStorming klaert *welche Services* es geben soll
+- SEED klaert *welche API* jeder Service nach aussen anbietet
+
+#### Beispiel: ShopMax
+
+```
+EventStorming ergibt:
+  - Bounded Context "Bestellungen"
+  - Bounded Context "Versand"
+  - Bounded Context "Lager"
+
+Danach SEED fuer den Bestellungs-Service:
+  Akteur: Frontend-App
+  JTBD:   Kunde will Bestellung aufgeben
+  Action: POST /orders
+  Query:  GET /orders/{id}
+  → OpenAPI-Spec erstellen
+```
+
+---
+
+### Entscheidungshilfe
+
+```
+Ist die Domaene unklar oder ein Monolith vorhanden?
+  → JA  → EventStorming zuerst, dann SEED je Service
+  → NEIN
+
+Sind die Servicegrenzen bereits bekannt?
+  → JA  → SEED direkt anwenden
+  → NEIN → EventStorming fuer den unklaren Teil
+```
+
+---
+
+### Fazit
+
+| Situation | Empfehlung |
+|---|---|
+| Neues Projekt, Domaene klar | SEED |
+| Monolith schneiden | EventStorming → dann SEED |
+| Team-Workshop mit Fachbereich | EventStorming |
+| API-Spec fuer bekannten Service | SEED |
+| Komplexe, unbekannte Domaene | EventStorming + DDD |
+
 ## Microservice - flightapp - reservations 
 
 ### Template for microservice with python flask 
@@ -2957,7 +8701,8 @@ curl --verbose --header "Content-Type: application/json" http://165.22.18.90:770
 ### Step 1: Upload image to docker hub 
 
 ```
-## eventually 
+## eventually
+cd
 cd msupandrunning
 ## show all images build through this docker compose 
 docker compose images
@@ -3010,6 +8755,13 @@ git config --list
 git config --global user.name "Max Mustermann"
 git config --global user.email "tn1@t3company.de"
 ```
+
+
+### Step 1.7 gitlab repository erstellen 
+
+  * Darauf achten, dass keine README.md angelegt, d.h. Haken rausnehmen für README.md
+  * Und public haken setzen 
+
 
 
 ### Step 2: Change origin (target where push data) and push 
@@ -3108,8 +8860,7 @@ CODE -> Tags -> New Tag -> (z.B.) v3
 
 #### Why ?
 
-  * Way shorter implementation time for new microservice based on python
-
+  * Way shorter implementation time for new microservice based on node js 
 #### What do we use it for ? 
 
   * Flights 
@@ -3324,12 +9075,15 @@ git clone https://github.com/jmetzger/ms-flights ms-flights
 
 ```
 cd
-cd ms-flights
+cd ms-flights/docs
 ```
 
 ```
 ## now render the docs and open 3939 port with container running
-## make start
+## WICHTIG: Befehl muss aus dem docs/-Verzeichnis ausgeführt werden,
+## damit ${PWD}/api.yml korrekt auf docs/api.yml zeigt.
+## Wird der Befehl aus ms-flights/ ausgeführt, legt Docker ein leeres
+## Verzeichnis api.yml an und die Seite zeigt einen Fehler.
 docker run -d --rm --name ms-nb-docs -p 3939:80 -v ${PWD}/api.yml:/usr/share/nginx/html/swagger.yaml -e SPEC_URL=swagger.yaml redocly/redoc:v2.0.0-rc.8-1
 
 docker container ls 
@@ -3340,7 +9094,7 @@ docker container ls
 http://<public-ip-of-server>:3939
 ```
 
-#### Step 2: Build 
+### Step 3: Build 
 
 ```
 cd
@@ -3349,7 +9103,15 @@ docker compose up -d
 docker compose logs 
 ```
 
-#### Step 3 Testing 
+### Step 4: Testing 
+
+```
+## öffentliche / public ip rausfinden
+## auf dem Server
+ip a show eth0
+```
+
+
 
 ```
 ## Flight 
@@ -3359,6 +9121,120 @@ curl http://<public-ip>:5501/flights?flight_no=AA34\&departure_date_time=2020-05
 ```
 ## Seat map (gibt nur o.k. zurück, nicht implementiert)
 curl http://<public-ip>:5501/flights/AA34/seat_map
+```
+
+---
+
+### Fehleranalyse vom 20.05.2026: ms-flights startet nicht (Race Condition mit MySQL)
+
+#### Was war das Problem?
+
+Beim Start von `docker compose up` startete die Datenbank (`ms-flights-db`), aber der Service `ms-flights` schmierte sofort ab mit diesem Fehler in den Logs:
+
+```
+ms-flights  | running database migrations
+ms-flights  | [ERROR] AssertionError: connect ECONNREFUSED 172.20.0.2:3306
+```
+
+**Warum passiert das?**
+
+MySQL öffnet den TCP-Port 3306 schon bevor die Datenbank wirklich bereit ist, Anfragen anzunehmen. Das alte `wait-for.sh`-Script prüft nur ob der Port offen ist (per `nc -z`) — nicht ob MySQL wirklich läuft. Deshalb startet `ms-flights` zu früh, die Migration schlägt fehl.
+
+```
+ms-flights startet  →  wait-for.sh sieht Port 3306 offen  →  db-migrate läuft
+                                                               ↓
+                                                         ECONNREFUSED
+                                                  (MySQL noch nicht bereit)
+```
+
+---
+
+#### Vorher (fehlerhaft)
+
+`docker-compose.yml` — ms-flights hatte `links` statt `depends_on`, kein `healthcheck`, kein `restart`:
+
+```yaml
+services:
+  ms-flights:
+    ...
+    links:
+      - ms-flights-db        # veraltet, stellt nur Netzwerk-Alias bereit
+    # kein depends_on
+    # kein restart: always
+    command: ./shell/wait-for.sh ms-flights-db:3306 -- ./shell/start-dev.sh
+
+  ms-flights-db:
+    image: mysql:5.7
+    ...
+    restart: always
+    # kein healthcheck!
+```
+
+`wait-for.sh` prüft nur TCP-Port (nicht ob MySQL wirklich Queries annimmt):
+
+```sh
+wait_for() {
+  for i in `seq $TIMEOUT` ; do
+    nc -z "$HOST" "$PORT" > /dev/null 2>&1   # nur TCP-Check!
+    result=$?
+    if [ $result -eq 0 ] ; then
+      exec "$@"   # startet sofort, auch wenn MySQL noch nicht bereit
+    fi
+    sleep 1
+  done
+}
+```
+
+---
+
+#### Nachher (funktioniert)
+
+`docker-compose.yml` — `links` entfernt, `healthcheck` + `depends_on` + `restart: always` ergänzt:
+
+```yaml
+services:
+  ms-flights:
+    ...
+    # kein links mehr — Services erreichen sich bereits per Service-Name
+    depends_on:
+      ms-flights-db:
+        condition: service_healthy    # wartet bis DB wirklich bereit
+    restart: always                   # startet nach Server-Reboot wieder
+    command: ./shell/start-dev.sh    # wait-for.sh nicht mehr nötig
+
+  ms-flights-db:
+    image: mysql:5.7
+    ...
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pverysecretsomething"]
+      interval: 5s        # alle 5 Sekunden prüfen
+      timeout: 5s
+      retries: 10
+      start_period: 30s   # erst nach 30s anfangen zu prüfen (MySQL braucht Zeit)
+```
+
+**Ablauf jetzt:**
+
+```
+ms-flights-db startet  →  alle 5s: mysqladmin ping  →  nach ~30s: "healthy"
+                                                          ↓
+                                                    ms-flights startet
+                                                          ↓
+                                               Migrationen laufen durch
+                                                          ↓
+                                          Server läuft auf Port 5501
+```
+
+Logs nach dem Fix:
+
+```
+ms-flights-db  | mysqld: ready for connections.
+ms-flights-db  | (healthy)
+ms-flights     | running database migrations
+ms-flights     | [INFO] No migrations to run
+ms-flights     | [INFO] Done
+ms-flights     | Express server instance listening on port 5501
 ```
 
 ### Upload image flight app
@@ -4295,6 +10171,390 @@ jobs:
 
   * https://github.com/marketplace/actions/deploy-to-kubernetes-cluster
 
+## Microservice - flightapp - Uebungen: Manuell in Kubernetes deployen
+
+### Uebung: ms-reservations manuell deployen und Service erstellen
+
+
+### Hintergrund
+
+In dieser Uebung deployen wir nur den `ms-reservations` Microservice manuell auf Kubernetes.
+Der Service benoetigt Redis als Datenspeicher — beides wird ausgerollt.
+
+Am Ende testen wir die Erreichbarkeit des Services von innerhalb des Clusters mit einem
+temporaeren image-Pod.
+
+### Schritt 1: Verzeichnis anlegen
+
+```
+cd
+mkdir -p manifests/reservations
+cd manifests/reservations
+kubectl create ns reservations-<dein-name>
+```
+
+### Schritt 2: ConfigMap fuer Redis anlegen
+
+```
+nano 01-redis-cm.yml
+```
+
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-cm
+data:
+  REDIS_HOST: "ms-reservations-redis"
+  REDIS_PORT: "6379"
+  REDIS_DB: "0"
+  REDIS_PWD: "4n_ins3cure_P4ss"
+  redis-config: |
+    appendonly yes
+```
+
+```
+kubectl apply -f . -n reservations-<dein-name>
+```
+
+### Schritt 3: Redis Deployment anlegen
+
+```
+nano 02-redis-deploy.yml
+```
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-reservations-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      storage: redis
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        storage: redis
+    spec:
+      containers:
+        - name: ms-reservations-redis
+          image: redis:6-alpine
+          command:
+            - redis-server
+            - /usr/local/etc/redis/redis.conf
+            - --requirepass
+            - 4n_ins3cure_P4ss
+          env:
+            - name: REDIS_REPLICATION_MODE
+              value: master
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - mountPath: /data
+              name: data
+            - mountPath: /usr/local/etc/redis/redis.conf
+              name: config
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: redis-cm
+            items:
+              - key: redis-config
+                path: redis.conf
+```
+
+```
+kubectl apply -f . -n reservations-<dein-name>
+kubectl get pods -n reservations-<dein-name>
+```
+
+### Schritt 4: Redis Service anlegen
+
+```
+nano 03-redis-svc.yml
+```
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: ms-reservations-redis
+spec:
+  type: ClusterIP
+  ports:
+    - name: redis
+      port: 6379
+  selector:
+    storage: redis
+```
+
+```
+kubectl apply -f . -n reservations-<dein-name>
+```
+
+### Schritt 5: Reservations Deployment anlegen
+
+```
+nano 04-reservations-deploy.yml
+```
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-reservations
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reservations
+  template:
+    metadata:
+      labels:
+        app: reservations
+    spec:
+      containers:
+        - name: ms-reservations
+          image: dockertrainereu/reservations-jm:v1.1
+          env:
+            - name: FLASK_ENV
+              value: development
+            - name: REDIS_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: redis-cm
+                  key: REDIS_DB
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: redis-cm
+                  key: REDIS_HOST
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: redis-cm
+                  key: REDIS_PORT
+            - name: REDIS_PWD
+              valueFrom:
+                configMapKeyRef:
+                  name: redis-cm
+                  key: REDIS_PWD
+          ports:
+            - containerPort: 8000
+```
+
+```
+kubectl apply -f . -n reservations-<dein-name>
+kubectl get pods -n reservations-<dein-name>
+```
+
+### Schritt 6: Status pruefen
+
+```
+kubectl get pods -n reservations-<dein-name>
+```
+
+Erwartete Ausgabe (beide Pods Running):
+```
+NAME                                    READY   STATUS    RESTARTS   AGE
+ms-reservations-xxxx                    1/1     Running   0          1m
+ms-reservations-redis-xxxx              1/1     Running   0          2m
+```
+
+### Aufgabe: Service fuer ms-reservations erstellen und Verbindung testen 
+
+Das Deployment laeuft — aber von aussen (auch innerhalb des Clusters) ist der Pod
+noch nicht über ein Service erreichbar (Best Practice !). Erstelle dafuer eine Datei `05-reservations-svc.yml`.
+
+Hinweise:
+- Typ: `ClusterIP`
+- Port der App: `8000`
+- Der `selector` muss zum Label im Deployment passen
+
+Wende danach alle Manifests erneut an:
+
+```
+kubectl apply -f . -n reservations-<dein-name>
+kubectl get svc -n reservations-<dein-name>
+```
+
+Teste zuerst ob der Service erreichbar ist. Verwende das Image curlimages/curl. Es hat auch eine Shell und unterstuetzt alle HTTP-Methoden (GET, PUT, POST, ...):
+
+Erwartete Ausgabe:
+```
+{"status": "pass"}
+```
+
+### Aufgabe: Reservierung durchfuehren
+
+#### API-Endpunkte
+
+| Methode | URL | Beschreibung |
+|---------|-----|--------------|
+| `PUT` | `http://ms-reservations:8000/reservations` | Reservierung anlegen |
+| `GET` | `http://ms-reservations:8000/reservations?flight_id=<id>` | Alle Reservierungen eines Fluges |
+
+#### Daten fuer die Reservierung (JSON-Body beim PUT)
+
+```
+{
+  "flight_id": "FL001",
+  "seat_num": "12A",
+  "customer_id": "max"
+}
+```
+
+#### ToDo 1: Führe eine Reservierung durch mit PUT 
+
+Erwartete Ausgabe:
+```
+{"status": "success"}
+```
+
+#### ToDo 2: Reservierung abfragen (GET)
+
+Erwartete Ausgabe:
+```
+{"12A": "max"}
+```
+
+#### ToDo  3: Doppelbuchung versuchen
+
+Versuche denselben Sitz nochmal zu buchen — was passiert?
+
+Erwartete Ausgabe:
+```
+{"error": "Could not complete reservation for 12A", "description": "Seat already reserved. Cannot double-book"}
+```
+
+### Zusatzaufgabe: Image-Version aktualisieren
+
+Wenn die Reservierung geklappt hat: Aendere den Image-Tag in `04-reservations-deploy.yml`
+von `v1.1` auf `v17` und beobachte den Rolling Update:
+
+```
+kubectl apply -f . -n reservations-<dein-name>
+kubectl get pods -n reservations-<dein-name>
+```
+
+### Aufraeumen
+
+```
+kubectl delete namespace reservations-<dein-name>
+```
+
+### Loesung: Service fuer ms-reservations
+
+
+### Loesung 1: Service-Manifest
+
+```
+nano 05-reservations-svc.yml
+```
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: ms-reservations
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 8000
+  selector:
+    app: reservations
+```
+
+```
+kubectl apply -f . -n reservations-<dein-name>
+kubectl get svc -n reservations-<dein-name>
+```
+
+#### Erklaerung
+
+| Feld | Bedeutung |
+|------|-----------|
+| `type: ClusterIP` | Service nur innerhalb des Clusters erreichbar |
+| `port: 8000` | Port auf dem der Service lauscht und weiterleitet |
+| `selector: app: reservations` | muss zum Label im Deployment-Pod passen |
+
+Der `selector` ist der entscheidende Teil: Kubernetes sucht alle Pods mit diesem Label
+und leitet Traffic dorthin weiter. Stimmt das Label nicht, gibt es keine Endpoints
+und der Service antwortet mit Connection refused.
+
+### Loesung 2: Reservierung durchfuehren
+
+Wir verwenden `curlimages/curl` — das Image hat `curl` mit Shell und unterstuetzt
+alle HTTP-Methoden (GET, PUT, POST, ...).
+
+#### Schritt 1: Reservierung anlegen (PUT)
+
+```
+kubectl run -it --rm curlpod --image=curlimages/curl --restart=Never \
+  -n reservations-<dein-name> \
+  -- curl -s -X PUT -H "Content-Type: application/json" \
+     -d '{"flight_id":"FL001","seat_num":"12A","customer_id":"max"}' \
+     http://ms-reservations:8000/reservations
+```
+
+Erwartete Ausgabe:
+```
+{"status": "success"}
+```
+
+#### Schritt 2: Reservierung abfragen (GET)
+
+```
+kubectl run -it --rm curlpod --image=curlimages/curl --restart=Never \
+  -n reservations-<dein-name> \
+  -- curl -s "http://ms-reservations:8000/reservations?flight_id=FL001"
+```
+
+Erwartete Ausgabe:
+```
+{"12A": "max"}
+```
+
+#### Schritt 3: Doppelbuchung versuchen
+
+```
+kubectl run -it --rm curlpod --image=curlimages/curl --restart=Never \
+  -n reservations-<dein-name> \
+  -- curl -s -X PUT -H "Content-Type: application/json" \
+     -d '{"flight_id":"FL001","seat_num":"12A","customer_id":"erika"}' \
+     http://ms-reservations:8000/reservations
+```
+
+Erwartete Ausgabe:
+```
+{"error": "Could not complete reservation for 12A", "description": "Seat already reserved. Cannot double-book"}
+```
+
+### Loesung Zusatzaufgabe: Image-Version aktualisieren
+
+In `04-reservations-deploy.yml` den Tag aendern:
+
+```
+          image: dockertrainereu/reservations-jm:v17
+```
+
+```
+kubectl apply -f . -n reservations-<dein-name>
+kubectl get pods -n reservations-<dein-name>
+```
+
+Erwartete Ausgabe:
+```
+Neue Pods mit einem kurzen AGE (kürzlich erstellt), werden angezeigt. 
+```
+
 ## Kubernetes - Überblick
 
 ### Warum Kubernetes, was macht Kubernetes
@@ -4399,6 +10659,11 @@ Er stellt sicher, dass Container in einem Pod ausgeführt werden.
 ### Structure Kubernetes Deep Dive
 
   * https://github.com/jmetzger/training-kubernetes-advanced/assets/1933318/1ca0d174-f354-43b2-81cc-67af8498b56c
+
+### Ausbaustufen Kubernetes
+
+
+![image](https://github.com/user-attachments/assets/355652f2-1a2e-441b-93c2-5b68508158b1)
 
 ### Aufbau mit helm,OpenShift,Rancher(RKE),microk8s
 
@@ -5212,6 +11477,20 @@ kubectl apply -f . && watch kubectl get pods
 ### kubectl/manifest/service
 
 
+### Warum Services ? 
+
+  * Wenn in einem Deployment bei einem Wechsel des images neue Pods erstellt werden, erhalten diese eine neue IP-Adresse
+  * Nachteil: Man müsste diese dann in allen Applikation ständig ändern, die auf die Pods zugreifen.
+  * Lösung: Wir schalten einen Service davor !
+
+### Hintergrund IP-Wechsel 
+ 
+ <img width="930" height="134" alt="image" src="https://github.com/user-attachments/assets/26c16134-1f2a-4b42-8cca-355099d08604" />
+
+ * Image-Version wurde jetzt in Deployment geändert, Ergebnis:
+
+<img width="939" height="137" alt="image" src="https://github.com/user-attachments/assets/fb5a665b-98a7-445b-8ec7-27f12c2267e1" />
+
 ### Example I : Service with ClusterIP 
 
 ```
@@ -5320,6 +11599,52 @@ spec:
   selector:
     app: my-nginx
 ```        
+
+### Example III: Service mit LoadBalancer (ExternalIP)
+
+```
+cd; cd manifests/04-service 
+nano service.yml
+## in Zeile type: 
+## NodePort ersetzt durch LoadBalancer  
+
+kubectl apply -f .
+kubectl get svc svc-nginx
+
+kubectl describe svc svc-nginx
+## hier heisst das nicht External-IP ->
+## sondern
+```
+
+<img width="775" height="63" alt="image" src="https://github.com/user-attachments/assets/3f1db219-e5d8-4bbf-a001-17fc5eaae93f" />
+
+```
+kubectl get svc svc-nginx -w 
+## spätestens nach 5 Minuten bekommen wir eine externe ip
+## z.B. 41.32.44.45
+
+curl http://41.32.44.45 
+```
+
+
+### Example getting a specific ip from loadbalancer (if supported) 
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-nginx2
+spec:
+  type: LoadBalancer
+  # this line to get a specific ip if supported
+  loadBalancerIP: 10.34.12.34
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    web: my-nginx
+```       
+
 
 ### Ref.
 
@@ -6522,6 +12847,891 @@ kubectl exec deployment/mariadb-deployment -- env
   * to fix, use stakater/reloader: https://github.com/stakater/Reloader
 
 
+### Secrets aus HashiCorp Vault - 3 Wege
+
+
+![Übersicht: Secrets in Kubernetes mit HashiCorp Vault](/images/vault-secrets-overview.svg)
+
+### Das Problem: Warum reichen native Kubernetes Secrets nicht aus?
+
+Kubernetes hat ein eingebautes `Secret`-Objekt. Auf den ersten Blick wirkt es wie eine
+Lösung — aber es hat grundlegende Schwächen:
+
+#### 1. Secrets sind nur Base64-kodiert, nicht verschlüsselt
+
+```
+kubectl get secret my-secret -o yaml
+```
+
+```yaml
+apiVersion: v1
+kind: Secret
+data:
+  password: c3VwZXJzZWNyZXQ=   # das ist nur Base64 — kein echter Schutz
+```
+
+`echo "c3VwZXJzZWNyZXQ=" | base64 -d` gibt sofort `supersecret` zurück.
+**Wer Lesezugriff auf die API hat, kann alle Secrets lesen.**
+
+#### 2. Secrets liegen im Klartext in etcd
+
+Die Kubernetes-Datenbank (etcd) speichert Secrets standardmäßig unverschlüsselt.
+Wer Zugriff auf das etcd-Backup hat, hat alle Secrets.
+
+#### 3. Kein Audit-Trail, keine Rotation, keine Ablaufzeiten
+
+Native Kubernetes Secrets...
+- wissen nicht, wer sie wann gelesen hat
+- rotieren sich nicht automatisch
+- laufen nicht ab
+- haben keine Zugriffsrichtlinien pro Team oder Applikation
+
+#### 4. Secrets landen im Git — der klassische Fehler
+
+Entwickler committen versehentlich `.env`-Dateien oder YAML-Manifeste mit Passwörtern.
+Selbst nach dem Löschen sind sie in der Git-Historie.
+
+---
+
+### Was ist HashiCorp Vault?
+
+HashiCorp Vault ist ein dediziertes Secret-Management-System. Es löst genau die
+Probleme oben:
+
+| Funktion | Beschreibung |
+|----------|-------------|
+| **Verschlüsselung** | Alle Secrets werden verschlüsselt gespeichert (AES-256) |
+| **Audit-Log** | Jeder Zugriff wird protokolliert: Wer, wann, welches Secret |
+| **Dynamic Secrets** | Vault kann Passwörter on-demand generieren und automatisch rotieren |
+| **Lease & TTL** | Secrets laufen automatisch ab und werden erneuert |
+| **Policies** | Feingranulare Zugriffsregeln: App A darf nur Secret X lesen |
+| **Auth-Methoden** | Kubernetes-Pods authentifizieren sich über ihren ServiceAccount |
+
+#### Warum ist ein Vault-Cluster (HA) wichtig?
+
+Ein einzelner Vault-Server ist ein **Single Point of Failure**. Wenn er ausfällt,
+können keine Secrets mehr abgerufen werden — Pods starten nicht, Deployments schlagen
+fehl. In Produktion ist Vault deshalb immer als Cluster betrieben:
+
+![HashiCorp Vault HA Cluster](/images/vault-ha-cluster.svg)
+
+**Raft (Integrated Storage)** ist heute der empfohlene Weg — Vault managed seinen
+eigenen Cluster ohne externes Storage-Backend.
+
+**Wichtig:** Vault muss nach einem Neustart manuell **unsealт** werden (oder über
+Auto-Unseal z.B. mit AWS KMS / Azure Key Vault). Ein versiegelter Vault antwortet
+auf keine Anfragen.
+
+---
+
+### Die 3 Wege: Secrets aus Vault in Kubernetes
+
+#### Weg 1: Vault Agent Injector (Sidecar)
+
+**Wie es funktioniert:**
+
+Kubernetes startet automatisch einen zweiten Container (Sidecar) in jedem Pod,
+der Annotations hat. Dieser `vault-agent`-Container holt die Secrets aus Vault
+und schreibt sie als Datei in ein geteiltes Volume im Pod.
+
+![Vault Agent Injector](/images/vault-agent-injector.svg)
+
+**Konfiguration per Annotations:**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  template:
+    metadata:
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: "my-app-role"
+        vault.hashicorp.com/agent-inject-secret-config: "secret/data/my-app/config"
+    spec:
+      serviceAccountName: my-app
+      containers:
+      - name: my-app
+        image: my-app:1.0
+        # Secret liegt unter: /vault/secrets/config
+```
+
+**Vorteile:**
+- Kein Kubernetes Secret wird erstellt (Secret nie in etcd)
+- Automatische Rotation (Vault Agent hält Lease aufrecht)
+- Weit verbreitet, viel Dokumentation
+
+**Nachteile:**
+- Jeder Pod bekommt einen zusätzlichen Container (Ressourcenverbrauch)
+- App muss Secrets als Datei lesen (nicht als Env-Variable direkt)
+- Annotations im Deployment — koppelt App an Vault
+
+---
+
+#### Weg 2: Vault CSI Provider
+
+**Was ist CSI?**
+CSI steht für **Container Storage Interface** — ein Standard, über den Kubernetes
+externe Storage-Systeme anbindet. Der **Secrets Store CSI Driver** erweitert das:
+Secrets aus externen Systemen (Vault, AWS Secrets Manager, Azure Key Vault) werden
+wie Volumes in den Pod gemountet.
+
+**Wie es funktioniert:**
+
+![Vault CSI Provider](/images/vault-csi-provider.svg)
+
+**SecretProviderClass definieren:**
+
+```yaml
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: vault-db-creds
+spec:
+  provider: vault
+  parameters:
+    vaultAddress: "https://vault.example.com"
+    roleName: "my-app-role"
+    objects: |
+      - objectName: "password"
+        secretPath: "secret/data/my-app/db"
+        secretKey: "password"
+```
+
+**Im Deployment:**
+
+```yaml
+spec:
+  containers:
+  - name: my-app
+    volumeMounts:
+    - name: secrets
+      mountPath: "/mnt/secrets"
+      readOnly: true
+  volumes:
+  - name: secrets
+    csi:
+      driver: secrets-store.csi.k8s.io
+      readOnly: true
+      volumeAttributes:
+        secretProviderClass: "vault-db-creds"
+```
+
+**Vorteile:**
+- Kein Sidecar-Container nötig (leichtgewichtiger als Weg 1)
+- Funktioniert mit mehreren Secret-Backends (Vault, AWS, Azure) über dieselbe API
+- Kann optional auch ein Kubernetes Secret anlegen (für Env-Variablen)
+
+**Nachteile:**
+- CSI Driver muss als DaemonSet auf allen Nodes laufen
+- Etwas komplexere Ersteinrichtung
+- Secret steht erst beim Pod-Start bereit (kein dynamisches Nachladen)
+
+---
+
+#### Weg 3: External Secrets Operator (ESO)
+
+**Was ist der External Secrets Operator?**
+
+Der ESO ist ein Kubernetes-Operator (ein Controller, der im Cluster läuft und
+`ExternalSecret`-Objekte beobachtet). Er holt Secrets aus Vault und erstellt daraus
+ganz normale Kubernetes `Secret`-Objekte — die App merkt gar nicht, dass Vault
+im Spiel ist.
+
+**Wie es funktioniert:**
+
+![External Secrets Operator](/images/vault-eso.svg)
+
+**ExternalSecret definieren:**
+
+```yaml
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: my-app-db-secret
+spec:
+  refreshInterval: 1h          # wie oft ESO bei Vault nachfragt
+  secretStoreRef:
+    name: vault-backend
+    kind: ClusterSecretStore
+  target:
+    name: my-app-db-creds      # Name des Kubernetes Secrets das erstellt wird
+    creationPolicy: Owner
+  data:
+  - secretKey: password        # Key im Kubernetes Secret
+    remoteRef:
+      key: secret/my-app/db    # Pfad in Vault
+      property: password
+```
+
+**Das erstellte Kubernetes Secret:**
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-app-db-creds        # automatisch vom ESO erstellt
+data:
+  password: <base64-encoded>   # von Vault geholt, automatisch aktualisiert
+```
+
+**Vorteile:**
+- App braucht keinerlei Vault-Kenntnisse (nutzt normales K8s Secret)
+- Einfache Migration bestehender Apps
+- Automatische Rotation über `refreshInterval`
+- Unterstützt viele Backends: Vault, AWS SM, GCP Secret Manager, Azure Key Vault
+
+**Nachteile:**
+- Secret existiert als Kubernetes Secret in etcd (kurzzeitig im Klartext)
+- ESO muss Schreibrecht auf Kubernetes Secrets haben (RBAC beachten)
+
+---
+
+### Vergleich der 3 Wege
+
+| | Vault Agent Injector | Vault CSI Provider | External Secrets Operator |
+|---|---|---|---|
+| **Secret in etcd?** | Nein | Nein (optional) | Ja |
+| **Sidecar nötig?** | Ja | Nein | Nein |
+| **App muss angepasst werden?** | Dateipfad lesen | Dateipfad lesen | Nein (normales K8s Secret) |
+| **Automatische Rotation** | Ja (Live) | Nein | Ja (per Intervall) |
+| **Mehrere Secret-Backends** | Nur Vault | Ja | Ja |
+| **Einstiegshürde** | Mittel | Mittel | Niedrig |
+| **Empfohlen für** | Vault-first Teams | Multi-Cloud | Migration / Einfachheit |
+
+---
+
+### Empfehlung
+
+- **Neu mit Vault starten, höchste Sicherheit:** Vault Agent Injector oder CSI Provider —
+  das Secret landet nie in etcd.
+- **Bestehende Apps migrieren oder Multi-Cloud:** External Secrets Operator —
+  Apps müssen nicht angepasst werden.
+- **Produktion:** Immer Vault als HA-Cluster betreiben (mind. 3 Nodes, Raft Storage,
+  Auto-Unseal konfiguriert).
+
+### Security und Compliance im Betrieb von Kubernetes-Clustern
+
+
+### Ueberblick: Sicherheitsschichten
+
+![Kubernetes Security Schichtenmodell](/images/security-compliance-schichten.svg)
+
+Kubernetes-Security ist kein einzelnes Feature, sondern ein Schichtenmodell.
+Jede Schicht schliesst Angriffsvektoren auf ihrer Ebene.
+
+| Schicht | Thema | Schluessel-Tool |
+|---------|-------|----------------|
+| **Cluster-Infrastruktur** | etcd-Verschluesselung, TLS, Node-Haertung | Encryption at Rest, kubeadm |
+| **Zugriffssteuerung** | Wer darf was im Cluster tun? | RBAC |
+| **Netzwerk** | Welche Pods duerfen miteinander reden? | Network Policies, mTLS |
+| **Workload** | Wie laufen Container ab? | PSA, SecurityContext, seccomp |
+| **Secrets** | Wie werden Passwörter verwaltet? | Vault, ESO, CSI |
+| **Images** | Sind Images vertrauenswuerdig? | Trivy, Cosign, Admission |
+| **Audit** | Was ist im Cluster passiert? | Audit Logging |
+| **Policy** | Werden Regeln automatisch durchgesetzt? | Kyverno, OPA/Gatekeeper |
+| **Compliance** | Entspricht der Cluster Standards? | kube-bench, CIS Benchmark |
+
+---
+
+### 1. RBAC — Zugriffssteuerung
+
+#### Das Konzept
+
+RBAC (Role-Based Access Control) regelt, welche **Subjects** (Nutzer, Gruppen, ServiceAccounts)
+welche **Aktionen** auf welchen **Ressourcen** ausfuehren duerfen.
+
+```
+Subject --> RoleBinding --> Role --> Regeln (Verben auf Ressourcen)
+```
+
+**Verben:** `get`, `list`, `watch`, `create`, `update`, `patch`, `delete`
+
+**Scope:**
+- `Role` + `RoleBinding` → gilt in einem Namespace
+- `ClusterRole` + `ClusterRoleBinding` → gilt cluster-weit
+
+#### Beispiel: Lese-Only-Rolle fuer Entwickler
+
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: dev-readonly
+  namespace: production
+rules:
+- apiGroups: [""]
+  resources: ["pods", "services", "configmaps"]
+  verbs: ["get", "list", "watch"]
+```
+
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: dev-readonly-binding
+  namespace: production
+subjects:
+- kind: User
+  name: alice
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: dev-readonly
+  apiGroup: rbac.authorization.k8s.io
+```
+
+#### ServiceAccounts absichern
+
+Jeder Pod erhaelt automatisch den `default`-ServiceAccount seines Namespace.
+Dieser hat in vielen Clustern mehr Rechte als noetig.
+
+```
+## Token automatisches Mounten deaktivieren
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: my-app
+automountServiceAccountToken: false
+```
+
+```
+## Nur wenn noetig: explizit im Pod aktivieren
+spec:
+  serviceAccountName: my-app
+  automountServiceAccountToken: true
+```
+
+#### Best Practices RBAC
+
+| Regel | Begruendung |
+|-------|-------------|
+| Keine `cluster-admin` fuer normale Nutzer | Kompromittiertes Konto = voller Clusterzugriff |
+| Eigene ServiceAccounts pro App | Isolierte Rechte, kein shared `default` |
+| `ClusterRoleBinding` nur wenn wirklich cluster-weit noetig | Scope auf Namespace begrenzen |
+| Regelmaessige Auditierung mit `kubectl auth can-i` | Rechtedrift erkennen |
+
+```
+## Pruefen: Darf alice Pods in production loeschen?
+kubectl auth can-i delete pods --namespace=production --as=alice
+```
+
+---
+
+### 2. Netzwerk-Sicherheit
+
+#### Network Policies — die Firewall in Kubernetes
+
+Standardmaessig darf jeder Pod mit jedem Pod im Cluster kommunizieren.
+Network Policies aendern das: Sie definieren explizit erlaubten Traffic.
+
+**Wichtig:** Network Policies werden vom CNI-Plugin durchgesetzt (Calico, Cilium, Weave).
+Mit `kubenet` (Default in vielen Setups) werden Policies ignoriert.
+
+##### Default-Deny fuer einen Namespace
+
+```
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: production
+spec:
+  podSelector: {}      # alle Pods im Namespace
+  policyTypes:
+  - Ingress
+  - Egress
+```
+
+Danach muss jede erlaubte Verbindung explizit aufgemacht werden.
+
+##### Nur Frontend darf Backend erreichen
+
+```
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-frontend-to-backend
+  namespace: production
+spec:
+  podSelector:
+    matchLabels:
+      app: backend
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: frontend
+    ports:
+    - protocol: TCP
+      port: 8080
+```
+
+#### mTLS — Verschlüsselung zwischen Diensten
+
+Network Policies kontrollieren den Zugriff, verschluesseln aber nicht.
+Fuer Verschlüsselung zwischen Pods wird **mTLS** (mutual TLS) eingesetzt.
+
+**Optionen:**
+- **Istio / Linkerd (Service Mesh):** mTLS automatisch zwischen allen Diensten
+- **cert-manager:** Zertifikate fuer einzelne Dienste ausstellen
+
+```
+## Istio: PeerAuthentication fuer strict mTLS im Namespace
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: production
+spec:
+  mtls:
+    mode: STRICT
+```
+
+---
+
+### 3. Pod- und Container-Sicherheit
+
+#### SecurityContext
+
+Auf Pod- und Container-Ebene definiert der `securityContext`, mit welchen
+Linux-Rechten der Prozess laeuft.
+
+```
+apiVersion: v1
+kind: Pod
+spec:
+  securityContext:
+    runAsNonRoot: true          # kein Root-User
+    runAsUser: 1000
+    fsGroup: 2000
+    seccompProfile:
+      type: RuntimeDefault      # Standard-Syscall-Filter
+  containers:
+  - name: app
+    securityContext:
+      allowPrivilegeEscalation: false   # kein sudo/setuid
+      readOnlyRootFilesystem: true      # Filesystem read-only
+      capabilities:
+        drop: ["ALL"]                   # alle Linux Capabilities entfernen
+        add: ["NET_BIND_SERVICE"]       # nur was wirklich gebraucht wird
+```
+
+#### Pod Security Admission (PSA)
+
+PSA erzwingt Sicherheitsprofile auf Namespace-Ebene per Label.
+Details und Uebungen: [Pod Security Admission](pod-security-admission.md)
+
+| Profil | Beschreibung |
+|--------|-------------|
+| `privileged` | Keine Einschraenkungen |
+| `baseline` | Verhindert bekannte Privilegieneskalationen |
+| `restricted` | Strenge Haertung, empfohlen fuer Produktion |
+
+```
+## Namespace mit restricted-Profil
+kubectl label namespace production \
+  pod-security.kubernetes.io/enforce=restricted \
+  pod-security.kubernetes.io/warn=restricted
+```
+
+---
+
+### 4. Secrets-Management
+
+Native Kubernetes Secrets haben grundlegende Schwaechen:
+- Nur Base64-kodiert, nicht verschluesselt
+- Liegen standardmaessig im Klartext in etcd
+- Kein Audit-Trail, keine automatische Rotation
+
+Loesungsansaetze und Details: [Secrets aus HashiCorp Vault — 3 Wege](vault-secrets-integration.md)
+
+**Kurzuebersicht der Optionen:**
+
+| Ansatz | Secret in etcd? | Rotation | Aufwand |
+|--------|----------------|----------|---------|
+| Vault Agent Injector | Nein | Automatisch (live) | Mittel |
+| Vault CSI Provider | Nein | Nein | Mittel |
+| External Secrets Operator | Ja (kurz) | Per Intervall | Niedrig |
+
+---
+
+### 5. Image Security und Supply Chain
+
+#### Das Problem
+
+Ein Kubernetes-Cluster ist nur so sicher wie die Images, die darin laufen.
+Angreifer nutzen Images mit bekannten CVEs oder schleusen boesartige Images ein.
+
+#### Image Scanning mit Trivy
+
+```
+## Lokales Image scannen
+trivy image nginx:latest
+
+## Nur kritische CVEs anzeigen
+trivy image --severity CRITICAL,HIGH nginx:latest
+```
+
+**In CI/CD einbauen:** Pipeline schlaegt fehl, wenn Critical CVEs gefunden werden.
+
+#### Signed Images mit Cosign (Sigstore)
+
+Cosign ermoeglicht das Signieren von Container-Images — der Cluster prueft
+vor dem Start, ob die Signatur gueltig ist.
+
+```
+## Image signieren
+cosign sign --key cosign.key registry.example.com/my-app:v1.0
+
+## Signatur pruefen
+cosign verify --key cosign.pub registry.example.com/my-app:v1.0
+```
+
+**Admission Controller** (z.B. Kyverno oder Connaisseur) kann das automatisch erzwingen:
+Unsigned Images werden abgelehnt, bevor der Pod startet.
+
+#### Best Practices Image Security
+
+| Regel | Massnahme |
+|-------|-----------|
+| Keine `latest`-Tags in Produktion | Immer konkrete Version pinnen |
+| Minimale Base-Images | `distroless`, `alpine` statt `ubuntu` |
+| Regelmässiges Scannen | Trivy in CI/CD und als Scheduled Job im Cluster |
+| Eigene Registry | Nur gepruefe Images aus interner Registry erlauben |
+| Image Signing | Cosign + Admission Controller |
+
+---
+
+### 6. Audit Logging
+
+#### Was wird protokolliert?
+
+Das Kubernetes Audit Log erfasst alle API-Aufrufe: Wer hat wann was getan?
+
+```
+Jeder API-Call durchlaeuft 4 Stufen:
+RequestReceived → ResponseStarted → ResponseComplete → Panic
+```
+
+#### Audit Policy konfigurieren
+
+Die Policy legt fest, welche Events auf welchem Level aufgezeichnet werden:
+
+| Level | Was wird gespeichert |
+|-------|---------------------|
+| `None` | Nichts |
+| `Metadata` | Nur Metadaten (Wer, Was, Wann) — kein Body |
+| `Request` | Metadaten + Request-Body |
+| `RequestResponse` | Metadaten + Request + Response-Body |
+
+```
+## /etc/kubernetes/audit-policy.yaml
+apiVersion: audit.k8s.io/v1
+kind: Policy
+rules:
+## Secrets: nur Metadaten (kein Klartext-Inhalt im Log)
+- level: Metadata
+  resources:
+  - group: ""
+    resources: ["secrets"]
+
+## Lesezugriffe auf pods: ignorieren (zu viel Rauschen)
+- level: None
+  verbs: ["get", "list", "watch"]
+  resources:
+  - group: ""
+    resources: ["pods"]
+
+## Alles andere: Metadaten
+- level: Metadata
+```
+
+```
+## kube-apiserver starten mit:
+--audit-log-path=/var/log/kubernetes/audit.log
+--audit-policy-file=/etc/kubernetes/audit-policy.yaml
+--audit-log-maxage=30
+--audit-log-maxbackup=10
+--audit-log-maxsize=100
+```
+
+#### Typische Audit-Abfragen
+
+```
+## Wer hat das Secret "db-password" gelesen?
+grep '"resource":"secrets"' audit.log | grep '"verb":"get"' | grep 'db-password'
+
+## Welche Pods wurden heute geloescht?
+grep '"verb":"delete"' audit.log | grep '"resource":"pods"'
+```
+
+---
+
+### 7. etcd-Verschlüsselung (Encryption at Rest)
+
+#### Das Problem
+
+etcd ist die Kubernetes-Datenbank. Sie speichert alle Objekte — auch Secrets.
+Standardmaessig liegen diese Secrets im Klartext in etcd.
+
+Wer Zugriff auf ein etcd-Backup hat, kann alle Secrets auslesen:
+
+```
+## Ohne Encryption at Rest:
+ETCDCTL_API=3 etcdctl get /registry/secrets/default/my-secret | strings
+## → Klartext-Passwort sichtbar
+```
+
+#### Encryption at Rest aktivieren
+
+```
+## /etc/kubernetes/encryption-config.yaml
+apiVersion: apiserver.config.k8s.io/v1
+kind: EncryptionConfiguration
+resources:
+- resources:
+  - secrets
+  providers:
+  - aescbc:
+      keys:
+      - name: key1
+        secret: <base64-encoded-32-byte-key>
+  - identity: {}   # Fallback fuer bereits gespeicherte, unverschluesselte Secrets
+```
+
+```
+## kube-apiserver starten mit:
+--encryption-provider-config=/etc/kubernetes/encryption-config.yaml
+```
+
+```
+## Bestehende Secrets re-encrypten:
+kubectl get secrets --all-namespaces -o json | kubectl replace -f -
+```
+
+**Empfehlung fuer Produktion:** Statt AES-CBC besser einen KMS-Provider nutzen
+(AWS KMS, GCP KMS, Azure Key Vault) — der Schluessel liegt dann ausserhalb von etcd.
+
+---
+
+### 8. Policy Enforcement: Kyverno und OPA/Gatekeeper
+
+#### Warum Policy Enforcement?
+
+RBAC regelt Zugriff, aber nicht die Qualitaet von Manifesten.
+Policy Engines pruefen beim Erstellen/Aendern von Ressourcen:
+- Hat das Deployment Ressource-Limits?
+- Laeuft der Container als root?
+- Ist das Image aus der erlaubten Registry?
+
+#### Kyverno
+
+Kyverno arbeitet nativ mit Kubernetes-Manifesten — keine eigene Sprache noetig.
+
+```
+## Policy: Alle Pods muessen Ressource-Limits haben
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-resource-limits
+spec:
+  validationFailureAction: Enforce   # oder Audit
+  rules:
+  - name: check-container-resources
+    match:
+      any:
+      - resources:
+          kinds: ["Pod"]
+    validate:
+      message: "Ressource-Limits sind Pflicht."
+      pattern:
+        spec:
+          containers:
+          - name: "*"
+            resources:
+              limits:
+                memory: "?*"
+                cpu: "?*"
+```
+
+```
+## Policy: Nur Images aus eigener Registry erlauben
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: allowed-registries
+spec:
+  validationFailureAction: Enforce
+  rules:
+  - name: check-registry
+    match:
+      any:
+      - resources:
+          kinds: ["Pod"]
+    validate:
+      message: "Nur registry.example.com ist erlaubt."
+      pattern:
+        spec:
+          containers:
+          - name: "*"
+            image: "registry.example.com/*"
+```
+
+#### OPA/Gatekeeper
+
+OPA (Open Policy Agent) + Gatekeeper bietet mehr Flexibilitaet durch Rego-Sprache,
+ist aber komplexer.
+
+```
+## ConstraintTemplate (Rego-Logik)
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: k8srequiredlabels
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sRequiredLabels
+  targets:
+  - target: admission.k8s.gatekeeper.sh
+    rego: |
+      package k8srequiredlabels
+      violation[{"msg": msg}] {
+        not input.review.object.metadata.labels["team"]
+        msg := "Label 'team' fehlt."
+      }
+```
+
+#### Vergleich Kyverno vs. OPA/Gatekeeper
+
+| | Kyverno | OPA/Gatekeeper |
+|---|---------|----------------|
+| **Sprache** | YAML/JSON (nativ K8s) | Rego (eigene DSL) |
+| **Einstieg** | Einfach | Steiler |
+| **Flexibilitaet** | Gut | Sehr hoch |
+| **Mutation** | Ja (Manifeste anpassen) | Ja |
+| **Community** | Wachsend, CNCF | Etabliert, CNCF |
+| **Empfehlung** | Fuer die meisten Teams | Wenn komplexe Logik noetig |
+
+---
+
+### 9. Compliance-Frameworks und Tools
+
+#### CIS Kubernetes Benchmark
+
+Der CIS (Center for Internet Security) Benchmark ist der meistgenutzte
+Standard fuer Kubernetes-Haertung. Er prueft u.a.:
+
+- API-Server-Konfiguration (TLS, Admission Plugins)
+- etcd-Sicherheit
+- kubelet-Einstellungen
+- RBAC und Service Accounts
+- Network Policies
+
+**Automatische Pruefung mit kube-bench:**
+
+```
+## kube-bench als Job im Cluster ausfuehren
+kubectl apply -f https://raw.githubusercontent.com/aquasecurity/kube-bench/main/job.yaml
+kubectl logs -l app=kube-bench
+```
+
+Ausgabe zeigt PASS/FAIL/WARN pro Check mit konkreter Behebungsanweisung.
+
+#### NSA/CISA Kubernetes Hardening Guide
+
+Die US-Behoerden NSA und CISA haben 2021 einen Leitfaden veroeffentlicht.
+Schwerpunkte:
+
+| Bereich | Empfehlungen |
+|---------|-------------|
+| Pod Security | Non-root, read-only FS, keine privilegierten Pods |
+| Network Policies | Default-deny, explizite Freigaben |
+| Authentication | MFA fuer Cluster-Zugriff, kubeconfig sichern |
+| Audit Logging | Aktivieren und zentral sammeln |
+| Updates | Regelmaessige Updates von Kubernetes und Nodes |
+
+#### kube-score
+
+kube-score analysiert Kubernetes-Manifeste statisch — ideal in CI/CD:
+
+```
+## Deployment pruefe
+kube-score score deployment.yml
+```
+
+```
+[CRITICAL] Container Security Context
+    · app -> Container has no configured security context
+      Set securityContext to run the container in a more secure context.
+
+[WARNING] Container Resources
+    · app -> CPU limit is not set
+```
+
+---
+
+### 10. Sicherheits-Checkliste fuer Produktion
+
+#### Zugriffssteuerung
+
+- [ ] RBAC aktiviert und konfiguriert (kein Wildcard-Admin fuer normale Nutzer)
+- [ ] ServiceAccounts pro App, `automountServiceAccountToken: false` als Default
+- [ ] kubeconfig-Dateien nicht committet, Rotation konfiguriert
+- [ ] `kubectl auth can-i` regelmaessig auditieren
+
+#### Netzwerk
+
+- [ ] Network Policies: Default-Deny pro Namespace, explizite Freigaben
+- [ ] CNI-Plugin unterstuetzt Network Policies (Calico, Cilium, Weave)
+- [ ] mTLS in Produktion (Service Mesh oder cert-manager)
+
+#### Workload
+
+- [ ] PSA: Namespace mit `baseline` oder `restricted` konfiguriert
+- [ ] `runAsNonRoot: true`, `allowPrivilegeEscalation: false`
+- [ ] `readOnlyRootFilesystem: true` wo moeglich
+- [ ] Ressource-Limits fuer alle Container gesetzt
+
+#### Secrets
+
+- [ ] Encryption at Rest fuer etcd aktiviert (oder KMS-Provider)
+- [ ] Kein Klartext in ConfigMaps, kein Secret im Git
+- [ ] Secret-Management-System (Vault, ESO) fuer Produktion evaluiert
+
+#### Images
+
+- [ ] Kein `latest`-Tag in Produktion
+- [ ] Image Scanning in CI/CD (Trivy)
+- [ ] Nur Images aus vertrauenswuerdiger Registry
+- [ ] Image Signing evaluieren (Cosign)
+
+#### Audit und Compliance
+
+- [ ] Audit Logging aktiviert, Policy definiert
+- [ ] Logs zentral gesammelt (SIEM, Elastic, Loki)
+- [ ] kube-bench regelmaessig ausgefuehrt
+- [ ] Policy Engine (Kyverno oder OPA/Gatekeeper) fuer kritische Regeln
+
+#### Updates
+
+- [ ] Kubernetes-Version aktuell (maximal 2 Minor-Versionen hinter aktuellem Release)
+- [ ] Node-OS regelmaessig gepatcht
+- [ ] Automatische CVE-Alerts fuer verwendete Images
+
+---
+
+### Weiterführende Seiten in diesem Training
+
+- [Kubernetes Tipps Hardening](tipps-hardening.md)
+- [Pod Security Admission — Uebung](pod-security-admission.md)
+- [Secrets aus HashiCorp Vault — 3 Wege](vault-secrets-integration.md)
+- [Network Policies — Beispiele Ingress/Egress](#beispiele-ingress-egress-networkpolicy)
+
 ## Kubernetes Praxis (Teil 2) - API Objekte 
 
 ### Hintergrund Statefulsets
@@ -6779,7 +13989,670 @@ kubectl describe pods dockertrainereu-pod
 
 ![image](https://github.com/jmetzger/training-microservices-docker-kubernetes/assets/1933318/abe9798c-eb2b-4afc-bd17-6bca294bfeaf)
 
+### Traefik mit Helm installieren
+
+
+```
+helm repo add traefik https://traefik.github.io/charts
+
+helm upgrade -n ingress --install traefik traefik/traefik --version 39.0.8 --create-namespace --skip-crds --reset-values
+
+kubectl -n ingress get pods
+kubectl -n ingress get svc
+helm -n ingress status traefik 
+
+## Use special crds helm chart instead, because it does not deploy crds for gateway-api by default
+## We get an error on digitalocean doks
+helm -n ingress upgrade --install traefik-crds traefik/traefik-crds --version 1.16.0 --reset-values 
+```
+
+### Beispiel Ingress Traefik mit Hostnamen
+
+
+### Step 1: Walkthrough 
+
+```
+cd
+mkdir -p manifests 
+cd manifests
+mkdir abi 
+cd abi
+```
+
+```
+nano apple-deploy.yml 
+```
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apple-app
+  labels:
+    app: apple
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apple
+  template:
+    metadata:
+      labels:
+        app: apple
+    spec:
+      containers:
+        - name: web
+          image: hashicorp/http-echo
+          args:
+            - "-text=apple-<euer-name>"
+```
+
+```
+nano apple-svc.yaml
+```
+
+
+```
+kind: Service
+apiVersion: v1
+metadata:
+  name: apple-service
+spec:
+  type: ClusterIP
+  selector:
+    app: apple
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5678 # Default port for image
+```
+
+```
+kubectl apply -f .
+```
+
+```
+nano banana-deploy.yml
+```
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: banana-app
+  labels:
+    app: banana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: banana
+  template:
+    metadata:
+      labels:
+        app: banana
+    spec:
+      containers:
+        - name: web
+          image: hashicorp/http-echo
+          args:
+            - "-text=banana-<euer-name>"
+```
+
+```
+nano banana-svc.yaml
+```
+
+```
+kind: Service
+apiVersion: v1
+metadata:
+  name: banana-service
+spec:
+  type: ClusterIP
+  selector:
+    app: banana
+  ports:
+    - port: 80
+      targetPort: 5678 # Default port for image
+```
+
+```
+kubectl apply -f .
+```
+
+### Step 2: Testing connection by podIP and Service 
+
+```
+kubectl get svc
+kubectl get pods -o wide
+kubectl run podtest --rm -it --image busybox
+```
+
+```
+/ # wget -O - http://<pod-ip>:5678 
+/ # wget -O - http://<cluster-ip>
+```
+
+### Step 3: Walkthrough 
+
+```
+nano ingress.yml
+```
+
+```
+## Ingress
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: example-ingress
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: "<euername>.appv3.do.t3isp.de"
+    http:
+      paths:
+        - path: /apple
+          backend:
+            serviceName: apple-service
+            servicePort: 80
+        - path: /banana
+          backend:
+            serviceName: banana-service
+            servicePort: 80
+```
+
+```
+## ingress 
+kubectl apply -f ingress.yml
+```
+
+### Reference 
+
+  * https://matthewpalmer.net/kubernetes-app-developer/articles/kubernetes-ingress-guide-nginx-example.html
+
+### Step 4: Find the problem 
+
+#### Fix 4.1: Fehler: no matches kind "Ingress" in version "extensions/v1beta1"
+
+```
+## Gibt es diese Landkarte überhaupt
+kubectl api-versions
+## auf welcher Landkarte/Gruppe befindet sich Ingress jetzt 
+kubectl explain ingress | head
+## -> jetzt auf networking.k8s.io/v1 
+
+```
+
+```
+nano ingress.yml
+```
+
+```
+## auf apiVersion: extensions/v1beta1
+## wird -> networking.k8s.io/v1
+```
+
+```
+kubectl apply -f .
+```
+
+#### Fix 4.2: Bad Request unkown field ServiceName / ServicePort 
+
+
+```
+## was geht für die Property backend 
+kubectl explain ingress.spec.rules.http.paths.backend
+## und was geht für service
+kubectl explain ingress.spec.rules.http.paths.backend.service
+```
+
+```
+nano ingress.yml
+```
+
+```
+## Wir ersetzen 
+## serviceName: apple-service 
+## durch:
+## service: 
+##   name: apple-service 
+
+## das gleiche für banana 
+```
+
+```
+kubectl apply -f . 
+```
+
+
+#### Fix 4.3. BadRequest unknown field servicePort
+
+```
+## was geht für die Property backend 
+kubectl explain ingress.spec.rules.http.paths.backend
+## und was geht für service
+kubectl explain ingress.spec.rules.http.paths.backend.service
+## number 
+kubectl explain ingress.spec.rules.http.paths.backend.service.port
+```
+
+```
+## neue Variante sieht so aus
+backend:
+  service:
+    name: apple-service
+    port:
+      number: 80
+## das gleich für banana-service
+```
+
+```
+kubectl apply -f .
+```
+
+
+#### Fix 4.4. pathType must be specificied 
+
+```
+## Was macht das ?
+kubectl explain ingress.spec.rules.http.paths.pathType
+```
+
+```
+      paths:
+        - path: /apple
+          pathType: Prefix
+          backend:
+            service:
+              name: apple-service
+              port:
+                number: 80
+        - path: /banana
+          pathType: Exact 
+          backend:
+            service:
+              name: banana-service
+              port:
+                number: 80                
+```
+
+```
+kubectl apply -f .
+kubectl get ingress example-ingress
+```
+
+### Step 5: bereits fertige Lösung 
+
+```
+nano ingress.yml
+```
+
+```
+## Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: "<euername>.appv3.do.t3isp.de"
+    http:
+      paths:
+        - path: /apple
+          pathType: Exact
+          backend:
+            service:
+              name: apple-service
+              port:
+                number: 80
+        - path: /banana
+          pathType: Prefix 
+          backend:
+            service:
+              name: banana-service
+              port:
+                number: 80
+```
+
+```
+## ingress 
+kubectl apply -f ingress.yml
+kubectl describe ingress 
+```
+
+### Step 6: Testing 
+
+```
+## mit describe herausfinden, ob er die services gefunden hat
+kubectl describe ingress example-ingress
+```
+
+```
+## Im Browser auf:
+## hier euer Name 
+http://jochen.appv3.do.t3isp.de/apple
+http://jochen.appv3.do.t3isp.de/apple/
+http://jochen.appv3.do.t3isp.de/apple/foo 
+http://jochen.appv3.do.t3isp.de/banana
+## geht nicht 
+http://jochen.appv3.do.t3isp.de/banana/nix
+```
+
+
+
+### Https/LetsEncrypt mit Traefik
+
+
+### Prerequisites 
+
+  * abi-projekt muss existieren
+
+### Trainer: Schritt 1: cert-manager installieren 
+
+```
+helm repo add jetstack https://charts.jetstack.io
+helm upgrade --install cert-manager jetstack/cert-manager \
+--namespace cert-manager --create-namespace \
+--version v1.19.2 \
+--set crds.enabled=true \
+--reset-values
+```
+
+  * Ref: https://artifacthub.io/packages/helm/cert-manager/cert-manager
+
+### Trainer: Schritt 2: Create ClusterIssuer (gets certificates from Letsencrypt)
+
+```
+cd
+mkdir -p manifests/cert-manager
+cd manifests/cert-manager
+nano cluster-issuer.yaml
+```
+
+
+
+```
+## cluster-issuer.yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email-Adresse ändern - example.com ist nicht erlaubt 
+    email: your-email@example.com
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+    - http01:
+        ingress:
+          class: traefik
+```
+
+```
+kubectl apply -f .
+## Should be True 
+kubectl get clusterissuer 
+```
+
+
+### Schritt 3: Ingress-Objekt mit TLS erstellen 
+
+```
+cd
+cd manifests/abi
+```
+
+```
+nano ingress.yml
+```
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: traefik
+  tls:
+  - hosts:
+    - <dein-name>.appv2.do.t3isp.de
+    secretName: example-tls
+
+  rules:
+  - host: "<dein-name>.appv2.do.t3isp.de"
+    http:
+      paths:
+        - path: /apple
+          pathType: Prefix
+          backend:
+            service:
+              name: apple-service
+              port:
+                number: 80
+        - path: /banana
+          pathType: Exact
+          backend:
+            service:
+              name: banana-service
+              port:
+                number: 80
+```
+
+```
+kubectl apply -f .
+```
+
+ * Interessent, der cert-manager erstellt kurz ein Ingress - Objekt
+
+<img width="1057" height="172" alt="image" src="https://github.com/user-attachments/assets/54dce6f5-9d53-4ce4-ac79-dcfe095f77b5" />
+
+### Schritt 4: Herausfinden, ob Zertifikate erstellt werden 
+
+```
+kubectl describe certificate example-tls
+```
+```
+## muss auf True stehen 
+kubectl get cert
+```
+
+<img width="565" height="60" alt="image" src="https://github.com/user-attachments/assets/8d492fdf-a051-4b04-95cf-a62bdb3d0964" />
+
+```
+## Certificate Request 
+kubectl get cr
+## da ist das Zertfikat drin 
+kubectl get secret example-tls
+kubectl get orders 
+```
+
+#### Debugging 
+
+  * Solange das Zertifikat nicht bestätigt bei der ACME-Anfrage (Challenge), seht ihr das noch unter
+
+```
+kubectl get challenges
+```
+
+#### Verschlüsselungstiefe ehöhen
+
+  * Standardmäßig 2048bit
+
+```
+    # Hier legst du die Verschlüsselungstiefe fest
+    cert-manager.io/private-key-algorithm: "RSA"
+    cert-manager.io/private-key-size: "4096"
+
+```
+
+
+### Schritt 5: Testen
+
+   * Aufruf der Subdomain im Browser (mit https): z.B. https://jochen.app.do.t3isp.de/banana
+
+### Ref: 
+
+  * https://hbayraktar.medium.com/installing-cert-manager-and-nginx-ingress-with-lets-encrypt-on-kubernetes-fe0dff4b1924
+
 ## ServiceMesh
+
+### Istio — Service Mesh Überblick
+
+
+### Was ist ein Service Mesh?
+
+Ab einer gewissen Anzahl von Microservices entsteht ein fundamentales Problem:
+Jeder Service muss sich selbst um **Sicherheit, Fehlertoleranz, Logging und Routing** kümmern.
+Das führt zu dupliziertem Code in jedem Service — in unterschiedlichen Sprachen, mit unterschiedlicher Qualität.
+
+Ein **Service Mesh** löst das auf Infrastrukturebene — ohne Änderungen am Applikationscode.
+
+**Istio** ist das bekannteste Service Mesh für Kubernetes.
+
+---
+
+### Architektur
+
+Istio besteht aus zwei Ebenen:
+
+| Ebene | Komponente | Aufgabe |
+|---|---|---|
+| **Control Plane** | Istiod | Konfiguration, Zertifikate, Service Discovery |
+| **Data Plane** | Envoy Proxy (Sidecar) | Übernimmt den gesamten ein/ausgehenden Traffic |
+
+Der **Envoy-Proxy** wird als zweiter Container automatisch in jeden Pod injiziert.
+Die Applikation merkt davon nichts — der Traffic läuft transparent durch den Proxy.
+
+![Istio Architektur](/images/istio-architektur.svg)
+
+Aktivierung für einen Namespace:
+
+```
+kubectl label namespace default istio-injection=enabled
+```
+
+---
+
+### Die 5 Kern-Features
+
+![Istio Features](/images/istio-features.svg)
+
+#### 1. mTLS — Mutual TLS
+
+Alle Verbindungen zwischen Services werden **automatisch verschlüsselt und authentifiziert**.
+Kein Service kann sich gegenüber einem anderen als jemand anderes ausgeben.
+
+```
+## Alle Verbindungen im Namespace verschluesseln
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+spec:
+  mtls:
+    mode: STRICT
+```
+
+#### 2. Traffic Management
+
+Feingranulares Routing ohne Ingress-Magie — direkt auf Service-Ebene.
+
+```
+## 90% auf v1, 10% auf v2 (Canary Release)
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: backend
+spec:
+  http:
+  - route:
+    - destination:
+        host: backend
+        subset: v1
+      weight: 90
+    - destination:
+        host: backend
+        subset: v2
+      weight: 10
+```
+
+#### 3. Observability — ohne Code
+
+Istio generiert automatisch für jeden Service:
+- **Metrics** (Requests/s, Latenz, Fehlerrate) → Prometheus
+- **Distributed Tracing** → Jaeger
+- **Service Graph** (wer spricht mit wem) → Kiali
+
+Kein `import logging` oder SDK-Integration nötig.
+
+#### 4. Resilience
+
+Circuit Breaker, Retries und Timeouts werden zentral konfiguriert:
+
+```
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: backend
+spec:
+  host: backend
+  trafficPolicy:
+    outlierDetection:
+      consecutive5xxErrors: 3
+      interval: 10s
+      baseEjectionTime: 30s
+```
+
+Dazu: **Fault Injection** zum gezielten Testen von Fehlerszenarien (Chaos Engineering).
+
+#### 5. Authorization Policies
+
+Wer darf wen aufrufen — auf Basis von Service-Identitäten, nicht IP-Adressen:
+
+```
+## Nur Frontend darf Backend aufrufen
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: backend-allow-frontend
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/default/sa/frontend"]
+```
+
+---
+
+### Wann macht Istio Sinn?
+
+| Situation | Empfehlung |
+|---|---|
+| < 5 Services, monolithisch | Kein Service Mesh nötig |
+| 5–15 Services, wachsend | Service Mesh evaluieren |
+| > 15 Services, Multi-Team | Service Mesh sinnvoll |
+| Compliance/Zero Trust Pflicht | Service Mesh notwendig |
+
+**Kosten:** Istio bringt Komplexität und Ressourcenoverhead (Envoy-Sidecars).
+Der Break-Even liegt da, wo der Aufwand für manuelle Cross-Cutting-Concerns größer wird.
+
+---
+
+### Istio ohne Sidecars — Ambient Mesh
+
+Seit Istio 1.18 gibt es den **Ambient Mode**: statt Sidecars ein Node-Level-Proxy (ztunnel).
+Weniger Overhead, einfacheres Upgrade — noch in Entwicklung, aber produktionsreif.
+
+Mehr dazu: https://istio.io/latest/blog/2022/introducing-ambient-mesh/
 
 ### Why a ServiceMesh ?
 
@@ -6914,6 +14787,11 @@ It provides a standardized approach to manage and orchestrate communication with
 ```
 Managed Cluster und ich kann nicht auf einzelne Nodes per ssh zugreifen
 ```
+
+### Was wollen wir testen (auf der Verbindungsebene) ?
+
+<img width="900" height="343" alt="image" src="https://github.com/user-attachments/assets/937221ca-20ff-4b1f-926c-cee1f5923f60" />
+
 
 ### Behelf: Eigenen Pod starten mit busybox 
 
@@ -7109,6 +14987,313 @@ kubectl top pod cpu-demo
 ### Reference: 
 
   * https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/
+
+### ResourceQuota und LimitRange im Namespace (Uebung)
+
+
+### Hintergrund
+
+![ResourceQuota und LimitRange im Namespace](/images/resource-quota-limitrange-v2.svg)
+
+In einem geteilten Cluster muss verhindert werden, dass ein Namespace unbegrenzt CPU und RAM
+belegt. Kubernetes bietet zwei Objekte dafuer:
+
+| Objekt | Wirkung |
+|--------|---------|
+| `ResourceQuota` | Setzt eine harte Obergrenze fuer den gesamten Namespace (z.B. max. 4 CPU, max. 8Gi RAM) |
+| `LimitRange` | Setzt Default-Werte und Grenzen pro Container/Pod, falls im Manifest keine Angaben stehen |
+
+Zusammenspiel: Sobald eine `ResourceQuota` aktiv ist, **muss** jeder Pod `requests` und `limits`
+definieren — sonst wird er abgelehnt. `LimitRange` loest dieses Problem, indem es automatisch
+Defaults einsetzt.
+
+---
+
+### Schritt 1: Namespace anlegen
+
+```
+kubectl create namespace resource-<dein-name>
+```
+
+---
+
+### Schritt 2: Manifests vorbereiten
+
+```
+cd
+mkdir -p manifests/20-resource
+cd manifests/20-resource
+```
+
+---
+
+### Schritt 3: ResourceQuota erstellen
+
+```
+## vi 01-resourcequota.yml
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: quota-namespace
+spec:
+  hard:
+    requests.cpu: "1"
+    requests.memory: 512Mi
+    limits.cpu: "2"
+    limits.memory: 1Gi
+    pods: "5"
+```
+
+```
+kubectl apply -f 01-resourcequota.yml -n resource-<dein-name>
+kubectl get resourcequota -n resource-<dein-name>
+kubectl describe resourcequota quota-namespace -n resource-<dein-name>
+```
+
+Erwartete Ausgabe:
+
+```
+Name:            quota-namespace
+Namespace:       resource-<dein-name>
+Resource         Used  Hard
+--------         ----  ----
+limits.cpu       0     2
+limits.memory    0     1Gi
+pods             0     5
+requests.cpu     0     1
+requests.memory  0     512Mi
+```
+
+---
+
+### Schritt 4: Pod OHNE limits anlegen (schlaegt fehl)
+
+```
+## vi 02-pod-no-limits.yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-no-limits
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+```
+
+```
+kubectl apply -f 02-pod-no-limits.yml -n resource-<dein-name>
+```
+
+**Erwarteter Fehler:**
+
+```
+Error from server (Forbidden): error when creating "02-pod-no-limits.yml":
+pods "pod-no-limits" is forbidden: failed quota: quota-namespace:
+must specify limits.cpu for: nginx; must specify limits.memory for: nginx;
+must specify requests.cpu for: nginx; must specify requests.memory for: nginx
+```
+
+---
+
+### Schritt 5: LimitRange als Rettung
+
+```
+## vi 03-limitrange.yml
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: limits-per-container
+spec:
+  limits:
+  - type: Container
+    default:
+      cpu: 200m
+      memory: 128Mi
+    defaultRequest:
+      cpu: 100m
+      memory: 64Mi
+    max:
+      cpu: "1"
+      memory: 512Mi
+    min:
+      cpu: 50m
+      memory: 32Mi
+```
+
+```
+kubectl apply -f 03-limitrange.yml -n resource-<dein-name>
+kubectl describe limitrange limits-per-container -n resource-<dein-name>
+```
+
+---
+
+### Schritt 6: Pod OHNE limits nochmal anlegen (funktioniert jetzt)
+
+```
+kubectl apply -f 02-pod-no-limits.yml -n resource-<dein-name>
+kubectl describe pod pod-no-limits -n resource-<dein-name> | grep -A6 Limits
+```
+
+Der LimitRange hat automatisch Defaults eingefuegt:
+
+```
+Limits:
+  cpu:     200m
+  memory:  128Mi
+Requests:
+  cpu:     100m
+  memory:  64Mi
+```
+
+---
+
+### Schritt 7: Quota-Verbrauch pruefen
+
+```
+kubectl describe resourcequota quota-namespace -n resource-<dein-name>
+```
+
+```
+Resource         Used   Hard
+--------         ----   ----
+limits.cpu       200m   2
+limits.memory    128Mi  1Gi
+pods             1      5
+requests.cpu     100m   1
+requests.memory  64Mi   512Mi
+```
+
+---
+
+### Schritt 8: Quota-Limit testen (zu viele Pods)
+
+```
+## vi 04-deployment-many.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-viele
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: nginx-viele
+  template:
+    metadata:
+      labels:
+        app: nginx-viele
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+```
+
+```
+kubectl apply -f 04-deployment-many.yml -n resource-<dein-name>
+kubectl get pods -n resource-<dein-name>
+kubectl get replicaset -n resource-<dein-name>
+kubectl describe replicaset -n resource-<dein-name> | grep -A5 "Warning\|Error\|exceeded"
+```
+
+Nur 5 Pods werden gestartet (Quota: `pods: "5"`), der 6. schlaegt fehl mit:
+
+```
+exceeded quota: quota-namespace, requested: pods=1,
+at limit: pods=5
+```
+
+---
+
+### Aufraeumen
+
+```
+kubectl delete namespace resource-<dein-name>
+```
+
+---
+
+### LimitRange: Validierung vs. Mutation
+
+Ein wichtiges Detail: LimitRange-Felder verhalten sich grundlegend unterschiedlich.
+
+| Feld | Typ | Verhalten |
+|------|-----|-----------|
+| `max` / `min` | Validierung | Verstoß → Pod wird **abgelehnt** (Fehler) |
+| `default` / `defaultRequest` | Mutation | Werden nur eingesetzt, wenn der Nutzer **nichts angibt** |
+| `maxLimitRequestRatio` | Validierung | Prueft das Verhaeltnis limit/request |
+
+**Kein stillschweigendes Ueberschreiben:** Wenn ein Pod eigene `limits` oder `requests` setzt,
+die den `max`-Wert der LimitRange ueberschreiten, wird der Pod abgelehnt — nichts wird
+automatisch auf den Max-Wert zurechtgestutzt.
+
+#### max-Wert-Ueberschreitung testen
+
+```
+## vi 05-pod-overlimit.yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-overlimit
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    resources:
+      limits:
+        cpu: "2"        # ueberschreitet max.cpu: "1" aus LimitRange
+        memory: 128Mi
+```
+
+```
+kubectl apply -f 05-pod-overlimit.yml -n resource-<dein-name>
+```
+
+**Erwarteter Fehler:**
+
+```
+Error from server (Forbidden): error when creating "05-pod-overlimit.yml":
+pods "pod-overlimit" is forbidden:
+maximum cpu usage per Container is 1, but limit is 2
+```
+
+#### Mutation tritt nur bei fehlenden Werten ein
+
+Setzt der Nutzer eigene Werte (innerhalb von min/max), bleiben diese erhalten — der
+LimitRange greift **nicht** ueberschreibend ein:
+
+```
+## Pod mit eigenem gueltigen Wert → LimitRange-Default wird NICHT eingesetzt
+resources:
+  limits:
+    cpu: 500m      # bleibt 500m, nicht 200m (der Default)
+    memory: 256Mi  # bleibt 256Mi, nicht 128Mi (der Default)
+```
+
+#### Sonderfall: bereits laufende Pods
+
+Eine verschaerfte LimitRange betrifft **nur neu erstellte Pods**. Ein laufender Pod wird
+nicht nachtraeglich getötet oder veraendert — die Pruefung greift ausschliesslich bei
+Neuerstellung bzw. bei Spec-aendernden Updates.
+
+---
+
+### Zusammenfassung
+
+| Szenario | Ergebnis |
+|----------|----------|
+| Pod ohne limits, keine LimitRange | Abgelehnt (Quota erzwingt Angaben) |
+| Pod ohne limits, mit LimitRange | Akzeptiert (Defaults werden eingesetzt) |
+| Pod mit limits > max der LimitRange | Abgelehnt (Validierungsfehler) |
+| Pod mit eigenen gueltigen limits | Eigene Werte bleiben erhalten |
+| Deployment ueberschreitet Pod-Limit | Nur erlaubte Anzahl Pods laeuft |
+| LimitRange nachtraeglich verschaerft | Laufende Pods sind nicht betroffen |
 
 ### ResourceQuotas and LimitQuotas by Namespace
 
@@ -7676,6 +15861,345 @@ kubectl apply -f apple.yml # (deployment)
 
   * Metrik angekommen `?
   * http://64.227.125.201:30090/graph?g0.expr=probe_http_status_code&g0.tab=1&g0.display_mode=lines&g0.show_exemplars=0&g0.range_input=1h
+
+## Kubernetes Storage (CSI) 
+
+### Überblick Persistant Volumes (CSI)
+
+
+### Grafik 
+
+<img width="1001" height="575" alt="image" src="https://github.com/user-attachments/assets/48a5a2f0-56a4-48f7-a4af-0154025d437a" />
+
+
+### Überblick 
+
+#### Warum CSI ?
+
+  * Each vendor can create his own driver for his storage 
+
+#### Vorteile ? 
+
+```
+I. Automatically create storage when required.
+II. Make storage available to containers wherever they’re scheduled.
+III. Automatically delete the storage when no longer needed. 
+```
+
+#### Wie war es vorher ?
+
+```
+Vendor needed to wait till his code was checked in in tree of kubernetes (in-tree)
+```
+
+#### Unterschied static vs. dynamisch 
+
+```
+The main difference relies on the moment when you want to configure storage. For instance, if you need to pre-populate data in a volume, you choose static provisioning. Whereas, if you need to create volumes on demand, you go for dynamic provisioning.
+```
+
+### Komponenten 
+
+#### Treiber 
+
+  * Für jede Storage Class (Storage Provider) muss es einen Treiber geben
+
+#### Storage Class 
+
+### Liste der Treiber mit Features (CSI)
+
+  * https://kubernetes-csi.github.io/docs/drivers.html
+
+### Übung Persistant Storage
+
+
+  * Step 1 + 2 : nur Trainer
+  * ab Step 3: Trainees
+
+### Requirements:
+
+  * Ein NFS-Server oder eine Storage mit NFS muss im Netz zur Verfügung stehen. 
+
+### Step 1: Do the same with helm - chart 
+
+```
+helm repo add csi-driver-nfs https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+helm upgrade --install csi-driver-nfs csi-driver-nfs/csi-driver-nfs --namespace kube-system --version 4.13.2 --reset-values 
+```
+
+### Step 2: Storage Class 
+
+```
+cd
+mkdir -p manifests
+cd manifests
+mkdir csi-storage
+cd csi-storage 
+nano 01-storageclass.yml
+```
+
+```
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-csi
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: 10.135.0.6
+  share: /var/nfs
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+```
+
+```
+kubectl apply -f .
+```
+
+### Step 3: Persistent Volume Claim 
+
+```
+cd
+mkdir -p manifests
+cd manifests
+mkdir csi
+cd csi
+nano 02-pvc.yaml
+```
+
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-nfs-dynamic
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: nfs-csi
+```
+
+```
+kubectl apply -f .
+kubectl get pvc
+##
+kubectl get pv 
+```
+
+### Step 4: Pod 
+
+```
+nano 03-pod.yaml
+```
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-nfs
+spec:
+  containers:
+    - image: nginx:1.23
+      name: nginx-nfs
+      command:
+        - "/bin/bash"
+        - "-c"
+        - set -euo pipefail; while true; do echo $(date) >> /mnt/nfs/outfile; sleep 1; done
+      volumeMounts:
+        - name: persistent-storage
+          mountPath: "/mnt/nfs"
+          readOnly: false
+  volumes:
+    - name: persistent-storage
+      persistentVolumeClaim:
+        claimName: pvc-nfs-dynamic
+```
+
+```
+kubectl apply -f .
+kubectl get pods
+kubectl describe pods nginx-nfs 
+```
+
+### Step 5: Testing
+
+```
+kubectl exec -it nginx-nfs -- bash 
+```
+
+```
+cd /mnt/nfs
+ls -la
+## outfile
+head /mnt/nfs/outfile 
+tail -f /mnt/nfs/outfile
+```
+
+```
+CTRL+C
+exit
+```
+
+### Step 6: Destroy 
+
+```
+kubectl delete -f 03-pod.yaml 
+
+### Verify in nfs - trainer !! 
+```
+
+### Step 7: Recreate 
+
+```
+kubectl apply -f 03-pod.yaml
+```
+
+```
+kubectl exec -it nginx-nfs -- bash
+```
+
+```
+## is old data here ? 
+head /mnt/nfs/outfile 
+##
+tail -f /mnt/nfs/outfile
+```
+
+```
+CTRL + C
+exit
+```
+### Step 8: Cleanup 
+
+```
+kubectl delete -f .
+```
+
+
+### Reference:
+
+ * https://rudimartinsen.com/2024/01/09/nfs-csi-driver-kubernetes/
+
+### Beispiel mariadb
+
+
+  * How to persistently use mariadb with a storage class / driver nfs.csi.
+
+### Step 1: Treiber installieren 
+
+  * https://github.com/kubernetes-csi/csi-driver-nfs/blob/master/docs/install-csi-driver-v4.6.0.md
+
+```
+curl -skSL https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/v4.6.0/deploy/install-driver.sh | bash -s v4.6.0 --
+```
+
+### Step 2: Storage Class 
+
+```
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-csi
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: 10.135.0.18
+  share: /var/nfs
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+mountOptions:
+  - nfsvers=3
+```
+
+### Step 3: PVC, Configmap, Deployment 
+
+```
+mkdir -p manifests
+cd manifests
+mkdir mariadb-csi
+cd mariadb-csi
+```
+
+```
+nano 01-pvc.yaml
+```
+
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-nfs-dynamic-mariadb
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: nfs-csi
+```
+
+```
+kubectl apply -f .
+```
+
+```
+nano 02-configmap.yml
+```
+
+```
+### 02-configmap.yml
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: mariadb-configmap
+data:
+  # als Wertepaare
+  MARIADB_ROOT_PASSWORD: 11abc432
+```
+
+```
+nano 03-deployment.yml
+```
+
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb-deployment
+spec:
+  selector:
+    matchLabels:
+      app: mariadb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+      - name: mariadb-cont
+        image: mariadb:10.11
+        envFrom:
+        - configMapRef:
+            name: mariadb-configmap
+        volumeMounts:
+        - name: persistent-storage
+          mountPath: "/var/lib/mysql"
+          readOnly: false
+      volumes:
+      - name: persistent-storage
+        persistentVolumeClaim:
+          claimName: pvc-nfs-dynamic-mariadb
+```
+
+```
+kubectl apply -f .
+```
+
+```
+kubectl describe po mariadb-deployment-<euer-pod>
+```
 
 ## Helm
 
@@ -8283,6 +16807,12 @@ curl http://localhost:8080
 
 ```
 
+
+```
+docker start test-nginx 
+curl <ip-der-maschine>:8080
+```
+
 ### Docker container/image stoppen/löschen
 
 
@@ -8403,6 +16933,7 @@ docker push dockertrainereu/jm-hello-docker
 ### Image erstellen 
 
 ```
+cd
 mkdir myubuntu 
 cd myubuntu/
 ```
@@ -8437,7 +16968,7 @@ docker build -t myubuntu:1.0 .
 docker images
 ```
 
-### Image (ping) testen  
+### Image (ping) testen  (mit image fullubuntu:1.0)
 
 ```
 ## -t wird benötigt, damit bash WEITER im Hintergrund im läuft.
@@ -8462,6 +16993,34 @@ ping 172.17.0.3
 
  
 ```
+
+
+### Image (ping) testen  (mit image myubuntu:1.0)
+
+```
+## -t wird benötigt, damit bash WEITER im Hintergrund im läuft.
+## auch mit -d (ohne -t) wird die bash ausgeführt, aber "das Terminal" dann direkt beendet 
+## -> container läuft dann nicht mehr 
+docker run -d -t --name container-ubuntu myubuntu:1.0
+docker container ls
+
+## docker inspect to find out ip of other container 
+## 172.17.0.3 
+docker inspect container-ubuntu | grep -i ipaddress
+```
+
+```
+## Zweiten Container starten um 1. anzupingen 
+docker run -d -t --name container-ubuntu2 myubuntu:1.0 
+
+## Ersten Container -> 2. anpingen 
+docker exec -it container-ubuntu2 bash 
+## Jeder container hat eine eigene IP 
+ping 172.17.0.3
+
+ 
+```
+
 
 ### Nginx mit content aus html-ordner
 
@@ -11915,6 +20474,378 @@ kubectl rollout undo deploy nginx-deployment
 ```
 
 ## Kubernetes - Backups 
+
+### Backup- und Wiederherstellungsstrategien
+
+
+![Backup-Schichten in Kubernetes](/images/backup-schichten.svg)
+
+### Was muss gesichert werden?
+
+In einer Kubernetes-Umgebung gibt es drei unabhängige Schichten:
+
+| Schicht | Was | Tools |
+|---------|-----|-------|
+| **Cluster-Zustand** | etcd: alle Kubernetes-Objekte (Deployments, Services, ConfigMaps, Secrets) | `etcdctl snapshot`, Velero |
+| **Persistent Volumes** | Anwendungsdaten (Datenbanken, Upload-Ordner, etc.) | CSI-Snapshots, Velero, Restic |
+| **Anwendungsdaten** | Datenbankinhalt auf Anwendungsebene | pg_dump, mysqldump, mongodump |
+
+> **Wichtig:** etcd-Backup und Volume-Backup sind unabhängig. Ein etcd-Restore ohne passende Volumes bringt leere PVCs zurück — und umgekehrt stehen Volumes ohne Kubernetes-Objekte nutzlos herum.
+
+---
+
+### etcd Backup
+
+etcd speichert den kompletten Cluster-Zustand. Fällt etcd aus oder werden Daten korrumpiert,
+verliert der Cluster alle Konfigurationen.
+
+#### Snapshot erstellen
+
+```
+ETCDCTL_API=3 etcdctl snapshot save /backup/etcd-$(date +%Y%m%d-%H%M%S).db \
+  --endpoints=https://127.0.0.1:2379 \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt \
+  --key=/etc/kubernetes/pki/etcd/healthcheck-client.key
+```
+
+#### Snapshot verifizieren
+
+```
+ETCDCTL_API=3 etcdctl snapshot status /backup/etcd-20240522-1200.db --write-out=table
+```
+
+Erwartete Ausgabe:
+```
++----------+----------+------------+------------+
+|   HASH   | REVISION | TOTAL KEYS | TOTAL SIZE |
++----------+----------+------------+------------+
+| a1b2c3d4 |    12345 |       1234 |    5.2 MB  |
++----------+----------+------------+------------+
+```
+
+#### Snapshot wiederherstellen
+
+```
+## Kubernetes-Komponenten stoppen (Control Plane)
+systemctl stop kube-apiserver kube-controller-manager kube-scheduler
+
+## etcd aus Snapshot wiederherstellen
+ETCDCTL_API=3 etcdctl snapshot restore /backup/etcd-20240522-1200.db \
+  --data-dir=/var/lib/etcd-restore \
+  --name=master-1 \
+  --initial-cluster=master-1=https://MASTER_IP:2380 \
+  --initial-advertise-peer-urls=https://MASTER_IP:2380
+
+## etcd-Datenverzeichnis tauschen
+mv /var/lib/etcd /var/lib/etcd-old
+mv /var/lib/etcd-restore /var/lib/etcd
+
+## Dienste neu starten
+systemctl start kube-apiserver kube-controller-manager kube-scheduler etcd
+```
+
+> **Warnung:** Ein etcd-Restore setzt den Cluster auf den Stand des Snapshots zurück.
+> Alle Änderungen nach dem Snapshot-Zeitpunkt gehen verloren.
+
+---
+
+### Velero — Kubernetes-natives Backup
+
+Velero ist das meistgenutzte Open-Source-Tool für Kubernetes-Backups.
+Es sichert Kubernetes-Objekte und — über CSI-Snapshots oder Restic — auch Volumes.
+
+#### Architektur
+
+```
+kubectl apply -f ...
+       │
+       ▼
+   Velero Server (läuft im Cluster)
+       │
+       ├──► Kubernetes API → sichert Objekte als JSON in S3/GCS/Azure Blob
+       │
+       └──► CSI Snapshots / Restic → sichert Volume-Inhalte
+```
+
+#### Installation (mit MinIO als S3-Speicher)
+
+```
+## Velero CLI installieren
+wget https://github.com/vmware-tanzu/velero/releases/latest/download/velero-linux-amd64.tar.gz
+tar -xf velero-linux-amd64.tar.gz
+mv velero-linux-amd64/velero /usr/local/bin/
+
+## Velero im Cluster installieren (Beispiel mit S3)
+velero install \
+  --provider aws \
+  --plugins velero/velero-plugin-for-aws:v1.9.0 \
+  --bucket velero-backups \
+  --backup-location-config region=eu-central-1 \
+  --use-node-agent \
+  --default-volumes-to-fs-backup
+```
+
+#### Backup erstellen
+
+```
+## Gesamten Cluster sichern
+velero backup create cluster-backup-$(date +%Y%m%d)
+
+## Einzelnen Namespace sichern
+velero backup create shop-backup --include-namespaces production-shop
+
+## Backup mit Zeitplan (täglich um 2:00 Uhr)
+velero schedule create daily-backup --schedule="0 2 * * *" --include-namespaces production
+```
+
+#### Backup-Status prüfen
+
+```
+velero backup get
+velero backup describe cluster-backup-20240522
+velero backup logs cluster-backup-20240522
+```
+
+Erwartete Ausgabe (backup describe):
+```
+Name:         cluster-backup-20240522
+Namespace:    velero
+...
+Phase:        Completed
+...
+Included Namespaces:  *
+Total items to be backed up:  312
+Items backed up:              312
+```
+
+#### Wiederherstellen
+
+```
+## Vollständige Wiederherstellung
+velero restore create --from-backup cluster-backup-20240522
+
+## Nur einen Namespace wiederherstellen
+velero restore create --from-backup cluster-backup-20240522 \
+  --include-namespaces production-shop
+
+## Restore-Status prüfen
+velero restore get
+velero restore describe <restore-name>
+```
+
+---
+
+### CSI Volume Snapshots
+
+CSI Snapshots sind der standardisierte Weg, PersistentVolumes direkt auf Storage-Ebene
+zu sichern — schnell, konsistent, ohne Datenkopie über das Netzwerk.
+
+#### VolumeSnapshot erstellen
+
+```
+## vi snapshot.yml
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: postgres-snapshot-20240522
+spec:
+  volumeSnapshotClassName: csi-aws-vsc
+  source:
+    persistentVolumeClaimName: postgres-data
+```
+
+```
+kubectl apply -f snapshot.yml -n production
+kubectl get volumesnapshot -n production
+```
+
+#### PVC aus Snapshot wiederherstellen
+
+```
+## vi pvc-from-snapshot.yml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-data-restored
+spec:
+  dataSource:
+    name: postgres-snapshot-20240522
+    kind: VolumeSnapshot
+    apiGroup: snapshot.storage.k8s.io
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+```
+
+---
+
+### Datenbankbackups auf Anwendungsebene
+
+CSI-Snapshots und Velero sichern Dateien — aber eine laufende Datenbank kann in einem
+inkonsistenten Zustand sein. Für konsistente Backups braucht es datenbankspezifische Tools.
+
+#### PostgreSQL (pg_dump)
+
+```
+## Backup als Job im Cluster ausführen
+kubectl run pg-backup --restart=Never --rm -i \
+  --image=postgres:16 \
+  --env="PGPASSWORD=geheim" \
+  -- pg_dump -h postgres-service -U myuser mydatabase \
+  > backup-$(date +%Y%m%d).sql
+```
+
+Oder als CronJob für automatisches Backup:
+
+```
+## vi 01-pg-backup-cronjob.yml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgres-backup
+spec:
+  schedule: "0 3 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: pg-backup
+            image: postgres:16
+            env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: password
+            command:
+            - /bin/sh
+            - -c
+            - |
+              pg_dump -h postgres-service -U myuser mydatabase \
+              | gzip > /backup/dump-$(date +%Y%m%d-%H%M).sql.gz
+            volumeMounts:
+            - name: backup-storage
+              mountPath: /backup
+          volumes:
+          - name: backup-storage
+            persistentVolumeClaim:
+              claimName: backup-pvc
+```
+
+#### MySQL / MariaDB
+
+```
+kubectl run mysql-backup --restart=Never --rm -i \
+  --image=mysql:8 \
+  -- mysqldump -h mysql-service -u root -pgeheim --all-databases \
+  > backup-$(date +%Y%m%d).sql
+```
+
+#### Restore PostgreSQL
+
+```
+kubectl run pg-restore --restart=Never --rm -i \
+  --image=postgres:16 \
+  --env="PGPASSWORD=geheim" \
+  -- psql -h postgres-service -U myuser mydatabase \
+  < backup-20240522.sql
+```
+
+---
+
+### Wiederherstellungsszenarien
+
+#### Szenario 1: Einzelne Ressource versehentlich gelöscht
+
+```
+## Velero Backup vorhanden → gezielter Restore
+velero restore create --from-backup daily-backup-20240522 \
+  --include-resources deployments \
+  --selector app=payment-service
+
+## Alternativ: aus Git (wenn GitOps genutzt wird)
+git checkout HEAD~1 -- kubernetes/payment/deployment.yml
+kubectl apply -f kubernetes/payment/deployment.yml
+```
+
+#### Szenario 2: Namespace komplett gelöscht
+
+```
+velero restore create --from-backup daily-backup-20240522 \
+  --include-namespaces production-shop
+```
+
+#### Szenario 3: Cluster-Totalausfall (neuer Cluster)
+
+```
+## 1. Neuen Cluster aufsetzen (Kubernetes installieren)
+## 2. Velero im neuen Cluster installieren
+## 3. Auf das gleiche Backup-Ziel (S3) zeigen
+velero install \
+  --provider aws \
+  --bucket velero-backups \
+  --backup-location-config region=eu-central-1
+
+## 4. Backups werden automatisch erkannt
+velero backup get
+
+## 5. Vollständig wiederherstellen
+velero restore create --from-backup cluster-backup-20240522
+```
+
+#### Szenario 4: Datenkorruption (Anwendungsebene)
+
+```
+## Datenbank stoppen / in Wartungsmodus
+kubectl scale deployment postgres --replicas=0 -n production
+
+## Altes Volume löschen und aus Snapshot wiederherstellen
+kubectl delete pvc postgres-data -n production
+kubectl apply -f pvc-from-snapshot.yml -n production
+
+## Datenbank starten
+kubectl scale deployment postgres --replicas=1 -n production
+```
+
+---
+
+### Backup-Strategie im Vergleich
+
+| Methode | Was wird gesichert | Konsistenz | Geschwindigkeit | Granularität |
+|---------|-------------------|------------|-----------------|--------------|
+| **etcd Snapshot** | Kubernetes-Objekte | Hoch | Schnell | Cluster-weit |
+| **Velero (Objekte)** | Kubernetes-Objekte | Hoch | Schnell | Namespace/Label |
+| **Velero + Restic** | Objekte + Volumes | Datei-konsistent | Langsam (Datei-Kopie) | Namespace/Label |
+| **CSI Snapshot** | Volume-Inhalt | Storage-konsistent | Sehr schnell | Pro PVC |
+| **pg_dump / mysqldump** | Datenbankinhalt | Transaktions-konsistent | Mittel | Pro DB/Tabelle |
+
+**Empfehlung für Produktivumgebungen:**
+- Velero für Kubernetes-Objekte (täglich, stündlich für kritische Namespaces)
+- CSI Snapshots für Volumes (stündlich)
+- pg_dump/mysqldump für Datenbanken (täglich, vor Migrationen)
+- etcd Snapshot vor jedem Cluster-Upgrade
+
+---
+
+### Zusammenfassung
+
+Kubernetes-Backups bestehen aus mehreren unabhängigen Schichten — wer nur etcd sichert,
+verliert im Ernstfall alle Anwendungsdaten. Wer nur Volumes sichert, kann den Cluster
+nicht wiederherstellen.
+
+Eine vollständige Backup-Strategie kombiniert:
+1. **Velero** für Kubernetes-Objekte (alle Namespaces, täglich)
+2. **CSI Snapshots** für Persistent Volumes (stündlich)
+3. **Datenbankdumps** für transaktionskonsistente Backups (täglich)
+4. **etcd Snapshots** vor Cluster-Upgrades und Änderungen an der Control Plane
+
+Entscheidend ist nicht nur, dass Backups laufen — sondern dass Restores regelmäßig
+getestet werden. Ein nicht getestetes Backup ist kein Backup.
 
 ## Kubernetes - Tipps & Tricks 
 
