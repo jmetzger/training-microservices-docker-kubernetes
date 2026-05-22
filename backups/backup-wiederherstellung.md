@@ -4,14 +4,13 @@
 
 ## Was muss gesichert werden?
 
-In einer Kubernetes-Umgebung gibt es vier unabhängige Schichten:
+In einer Kubernetes-Umgebung gibt es drei unabhängige Schichten:
 
 | Schicht | Was | Tools |
 |---------|-----|-------|
 | **Cluster-Zustand** | etcd: alle Kubernetes-Objekte (Deployments, Services, ConfigMaps, Secrets) | `etcdctl snapshot`, Velero |
 | **Persistent Volumes** | Anwendungsdaten (Datenbanken, Upload-Ordner, etc.) | CSI-Snapshots, Velero, Restic |
 | **Anwendungsdaten** | Datenbankinhalt auf Anwendungsebene | pg_dump, mysqldump, mongodump |
-| **Container Images** | Docker-Images in der Registry | Registry-Replikation, Image-Export |
 
 > **Wichtig:** etcd-Backup und Volume-Backup sind unabhängig. Ein etcd-Restore ohne passende Volumes bringt leere PVCs zurück — und umgekehrt stehen Volumes ohne Kubernetes-Objekte nutzlos herum.
 

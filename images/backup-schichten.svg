@@ -1,13 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 480" font-family="'Segoe UI', Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 390" font-family="'Segoe UI', Arial, sans-serif">
 
   <!-- Background -->
-  <rect width="780" height="480" fill="#f8fafc" rx="8"/>
+  <rect width="780" height="390" fill="#f8fafc" rx="8"/>
 
   <!-- Title -->
   <text x="390" y="36" text-anchor="middle" font-size="18" font-weight="bold" fill="#1e293b">Backup-Schichten in Kubernetes</text>
 
   <!-- Cluster box -->
-  <rect x="20" y="56" width="400" height="400" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <rect x="20" y="56" width="400" height="310" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
   <text x="220" y="80" text-anchor="middle" font-size="13" font-weight="bold" fill="#1d4ed8">Kubernetes Cluster</text>
 
   <!-- Layer 1: etcd -->
@@ -28,13 +28,7 @@
   <text x="60" y="305" font-size="11" fill="#92400e">PostgreSQL, MySQL, MongoDB —</text>
   <text x="60" y="320" font-size="11" fill="#92400e">transaktionskonsistente Dumps</text>
 
-  <!-- Layer 4: Container Images -->
-  <rect x="40" y="348" width="360" height="72" rx="8" fill="#fce7f3" stroke="#f472b6" stroke-width="1.5"/>
-  <text x="60" y="374" font-size="12" font-weight="bold" fill="#9d174d">Container Images</text>
-  <text x="60" y="391" font-size="11" fill="#9d174d">Docker Images in der Registry —</text>
-  <text x="60" y="406" font-size="11" fill="#9d174d">Replikation in externe Registry</text>
-
-  <!-- Tool boxes (middle column) -->
+  <!-- Tool boxes -->
 
   <!-- Tool 1: etcdctl / Velero -->
   <rect x="448" y="96" width="148" height="60" rx="8" fill="#e0e7ff" stroke="#818cf8" stroke-width="1.5"/>
@@ -54,14 +48,8 @@
   <text x="522" y="306" text-anchor="middle" font-size="11" fill="#78350f">mysqldump</text>
   <text x="522" y="322" text-anchor="middle" font-size="10" fill="#b45309">taeglich / vor Migration</text>
 
-  <!-- Tool 4: Registry Replication -->
-  <rect x="448" y="354" width="148" height="60" rx="8" fill="#fdf2f8" stroke="#e879f9" stroke-width="1.5"/>
-  <text x="522" y="376" text-anchor="middle" font-size="11" font-weight="bold" fill="#701a75">Registry</text>
-  <text x="522" y="392" text-anchor="middle" font-size="11" fill="#701a75">Replikation</text>
-  <text x="522" y="408" text-anchor="middle" font-size="10" fill="#a21caf">bei jedem Push</text>
-
   <!-- Target box -->
-  <rect x="626" y="56" width="134" height="400" rx="10" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
+  <rect x="626" y="56" width="134" height="310" rx="10" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
   <text x="693" y="80" text-anchor="middle" font-size="12" font-weight="bold" fill="#475569">Backup-Ziel</text>
 
   <!-- Target items -->
@@ -77,21 +65,15 @@
   <text x="693" y="288" text-anchor="middle" font-size="10" font-weight="bold" fill="#334155">SQL-Dump</text>
   <text x="693" y="302" text-anchor="middle" font-size="10" fill="#334155">in S3 / PVC</text>
 
-  <rect x="642" y="354" width="102" height="44" rx="6" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
-  <text x="693" y="374" text-anchor="middle" font-size="10" font-weight="bold" fill="#334155">Externe</text>
-  <text x="693" y="388" text-anchor="middle" font-size="10" fill="#334155">Registry</text>
-
   <!-- Arrows: Layer → Tool -->
   <line x1="400" y1="126" x2="448" y2="126" stroke="#818cf8" stroke-width="1.8" marker-end="url(#arr-indigo)"/>
   <line x1="400" y1="212" x2="448" y2="212" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-green)"/>
   <line x1="400" y1="298" x2="448" y2="298" stroke="#facc15" stroke-width="1.8" marker-end="url(#arr-yellow)"/>
-  <line x1="400" y1="384" x2="448" y2="384" stroke="#e879f9" stroke-width="1.8" marker-end="url(#arr-pink)"/>
 
   <!-- Arrows: Tool → Target -->
   <line x1="596" y1="118" x2="642" y2="118" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arr-gray)"/>
   <line x1="596" y1="204" x2="642" y2="204" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arr-gray)"/>
   <line x1="596" y1="290" x2="642" y2="290" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arr-gray)"/>
-  <line x1="596" y1="376" x2="642" y2="376" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arr-gray)"/>
 
   <!-- Arrow markers -->
   <defs>
@@ -104,15 +86,12 @@
     <marker id="arr-yellow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
       <path d="M0,0 L0,6 L8,3 z" fill="#facc15"/>
     </marker>
-    <marker id="arr-pink" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L8,3 z" fill="#e879f9"/>
-    </marker>
     <marker id="arr-gray" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
       <path d="M0,0 L0,6 L8,3 z" fill="#94a3b8"/>
     </marker>
   </defs>
 
   <!-- Legend note -->
-  <text x="390" y="468" text-anchor="middle" font-size="10" fill="#64748b">Jede Schicht muss unabhaengig gesichert werden — etcd-Backup allein stellt keine Anwendungsdaten wieder her.</text>
+  <text x="390" y="380" text-anchor="middle" font-size="10" fill="#64748b">Jede Schicht muss unabhaengig gesichert werden — etcd-Backup allein stellt keine Anwendungsdaten wieder her.</text>
 
 </svg>
