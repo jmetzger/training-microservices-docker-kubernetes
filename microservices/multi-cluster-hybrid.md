@@ -12,21 +12,7 @@ Kubernetes-Cluster haben eine harte technische Grenze, die oft unterschaetzt wir
 Das bedeutet: Nodes in verschiedenen geografischen Regionen koennen **nicht** einfach
 zu einem einzigen Cluster zusammengefasst werden.
 
-```
-                    Latenz zwischen Rechenzentren
-
-  Frankfurt ──────────────────────────── Virginia (USA)
-       │              ~ 90 ms                  │
-       │                                       │
-   ✗ NICHT moeglich: Ein Cluster ueber beide Standorte
-     etcd braucht < 10 ms — 90 ms ist das 9-fache!
-
-
-  Frankfurt-RZ-1 ─────────────────── Frankfurt-RZ-2
-       │              ~ 0,5 ms               │
-       │                                     │
-   ✓ Moeglich: Ein Cluster innerhalb einer Region/Stadt
-```
+![Latenz-Grenze in Kubernetes-Clustern](/images/multi-cluster-latenz.svg)
 
 **Was passiert bei zu hoher Latenz?**
 - etcd-Leader-Wahlen schlagen fehl
@@ -41,34 +27,7 @@ zu einem einzigen Cluster zusammengefasst werden.
 Statt einem grossen Cluster ueber alle Standorte: **ein Cluster pro Region**,
 verbunden durch einen Geo-LoadBalancer, der Nutzer zur naechstgelegenen Region routed.
 
-```
-                        ┌──────────────────────────┐
-                        │      Geo-LoadBalancer     │
-                        │  (z.B. AWS Route53,       │
-                        │   Cloudflare, GCP GCLB)   │
-                        └────────────┬─────────────┘
-                                     │
-                    DNS-basiertes Routing nach Standort
-                                     │
-              ┌──────────────────────┼──────────────────────┐
-              │                      │                      │
-     ┌────────▼────────┐   ┌─────────▼───────┐   ┌─────────▼───────┐
-     │  Cluster EU     │   │  Cluster US     │   │  Cluster APAC   │
-     │  Frankfurt      │   │  Virginia       │   │  Singapur        │
-     │                 │   │                 │   │                  │
-     │  ┌───────────┐  │   │  ┌───────────┐  │   │  ┌───────────┐  │
-     │  │ Pods      │  │   │  │ Pods      │  │   │  │ Pods      │  │
-     │  │ (EU-Daten)│  │   │  │ (US-Daten)│  │   │  │(APAC-Data)│  │
-     │  └───────────┘  │   │  └───────────┘  │   │  └───────────┘  │
-     └─────────────────┘   └─────────────────┘   └─────────────────┘
-            │                      │                      │
-            └──────────────────────┴──────────────────────┘
-                         Cluster-Verbindung (VPN / Service Mesh)
-                         (nur fuer clusteruebergreifende Kommunikation)
-
-  EU-Nutzer → EU-Cluster   (< 10 ms Latenz zum naechsten RZ)
-  US-Nutzer → US-Cluster   (< 10 ms Latenz zum naechsten RZ)
-```
+![Multi-Cluster mit Geo-LoadBalancer](/images/multi-cluster-geo-loadbalancer.svg)
 
 **Wie der Geo-LoadBalancer entscheidet:**
 - Anhand der IP-Geolokation des Nutzers
@@ -79,18 +38,7 @@ verbunden durch einen Geo-LoadBalancer, der Nutzer zur naechstgelegenen Region r
 
 ## Achtung: Multi-Cluster steigert die Komplexitaet erheblich
 
-```
-  Ein Cluster:                         Drei Cluster:
-  ─────────────                        ─────────────────────────────────
-
-  1x Kubernetes-Version pflegen        3x Kubernetes-Version pflegen
-  1x Netzwerk konfigurieren            3x Netzwerk + Verbindung zwischen Clustern
-  1x Monitoring einrichten             1x zentrales Monitoring + 3x Agents
-  1x RBAC definieren                   3x RBAC (ggf. mit OIDC synchronisiert)
-  1x Deployment-Prozess                GitOps zwingend (sonst Chaos)
-  1x Backup-Strategie                  3x Backup-Strategie
-  1x Sicherheits-Updates               3x Sicherheits-Updates
-```
+![Komplexitaetsvergleich: Ein Cluster vs. drei Cluster](/images/multi-cluster-komplexitaet.svg)
 
 > **Faustregel:** Jeder zusaetzliche Cluster verdreifacht den Betriebsaufwand
 > fuer das Platform-Team — nicht verdoppelt.

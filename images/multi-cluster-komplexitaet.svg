@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 380" font-family="Arial, sans-serif">
+  <rect width="820" height="380" fill="#f4f6f9" rx="10"/>
+  <text x="410" y="32" text-anchor="middle" font-size="17" font-weight="bold" fill="#1a1a2e">Achtung: Multi-Cluster steigert die Komplexitaet erheblich</text>
+
+  <!-- Left: Single cluster -->
+  <rect x="20" y="50" width="370" height="290" rx="10" fill="#eafaf1" stroke="#27ae60" stroke-width="2"/>
+  <rect x="20" y="50" width="370" height="38" rx="10" fill="#27ae60"/>
+  <rect x="20" y="74" width="370" height="14" fill="#27ae60"/>
+  <text x="205" y="74" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">Ein Cluster</text>
+
+  <text x="205" y="112" text-anchor="middle" font-size="11" fill="#1e8449" font-weight="bold">Verwaltungsaufwand</text>
+
+  <!-- Single cluster items -->
+  <rect x="40" y="122" width="330" height="28" rx="5" fill="#fff" stroke="#a9dfbf" stroke-width="1"/>
+  <text x="60" y="140" font-size="10" fill="#333">1x Kubernetes-Version pflegen</text>
+
+  <rect x="40" y="156" width="330" height="28" rx="5" fill="#fff" stroke="#a9dfbf" stroke-width="1"/>
+  <text x="60" y="174" font-size="10" fill="#333">1x Netzwerk konfigurieren</text>
+
+  <rect x="40" y="190" width="330" height="28" rx="5" fill="#fff" stroke="#a9dfbf" stroke-width="1"/>
+  <text x="60" y="208" font-size="10" fill="#333">1x Monitoring einrichten</text>
+
+  <rect x="40" y="224" width="330" height="28" rx="5" fill="#fff" stroke="#a9dfbf" stroke-width="1"/>
+  <text x="60" y="242" font-size="10" fill="#333">1x RBAC definieren</text>
+
+  <rect x="40" y="258" width="330" height="28" rx="5" fill="#fff" stroke="#a9dfbf" stroke-width="1"/>
+  <text x="60" y="276" font-size="10" fill="#333">1x Backup-Strategie</text>
+
+  <rect x="40" y="292" width="330" height="28" rx="5" fill="#fff" stroke="#a9dfbf" stroke-width="1"/>
+  <text x="60" y="310" font-size="10" fill="#333">1x Sicherheits-Updates</text>
+
+  <!-- Right: Multi cluster -->
+  <rect x="430" y="50" width="370" height="290" rx="10" fill="#fdecea" stroke="#e74c3c" stroke-width="2"/>
+  <rect x="430" y="50" width="370" height="38" rx="10" fill="#e74c3c"/>
+  <rect x="430" y="74" width="370" height="14" fill="#e74c3c"/>
+  <text x="615" y="74" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">Drei Cluster</text>
+
+  <text x="615" y="112" text-anchor="middle" font-size="11" fill="#c0392b" font-weight="bold">Verwaltungsaufwand (x3 oder mehr)</text>
+
+  <!-- Multi cluster items -->
+  <rect x="450" y="122" width="330" height="28" rx="5" fill="#fff" stroke="#f1948a" stroke-width="1"/>
+  <text x="470" y="140" font-size="10" fill="#333">3x Kubernetes-Version pflegen</text>
+
+  <rect x="450" y="156" width="330" height="28" rx="5" fill="#fff" stroke="#f1948a" stroke-width="1"/>
+  <text x="470" y="174" font-size="10" fill="#333">3x Netzwerk + Verbindung zwischen Clustern</text>
+
+  <rect x="450" y="190" width="330" height="28" rx="5" fill="#fff" stroke="#f1948a" stroke-width="1"/>
+  <text x="470" y="208" font-size="10" fill="#333">1x zentral + 3x Monitoring-Agents</text>
+
+  <rect x="450" y="224" width="330" height="28" rx="5" fill="#fff" stroke="#f1948a" stroke-width="1"/>
+  <text x="470" y="242" font-size="10" fill="#333">3x RBAC + OIDC-Synchronisierung</text>
+
+  <rect x="450" y="258" width="330" height="28" rx="5" fill="#fff" stroke="#f1948a" stroke-width="1"/>
+  <text x="470" y="276" font-size="10" fill="#333">3x Backup-Strategie</text>
+
+  <rect x="450" y="292" width="330" height="28" rx="5" fill="#fff" stroke="#f1948a" stroke-width="1"/>
+  <text x="470" y="310" font-size="10" fill="#333">3x Sicherheits-Updates (zeitgleich!)</text>
+
+  <!-- Bottom note -->
+  <rect x="20" y="352" width="780" height="20" rx="5" fill="#fef9e7" stroke="#f39c12" stroke-width="1"/>
+  <text x="410" y="366" text-anchor="middle" font-size="10" fill="#7d6608">Faustregel: Jeder zusaetzliche Cluster verdreifacht den Betriebsaufwand — nicht verdoppelt.</text>
+</svg>
