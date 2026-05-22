@@ -337,3 +337,129 @@ Entwickler deployen manuell mit `kubectl` in 5 Cluster.
 | Proof of Concept / Startup | Team &gt; 3 dedizierte Platform Engineers |
 | Kein globaler Traffic | Verschiedene Workload-Typen (GPU + Web) |
 | | Echter Geo-Bedarf (&lt; 50 ms in US und EU) |
+
+---
+
+## Persistenter Storage im Cluster: Container Storage Interface (CSI)
+
+### Was ist CSI?
+
+Das **Container Storage Interface (CSI)** ist ein standardisiertes Interface, ueber das
+Kubernetes mit beliebigen Storage-Systemen kommuniziert. Jeder Storage-Anbieter liefert
+seinen eigenen CSI-Treiber — Kubernetes selbst muss nicht mehr veraendert werden.
+
+**Wie war es vorher (in-tree)?**
+Frueheer musste jeder Storage-Anbieter seinen Code direkt in den Kubernetes-Quellcode einpflegen
+("in-tree"). Das bedeutete: warten auf den naechsten Kubernetes-Release fuer jeden Bugfix.
+Mit CSI ist das entkoppelt — Treiber werden unabhaengig versioniert und deployt.
+
+### Architektur
+
+![CSI Architektur in Kubernetes](/images/csi-architektur.svg)
+
+### Vorteile von CSI
+
+| Vorteil | Erklaerung |
+|---------|-----------|
+| Automatische Erstellung | Storage wird on-demand bereitgestellt, wenn ein PVC erstellt wird |
+| Portabilitaet | Pods koennen auf beliebige Nodes verschoben werden — Volume folgt mit |
+| Automatische Bereinigung | Storage wird geloescht, wenn der PVC entfernt wird (ReclaimPolicy: Delete) |
+| Herstellerunabhaengig | Jeder Anbieter liefert eigenen Treiber — kein Kubernetes-Patch noetig |
+
+### Statische vs. dynamische Provisionierung
+
+| | Statisch | Dynamisch |
+|-|---------|----------|
+| Wann? | Storage wird vorab manuell angelegt | Storage wird on-demand erstellt |
+| Einsatz | Vorbefuellte Volumes, Legacy-Systeme | Produktionssysteme, Cloud-native |
+| Aufwand | Admin legt PV manuell an | StorageClass und CSI-Treiber reichen |
+
+### Komponenten
+
+**StorageClass** — definiert, welcher Treiber und welche Parameter verwendet werden:
+
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-csi
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: 10.135.0.18
+  share: /var/nfs
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+mountOptions:
+  - nfsvers=3
+```
+
+**PersistentVolumeClaim (PVC)** — Anforderung eines Pods an Storage:
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-nfs-dynamic
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: nfs-csi
+```
+
+### Praxisbeispiel: NFS CSI-Treiber installieren
+
+```bash
+curl -skSL https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/v4.6.0/deploy/install-driver.sh \
+  | bash -s v4.6.0 --
+```
+
+### Volume Snapshots
+
+CSI unterstuetzt auch Snapshots — nuetzlich fuer Backups und Point-in-Time-Recovery.
+
+**Schritt 1: VolumeSnapshotClass anlegen**
+
+```yaml
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: csi-nfs-snapclass
+driver: nfs.csi.k8s.io
+deletionPolicy: Delete
+```
+
+**Schritt 2: Snapshot erstellen**
+
+```yaml
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: test-nfs-snapshot
+spec:
+  volumeSnapshotClassName: csi-nfs-snapclass
+  source:
+    persistentVolumeClaimName: pvc-nfs-dynamic
+```
+
+**Schritt 3: Aus Snapshot wiederherstellen**
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-nfs-snapshot-restored
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: nfs-csi
+  dataSource:
+    name: test-nfs-snapshot
+    kind: VolumeSnapshot
+    apiGroup: snapshot.storage.k8s.io
+```
