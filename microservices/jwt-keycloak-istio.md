@@ -30,19 +30,24 @@ Kein Passwort wandert durch die App – nur ein kurzlebiger "Code".
 
 | Schritt | Wer | Was |
 |---------|-----|-----|
-| 1 | Browser | Redirect zu Keycloak Login-Page |
-| 2 | Keycloak | User gibt Credentials ein, Keycloak prueft |
-| 3 | Keycloak | Redirect zurueck mit `?code=abc123` (kurzlebig, Sekunden) |
-| 4 | Browser | Sendet Code an Backend-App |
-| 5 | Backend | Tauscht Code gegen Token (`client_id + client_secret`) |
-| 6 | Keycloak | Gibt `access_token`, `refresh_token`, `id_token` zurueck |
+| 1 | Browser | Leitet zu Keycloak weiter — mit `redirect_uri=https://backend.com/callback` |
+| 2 | Keycloak | Zeigt Login-Formular, prueft Credentials |
+| 3 | Keycloak | Antwortet mit **HTTP 302 Redirect** zu `https://backend.com/callback?code=abc123` |
+| 4 | Browser | **Folgt dem Redirect automatisch** — ladet die Callback-URL des Backends (Code steckt im Query-Parameter) |
+| 5 | Backend | Ruft Keycloak **direkt** an (Server-to-Server, Browser nicht beteiligt): tauscht `code` gegen Token |
+| 6 | Keycloak | Gibt `access_token`, `refresh_token`, `id_token` ans Backend zurueck |
 | 7 | Backend | Speichert JWT in Session oder Cookie |
-| 8 | Backend | Jeder API-Call traegt `Authorization: Bearer <JWT>` |
 
-**Warum dieser Umweg ueber einen Code?**
-Der eigentliche JWT verlasst nie den Browser. Nur das Backend kennt
-den `client_secret` und kann Token anfordern. Das schuetzt vor Token-Leakage
-in Browser-History oder Logs.
+**Der entscheidende Mechanismus in Schritt 3–4:**
+Keycloak schickt keinen Token an den Browser — es schickt nur einen **Redirect**.
+Der Browser folgt diesem Redirect blind und landet auf der Callback-URL des Backends.
+Dabei uebertraegt er den `code` als URL-Parameter. Der Browser "weiss" nicht, was er tut —
+er folgt nur einer HTTP-Weiterleitung.
+
+**Warum laufen Schritt 5–6 am Browser vorbei?**
+Das Backend ruft Keycloak direkt auf — ohne Browser-Beteiligung.
+Dabei sendet es den `client_secret`, der **niemals** den Server verlassen darf.
+Der Browser bekommt den `access_token` nie zu sehen — nur das Backend haelt ihn.
 
 ---
 

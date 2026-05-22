@@ -1,90 +1,88 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" font-family="sans-serif">
-  <rect width="900" height="480" fill="#0f172a" rx="12"/>
-  <text x="450" y="36" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="bold">Authorization Code Flow – User Login</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" font-family="sans-serif">
+  <rect width="960" height="540" fill="#0f172a" rx="12"/>
+  <text x="480" y="36" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="bold">Authorization Code Flow – User Login</text>
 
-  <!-- Spalten: Browser, Keycloak, Backend-App, API -->
-  <!-- Browser -->
-  <rect x="30" y="60" width="130" height="50" rx="8" fill="#1e3a5f"/>
-  <text x="95" y="82" text-anchor="middle" fill="#93c5fd" font-size="13" font-weight="bold">Browser</text>
-  <text x="95" y="100" text-anchor="middle" fill="#bfdbfe" font-size="11">/ App</text>
+  <!-- Spalten-Header -->
+  <rect x="20"  y="55" width="140" height="50" rx="8" fill="#1e3a5f"/>
+  <text x="90"  y="77" text-anchor="middle" fill="#93c5fd" font-size="13" font-weight="bold">Browser</text>
+  <text x="90"  y="95" text-anchor="middle" fill="#bfdbfe" font-size="11">/ Web-App</text>
 
-  <!-- Keycloak -->
-  <rect x="290" y="60" width="130" height="50" rx="8" fill="#14532d"/>
-  <text x="355" y="82" text-anchor="middle" fill="#86efac" font-size="13" font-weight="bold">Keycloak</text>
-  <text x="355" y="100" text-anchor="middle" fill="#a3e6bb" font-size="11">Auth Server</text>
+  <rect x="300" y="55" width="160" height="50" rx="8" fill="#14532d"/>
+  <text x="380" y="77" text-anchor="middle" fill="#86efac" font-size="13" font-weight="bold">Keycloak</text>
+  <text x="380" y="95" text-anchor="middle" fill="#a3e6bb" font-size="11">Auth Server</text>
 
-  <!-- Backend App -->
-  <rect x="560" y="60" width="130" height="50" rx="8" fill="#4a1942"/>
-  <text x="625" y="82" text-anchor="middle" fill="#f0abfc" font-size="13" font-weight="bold">Backend App</text>
-  <text x="625" y="100" text-anchor="middle" fill="#e9d5ff" font-size="11">OAuth2 Client</text>
+  <rect x="640" y="55" width="160" height="50" rx="8" fill="#4a1942"/>
+  <text x="720" y="77" text-anchor="middle" fill="#f0abfc" font-size="13" font-weight="bold">Backend App</text>
+  <text x="720" y="95" text-anchor="middle" fill="#e9d5ff" font-size="11">OAuth2 Client</text>
 
-  <!-- API/Resource -->
-  <rect x="760" y="60" width="110" height="50" rx="8" fill="#7c2d12"/>
-  <text x="815" y="82" text-anchor="middle" fill="#fca5a5" font-size="13" font-weight="bold">API</text>
-  <text x="815" y="100" text-anchor="middle" fill="#fecaca" font-size="11">Resource Server</text>
+  <!-- Vertikale Lebenslinien -->
+  <line x1="90"  y1="105" x2="90"  y2="520" stroke="#1e40af" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="380" y1="105" x2="380" y2="520" stroke="#166534" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="720" y1="105" x2="720" y2="520" stroke="#6b21a8" stroke-width="1.5" stroke-dasharray="4,3"/>
 
-  <!-- Vertikale Linien -->
-  <line x1="95" y1="110" x2="95" y2="460" stroke="#1e40af" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <line x1="355" y1="110" x2="355" y2="460" stroke="#166534" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <line x1="625" y1="110" x2="625" y2="460" stroke="#6b21a8" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <line x1="815" y1="110" x2="815" y2="460" stroke="#9a3412" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <!-- ── Schritt 1 ─────────────────────────────────────────── -->
+  <text x="8" y="148" fill="#64748b" font-size="11" font-weight="bold">1</text>
+  <line x1="90" y1="142" x2="370" y2="142" stroke="#60a5fa" stroke-width="1.5"/>
+  <polygon points="366,138 376,142 366,146" fill="#60a5fa"/>
+  <text x="228" y="136" text-anchor="middle" fill="#93c5fd" font-size="11">Redirect zur Keycloak Login-Page</text>
+  <text x="228" y="157" text-anchor="middle" fill="#475569" font-size="10">response_type=code  client_id=myapp</text>
+  <text x="228" y="169" text-anchor="middle" fill="#475569" font-size="10">redirect_uri=https://backend.com/callback</text>
 
-  <!-- Schritt 1: Redirect zu Keycloak -->
-  <text x="20" y="145" fill="#64748b" font-size="11" font-weight="bold">1</text>
-  <line x1="95" y1="148" x2="345" y2="148" stroke="#60a5fa" stroke-width="1.5"/>
-  <polygon points="341,144 351,148 341,152" fill="#60a5fa"/>
-  <text x="215" y="143" text-anchor="middle" fill="#93c5fd" font-size="11">Redirect zu Login-Page</text>
+  <!-- ── Schritt 2 ─────────────────────────────────────────── -->
+  <text x="8" y="205" fill="#64748b" font-size="11" font-weight="bold">2</text>
+  <rect x="300" y="185" width="160" height="36" rx="5" fill="#1a3a28"/>
+  <text x="380" y="200" text-anchor="middle" fill="#86efac" font-size="10">User gibt user/password ein</text>
+  <text x="380" y="215" text-anchor="middle" fill="#4ade80" font-size="10">Keycloak authentifiziert</text>
 
-  <!-- Schritt 2: User gibt Credentials ein -->
-  <text x="20" y="195" fill="#64748b" font-size="11" font-weight="bold">2</text>
-  <rect x="290" y="160" width="130" height="40" rx="4" fill="#1a3a28"/>
-  <text x="355" y="178" text-anchor="middle" fill="#86efac" font-size="10">User gibt Credentials</text>
-  <text x="355" y="193" text-anchor="middle" fill="#86efac" font-size="10">ein (user/password)</text>
+  <!-- ── Schritt 3 ─────────────────────────────────────────── -->
+  <text x="8" y="255" fill="#64748b" font-size="11" font-weight="bold">3</text>
+  <line x1="370" y1="244" x2="100" y2="244" stroke="#4ade80" stroke-width="1.5"/>
+  <polygon points="104,240 94,244 104,248" fill="#4ade80"/>
+  <!-- Redirect-Box -->
+  <rect x="100" y="230" width="256" height="28" rx="4" fill="#0f2818"/>
+  <text x="228" y="242" text-anchor="middle" fill="#4ade80" font-size="10" font-weight="bold">HTTP 302 Redirect →</text>
+  <text x="228" y="254" text-anchor="middle" fill="#86efac" font-size="10">https://backend.com/callback?code=abc123</text>
+  <!-- Hinweis Code -->
+  <rect x="100" y="263" width="256" height="18" rx="3" fill="#132f1e"/>
+  <text x="228" y="275" text-anchor="middle" fill="#6b7280" font-size="9">code ist kurzlebig (~10 Sek) und einmalig verwendbar</text>
 
-  <!-- Schritt 3: Redirect mit Code -->
-  <text x="20" y="235" fill="#64748b" font-size="11" font-weight="bold">3</text>
-  <line x1="345" y1="218" x2="105" y2="218" stroke="#4ade80" stroke-width="1.5"/>
-  <polygon points="109,214 99,218 109,222" fill="#4ade80"/>
-  <text x="215" y="213" text-anchor="middle" fill="#86efac" font-size="11">Redirect + ?code=abc123</text>
+  <!-- ── Schritt 4 ─────────────────────────────────────────── -->
+  <text x="8" y="318" fill="#64748b" font-size="11" font-weight="bold">4</text>
+  <line x1="90" y1="310" x2="710" y2="310" stroke="#60a5fa" stroke-width="1.5"/>
+  <polygon points="706,306 716,310 706,314" fill="#60a5fa"/>
+  <!-- Erklaerung -->
+  <rect x="110" y="295" width="590" height="30" rx="4" fill="#0f172a" stroke="#1e40af" stroke-width="1"/>
+  <text x="405" y="308" text-anchor="middle" fill="#93c5fd" font-size="10" font-weight="bold">Browser folgt dem Redirect automatisch → GET /callback?code=abc123</text>
+  <text x="405" y="320" text-anchor="middle" fill="#475569" font-size="9">Der Browser "schickt" den Code nicht bewusst – er folgt nur der Weiterleitung von Keycloak</text>
 
-  <!-- Schritt 4: Code an Backend weiterleiten -->
-  <text x="20" y="268" fill="#64748b" font-size="11" font-weight="bold">4</text>
-  <line x1="95" y1="248" x2="615" y2="248" stroke="#60a5fa" stroke-width="1.5"/>
-  <polygon points="611,244 621,248 611,252" fill="#60a5fa"/>
-  <text x="355" y="243" text-anchor="middle" fill="#93c5fd" font-size="11">Browser sendet code an Backend</text>
+  <!-- ── Trennlinie: Server-to-Server Zone ─────────────────── -->
+  <rect x="350" y="342" width="590" height="22" rx="5" fill="#1c1917" stroke="#78350f" stroke-width="1.5"/>
+  <text x="645" y="357" text-anchor="middle" fill="#f59e0b" font-size="11" font-weight="bold">Server-to-Server — Browser ist NICHT beteiligt</text>
 
-  <!-- Schritt 5: Backend tauscht Code gegen JWT -->
-  <text x="20" y="298" fill="#64748b" font-size="11" font-weight="bold">5</text>
-  <line x1="625" y1="278" x2="365" y2="278" stroke="#f0abfc" stroke-width="1.5"/>
-  <polygon points="369,274 359,278 369,282" fill="#f0abfc"/>
-  <text x="490" y="273" text-anchor="middle" fill="#e879f9" font-size="11">POST /token (code + client_secret)</text>
+  <!-- ── Schritt 5 ─────────────────────────────────────────── -->
+  <text x="8" y="400" fill="#64748b" font-size="11" font-weight="bold">5</text>
+  <!-- Pfeil Backend -> Keycloak (direkt, kein Browser) -->
+  <line x1="720" y1="385" x2="390" y2="385" stroke="#f0abfc" stroke-width="2"/>
+  <polygon points="394,381 384,385 394,389" fill="#f0abfc"/>
+  <rect x="408" y="371" width="296" height="28" rx="4" fill="#2d1040"/>
+  <text x="556" y="383" text-anchor="middle" fill="#e879f9" font-size="10" font-weight="bold">POST /token   grant_type=authorization_code</text>
+  <text x="556" y="394" text-anchor="middle" fill="#c084fc" font-size="10">code=abc123  client_id=myapp  client_secret=***</text>
 
-  <!-- Schritt 6: Keycloak gibt JWT zurueck -->
-  <text x="20" y="328" fill="#64748b" font-size="11" font-weight="bold">6</text>
-  <line x1="365" y1="308" x2="615" y2="308" stroke="#4ade80" stroke-width="1.5"/>
-  <polygon points="611,304 621,308 611,312" fill="#4ade80"/>
-  <rect x="395" y="294" width="190" height="26" rx="4" fill="#0f172a"/>
-  <text x="490" y="311" text-anchor="middle" fill="#4ade80" font-size="10">{ access_token, refresh_token, id_token }</text>
+  <!-- ── Schritt 6 ─────────────────────────────────────────── -->
+  <text x="8" y="444" fill="#64748b" font-size="11" font-weight="bold">6</text>
+  <line x1="390" y1="430" x2="710" y2="430" stroke="#4ade80" stroke-width="2"/>
+  <polygon points="706,426 716,430 706,434" fill="#4ade80"/>
+  <rect x="406" y="416" width="296" height="28" rx="4" fill="#0f172a" stroke="#166534" stroke-width="1"/>
+  <text x="554" y="428" text-anchor="middle" fill="#4ade80" font-size="10" font-weight="bold">{ access_token, refresh_token, id_token }</text>
+  <text x="554" y="440" text-anchor="middle" fill="#86efac" font-size="9">access_token: ~5 Min · refresh_token: ~30 Min</text>
 
-  <!-- Schritt 7: Backend speichert JWT in Session -->
-  <text x="20" y="360" fill="#64748b" font-size="11" font-weight="bold">7</text>
-  <rect x="560" y="328" width="130" height="30" rx="4" fill="#3b1262"/>
-  <text x="625" y="343" text-anchor="middle" fill="#e9d5ff" font-size="10">JWT in Session</text>
-  <text x="625" y="356" text-anchor="middle" fill="#c4b5fd" font-size="10">oder Cookie speichern</text>
+  <!-- ── Schritt 7 ─────────────────────────────────────────── -->
+  <text x="8" y="482" fill="#64748b" font-size="11" font-weight="bold">7</text>
+  <rect x="640" y="462" width="160" height="32" rx="5" fill="#3b1262"/>
+  <text x="720" y="477" text-anchor="middle" fill="#e9d5ff" font-size="10">Backend speichert access_token</text>
+  <text x="720" y="490" text-anchor="middle" fill="#c4b5fd" font-size="10">in Session / Cookie</text>
 
-  <!-- Schritt 8: API Call mit JWT -->
-  <text x="20" y="400" fill="#64748b" font-size="11" font-weight="bold">8</text>
-  <line x1="625" y1="380" x2="805" y2="380" stroke="#f0abfc" stroke-width="1.5"/>
-  <polygon points="801,376 811,380 801,384" fill="#f0abfc"/>
-  <text x="715" y="375" text-anchor="middle" fill="#e879f9" font-size="11">Authorization: Bearer JWT</text>
-
-  <!-- Schritt 9: API Response -->
-  <text x="20" y="430" fill="#64748b" font-size="11" font-weight="bold">9</text>
-  <line x1="805" y1="410" x2="635" y2="410" stroke="#fca5a5" stroke-width="1.5"/>
-  <polygon points="639,406 629,410 639,414" fill="#fca5a5"/>
-  <text x="715" y="405" text-anchor="middle" fill="#fca5a5" font-size="11">200 OK + Response</text>
-
-  <!-- Hinweis unten -->
-  <rect x="30" y="445" width="840" height="25" rx="4" fill="#1e293b"/>
-  <text x="450" y="461" text-anchor="middle" fill="#64748b" font-size="10">Code bleibt kurzlebig (Sekunden) · Nur Backend kennt den client_secret · Access Token gilt ~5 Minuten</text>
+  <!-- Hinweis: client_secret bleibt auf Server -->
+  <rect x="20" y="508" width="920" height="22" rx="4" fill="#1e293b"/>
+  <text x="480" y="523" text-anchor="middle" fill="#64748b" font-size="10">client_secret verlasst NIEMALS den Server · Browser sieht nur den kurzlebigen code, nie den access_token direkt</text>
 </svg>
