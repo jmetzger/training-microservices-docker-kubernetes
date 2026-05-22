@@ -1,18 +1,17 @@
 # NFS 
 
-## Step 1a: Treiber installieren (manifests)
+  * Step 1 + 2 : nur Trainer
+  * ab Step 3: Trainees
 
-  * https://github.com/kubernetes-csi/csi-driver-nfs/blob/master/docs/install-csi-driver-v4.9.0.md
+## Requirements:
 
-```
-curl -skSL https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/v4.6.0/deploy/install-driver.sh | bash -s v4.9.0 --
-```
+  * Ein NFS-Server oder eine Storage mit NFS muss im Netz zur Verfügung stehen. 
 
-## Alternative: Step 1b: Do the same with helm - chart 
+## Step 1: Do the same with helm - chart 
 
 ```
 helm repo add csi-driver-nfs https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
-helm install csi-driver-nfs csi-driver-nfs/csi-driver-nfs --namespace kube-system --version v4.6.0
+helm upgrade --install csi-driver-nfs csi-driver-nfs/csi-driver-nfs --namespace kube-system --version 4.13.2 --reset-values 
 ```
 
 ## Step 2: Storage Class 
@@ -21,8 +20,8 @@ helm install csi-driver-nfs csi-driver-nfs/csi-driver-nfs --namespace kube-syste
 cd
 mkdir -p manifests
 cd manifests
-mkdir csi
-cd csi
+mkdir csi-storage
+cd csi-storage 
 nano 01-storageclass.yml
 ```
 
@@ -33,10 +32,14 @@ metadata:
   name: nfs-csi
 provisioner: nfs.csi.k8s.io
 parameters:
-  server: 10.135.0.12
+  server: 10.135.0.6
   share: /var/nfs
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
+```
+
+```
+kubectl apply -f .
 ```
 
 ## Step 3: Persistent Volume Claim 
@@ -45,7 +48,7 @@ volumeBindingMode: Immediate
 cd
 mkdir -p manifests
 cd manifests
-mkdir -p csi
+mkdir csi
 cd csi
 nano 02-pvc.yaml
 ```
@@ -66,8 +69,10 @@ spec:
 
 ```
 kubectl apply -f .
+kubectl get pvc
+#
+kubectl get pv 
 ```
-
 
 ## Step 4: Pod 
 
@@ -76,8 +81,8 @@ nano 03-pod.yaml
 ```
 
 ```
-kind: Pod
 apiVersion: v1
+kind: Pod
 metadata:
   name: nginx-nfs
 spec:
@@ -99,35 +104,63 @@ spec:
 ```
 
 ```
-
 kubectl apply -f .
-# im namespace 
-kubectl get pods nginx-nfs
-kubectl get pvc
-
-# global
-kubectl get pv 
+kubectl get pods
+kubectl describe pods nginx-nfs 
 ```
 
-## Step 5: recherche 
+## Step 5: Testing
 
 ```
-kubectl exec nginx-nfs -- tail /mnt/nfs/outfile
-```
-
-## Step 6: delete und recreate 
-
-```
-kubectl delete -f 03-pod.yaml
+kubectl exec -it nginx-nfs -- bash 
 ```
 
 ```
-# wieder erstellen
+cd /mnt/nfs
+ls -la
+# outfile
+head /mnt/nfs/outfile 
+tail -f /mnt/nfs/outfile
+```
+
+```
+CTRL+C
+exit
+```
+
+## Step 6: Destroy 
+
+```
+kubectl delete -f 03-pod.yaml 
+
+## Verify in nfs - trainer !! 
+```
+
+## Step 7: Recreate 
+
+```
 kubectl apply -f 03-pod.yaml
-# alte daten sichtbar 
-kubectl exec nginx-nfs -- head /mnt/nfs/outfile
-# neue daten sichtbar
-kubectl exec nginx-nfs -- tail /mnt/nfs/outfile
+```
+
+```
+kubectl exec -it nginx-nfs -- bash
+```
+
+```
+# is old data here ? 
+head /mnt/nfs/outfile 
+#
+tail -f /mnt/nfs/outfile
+```
+
+```
+CTRL + C
+exit
+```
+## Step 8: Cleanup 
+
+```
+kubectl delete -f .
 ```
 
 

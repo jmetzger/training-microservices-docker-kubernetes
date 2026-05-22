@@ -242,6 +242,12 @@
      * [Prometheus Kubernetes Stack installieren](prometheus-grafana/install-with-helm.md)
      * [Prometheus - Services scrapen die keine Endpunkte für Prometheus haben](prometheus-grafana/z_blackbox-exporter.md)
     
+  1. Kubernetes Storage (CSI) 
+     * [Überblick Persistant Volumes (CSI)](kubernetes-csi/overview.md)
+     * [Liste der Treiber mit Features (CSI)](https://kubernetes-csi.github.io/docs/drivers.html)
+     * [Übung Persistant Storage](kubernetes-csi/nfs-exercise.md)
+     * [Beispiel mariadb](kubernetes-csi/example-mariadb.md)
+
   1. Helm
      * [Helm internals / secret a.s.o](helm/deep-dive.yml)
     
