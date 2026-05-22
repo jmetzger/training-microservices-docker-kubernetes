@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 530" width="720" height="530">
+  <rect width="720" height="530" fill="#f4f6f8" rx="12"/>
+
+  <text x="360" y="36" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="17" font-weight="bold" fill="#1a1a2e">Kubernetes Security — Schichtenmodell (Defense in Depth)</text>
+  <text x="360" y="55" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" fill="#666666">Von der Infrastruktur bis zur Compliance — jede Schicht schliesst Angriffsvektoren</text>
+
+  <!-- Row 1: Infrastruktur -->
+  <rect x="20" y="70" width="680" height="44" fill="#0D47A1" rx="6"/>
+  <rect x="20" y="70" width="44" height="44" fill="#0A3880" rx="6"/>
+  <text x="42" y="98" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ffffff">01</text>
+  <text x="76" y="92" font-family="sans-serif" font-size="13" font-weight="bold" fill="#ffffff">Cluster-Infrastruktur</text>
+  <text x="76" y="107" font-family="sans-serif" font-size="11" fill="#90CAF9">etcd-Sicherheit · TLS · Node-Haertung</text>
+  <text x="692" y="100" text-anchor="end" font-family="sans-serif" font-size="11" fill="#BBDEFB">Encryption at Rest · kubeadm</text>
+
+  <!-- Row 2: Zugriffssteuerung -->
+  <rect x="20" y="118" width="680" height="44" fill="#1565C0" rx="6"/>
+  <rect x="20" y="118" width="44" height="44" fill="#0D47A1" rx="6"/>
+  <text x="42" y="146" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ffffff">02</text>
+  <text x="76" y="140" font-family="sans-serif" font-size="13" font-weight="bold" fill="#ffffff">Zugriffssteuerung</text>
+  <text x="76" y="155" font-family="sans-serif" font-size="11" fill="#90CAF9">Wer darf was im Cluster tun?</text>
+  <text x="692" y="148" text-anchor="end" font-family="sans-serif" font-size="11" fill="#BBDEFB">RBAC · ServiceAccounts</text>
+
+  <!-- Row 3: Netzwerk -->
+  <rect x="20" y="166" width="680" height="44" fill="#0277BD" rx="6"/>
+  <rect x="20" y="166" width="44" height="44" fill="#01579B" rx="6"/>
+  <text x="42" y="194" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ffffff">03</text>
+  <text x="76" y="188" font-family="sans-serif" font-size="13" font-weight="bold" fill="#ffffff">Netzwerk-Sicherheit</text>
+  <text x="76" y="203" font-family="sans-serif" font-size="11" fill="#B3E5FC">Welche Pods duerfen miteinander reden?</text>
+  <text x="692" y="196" text-anchor="end" font-family="sans-serif" font-size="11" fill="#B3E5FC">Network Policies · mTLS · Istio</text>
+
+  <!-- Row 4: Workload -->
+  <rect x="20" y="214" width="680" height="44" fill="#00838F" rx="6"/>
+  <rect x="20" y="214" width="44" height="44" fill="#006064" rx="6"/>
+  <text x="42" y="242" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ffffff">04</text>
+  <text x="76" y="236" font-family="sans-serif" font-size="13" font-weight="bold" fill="#ffffff">Pod- und Container-Sicherheit</text>
+  <text x="76" y="251" font-family="sans-serif" font-size="11" fill="#B2EBF2">Wie laufen Container ab?</text>
+  <text x="692" y="244" text-anchor="end" font-family="sans-serif" font-size="11" fill="#B2EBF2">PSA · SecurityContext · seccomp</text>
+
+  <!-- Row 5: Secrets -->
+  <rect x="20" y="262" width="680" height="44" fill="#2E7D32" rx="6"/>
+  <rect x="20" y="262" width="44" height="44" fill="#1B5E20" rx="6"/>
+  <text x="42" y="290" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ffffff">05</text>
+  <text x="76" y="284" font-family="sans-serif" font-size="13" font-weight="bold" fill="#ffffff">Secrets-Management</text>
+  <text x="76" y="299" font-family="sans-serif" font-size="11" fill="#C8E6C9">Wie werden Passwoerter verwaltet?</text>
+  <text x="692" y="292" text-anchor="end" font-family="sans-serif" font-size="11" fill="#C8E6C9">Vault · ESO · CSI Provider</text>
+
+  <!-- Row 6: Images -->
+  <rect x="20" y="310" width="680" height="44" fill="#558B2F" rx="6"/>
+  <rect x="20" y="310" width="44" height="44" fill="#33691E" rx="6"/>
+  <text x="42" y="338" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ffffff">06</text>
+  <text x="76" y="332" font-family="sans-serif" font-size="13" font-weight="bold" fill="#ffffff">Image Security &amp; Supply Chain</text>
+  <text x="76" y="347" font-family="sans-serif" font-size="11" fill="#DCEDC8">Sind Images vertrauenswuerdig?</text>
+  <text x="692" y="340" text-anchor="end" font-family="sans-serif" font-size="11" fill="#DCEDC8">Trivy · Cosign · Admission</text>
+
+  <!-- Row 7: Audit -->
+  <rect x="20" y="358" width="680" height="44" fill="#F57F17" rx="6"/>
+  <rect x="20" y="358" width="44" height="44" fill="#E65100" rx="6"/>
+  <text x="42" y="386" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ffffff">07</text>
+  <text x="76" y="380" font-family="sans-serif" font-size="13" font-weight="bold" fill="#ffffff">Audit Logging</text>
+  <text x="76" y="395" font-family="sans-serif" font-size="11" fill="#FFF9C4">Was ist im Cluster passiert?</text>
+  <text x="692" y="388" text-anchor="end" font-family="sans-serif" font-size="11" fill="#FFF9C4">Audit API · SIEM · Loki</text>
+
+  <!-- Row 8: Policy -->
+  <rect x="20" y="406" width="680" height="44" fill="#E64A19" rx="6"/>
+  <rect x="20" y="406" width="44" height="44" fill="#BF360C" rx="6"/>
+  <text x="42" y="434" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ffffff">08</text>
+  <text x="76" y="428" font-family="sans-serif" font-size="13" font-weight="bold" fill="#ffffff">Policy Enforcement</text>
+  <text x="76" y="443" font-family="sans-serif" font-size="11" fill="#FFCCBC">Werden Regeln automatisch durchgesetzt?</text>
+  <text x="692" y="436" text-anchor="end" font-family="sans-serif" font-size="11" fill="#FFCCBC">Kyverno · OPA/Gatekeeper</text>
+
+  <!-- Row 9: Compliance -->
+  <rect x="20" y="454" width="680" height="44" fill="#6A1B9A" rx="6"/>
+  <rect x="20" y="454" width="44" height="44" fill="#4A148C" rx="6"/>
+  <text x="42" y="482" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ffffff">09</text>
+  <text x="76" y="476" font-family="sans-serif" font-size="13" font-weight="bold" fill="#ffffff">Compliance &amp; Standards</text>
+  <text x="76" y="491" font-family="sans-serif" font-size="11" fill="#E1BEE7">Entspricht der Cluster den Standards?</text>
+  <text x="692" y="484" text-anchor="end" font-family="sans-serif" font-size="11" fill="#E1BEE7">CIS Benchmark · kube-bench · kube-score</text>
+</svg>

@@ -2,6 +2,8 @@
 
 ## Ueberblick: Sicherheitsschichten
 
+![Kubernetes Security Schichtenmodell](/images/security-compliance-schichten.svg)
+
 Kubernetes-Security ist kein einzelnes Feature, sondern ein Schichtenmodell.
 Jede Schicht schliesst Angriffsvektoren auf ihrer Ebene.
 
