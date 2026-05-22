@@ -228,11 +228,78 @@ kubectl delete namespace resource-<dein-name>
 
 ---
 
+## LimitRange: Validierung vs. Mutation
+
+Ein wichtiges Detail: LimitRange-Felder verhalten sich grundlegend unterschiedlich.
+
+| Feld | Typ | Verhalten |
+|------|-----|-----------|
+| `max` / `min` | Validierung | Verstoß → Pod wird **abgelehnt** (Fehler) |
+| `default` / `defaultRequest` | Mutation | Werden nur eingesetzt, wenn der Nutzer **nichts angibt** |
+| `maxLimitRequestRatio` | Validierung | Prueft das Verhaeltnis limit/request |
+
+**Kein stillschweigendes Ueberschreiben:** Wenn ein Pod eigene `limits` oder `requests` setzt,
+die den `max`-Wert der LimitRange ueberschreiten, wird der Pod abgelehnt — nichts wird
+automatisch auf den Max-Wert zurechtgestutzt.
+
+### max-Wert-Ueberschreitung testen
+
+```
+# vi 05-pod-overlimit.yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-overlimit
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    resources:
+      limits:
+        cpu: "2"        # ueberschreitet max.cpu: "1" aus LimitRange
+        memory: 128Mi
+```
+
+```
+kubectl apply -f 05-pod-overlimit.yml -n resource-<dein-name>
+```
+
+**Erwarteter Fehler:**
+
+```
+Error from server (Forbidden): error when creating "05-pod-overlimit.yml":
+pods "pod-overlimit" is forbidden:
+maximum cpu usage per Container is 1, but limit is 2
+```
+
+### Mutation tritt nur bei fehlenden Werten ein
+
+Setzt der Nutzer eigene Werte (innerhalb von min/max), bleiben diese erhalten — der
+LimitRange greift **nicht** ueberschreibend ein:
+
+```
+# Pod mit eigenem gueltigen Wert → LimitRange-Default wird NICHT eingesetzt
+resources:
+  limits:
+    cpu: 500m      # bleibt 500m, nicht 200m (der Default)
+    memory: 256Mi  # bleibt 256Mi, nicht 128Mi (der Default)
+```
+
+### Sonderfall: bereits laufende Pods
+
+Eine verschaerfte LimitRange betrifft **nur neu erstellte Pods**. Ein laufender Pod wird
+nicht nachtraeglich getötet oder veraendert — die Pruefung greift ausschliesslich bei
+Neuerstellung bzw. bei Spec-aendernden Updates.
+
+---
+
 ## Zusammenfassung
 
 | Szenario | Ergebnis |
 |----------|----------|
 | Pod ohne limits, keine LimitRange | Abgelehnt (Quota erzwingt Angaben) |
 | Pod ohne limits, mit LimitRange | Akzeptiert (Defaults werden eingesetzt) |
+| Pod mit limits > max der LimitRange | Abgelehnt (Validierungsfehler) |
+| Pod mit eigenen gueltigen limits | Eigene Werte bleiben erhalten |
 | Deployment ueberschreitet Pod-Limit | Nur erlaubte Anzahl Pods laeuft |
-| ResourceQuota describe | Zeigt aktuellen Verbrauch vs. Limit |
+| LimitRange nachtraeglich verschaerft | Laufende Pods sind nicht betroffen |
