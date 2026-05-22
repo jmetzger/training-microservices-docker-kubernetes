@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 400" font-family="Arial, sans-serif">
+  <rect width="820" height="400" fill="#f4f6f9" rx="10"/>
+  <text x="410" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#1a1a2e">Typische Hybrid-Architektur: On-Premise + Public Cloud</text>
+
+  <!-- On-Premise block -->
+  <rect x="20" y="48" width="780" height="150" rx="10" fill="#eaf4fb" stroke="#2980b9" stroke-width="2"/>
+  <text x="30" y="68" font-size="11" font-weight="bold" fill="#1a5276">Eigenes Rechenzentrum (On-Premise)</text>
+
+  <rect x="40" y="78" width="220" height="100" rx="8" fill="#fff" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="150" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a1a2e">on-prem-k8s</text>
+  <text x="150" y="118" text-anchor="middle" font-size="10" fill="#555">Kernlogik / Backend</text>
+  <text x="150" y="134" text-anchor="middle" font-size="10" fill="#555">Geschaftskritische APIs</text>
+  <text x="150" y="150" text-anchor="middle" font-size="10" fill="#555">Echtzeit-Verarbeitung</text>
+  <text x="150" y="166" text-anchor="middle" font-size="9" fill="#888">Niedrige Latenz zum Kernsystem</text>
+
+  <rect x="290" y="78" width="220" height="100" rx="8" fill="#fff" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="400" y="100" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a1a2e">Datenbank</text>
+  <text x="400" y="118" text-anchor="middle" font-size="10" fill="#555">DSGVO-kritische Daten</text>
+  <text x="400" y="134" text-anchor="middle" font-size="10" fill="#555">Kundendaten</text>
+  <text x="400" y="150" text-anchor="middle" font-size="10" fill="#555">Finanzdaten</text>
+  <text x="400" y="166" text-anchor="middle" font-size="9" fill="#888">Verlassen das RZ nicht</text>
+
+  <!-- Arrow between on-prem services -->
+  <line x1="262" y1="128" x2="288" y2="128" stroke="#2980b9" stroke-width="1.5" marker-end="url(#arrBlue)"/>
+
+  <rect x="560" y="78" width="220" height="100" rx="8" fill="#d6eaf8" stroke="#2980b9" stroke-width="1"/>
+  <text x="670" y="96" text-anchor="middle" font-size="10" font-weight="bold" fill="#555">On-Premise Vorteile</text>
+  <text x="670" y="112" text-anchor="middle" font-size="9" fill="#555">Eigene Hardware</text>
+  <text x="670" y="126" text-anchor="middle" font-size="9" fill="#555">Datenschutz-Kontrolle</text>
+  <text x="670" y="140" text-anchor="middle" font-size="9" fill="#555">Geringe Latenz zum Kern</text>
+  <text x="670" y="154" text-anchor="middle" font-size="9" fill="#555">Hohe Fixkosten</text>
+  <text x="670" y="168" text-anchor="middle" font-size="9" fill="#888">Bestandsinvestitionen</text>
+
+  <!-- VPN Arrow -->
+  <rect x="310" y="198" width="200" height="28" rx="6" fill="#7f8c8d"/>
+  <text x="410" y="216" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">VPN / Direct Connect</text>
+  <line x1="150" y1="178" x2="310" y2="212" stroke="#7f8c8d" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrGray)"/>
+  <line x1="410" y1="226" x2="410" y2="248" stroke="#7f8c8d" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrGray)"/>
+
+  <!-- Cloud block -->
+  <rect x="20" y="248" width="780" height="130" rx="10" fill="#fdebd0" stroke="#e67e22" stroke-width="2"/>
+  <text x="30" y="268" font-size="11" font-weight="bold" fill="#e67e22">Public Cloud (AWS / Azure / GCP)</text>
+
+  <rect x="40" y="278" width="220" height="82" rx="8" fill="#fff" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="150" y="298" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a1a2e">cloud-k8s</text>
+  <text x="150" y="316" text-anchor="middle" font-size="10" fill="#555">Frontend / Reporting</text>
+  <text x="150" y="332" text-anchor="middle" font-size="10" fill="#555">Burst-Kapazitaet</text>
+  <text x="150" y="348" text-anchor="middle" font-size="9" fill="#888">Elastisch, Pay-per-Use</text>
+
+  <rect x="290" y="278" width="220" height="82" rx="8" fill="#fff" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="400" y="298" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a1a2e">Managed Services</text>
+  <text x="400" y="316" text-anchor="middle" font-size="10" fill="#555">CDN, Email</text>
+  <text x="400" y="332" text-anchor="middle" font-size="10" fill="#555">Notifications, Auth</text>
+  <text x="400" y="348" text-anchor="middle" font-size="9" fill="#888">Kein Eigenhosting noetig</text>
+
+  <rect x="560" y="278" width="220" height="82" rx="8" fill="#fdebd0" stroke="#e67e22" stroke-width="1"/>
+  <text x="670" y="296" text-anchor="middle" font-size="10" font-weight="bold" fill="#555">Cloud-Vorteile</text>
+  <text x="670" y="312" text-anchor="middle" font-size="9" fill="#555">Elastisch skalierbar</text>
+  <text x="670" y="326" text-anchor="middle" font-size="9" fill="#555">Variable Kosten</text>
+  <text x="670" y="340" text-anchor="middle" font-size="9" fill="#555">Managed Services</text>
+  <text x="670" y="354" text-anchor="middle" font-size="9" fill="#888">Schnelle Bereitstellung</text>
+
+  <!-- Bottom note -->
+  <rect x="20" y="388" width="780" height="8" rx="3" fill="#f0f0f0"/>
+
+  <defs>
+    <marker id="arrBlue" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#2980b9"/>
+    </marker>
+    <marker id="arrGray" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#7f8c8d"/>
+    </marker>
+  </defs>
+</svg>

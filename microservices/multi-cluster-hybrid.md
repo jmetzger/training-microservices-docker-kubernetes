@@ -65,18 +65,7 @@ Ein einzelner Kubernetes-Cluster hat praktische Grenzen:
 - **Compliance**: Daten in der EU, Compute in den USA — rechtlich oft nicht mischbar
 - **Verfuegbarkeit**: Ein Cluster = ein Single Point of Failure
 
-```
-Single Cluster:                  Multi-Cluster:
-
-  ┌─────────────────┐            ┌──────────┐   ┌──────────┐
-  │   ALLES drin    │            │  Prod EU │   │  Prod US │
-  │  Prod + Dev     │            └──────────┘   └──────────┘
-  │  EU + US        │                  │               │
-  │  Alle Teams     │            ┌──────────┐   ┌──────────┐
-  └─────────────────┘            │  Staging │   │    Dev   │
-    → Ein Ausfall trifft alles   └──────────┘   └──────────┘
-                                  → Isolation, Geo-Verteilung
-```
+![Single Cluster vs. Multi-Cluster](/images/multi-cluster-overview.svg)
 
 ---
 
@@ -86,13 +75,11 @@ Single Cluster:                  Multi-Cluster:
 
 Das einfachste und haeufigste Muster: Ein Cluster pro Umgebung.
 
-```
-dev-cluster          staging-cluster       prod-cluster
-─────────────        ───────────────       ────────────
-Entwickler           Integrationstests     Echte Nutzer
-experimentieren      vor Release           RBAC streng
-frei                 gleiche Configs       PodDisruptionBudget
-```
+| Cluster | Wer nutzt ihn | Besonderheiten |
+|---------|--------------|----------------|
+| dev-cluster | Entwickler (frei experimentieren) | Keine strengen Policies |
+| staging-cluster | QA, Integrationstests vor Release | Gleiche Configs wie Prod |
+| prod-cluster | Echte Nutzer | RBAC streng, PodDisruptionBudget |
 
 **Wann sinnvoll:**
 - Wenn Prod-Stabilitat kritisch ist
@@ -108,21 +95,7 @@ frei                 gleiche Configs       PodDisruptionBudget
 
 Mehrere Cluster in verschiedenen Regionen, alle nehmen Traffic an.
 
-```
-           ┌─────────────────┐
-           │  Global LB /    │
-           │  DNS-Routing    │
-           └────────┬────────┘
-                    │
-          ┌─────────┴──────────┐
-          │                    │
-   ┌──────▼──────┐    ┌────────▼────┐
-   │ cluster-eu  │    │ cluster-us  │
-   │ Frankfurt   │    │ Virginia    │
-   └─────────────┘    └─────────────┘
-     EU-Nutzer           US-Nutzer
-     GDPR-konform        CCPA-konform
-```
+![Muster 2: Geografische Verteilung Active-Active](/images/multi-cluster-muster-geo.svg)
 
 **Was wird repliziert:**
 - Stateless Services: problemlos in beiden Clustern
@@ -139,13 +112,11 @@ Mehrere Cluster in verschiedenen Regionen, alle nehmen Traffic an.
 
 Verschiedene Cluster fuer verschiedene Workload-Typen.
 
-```
-gpu-cluster          batch-cluster         web-cluster
-───────────          ─────────────         ───────────
-ML-Training          Nacht-Jobs            APIs, UIs
-A100/H100 GPUs       Spot-Instanzen        Autoscaling
-teuer, intensiv      guenstig              Standard-Nodes
-```
+| Cluster | Workload | Hardware |
+|---------|----------|----------|
+| gpu-cluster | ML-Training | A100/H100 GPUs — teuer, intensiv |
+| batch-cluster | Nacht-Jobs, Batch-Verarbeitung | Spot-Instanzen — guenstig |
+| web-cluster | APIs, UIs, Standard-Services | Standard-Nodes, Autoscaling |
 
 **Wann sinnvoll:**
 - GPU-Workloads sollen regulaere Deployments nicht beeinflussen
@@ -158,14 +129,12 @@ teuer, intensiv      guenstig              Standard-Nodes
 
 Hybrid bedeutet: eigene Rechenzentren (On-Premise) und Public Cloud gleichzeitig nutzen.
 
-```
-On-Premise                          Public Cloud (AWS/Azure/GCP)
-──────────                          ────────────────────────────
-Eigene Hardware                     Elastisch, Pay-per-Use
-Datenschutz-kritische Daten         Burst-Kapazitaet
-Geringe Latenz zum Kernsystem       Managed Services
-Hohe Fixkosten                      Variable Kosten
-```
+| Aspekt | On-Premise | Public Cloud (AWS/Azure/GCP) |
+|--------|-----------|------------------------------|
+| Hardware | Eigene Hardware | Elastisch, Pay-per-Use |
+| Daten | Datenschutz-kritische Daten | Burst-Kapazitaet |
+| Latenz | Gering zum Kernsystem | Abhaengig von Region |
+| Kosten | Hohe Fixkosten | Variable Kosten |
 
 ### Warum Hybrid?
 
@@ -178,73 +147,13 @@ Hohe Fixkosten                      Variable Kosten
 
 ### Typische Hybrid-Architektur
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Eigenes Rechenzentrum                 │
-│                                                          │
-│  ┌──────────────┐   ┌───────────────┐                   │
-│  │  on-prem-k8s │   │  Datenbank    │                   │
-│  │  (Kernlogik) │───│  (DSGVO-Daten)│                   │
-│  └──────┬───────┘   └───────────────┘                   │
-│         │  VPN/Direct Connect                            │
-└─────────│───────────────────────────────────────────────┘
-          │
-┌─────────│───────────────────────────────────────────────┐
-│         │         Public Cloud                           │
-│  ┌──────▼───────┐   ┌───────────────┐                   │
-│  │  cloud-k8s   │   │  CDN, Email,  │                   │
-│  │  (Frontend,  │   │  Notifications│                   │
-│  │  Reporting)  │   └───────────────┘                   │
-│  └──────────────┘                                        │
-└─────────────────────────────────────────────────────────┘
-```
+![Hybrid-Architektur On-Premise und Public Cloud](/images/multi-cluster-hybrid-arch.svg)
 
 ---
 
 ## Verbindung zwischen Clustern: Netzwerk-Optionen
 
-### Option 1: VPN / Private Connectivity
-
-```
-Cluster A              Cluster B
-──────────             ──────────
-10.0.0.0/16 ──VPN──── 10.1.0.0/16
-```
-
-**Einfach, aber:** Manuelles Routing, keine automatische Service Discovery.
-Gut fuer: wenige Verbindungen, On-Prem zu Cloud.
-
-### Option 2: Service Mesh (Istio / Linkerd Multi-Cluster)
-
-```
-Cluster A                    Cluster B
-──────────                   ──────────
-Istiod                       Istiod
-  │ Istio Gateway ───mTLS───── Istio Gateway
-  │
-Pods sehen remote Services
-wie lokale Services
-```
-
-**Vorteil:** mTLS automatisch, Service Discovery funktioniert uebergreifend,
-Traffic-Policies gelten ueberall.
-**Nachteil:** Komplex, Istio-Expertise noetig.
-
-### Option 3: Cilium ClusterMesh
-
-Cilium verbindet Cluster auf Netzwerkebene ohne Service Mesh Overhead.
-
-```
-cluster-1              cluster-2
-─────────              ─────────
-Cilium Agent ──────── Cilium Agent
-Pod A kann direkt     Pod B direkt erreichen
-pod-to-pod ohne       ohne Proxy/Sidecar
-Sidecar
-```
-
-**Vorteil:** Kein Sidecar-Overhead, Native Kubernetes NetworkPolicy uebergreifend.
-**Wann:** Performance-kritische Microservices, grosses Cluster-Netz.
+![Netzwerkoptionen zwischen Clustern: VPN, Service Mesh, Cilium ClusterMesh](/images/multi-cluster-netzwerk.svg)
 
 ---
 
@@ -308,17 +217,9 @@ apps/myservice/
 
 Problem: Wie weiss Cluster A, dass eine Anfrage wirklich von Cluster B kommt?
 
-```
-SPIRE Server (zentral)
-       │ stellt aus
-       ▼
-  workload identity
-  spiffe://prod-eu/ns/orders/sa/payment-svc
-       │ wird validiert von
-       ▼
-  Cluster B vertraut dem Zertifikat
-  → mTLS ohne manuelle Zertifikatsverwaltung
-```
+Der SPIRE Server laeuft zentral und stellt jeder Workload eine kryptografische Identitaet aus
+(z.B. `spiffe://prod-eu/ns/orders/sa/payment-svc`). Cluster B validiert dieses Zertifikat
+automatisch — mTLS ohne manuelle Zertifikatsverwaltung.
 
 ### 2. Secrets-Management (Vault / External Secrets Operator)
 
@@ -326,13 +227,11 @@ SPIRE Server (zentral)
 
 **Best Practice:** Zentraler Vault, alle Cluster holen Secrets zur Laufzeit.
 
-```
-HashiCorp Vault (zentral)
-       │
-       ├── Cluster prod-eu  → liest Secrets mit cluster-eigenem Auth-Token
-       ├── Cluster prod-us  → liest Secrets mit cluster-eigenem Auth-Token
-       └── Cluster staging  → liest Secrets (eigene Policy, weniger Rechte)
-```
+| Cluster | Auth-Token | Policy |
+|---------|-----------|--------|
+| prod-eu | Cluster-eigenes Token | Voller Prod-Zugriff |
+| prod-us | Cluster-eigenes Token | Voller Prod-Zugriff |
+| staging | Cluster-eigenes Token | Eingeschraenkte Policy, weniger Rechte |
 
 External Secrets Operator synchronisiert automatisch:
 ```yaml
@@ -368,27 +267,22 @@ Ein grosses Problem bei Multi-Cluster: Logs und Metriken sind ueber alle Cluster
 
 ### Zentrales Monitoring
 
-```
-Grafana Cloud / Thanos / VictoriaMetrics (zentral)
-       │
-       ├── Prometheus in cluster-eu  → remote_write
-       ├── Prometheus in cluster-us  → remote_write
-       └── Prometheus in staging     → remote_write
-```
+Jeder Cluster betreibt eine lokale Prometheus-Instanz, die per `remote_write` an eine
+zentrale Instanz (Grafana Cloud, Thanos oder VictoriaMetrics) schreibt. Ein Dashboard
+zeigt alle Cluster, Alerts koennen uebergreifend korreliert werden.
 
 **Ergebnis:** Ein Dashboard zeigt alle Cluster, Alerts koennen uebergreifend korreliert werden.
 
 ### Verteiltes Tracing (OpenTelemetry)
 
-```
-Request: Browser → EU-Frontend → US-Orders-API → EU-DB
+| Span | Service | Dauer | Hinweis |
+|------|---------|-------|---------|
+| 1 | EU-Frontend | 50 ms | |
+| 2 | Cross-Cluster-Hop | 15 ms | Netzwerk zwischen Clustern! |
+| 3 | US-Orders-API | 30 ms | |
+| 4 | DB-Query | 10 ms | |
 
-Trace-ID: abc-123  ← gleiche ID uebergreifend
-  Span 1: EU-Frontend       50ms
-  Span 2: Cross-Cluster     15ms (Netzwerk!)
-  Span 3: US-Orders-API     30ms
-  Span 4: DB-Query          10ms
-```
+Die gleiche Trace-ID (`abc-123`) verbindet alle Spans uebergreifend — sichtbar in Jaeger/Tempo.
 
 OpenTelemetry Collector in jedem Cluster, zentral gesammeltes Jaeger/Tempo.
 
@@ -437,12 +331,10 @@ Entwickler deployen manuell mit `kubectl` in 5 Cluster.
 
 ## Wann Multi-Cluster (nicht) anfangen?
 
-```
-Starte mit einem Cluster wenn:          Wechsle zu Multi-Cluster wenn:
-
-- Team < 20 Entwickler                  - Regulatorik es erfordert (DSGVO, Region)
-- Keine Compliance-Anforderungen        - Prod-Ausfall kostet mehr als Overhead
-- Proof of Concept / Startup            - Team > 3 dedizierte Platform Engineers
-- Kein globaler Traffic                 - Verschiedene Workload-Typen (GPU + Web)
-                                        - Echter Geo-Bedarf (< 50ms in US und EU)
-```
+| Starte mit einem Cluster wenn ... | Wechsle zu Multi-Cluster wenn ... |
+|----------------------------------|----------------------------------|
+| Team &lt; 20 Entwickler | Regulatorik es erfordert (DSGVO, Region) |
+| Keine Compliance-Anforderungen | Prod-Ausfall kostet mehr als Overhead |
+| Proof of Concept / Startup | Team &gt; 3 dedizierte Platform Engineers |
+| Kein globaler Traffic | Verschiedene Workload-Typen (GPU + Web) |
+| | Echter Geo-Bedarf (&lt; 50 ms in US und EU) |

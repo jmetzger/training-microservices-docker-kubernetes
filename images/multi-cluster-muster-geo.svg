@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 340" font-family="Arial, sans-serif">
+  <rect width="820" height="340" fill="#f4f6f9" rx="10"/>
+  <text x="410" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#1a1a2e">Muster 2: Geografische Verteilung (Active-Active)</text>
+
+  <!-- Global LB -->
+  <rect x="285" y="48" width="250" height="60" rx="10" fill="#1a1a2e" stroke="#e67e22" stroke-width="2"/>
+  <text x="410" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#e67e22">Global LB / DNS-Routing</text>
+  <text x="410" y="90" text-anchor="middle" font-size="10" fill="#ccc">Leitet Nutzer zur naechsten Region</text>
+
+  <!-- Arrows -->
+  <line x1="350" y1="108" x2="220" y2="165" stroke="#e67e22" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="470" y1="108" x2="600" y2="165" stroke="#e67e22" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="260" y="148" font-size="9" fill="#e67e22">EU-Nutzer</text>
+  <text x="530" y="148" font-size="9" fill="#e67e22">US-Nutzer</text>
+
+  <!-- EU Cluster -->
+  <rect x="50" y="172" width="300" height="130" rx="10" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+  <rect x="50" y="172" width="300" height="32" rx="10" fill="#2980b9"/>
+  <rect x="50" y="191" width="300" height="13" fill="#2980b9"/>
+  <text x="200" y="192" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">cluster-eu — Frankfurt</text>
+  <text x="200" y="222" text-anchor="middle" font-size="10" fill="#1a5276">Stateless Services (Pods)</text>
+  <rect x="70" y="232" width="120" height="30" rx="5" fill="#fff" stroke="#2980b9" stroke-width="1"/>
+  <text x="130" y="251" text-anchor="middle" font-size="10" fill="#333">API / Frontend</text>
+  <rect x="210" y="232" width="120" height="30" rx="5" fill="#fff" stroke="#2980b9" stroke-width="1"/>
+  <text x="270" y="251" text-anchor="middle" font-size="10" fill="#333">EU-Datenbank</text>
+  <rect x="70" y="272" width="260" height="22" rx="4" fill="#eaf4fb" stroke="#aed6f1" stroke-width="1"/>
+  <text x="200" y="287" text-anchor="middle" font-size="9" fill="#555">GDPR-konform — Daten bleiben in der EU</text>
+
+  <!-- US Cluster -->
+  <rect x="470" y="172" width="300" height="130" rx="10" fill="#d5f5e3" stroke="#27ae60" stroke-width="2"/>
+  <rect x="470" y="172" width="300" height="32" rx="10" fill="#27ae60"/>
+  <rect x="470" y="191" width="300" height="13" fill="#27ae60"/>
+  <text x="620" y="192" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">cluster-us — Virginia</text>
+  <text x="620" y="222" text-anchor="middle" font-size="10" fill="#1e8449">Stateless Services (Pods)</text>
+  <rect x="490" y="232" width="120" height="30" rx="5" fill="#fff" stroke="#27ae60" stroke-width="1"/>
+  <text x="550" y="251" text-anchor="middle" font-size="10" fill="#333">API / Frontend</text>
+  <rect x="630" y="232" width="120" height="30" rx="5" fill="#fff" stroke="#27ae60" stroke-width="1"/>
+  <text x="690" y="251" text-anchor="middle" font-size="10" fill="#333">US-Datenbank</text>
+  <rect x="490" y="272" width="260" height="22" rx="4" fill="#eafaf1" stroke="#a9dfbf" stroke-width="1"/>
+  <text x="620" y="287" text-anchor="middle" font-size="9" fill="#555">CCPA-konform — Daten bleiben in den USA</text>
+
+  <!-- Inter-cluster -->
+  <line x1="350" y1="237" x2="470" y2="237" stroke="#7f8c8d" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="410" y="230" text-anchor="middle" font-size="8" fill="#888">Replikation (optional)</text>
+
+  <!-- Bottom -->
+  <rect x="50" y="315" width="720" height="18" rx="4" fill="#fef9e7" stroke="#f39c12" stroke-width="1"/>
+  <text x="410" y="328" text-anchor="middle" font-size="9" fill="#7d6608">Stateful Services (DBs) benoetigen regionale Instanzen mit Replikation — deutlich komplexer als stateless</text>
+
+  <defs>
+    <marker id="arr" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#e67e22"/>
+    </marker>
+  </defs>
+</svg>
