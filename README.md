@@ -27,6 +27,7 @@
      * [IAM als Bounded Context — fachlich oder technisch?](microservices/iam-als-bounded-context.md)
      * [Authentication in Kubernetes (Kunde / Mobile App)](microservices/authentication.md)
      * [API Gateway vs. Istio Service Mesh – Authentication](microservices/authentication-gateway-istio.md)
+     * [JWT mit Keycloak und Istio — Login-Flow, Client Credentials, Validierung](microservices/jwt-keycloak-istio.md)
      * [Datenmigration: Notification Service (Dual Write, Outbox, Backfill)](microservices/datenmigration-notification-service.md)
 
   1. Micro-Frontends

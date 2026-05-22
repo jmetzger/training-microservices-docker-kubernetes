@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" font-family="sans-serif">
+  <rect width="900" height="420" fill="#0f172a" rx="12"/>
+  <text x="450" y="36" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="bold">Istio JWT-Validierung – ohne Code-Aenderung</text>
+
+  <!-- Client -->
+  <rect x="20" y="70" width="110" height="55" rx="8" fill="#1e3a5f"/>
+  <text x="75" y="95" text-anchor="middle" fill="#93c5fd" font-size="13" font-weight="bold">Client</text>
+  <text x="75" y="113" text-anchor="middle" fill="#bfdbfe" font-size="11">Browser/App</text>
+
+  <!-- Istio Sidecar (Envoy) Box -->
+  <rect x="190" y="55" width="340" height="240" rx="10" fill="#1c1917" stroke="#78350f" stroke-width="2"/>
+  <text x="360" y="78" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="bold">Istio Sidecar (Envoy)</text>
+
+  <!-- RequestAuthentication Block im Sidecar -->
+  <rect x="205" y="88" width="310" height="95" rx="6" fill="#292524"/>
+  <text x="360" y="108" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="bold">RequestAuthentication</text>
+  <text x="215" y="126" fill="#a8a29e" font-size="10">issuer: https://keycloak/realms/myrealm</text>
+  <text x="215" y="143" fill="#a8a29e" font-size="10">jwksUri: .../openid-connect/certs</text>
+  <text x="215" y="160" fill="#a8a29e" font-size="10">Prueft: Signatur  |  exp  |  iss  |  aud</text>
+  <text x="215" y="177" fill="#22c55e" font-size="10" font-weight="bold">Holt Public Keys automatisch von Keycloak</text>
+
+  <!-- AuthorizationPolicy Block im Sidecar -->
+  <rect x="205" y="195" width="310" height="90" rx="6" fill="#292524"/>
+  <text x="360" y="215" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="bold">AuthorizationPolicy</text>
+  <text x="215" y="233" fill="#a8a29e" font-size="10">requestPrincipals: ["*"]   → JWT muss vorhanden sein</text>
+  <text x="215" y="250" fill="#a8a29e" font-size="10">claims[realm_access/roles]: ["admin"]</text>
+  <text x="215" y="267" fill="#a8a29e" font-size="10">→ Nur Requests mit admin-Rolle duerfen durch</text>
+
+  <!-- App Pod -->
+  <rect x="600" y="70" width="130" height="55" rx="8" fill="#4a1942"/>
+  <text x="665" y="95" text-anchor="middle" fill="#f0abfc" font-size="13" font-weight="bold">App Container</text>
+  <text x="665" y="113" text-anchor="middle" fill="#e9d5ff" font-size="11">kennt kein JWT-Code</text>
+
+  <!-- Keycloak JWKS -->
+  <rect x="600" y="200" width="130" height="55" rx="8" fill="#14532d"/>
+  <text x="665" y="222" text-anchor="middle" fill="#86efac" font-size="12" font-weight="bold">Keycloak</text>
+  <text x="665" y="240" text-anchor="middle" fill="#a3e6bb" font-size="10">JWKS Public Keys</text>
+  <text x="665" y="256" text-anchor="middle" fill="#86efac" font-size="10">/openid-connect/certs</text>
+
+  <!-- Vertikale Linien -->
+  <line x1="75" y1="125" x2="75" y2="380" stroke="#1e40af" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="665" y1="125" x2="665" y2="380" stroke="#6b21a8" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- Pfeil 1: Client -> Sidecar -->
+  <line x1="130" y1="158" x2="188" y2="158" stroke="#60a5fa" stroke-width="2"/>
+  <polygon points="184,154 194,158 184,162" fill="#60a5fa"/>
+  <text x="158" y="150" text-anchor="middle" fill="#93c5fd" font-size="10">+ JWT</text>
+
+  <!-- Pfeil 2: Sidecar holt Keys von Keycloak -->
+  <line x1="515" y1="228" x2="598" y2="228" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <polygon points="594,224 604,228 594,232" fill="#4ade80"/>
+  <text x="555" y="222" text-anchor="middle" fill="#86efac" font-size="9">GET /certs</text>
+
+  <!-- Pfeil 3: Valid -> App -->
+  <line x1="535" y1="158" x2="598" y2="130" stroke="#22c55e" stroke-width="2"/>
+  <polygon points="594,126 604,128 597,136" fill="#22c55e"/>
+  <text x="568" y="148" text-anchor="middle" fill="#22c55e" font-size="10">valid</text>
+
+  <!-- Pfeil 4: Invalid -> 401 zurueck -->
+  <line x1="360" y1="295" x2="360" y2="330" stroke="#ef4444" stroke-width="2"/>
+  <polygon points="355,326 365,326 360,334" fill="#ef4444"/>
+  <rect x="270" y="335" width="180" height="28" rx="6" fill="#7f1d1d"/>
+  <text x="360" y="352" text-anchor="middle" fill="#fca5a5" font-size="12" font-weight="bold">401 Unauthorized / 403 Forbidden</text>
+
+  <!-- Pfeil von Client nach unten -->
+  <line x1="75" y1="310" x2="268" y2="346" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <polygon points="265,341 270,350 274,342" fill="#ef4444"/>
+
+  <!-- x-user Headers -->
+  <rect x="600" y="140" width="270" height="52" rx="6" fill="#1e1b4b"/>
+  <text x="735" y="158" text-anchor="middle" fill="#a5b4fc" font-size="10" font-weight="bold">Istio extrahiert Claims als Header:</text>
+  <text x="735" y="173" text-anchor="middle" fill="#818cf8" font-size="10">x-user-sub: user-42</text>
+  <text x="735" y="187" text-anchor="middle" fill="#818cf8" font-size="10">x-user-role: admin</text>
+
+  <!-- Hinweis unten -->
+  <rect x="20" y="385" width="860" height="24" rx="4" fill="#1e293b"/>
+  <text x="450" y="401" text-anchor="middle" fill="#64748b" font-size="10">App-Code muss JWT NICHT selbst validieren · Istio blockiert invalide Requests vor dem Container · Zero-Trust by default</text>
+</svg>
