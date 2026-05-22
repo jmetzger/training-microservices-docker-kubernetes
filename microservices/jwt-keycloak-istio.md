@@ -34,8 +34,8 @@ Kein Passwort wandert durch die App – nur ein kurzlebiger "Code".
 | 2 | Keycloak | Zeigt Login-Formular, prueft Credentials |
 | 3 | Keycloak | Antwortet mit **HTTP 302 Redirect** zu `https://backend.com/callback?code=abc123` |
 | 4 | Browser | **Folgt dem Redirect automatisch** — ladet die Callback-URL des Backends (Code steckt im Query-Parameter) |
-| 5 | Backend | Ruft Keycloak **direkt** an (Server-to-Server, Browser nicht beteiligt): tauscht `code` gegen Token |
-| 6 | Keycloak | Gibt `access_token`, `refresh_token`, `id_token` ans Backend zurueck |
+| 5 | Backend | Schickt `code` + `client_secret` an Keycloak (Server-to-Server, Browser nicht beteiligt) |
+| 6 | Keycloak | **Stellt den JWT aus** — prueft code, generiert Token, signiert ihn mit Private Key, schickt ihn ans Backend |
 | 7 | Backend | Speichert JWT in Session oder Cookie |
 
 **Der entscheidende Mechanismus in Schritt 3–4:**
