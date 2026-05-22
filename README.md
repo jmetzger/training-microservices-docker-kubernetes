@@ -226,6 +226,10 @@
   1. Kubernetes Netzwerk 
      * [DNS - Resolution - Services](kubernetes-networks/dns-resolution-services.md)
 
+  1. Kubernetes NetworkPolicy
+     * [NetworkPolicy - Pod-Traffic absichern (CIS 5.3)](kubernetes-networkpolicy/networkpolicy-exercise.md)
+     * [Debugging: FE zu Backend Verbindungen mit kubectl debug und NetworkPolicy](kubernetes-networkpolicy/20-debug-networkpolicy.md)
+
   1. Kubernetes Scaling / Resource Management 
      * [Autoscaling Pods/Deployments](/kubernetes/autoscaling.md)
      * [Resources and Limits for containers](kubernetes-resource-control/limits-resources.md)
