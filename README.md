@@ -221,6 +221,7 @@
   1. Kubernetes Scaling / Resource Management 
      * [Autoscaling Pods/Deployments](/kubernetes/autoscaling.md)
      * [Resources and Limits for containers](kubernetes-resource-control/limits-resources.md)
+     * [ResourceQuota und LimitRange im Namespace (Uebung)](kubectl-examples/20-resourcequota-limitrange.md)
      * [ResourceQuotas and LimitQuotas by Namespace](https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/quota-memory-cpu-namespace/)
 
   1. Kubernetes Tipps & Tricks
