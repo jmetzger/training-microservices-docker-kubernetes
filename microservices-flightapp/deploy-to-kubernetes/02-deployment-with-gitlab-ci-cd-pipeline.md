@@ -75,7 +75,7 @@ cat .kube/config
 # use the following content 
 deploy:
   image:
-    name: alpine/k8s:1.31.13
+    name: alpine/k8s:1.36.1
     entrypoint: ['']
   script:
     - mkdir ~/.kube && cat "$KUBECONFIG_SECRET" > ~/.kube/config
