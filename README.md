@@ -218,6 +218,7 @@
      * [istio-service mesh - ambient mode](/istio/overview/ambient-mode.md)
      * [istio-traffic-management](/istio/traffic-management/overview.md)
      * [Performance comparison - baseline,sidecar,ambient](/istio/overview/performance-comparison-baseline-sidecar-ambient.md)
+     * [Übung: JWT-Token mit RBAC (RequestAuthentication + AuthorizationPolicy)](istio/12-jwt-rbac.md)
       
   1. Kubernetes (Debugging)
      * [Netzwerkverbindung zu pod testen](/tipps-tricks/verbindung-zu-pod-testen.md)
