@@ -1,30 +1,6 @@
 # Backup- und Wiederherstellungsstrategien
 
-## Grundkonzepte
-
-Bevor ein Backup-Konzept entworfen wird, müssen zwei zentrale Kennzahlen definiert werden:
-
-| Kennzahl | Bedeutung | Beispiel |
-|----------|-----------|---------|
-| **RPO** (Recovery Point Objective) | Wie viel Datenverlust ist akzeptabel? | "Maximal 1 Stunde" → Backups stündlich |
-| **RTO** (Recovery Time Objective) | Wie lange darf die Wiederherstellung dauern? | "Maximal 4 Stunden" → Restore-Prozess muss in 4h abgeschlossen sein |
-
-**Faustregel:** RPO bestimmt, wie oft gesichert wird. RTO bestimmt, wie schnell und wie automatisiert die Wiederherstellung sein muss.
-
-### Die 3-2-1-Regel
-
-```
-3 Kopien der Daten
-2 verschiedene Speichermedien / -technologien
-1 Kopie außerhalb des Rechenzentrums (off-site)
-```
-
-In Kubernetes-Umgebungen bedeutet das typischerweise:
-- Primärdaten im Cluster (PVC)
-- Backup im Object Storage desselben Providers (z.B. S3, GCS)
-- Zweites Backup bei einem anderen Provider oder On-Premises
-
----
+![Backup-Schichten in Kubernetes](/images/backup-schichten.svg)
 
 ## Was muss gesichert werden?
 
@@ -376,29 +352,6 @@ kubectl scale deployment postgres --replicas=1 -n production
 - CSI Snapshots für Volumes (stündlich)
 - pg_dump/mysqldump für Datenbanken (täglich, vor Migrationen)
 - etcd Snapshot vor jedem Cluster-Upgrade
-
----
-
-## Disaster Recovery Checkliste
-
-```
-Vor einem Ausfall (Vorbereitung):
-□ Backup-Strategie dokumentiert (RPO/RTO definiert)
-□ Backups laufen automatisch (CronJob / Velero Schedule)
-□ Backup-Ziel außerhalb des Clusters (S3, off-site)
-□ Restore-Prozess dokumentiert und getestet
-□ Zugangsdaten für Recovery sicher verwahrt (kein Single Point of Failure)
-□ Monitoring und Alerting für fehlgeschlagene Backups
-
-Nach einem Ausfall (Recovery):
-□ Schadensausmaß einschätzen (was ist betroffen?)
-□ Passendes Backup-Datum auswählen (letztes konsistentes Backup)
-□ Recovery-Kommunikation starten (Stakeholder informieren)
-□ Restore in Test-Umgebung zuerst (wenn möglich)
-□ Restore in Produktion
-□ Datenintegrität prüfen (Anwendung starten, Testtransaktionen)
-□ Ursache analysieren und Maßnahmen ableiten (Post-Mortem)
-```
 
 ---
 

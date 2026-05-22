@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 480" font-family="'Segoe UI', Arial, sans-serif">
+
+  <!-- Background -->
+  <rect width="780" height="480" fill="#f8fafc" rx="8"/>
+
+  <!-- Title -->
+  <text x="390" y="36" text-anchor="middle" font-size="18" font-weight="bold" fill="#1e293b">Backup-Schichten in Kubernetes</text>
+
+  <!-- Cluster box -->
+  <rect x="20" y="56" width="400" height="400" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="220" y="80" text-anchor="middle" font-size="13" font-weight="bold" fill="#1d4ed8">Kubernetes Cluster</text>
+
+  <!-- Layer 1: etcd -->
+  <rect x="40" y="90" width="360" height="72" rx="8" fill="#dbeafe" stroke="#60a5fa" stroke-width="1.5"/>
+  <text x="60" y="116" font-size="12" font-weight="bold" fill="#1e40af">etcd</text>
+  <text x="60" y="133" font-size="11" fill="#1e40af">Cluster-Zustand: Deployments, Services,</text>
+  <text x="60" y="148" font-size="11" fill="#1e40af">ConfigMaps, Secrets, RBAC</text>
+
+  <!-- Layer 2: Persistent Volumes -->
+  <rect x="40" y="176" width="360" height="72" rx="8" fill="#dcfce7" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="60" y="202" font-size="12" font-weight="bold" fill="#166534">Persistent Volumes (PVC)</text>
+  <text x="60" y="219" font-size="11" fill="#166534">Anwendungsdaten, Upload-Ordner,</text>
+  <text x="60" y="234" font-size="11" fill="#166534">Datenbank-Dateien</text>
+
+  <!-- Layer 3: Database -->
+  <rect x="40" y="262" width="360" height="72" rx="8" fill="#fef3c7" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="60" y="288" font-size="12" font-weight="bold" fill="#92400e">Datenbank (Anwendungsebene)</text>
+  <text x="60" y="305" font-size="11" fill="#92400e">PostgreSQL, MySQL, MongoDB —</text>
+  <text x="60" y="320" font-size="11" fill="#92400e">transaktionskonsistente Dumps</text>
+
+  <!-- Layer 4: Container Images -->
+  <rect x="40" y="348" width="360" height="72" rx="8" fill="#fce7f3" stroke="#f472b6" stroke-width="1.5"/>
+  <text x="60" y="374" font-size="12" font-weight="bold" fill="#9d174d">Container Images</text>
+  <text x="60" y="391" font-size="11" fill="#9d174d">Docker Images in der Registry —</text>
+  <text x="60" y="406" font-size="11" fill="#9d174d">Replikation in externe Registry</text>
+
+  <!-- Tool boxes (middle column) -->
+
+  <!-- Tool 1: etcdctl / Velero -->
+  <rect x="448" y="96" width="148" height="60" rx="8" fill="#e0e7ff" stroke="#818cf8" stroke-width="1.5"/>
+  <text x="522" y="118" text-anchor="middle" font-size="11" font-weight="bold" fill="#3730a3">etcdctl snapshot</text>
+  <text x="522" y="134" text-anchor="middle" font-size="11" fill="#3730a3">Velero</text>
+  <text x="522" y="150" text-anchor="middle" font-size="10" fill="#6366f1">vor Cluster-Upgrades</text>
+
+  <!-- Tool 2: CSI / Velero+Restic -->
+  <rect x="448" y="182" width="148" height="60" rx="8" fill="#d1fae5" stroke="#34d399" stroke-width="1.5"/>
+  <text x="522" y="204" text-anchor="middle" font-size="11" font-weight="bold" fill="#065f46">CSI Snapshots</text>
+  <text x="522" y="220" text-anchor="middle" font-size="11" fill="#065f46">Velero + Restic</text>
+  <text x="522" y="236" text-anchor="middle" font-size="10" fill="#059669">stuendlich</text>
+
+  <!-- Tool 3: pg_dump / mysqldump -->
+  <rect x="448" y="268" width="148" height="60" rx="8" fill="#fef9c3" stroke="#facc15" stroke-width="1.5"/>
+  <text x="522" y="290" text-anchor="middle" font-size="11" font-weight="bold" fill="#78350f">pg_dump</text>
+  <text x="522" y="306" text-anchor="middle" font-size="11" fill="#78350f">mysqldump</text>
+  <text x="522" y="322" text-anchor="middle" font-size="10" fill="#b45309">taeglich / vor Migration</text>
+
+  <!-- Tool 4: Registry Replication -->
+  <rect x="448" y="354" width="148" height="60" rx="8" fill="#fdf2f8" stroke="#e879f9" stroke-width="1.5"/>
+  <text x="522" y="376" text-anchor="middle" font-size="11" font-weight="bold" fill="#701a75">Registry</text>
+  <text x="522" y="392" text-anchor="middle" font-size="11" fill="#701a75">Replikation</text>
+  <text x="522" y="408" text-anchor="middle" font-size="10" fill="#a21caf">bei jedem Push</text>
+
+  <!-- Target box -->
+  <rect x="626" y="56" width="134" height="400" rx="10" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
+  <text x="693" y="80" text-anchor="middle" font-size="12" font-weight="bold" fill="#475569">Backup-Ziel</text>
+
+  <!-- Target items -->
+  <rect x="642" y="96" width="102" height="44" rx="6" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="693" y="116" text-anchor="middle" font-size="10" font-weight="bold" fill="#334155">S3 / Object</text>
+  <text x="693" y="130" text-anchor="middle" font-size="10" fill="#334155">Storage</text>
+
+  <rect x="642" y="182" width="102" height="44" rx="6" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="693" y="202" text-anchor="middle" font-size="10" font-weight="bold" fill="#334155">S3 / GCS</text>
+  <text x="693" y="216" text-anchor="middle" font-size="10" fill="#334155">Volume Store</text>
+
+  <rect x="642" y="268" width="102" height="44" rx="6" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="693" y="288" text-anchor="middle" font-size="10" font-weight="bold" fill="#334155">SQL-Dump</text>
+  <text x="693" y="302" text-anchor="middle" font-size="10" fill="#334155">in S3 / PVC</text>
+
+  <rect x="642" y="354" width="102" height="44" rx="6" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+  <text x="693" y="374" text-anchor="middle" font-size="10" font-weight="bold" fill="#334155">Externe</text>
+  <text x="693" y="388" text-anchor="middle" font-size="10" fill="#334155">Registry</text>
+
+  <!-- Arrows: Layer → Tool -->
+  <line x1="400" y1="126" x2="448" y2="126" stroke="#818cf8" stroke-width="1.8" marker-end="url(#arr-indigo)"/>
+  <line x1="400" y1="212" x2="448" y2="212" stroke="#34d399" stroke-width="1.8" marker-end="url(#arr-green)"/>
+  <line x1="400" y1="298" x2="448" y2="298" stroke="#facc15" stroke-width="1.8" marker-end="url(#arr-yellow)"/>
+  <line x1="400" y1="384" x2="448" y2="384" stroke="#e879f9" stroke-width="1.8" marker-end="url(#arr-pink)"/>
+
+  <!-- Arrows: Tool → Target -->
+  <line x1="596" y1="118" x2="642" y2="118" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arr-gray)"/>
+  <line x1="596" y1="204" x2="642" y2="204" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arr-gray)"/>
+  <line x1="596" y1="290" x2="642" y2="290" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arr-gray)"/>
+  <line x1="596" y1="376" x2="642" y2="376" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#arr-gray)"/>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arr-indigo" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#818cf8"/>
+    </marker>
+    <marker id="arr-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#34d399"/>
+    </marker>
+    <marker id="arr-yellow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#facc15"/>
+    </marker>
+    <marker id="arr-pink" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#e879f9"/>
+    </marker>
+    <marker id="arr-gray" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Legend note -->
+  <text x="390" y="468" text-anchor="middle" font-size="10" fill="#64748b">Jede Schicht muss unabhaengig gesichert werden — etcd-Backup allein stellt keine Anwendungsdaten wieder her.</text>
+
+</svg>
