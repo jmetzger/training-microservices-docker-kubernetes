@@ -12,23 +12,6 @@ einzige Adresse: `api.example.com`. Was dahinter passiert, ist ihm egal.
 
 ---
 
-## Das Problem ohne API Gateway
-
-![Ohne vs. Mit API Gateway](/images/api-gateway-ohne-mit.svg)
-
-**Ohne Gateway** muss jeder Client jeden Service einzeln kennen und direkt ansprechen:
-- Browser ruft `user-service:8081/api/users` auf
-- Mobile App ruft `order-service:8082/api/orders` auf
-- Jeder Service implementiert selbst: Auth, Logging, Rate Limiting
-
-Das führt zu Doppelarbeit, unübersichtlichen Abhängigkeiten und dazu, dass jede interne
-Umstrukturierung auch alle Clients zwingt, sich anzupassen.
-
-**Mit Gateway** gibt es nur noch eine URL. Das Gateway übernimmt die Querschnittsaufgaben
-für alle Services zentral.
-
----
-
 ## Was macht ein API Gateway konkret?
 
 API Gateways bieten ein reiches Feature-Set, das weit über einfaches Routing hinausgeht:
@@ -53,11 +36,9 @@ API Gateways bieten ein reiches Feature-Set, das weit über einfaches Routing hi
 
 | Produkt | Einsatz |
 |---------|---------|
-| **Kong** | Open Source, plugin-basiert, sehr verbreitet |
-| **Traefik** | Cloud-native, automatische Kubernetes-Integration |
-| **AWS API Gateway** | Managed Service bei AWS, inkl. Developer Portal |
-| **NGINX** | Klassischer Reverse Proxy, auch als Gateway nutzbar |
-| **Apigee (Google)** | Enterprise-fokussiert, starkes API-Management und Analytics |
+| **Kong** | Open Source, plugin-basiert, sehr verbreitet; Enterprise-Version mit Developer Portal |
+| **APISIX** | Open Source, Apache-Projekt, hohe Performance, ebenfalls plugin-basiert |
+| **Tyk** | Open Source, stark bei API-Key-Management und Developer Portal |
 
 ---
 
@@ -105,9 +86,7 @@ Feature-Set, das Service Mesh sichert und beobachtet die Kommunikation im Cluste
 ## Zusammenfassung
 
 Ein API Gateway ist kein optionales Extra, sondern bei jeder Microservices-Architektur
-mit externen Clients praktisch unverzichtbar. Es löst das Problem, dass Clients nicht
-die interne Struktur kennen müssen, und zentralisiert alle Querschnittsaufgaben an
-einem einzigen Ort.
+mit externen Clients praktisch unverzichtbar.
 
 Der Unterschied zu einem Service Mesh wie Istio liegt nicht darin, dass Istio kein
 Nord-Süd-Traffic kann — das kann es. Der Unterschied liegt im Feature-Set: API-Keys,
