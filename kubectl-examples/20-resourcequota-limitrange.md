@@ -2,7 +2,7 @@
 
 ## Hintergrund
 
-![ResourceQuota und LimitRange im Namespace](/images/resource-quota-limitrange.svg)
+![ResourceQuota und LimitRange im Namespace](/images/resource-quota-limitrange-v2.svg)
 
 In einem geteilten Cluster muss verhindert werden, dass ein Namespace unbegrenzt CPU und RAM
 belegt. Kubernetes bietet zwei Objekte dafuer:
