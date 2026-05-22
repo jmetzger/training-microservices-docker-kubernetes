@@ -217,6 +217,7 @@
      * [istio security features](istio/overview/security-features.md)
      * [istio-service mesh - ambient mode](/istio/overview/ambient-mode.md)
      * [istio-traffic-management](/istio/traffic-management/overview.md)
+     * [Retry und Circuit Breaker](istio/traffic-management/retry-circuit-breaker.md)
      * [Performance comparison - baseline,sidecar,ambient](/istio/overview/performance-comparison-baseline-sidecar-ambient.md)
      * [Übung: JWT-Token mit RBAC (RequestAuthentication + AuthorizationPolicy)](istio/12-jwt-rbac.md)
       
