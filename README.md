@@ -3,6 +3,7 @@
 ## Agenda 
 
   1. Grundlagen
+     * [Microservices-Trends 2026](microservices/trends-2026.md)
      * [Was sind Microservices ?](microservices/what-are.md)
      * [Grundkonzepte von Microservices](microservices/basics.md)
      * [Architektur von Microservices (Schichten/Layers)](microservices/layers.md)
