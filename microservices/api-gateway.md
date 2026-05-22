@@ -58,7 +58,7 @@ Der entscheidende Unterschied liegt nicht in der Verkehrsrichtung, sondern im Fe
 | **Schwerpunkt** | Externe Clients, Developer-Erfahrung | Service-zu-Service-Kommunikation |
 | **Authentifizierung** | OAuth2, API-Keys, JWT für Nutzer/Apps | mTLS zwischen Services |
 | **Rate Limiting** | Granular pro Client, Route und Plan | Begrenzt |
-| **Developer Portal** | Ja (z.B. Kong, Apigee, AWS API GW) | Nein |
+| **Developer Portal** | Ja (z.B. Kong, Tyk) | Nein |
 | **Request-Transformation** | Ja (Header, Payload, Protokoll) | Begrenzt |
 | **API-Versionierung** | Ja | Nein |
 | **Observability intern** | Begrenzt | Stark (Tracing, Metriken je Service) |
