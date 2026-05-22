@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 370" font-family="Arial, sans-serif">
+  <rect width="820" height="370" fill="#f4f6f9" rx="10"/>
+  <text x="410" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#1a1a2e">Ohne API Gateway vs. Mit API Gateway</text>
+
+  <!-- ── LEFT: Ohne Gateway ── -->
+  <rect x="15" y="45" width="380" height="305" rx="10" fill="#fdedec" stroke="#e74c3c" stroke-width="2"/>
+  <text x="205" y="68" text-anchor="middle" font-size="13" font-weight="bold" fill="#e74c3c">Ohne API Gateway</text>
+
+  <!-- Client -->
+  <rect x="40" y="82" width="90" height="35" rx="6" fill="#fff" stroke="#7f8c8d" stroke-width="1.5"/>
+  <text x="85" y="104" text-anchor="middle" font-size="10" fill="#333">Client</text>
+
+  <!-- Services ohne Gateway -->
+  <rect x="265" y="82" width="110" height="35" rx="6" fill="#fff" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="320" y="104" text-anchor="middle" font-size="10" fill="#1a5276">User :8081</text>
+
+  <rect x="265" y="135" width="110" height="35" rx="6" fill="#fff" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="320" y="157" text-anchor="middle" font-size="10" fill="#1a5276">Order :8082</text>
+
+  <rect x="265" y="188" width="110" height="35" rx="6" fill="#fff" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="320" y="210" text-anchor="middle" font-size="10" fill="#1a5276">Payment :8083</text>
+
+  <rect x="265" y="241" width="110" height="35" rx="6" fill="#fff" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="320" y="263" text-anchor="middle" font-size="10" fill="#1a5276">Catalog :8084</text>
+
+  <!-- Arrows: Client → each service (messy) -->
+  <line x1="132" y1="95" x2="263" y2="97" stroke="#e74c3c" stroke-width="1.5" marker-end="url(#arrRed)"/>
+  <line x1="132" y1="99" x2="263" y2="151" stroke="#e74c3c" stroke-width="1.5" marker-end="url(#arrRed)"/>
+  <line x1="132" y1="102" x2="263" y2="204" stroke="#e74c3c" stroke-width="1.5" marker-end="url(#arrRed)"/>
+  <line x1="132" y1="105" x2="263" y2="257" stroke="#e74c3c" stroke-width="1.5" marker-end="url(#arrRed)"/>
+
+  <!-- Port labels -->
+  <text x="185" y="93" font-size="8" fill="#e74c3c">:8081</text>
+  <text x="185" y="133" font-size="8" fill="#e74c3c">:8082</text>
+  <text x="185" y="183" font-size="8" fill="#e74c3c">:8083</text>
+  <text x="185" y="240" font-size="8" fill="#e74c3c">:8084</text>
+
+  <!-- Problems list -->
+  <rect x="30" y="292" width="350" height="48" rx="6" fill="#fff" stroke="#e74c3c" stroke-width="1"/>
+  <text x="45" y="308" font-size="9" fill="#c0392b">✗ Client muss alle Service-URLs/-Ports kennen</text>
+  <text x="45" y="322" font-size="9" fill="#c0392b">✗ Auth/Rate Limiting in jedem Service einzeln</text>
+  <text x="45" y="336" font-size="9" fill="#c0392b">✗ Jede URL-Änderung bricht den Client</text>
+
+  <!-- ── RIGHT: Mit Gateway ── -->
+  <rect x="425" y="45" width="380" height="305" rx="10" fill="#eafaf1" stroke="#27ae60" stroke-width="2"/>
+  <text x="615" y="68" text-anchor="middle" font-size="13" font-weight="bold" fill="#27ae60">Mit API Gateway</text>
+
+  <!-- Client -->
+  <rect x="448" y="82" width="90" height="35" rx="6" fill="#fff" stroke="#7f8c8d" stroke-width="1.5"/>
+  <text x="493" y="104" text-anchor="middle" font-size="10" fill="#333">Client</text>
+
+  <!-- Gateway box -->
+  <rect x="570" y="75" width="115" height="50" rx="8" fill="#1a1a2e" stroke="#e67e22" stroke-width="2"/>
+  <text x="627" y="97" text-anchor="middle" font-size="11" font-weight="bold" fill="#e67e22">API Gateway</text>
+  <text x="627" y="114" text-anchor="middle" font-size="9" fill="#aaa">api.example.com</text>
+
+  <!-- Arrow: Client → Gateway (single, clean) -->
+  <line x1="540" y1="99" x2="568" y2="99" stroke="#27ae60" stroke-width="2" marker-end="url(#arrGreen)"/>
+
+  <!-- Services mit Gateway -->
+  <rect x="720" y="82" width="68" height="30" rx="6" fill="#d6eaf8" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="754" y="101" text-anchor="middle" font-size="9" fill="#1a5276">User</text>
+
+  <rect x="720" y="128" width="68" height="30" rx="6" fill="#d6eaf8" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="754" y="147" text-anchor="middle" font-size="9" fill="#1a5276">Order</text>
+
+  <rect x="720" y="174" width="68" height="30" rx="6" fill="#d6eaf8" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="754" y="193" text-anchor="middle" font-size="9" fill="#1a5276">Payment</text>
+
+  <rect x="720" y="220" width="68" height="30" rx="6" fill="#d6eaf8" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="754" y="239" text-anchor="middle" font-size="9" fill="#1a5276">Catalog</text>
+
+  <!-- Arrows: Gateway → Services (organized) -->
+  <line x1="687" y1="90" x2="718" y2="94" stroke="#e67e22" stroke-width="1.5" marker-end="url(#arrOrange2)"/>
+  <line x1="687" y1="100" x2="718" y2="140" stroke="#e67e22" stroke-width="1.5" marker-end="url(#arrOrange2)"/>
+  <line x1="687" y1="108" x2="718" y2="186" stroke="#e67e22" stroke-width="1.5" marker-end="url(#arrOrange2)"/>
+  <line x1="687" y1="115" x2="718" y2="232" stroke="#e67e22" stroke-width="1.5" marker-end="url(#arrOrange2)"/>
+
+  <!-- Benefits list -->
+  <rect x="435" y="292" width="360" height="48" rx="6" fill="#fff" stroke="#27ae60" stroke-width="1"/>
+  <text x="450" y="308" font-size="9" fill="#1e8449">✓ Client kennt nur eine URL: api.example.com</text>
+  <text x="450" y="322" font-size="9" fill="#1e8449">✓ Auth, Rate Limiting, Logging zentral im Gateway</text>
+  <text x="450" y="336" font-size="9" fill="#1e8449">✓ Services können intern geändert werden</text>
+
+  <defs>
+    <marker id="arrRed" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#e74c3c"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#27ae60"/>
+    </marker>
+    <marker id="arrOrange2" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#e67e22"/>
+    </marker>
+  </defs>
+</svg>

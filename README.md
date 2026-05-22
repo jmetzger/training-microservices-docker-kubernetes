@@ -11,6 +11,7 @@
      * [Monolith vs. Microservices](microservices/monolith-vs-microservice.md)
      * [Praxisbeispiele](/microservices/praxisbeispiele.md) 
      * [Was ist devops](/microservices/what-is-devops.md)
+     * [Was ist ein API Gateway](microservices/api-gateway.md)
      * [Microservice and Database](microservices/basics/database.md)
 
   1. Analyse Monolith / Microservice
