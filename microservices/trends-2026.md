@@ -1,5 +1,7 @@
 # Microservices-Trends 2026
 
+![Microservices-Trends 2026](/images/microservices-trends-2026.svg)
+
 ## Die Stimmung: Ernüchterung nach dem Hype
 
 Vor einigen Jahren galt die Devise: „Microservices sind immer die richtige Wahl."

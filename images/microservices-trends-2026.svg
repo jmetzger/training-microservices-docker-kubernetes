@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 480" font-family="Arial, sans-serif">
+
+  <!-- Background -->
+  <rect width="860" height="480" fill="#f4f6f9" rx="10"/>
+
+  <!-- Title -->
+  <text x="430" y="40" text-anchor="middle" font-size="20" font-weight="bold" fill="#1a1a2e">Microservices-Trends 2026</text>
+  <text x="430" y="62" text-anchor="middle" font-size="12" fill="#666">Von blindem Hype zur bewussten Architekturentscheidung</text>
+
+  <!-- ── Karte 1: Modularer Monolith ── -->
+  <rect x="30" y="85" width="250" height="155" rx="10" fill="#fff" stroke="#e67e22" stroke-width="2"/>
+  <rect x="30" y="85" width="250" height="38" rx="10" fill="#e67e22"/>
+  <rect x="30" y="108" width="250" height="15" fill="#e67e22"/>
+  <text x="55" y="110" font-size="13" font-weight="bold" fill="#fff">① Modularer Monolith</text>
+  <text x="45" y="145" font-size="11" fill="#444">Nicht jede App braucht</text>
+  <text x="45" y="161" font-size="11" fill="#444">Microservices. Ein klar</text>
+  <text x="45" y="177" font-size="11" fill="#444">strukturierter Monolith</text>
+  <text x="45" y="193" font-size="11" fill="#444">kann die bessere Wahl</text>
+  <text x="45" y="215" font-size="11" font-style="italic" fill="#e67e22">„Microservices wo sie helfen,</text>
+  <text x="45" y="229" font-size="11" font-style="italic" fill="#e67e22">nicht als Default."</text>
+
+  <!-- ── Karte 2: Platform Engineering ── -->
+  <rect x="305" y="85" width="250" height="155" rx="10" fill="#fff" stroke="#8e44ad" stroke-width="2"/>
+  <rect x="305" y="85" width="250" height="38" rx="10" fill="#8e44ad"/>
+  <rect x="305" y="108" width="250" height="15" fill="#8e44ad"/>
+  <text x="330" y="110" font-size="13" font-weight="bold" fill="#fff">② Platform Engineering</text>
+  <text x="320" y="145" font-size="11" fill="#444">Ein zentrales Platform-Team</text>
+  <text x="320" y="161" font-size="11" fill="#444">baut den „Golden Path" —</text>
+  <text x="320" y="177" font-size="11" fill="#444">CI/CD, Monitoring, Secrets.</text>
+  <text x="320" y="193" font-size="11" fill="#444">Andere Teams nutzen ihn,</text>
+  <text x="320" y="215" font-size="11" font-style="italic" fill="#8e44ad">statt das Rad neu zu erfinden.</text>
+
+  <!-- ── Karte 3: Hybride Architektur ── -->
+  <rect x="580" y="85" width="250" height="155" rx="10" fill="#fff" stroke="#2980b9" stroke-width="2"/>
+  <rect x="580" y="85" width="250" height="38" rx="10" fill="#2980b9"/>
+  <rect x="580" y="108" width="250" height="15" fill="#2980b9"/>
+  <text x="605" y="110" font-size="13" font-weight="bold" fill="#fff">③ Hybride Architektur</text>
+  <text x="595" y="145" font-size="11" fill="#444">Microservices + Monolith-</text>
+  <text x="595" y="161" font-size="11" fill="#444">Module + Serverless —</text>
+  <text x="595" y="177" font-size="11" fill="#444">bewusst gemischt je nach</text>
+  <text x="595" y="193" font-size="11" fill="#444">Anforderung. EDA verbindet</text>
+  <text x="595" y="215" font-size="11" font-style="italic" fill="#2980b9">die Teile über Events.</text>
+
+  <!-- ── Karte 4: AI auf Kubernetes ── -->
+  <rect x="155" y="268" width="250" height="155" rx="10" fill="#fff" stroke="#16a085" stroke-width="2"/>
+  <rect x="155" y="268" width="250" height="38" rx="10" fill="#16a085"/>
+  <rect x="155" y="291" width="250" height="15" fill="#16a085"/>
+  <text x="180" y="293" font-size="13" font-weight="bold" fill="#fff">④ AI auf Kubernetes</text>
+  <text x="170" y="328" font-size="11" fill="#444">KI-Workloads laufen 2026</text>
+  <text x="170" y="344" font-size="11" fill="#444">direkt im Cluster neben</text>
+  <text x="170" y="360" font-size="11" fill="#444">den Microservices. GPU-</text>
+  <text x="170" y="376" font-size="11" fill="#444">Scheduling und AIOps</text>
+  <text x="170" y="398" font-size="11" font-style="italic" fill="#16a085">werden Standardthemen.</text>
+
+  <!-- ── Karte 5: Observability & Security ── -->
+  <rect x="455" y="268" width="250" height="155" rx="10" fill="#fff" stroke="#c0392b" stroke-width="2"/>
+  <rect x="455" y="268" width="250" height="38" rx="10" fill="#c0392b"/>
+  <rect x="455" y="291" width="250" height="15" fill="#c0392b"/>
+  <text x="480" y="293" font-size="12" font-weight="bold" fill="#fff">⑤ Observability &amp; Security</text>
+  <text x="470" y="328" font-size="11" fill="#444">Die größten Schmerzpunkte</text>
+  <text x="470" y="344" font-size="11" fill="#444">im Enterprise: Tracing über</text>
+  <text x="470" y="360" font-size="11" fill="#444">viele Services, mTLS zwischen</text>
+  <text x="470" y="376" font-size="11" fill="#444">Services und granulare</text>
+  <text x="470" y="398" font-size="11" font-style="italic" fill="#c0392b">AuthorizationPolicies (Istio).</text>
+
+  <!-- ── Kernbotschaft unten ── -->
+  <rect x="30" y="440" width="800" height="28" rx="6" fill="#1a1a2e"/>
+  <text x="430" y="459" text-anchor="middle" font-size="12" fill="#fff">
+    Kernfrage vor jeder Entscheidung: Welches Problem löst das — und welche neuen Probleme schafft es?
+  </text>
+
+</svg>
