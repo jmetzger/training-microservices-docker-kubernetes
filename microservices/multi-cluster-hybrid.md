@@ -18,7 +18,6 @@ zu einem einzigen Cluster zusammengefasst werden.
 - etcd-Leader-Wahlen schlagen fehl
 - Control Plane wird instabil
 - Pods werden nicht mehr korrekt geplant
-- Im schlimmsten Fall: Split-Brain-Szenarien
 
 ---
 
