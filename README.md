@@ -195,6 +195,7 @@
      * [Configmap MariaDB my.cnf](kubectl-examples/06b-mariadb-configmap-configfile.md)
      * [Secret MariaDB - Example](kubectl-examples/07-mariadb-secret.md)
      * [Secrets aus HashiCorp Vault - 3 Wege](kubernetes-security/vault-secrets-integration.md)
+     * [Security und Compliance im Betrieb von Kubernetes-Clustern](kubernetes-security/security-compliance-betrieb.md)
 
   1. Kubernetes Praxis (Teil 2) - API Objekte 
      * [Hintergrund Statefulsets](kubernetes/statefulsets.md)
